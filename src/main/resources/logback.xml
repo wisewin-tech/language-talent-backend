@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<configuration>
+
+    <!--<property name="LOG_DIR" value="/home/tomcatLog" />-->
+    <!--&lt;!&ndash; ch.qos.logback.core.ConsoleAppender 控制台输出 &ndash;&gt;-->
+    <!--<appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<encoder>-->
+            <!--<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n-->
+            <!--</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--&lt;!&ndash; ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 &ndash;&gt;-->
+    <!--<appender name="file"-->
+              <!--class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<Encoding>UTF-8</Encoding>-->
+        <!--<File>${LOG_DIR}/demo-server.log</File>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<FileNamePattern>${LOG_DIR}/demo-server-%d{yyyy-MM-dd}.log-->
+            <!--</FileNamePattern>-->
+            <!--<MaxHistory>10</MaxHistory>-->
+            <!--<TimeBasedFileNamingAndTriggeringPolicy-->
+                    <!--class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+                <!--<MaxFileSize>100MB</MaxFileSize>-->
+            <!--</TimeBasedFileNamingAndTriggeringPolicy>-->
+        <!--</rollingPolicy>-->
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+            <!--<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n-->
+            <!--</pattern>-->
+        <!--</layout>-->
+    <!--</appender>-->
+
+    <!--&lt;!&ndash; 错误日志的Appender&ndash;&gt;-->
+    <!--<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<file>${LOG_DIR}/errorLog/error.log</file>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>${LOG_DIR}/errorLog/paidao-err-%d{yyyy-MM-dd}.log</fileNamePattern>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{HH:mm:ss.SSS} %thread %X{invokeNo} %logger{40} %msg%n</pattern>-->
+        <!--</encoder>-->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">&lt;!&ndash; 只打印错误日志 &ndash;&gt;-->
+            <!--<level>ERROR</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+    <!--</appender>-->
+
+    <!--&lt;!&ndash; 日志级别 &ndash;&gt;-->
+    <!--<root>-->
+         <!--定义了ERROR和INFO级别的日志，分别在FILE文件和控制台输出-->
+        <!--<level value="error" />-->
+        <!--<level value="debug" />-->
+        <!--<appender-ref ref="file" />-->
+        <!--<appender-ref ref="errorAppender" />-->
+        <!--<appender-ref ref="console" />-->
+    <!--</root>-->
+
+    <!--&lt;!&ndash;<logger name="com.urbanfit.beml="debug">&ndash;&gt;-->
+        <!--&lt;!&ndash;<appender-ref ref="file" />&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<appender-ref ref="errorAppender" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<appender-ref ref="console" />&ndash;&gt;-->
+    <!--&lt;!&ndash;</logger>&ndash;&gt;-->
+
+
+</configuration>
