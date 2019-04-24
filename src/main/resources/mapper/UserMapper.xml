@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.UserDAO">
+
+    <!--通过phone查看库里有没有这个账号-->
+    <select id="selectByPhone" resultType="com.wisewin.backend.entity.bo.UserBO">
+        select
+        id,nickname,mobile
+        from
+        lt_user
+        where
+        mobile=#{phone}
+    </select>
+
+    <insert id="insertUser"     parameterType="com.wisewin.backend.entity.bo.UserBO"
+            useGeneratedKeys="true" keyProperty="id">
+
+        insert into lt_user(
+        nickname,birthday,sex,password,mobile
+        )values(
+        #{nickname},#{birthday},#{sex},#{password},#{mobile}
+        )
+
+    </insert>
+
+
+    <update id="updateUser" parameterType="com.wisewin.backend.entity.param.UserParam">
+        update lt_user
+        <set>
+
+            <if test="nickname!=null">nickname=#{nickname},</if>
+            <if test="password!=null">password=#{password},</if>
+
+            <if test="sex!=null">     sex=#{sex},</if>
+            <if test="birthday!=null">birthday=#{birthday}</if>
+
+        </set>
+        where
+        id=#{id}
+    </update>
+    <update id="updatePassword" parameterType="com.wisewin.backend.entity.bo.UserBO">
+        update lt_user
+        <set>
+
+            <if test="password!=null">
+                password=#{password}
+            </if>
+
+        </set>
+        where
+        phone=#{phone}
+    </update>
+    <!--通过id查找用户信息-->
+    <select id="selectById" resultType="com.wisewin.backend.entity.bo.UserBO">
+        select
+        id,name,birthday,gender,password,phone
+        from
+        lt_user
+        where
+        id=#{id}
+    </select>
+    <!--通过用户名查询用户信息-->
+    <select id="selectUserByUsername" resultType="com.wisewin.backend.entity.bo.UserBO">
+        select
+        id,name,phone,password,birthday,gender
+        from
+        lt_user
+        where
+        name=#{name}
+    </select>
+
+
+
+
+
+
+
+</mapper>
