@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller.base;
 
 import com.google.common.collect.Lists;
 import com.wisewin.backend.common.constants.SysConstants;
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.TestBO;
 import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.query.PageObject;
@@ -241,8 +242,17 @@ public class BaseCotroller {
         return (UserBO) this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
     }
 
+    /**获取登录管理员*/
+    public AdminBO getLoginAdmin (HttpServletRequest request ) {
+        return (AdminBO) this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
+    }
+
     /** putLoginUser*/
     public void putLoginUser (String loginId , UserBO loginUser) {
+        this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_USER), loginUser) ;
+    }
+    /** putLoginAdmin*/
+    public void putLoginAdmin (String loginId , AdminBO loginUser) {
         this.putSession(createKey(loginId, SysConstants.CURRENT_LOGIN_USER), loginUser) ;
     }
 
