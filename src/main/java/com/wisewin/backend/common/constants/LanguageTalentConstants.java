@@ -1,6 +1,6 @@
 package com.wisewin.backend.common.constants;
 
-public class CircleConstants {
+public class LanguageTalentConstants {
     /* 管理员用户信息 */
     public static final String MAN = "man";
     public static final String WOMEN = "women";
