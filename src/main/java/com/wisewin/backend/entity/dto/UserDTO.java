@@ -1,10 +1,12 @@
-package com.wisewin.backend.entity.bo;
+package com.wisewin.backend.entity.dto;
 
-import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
 
-public class UserBO  extends BaseModel{
+/**
+ * 用户表
+ */
+public class UserDTO {
     private Integer id; //用戶表
     private String name; //姓名
     private String nickname; //昵称
