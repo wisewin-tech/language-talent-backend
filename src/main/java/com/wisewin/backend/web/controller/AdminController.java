@@ -1,7 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 
-import com.wisewin.backend.common.constants.CircleConstants;
+import com.wisewin.backend.common.constants.LanguageTalentConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.MenuBO;
 import com.wisewin.backend.entity.bo.RoleBO;
@@ -114,7 +114,7 @@ public class AdminController extends BaseCotroller {
         admin.setName(param.getName());
         admin.setGender(param.getGender()); //
         admin.setPhoneNumber(param.getMobile());
-        admin.setStatus(CircleConstants.NORMAL);// 状态 normal:正常  logout：注销
+        admin.setStatus(LanguageTalentConstants.NORMAL);// 状态 normal:正常  logout：注销
         admin.setCreateTime(new Date());
         admin.setRoleId(param.getRoleId());
         admin.setEmail(param.getEmail());
