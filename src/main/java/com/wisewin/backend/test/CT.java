@@ -1,4 +1,4 @@
 package com.wisewin.backend.test;
 
-public class CT {//dev feature OK
+public class CT {//feature OK ok
 }
