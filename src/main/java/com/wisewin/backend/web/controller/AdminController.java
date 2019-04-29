@@ -37,7 +37,6 @@ public class AdminController extends BaseCotroller {
     @Resource
     private AdminService adminService ;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 管理员登录
@@ -407,7 +406,7 @@ public class AdminController extends BaseCotroller {
             menuBO.setIndex(menuParam.getIcon());
         }
         menuBO.setUpdateTime(new Date());
-        Integer line = adminService.updateMenuById(menuBO);
+        int line = adminService.updateMenuById(menuBO);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
@@ -744,42 +743,4 @@ public class AdminController extends BaseCotroller {
         return ;
     }
 
-
-    /**
-     * 根据角色id查询对应的权限
-     * @param request
-     * @param response
-     */
-    @RequestMapping("test")
-    public void getPublicSession(HttpServletRequest request, HttpServletResponse response){
-        List<RoleBO> ro = adminService.getRoleMenuSuccess(0);
-        // sqlSession.selectList("findAll",null,new RowBounds(0,2));
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ro)) ;
-        super.safeJsonPrint(response, result);
-    }
-
-
-    public static void main(String[] args) {
-//        System.out.println(MD5Util.digest("123456"));
-//        System.out.println(MD5Util.digest("456789"));
-//        System.out.println(MD5Util.digest("zhang"));
-//        System.out.println(MD5Util.digest("123456789"));
-
-        String str = "1,2,3,4,5,6,7,8,9,10";
-        String [] strs =  str.split(",");
-        for (String s:
-             strs) {
-            // System.out.println(s);
-        }
-        //System.out.println(strs);
-
-        try{
-            int a =  1/0;
-            System.out.println("bbb");
-            System.out.println(1+1);
-
-        }catch (Exception e){
-            System.out.println("出现异常了");
-        }
-    }
 }

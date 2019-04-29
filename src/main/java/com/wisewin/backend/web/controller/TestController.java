@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.dao.TestDAO;
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -30,9 +32,9 @@ public class TestController extends BaseCotroller {
     private TestDAO testDAO;
 
     @RequestMapping("/test")
-    public void test(HttpServletResponse response) {
-//        hostDAO.insertHost(hostDO);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(testDAO.test()));
+    public void test(HttpServletResponse response, HttpServletRequest  request) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(loginAdmin));
         super.safeJsonPrint(response, json);
 
     }

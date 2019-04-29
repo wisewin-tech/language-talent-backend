@@ -155,7 +155,7 @@ public class AdminService {
      * @param menuBO
      * @return
      */
-    public Integer updateMenuById(MenuBO menuBO){
+    public int updateMenuById(MenuBO menuBO){
         return adminDAO.updateMenuById(menuBO);
     }
 

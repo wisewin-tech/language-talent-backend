@@ -229,7 +229,7 @@
     </select>
 
     <!--  根据权限id修改权限信息  -->
-    <select id="updateMenuById" parameterType="com.wisewin.backend.entity.bo.MenuBO" resultType="Integer">
+    <update id="updateMenuById" parameterType="com.wisewin.backend.entity.bo.MenuBO" >
         UPDATE lt_menu SET
         <if test="menuName !=null and menuName!=''">
             menu_name=#{menuName},
@@ -250,7 +250,7 @@
             `icon`=#{icon},
         </if>
         update_time=#{updateTime} WHERE id=#{id}
-    </select>
+    </update>
 
     <!--  根据角色id修改角色名称  -->
     <select id="updateRoleNameByRoleId">

@@ -156,7 +156,7 @@ public interface AdminDAO {
      * @param menuBO
      * @return
      */
-    Integer updateMenuById(MenuBO menuBO);
+    int updateMenuById(MenuBO menuBO);
 
     /**
      * 根据角色名称查找对应的权限
