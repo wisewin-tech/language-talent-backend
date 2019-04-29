@@ -2,6 +2,10 @@ package com.wisewin.backend.web.support.interceptor;
 
 import com.google.common.collect.Sets;
 import com.wisewin.backend.common.constants.SysConstants;
+import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.dto.ResultDTOBuilder;
+import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -19,13 +23,13 @@ import java.util.Set;
 */
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
-//    @Autowired
-//    private SystemService systemService ;
+
+      private BaseCotroller baseCotroller=new BaseCotroller() ;
 
     // 不需要过滤的URL
-    public static final Set<String> unCheckList = Sets.newHashSet("/client/login" , "/client/toLogin" , "/order/add" , "/apiCourse/toJoin") ;
+    public static final Set<String> unCheckSet = Sets.newHashSet("/admin/adminLogin") ;
 
-    public static final Set<String> CheckListForAjax = Sets.newHashSet("/client/login" , "/apiCourse/toDetail" ) ;
+ //   public static final Set<String> CheckListForAjax = Sets.newHashSet("/client/login" , "/apiCourse/toDetail" ) ;
 
 
 //
@@ -43,26 +47,20 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-//        String invokeMethod = this.getInvokeMethod(request) ;
-//        String requestUri = this.getUriAndParams(request) ;
-//        System.out.println("url:" + requestUri);
-//        System.out.println("invokeMethod:" + invokeMethod);
-//
-////        不过滤名单
-//        if (unCheckList.contains(invokeMethod)) {
-//            return true;
-//        }
-//
-//        // 不是ajax都记录
-//        if (!isAjaxRequest(request)) {
-//            // 将最近一次的页面请求保存到cookie
-//            setLastRequestUrl(response, requestUri);
-//        }else {// ajax 分部分记录
-//            if (CheckListForAjax.contains(invokeMethod)){
-//                // 将最近一次的页面请求保存到cookie
-//                setLastRequestUrl(response, requestUri);
-//            }
-//        }
+
+
+        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
+        if(loginAdmin==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+            baseCotroller.safeJsonPrint(response,result);
+            return false;
+        }
+        String uri = this.getInvokeMethod(request);
+
+        if(unCheckSet.contains(uri)){
+            return true;
+        }
+        //TODO Xiaowen 等待接口路径完成判断是否有权限
 
         return true;
     }
@@ -87,10 +85,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
      * 当有拦截器抛出异常时,会从当前拦截器往回执行所有的拦截器的afterCompletion()
      */
     @Override
-    public void afterCompletion(HttpServletRequest request,
-                                HttpServletResponse response, Object handler, Exception ex)
+    public void afterCompletion(HttpServletRequest request,  HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-//        System.out.println("==============执行顺序: 3、afterCompletion================");
+
     }
 
     /**
@@ -116,8 +113,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         }
 
         return  url.toString() ;
-    } */
-
+    }
+  */
     /**
      * 获取调用的方法
      * @param request
@@ -129,10 +126,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         String uTemp = request.getRequestURI();
 
         // 统一去掉路径中项目名
-        if (uTemp.startsWith("/urbanfit-back-end-management")) {
-            uTemp = uTemp.replaceFirst("/urbanfit-back-end-management" , "");
+      /*  if (uTemp.startsWith("/localhost")) {
+            uTemp = uTemp.replaceFirst("/localhost" , "");
         }
-
+*/
         return uTemp ;
     }
 
