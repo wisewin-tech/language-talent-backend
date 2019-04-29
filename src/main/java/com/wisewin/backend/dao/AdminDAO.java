@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface AdminDAO {
     /**
@@ -22,6 +23,14 @@ public interface AdminDAO {
      */
     AdminBO queryAdminInfoByMobile(String mobile);
 
+
+
+    /**
+     * 查询用户拥有的接口
+     * @param roleid 角色id
+     * @return
+     */
+    Set<String> queryAdminUrl(Integer roleid);
 
     /**
      * 注册管理员信息
@@ -311,10 +320,6 @@ public interface AdminDAO {
      * @return
      */
     List<RoleBO> getRoleMenuSuccess(Integer roleId);
-
-    //  ================================测试
-
-    RoleBO test();
 
 
 }

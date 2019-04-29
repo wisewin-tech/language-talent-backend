@@ -5,6 +5,21 @@
 <!-- 【管理员】 -->
 <mapper namespace="com.wisewin.backend.dao.AdminDAO">
 
+
+    <!--根据手机号查找管理员信息-->
+    <select id="queryAdminInfoByMobile" parameterType="String" resultType="com.wisewin.backend.entity.bo.AdminBO">
+        SELECT admin.*,role.id AS  roleId  ,role.role_name as roleName
+            FROM  lt_admin  admin  LEFT  JOIN  lt_role role  ON  role.id=admin.role_id     WHERE   phone_number =  #{mobile}
+    </select>
+
+    <!--通过角色id 查询用户拥有的接口-->
+    <select id="queryAdminUrl" parameterType="java.lang.Integer"  resultType="java.lang.String" >
+        SELECT menur.url FROM `lt_role` role  LEFT JOIN lt_role_menu  rm ON  rm.role_id = role.id
+                                                LEFT JOIN  lt_menu  menur ON menur.id=rm.menu_id
+                         WHERE  role.id=#{roleId}
+    </select>
+
+
     <!--  查询出所有角色对应的权限  -->
     <!-- /////////////////////////////////一对多的第一种写法//////////////////////// -->
     <resultMap type="com.wisewin.backend.entity.bo.RoleBO" id="roleMap">
@@ -50,22 +65,22 @@
     </select>-->
     <!--  根据pid获取子菜单  -->
     <select id="getCh" parameterType="java.lang.Integer" resultMap="menuResult">
-        select * from ce_menu where pid=#{id};
+        select * from lt_menu where pid=#{id};
     </select>
 
     <!--  根据角色名称查找对应的角色id  -->
     <select id="getRoleIdByRoleName" resultType="Integer" parameterType="String">
-        select id from ce_role where role_name=#{roleName}
+        select id from lt_role where role_name=#{roleName}
     </select>
 
     <!-- 查询对应的角色对应的权限  -->
     <select id="getRole" parameterType="String" resultMap="roleMap">
         SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`,re.create_time createTime,re.update_time updateTime
         FROM
-           ce_role_menu  rm
-         INNER JOIN   ce_role  re
+        lt_role_menu  rm
+         INNER JOIN   lt_role  re
          ON  re.id=rm.role_id
-         INNER JOIN  ce_menu  mu
+         INNER JOIN  lt_menu  mu
          ON mu.id=rm.menu_id
          WHERE 1=1
           <if test="_parameter!=null and _parameter!=''">
@@ -75,7 +90,7 @@
     </select>
     <!-- 查询对应的角色对应的权限  -->
     <select id="getCountRole" parameterType="java.util.Map" resultType="Integer">
-        SELECT COUNT(*) FROM ce_role re where 1=1
+        SELECT COUNT(*) FROM lt_role re where 1=1
         <if test="roleName!=null and roleName!=''">
             and re.role_name like concat(concat('%',#{roleName}),'%')
         </if>
@@ -94,10 +109,10 @@
     <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMenuMap">
         SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
         FROM
-        ce_role_menu  rm
-        INNER JOIN   ce_role  re
+        lt_role_menu  rm
+        INNER JOIN   lt_role  re
         ON  re.id=rm.role_id
-        INNER JOIN  ce_menu  mu
+        INNER JOIN  lt_menu  mu
         ON mu.id=rm.menu_id
         where  pid=0
             <if test="_parameter!=null and _parameter!=''">
@@ -107,10 +122,10 @@
 
     <select id="getRoleMenuTest">
          SELECT  *  FROM
-           ce_role_menu  rm
-         INNER JOIN   ce_role  re
+           lt_role_menu  rm
+         INNER JOIN   lt_role  re
          ON  re.id=rm.role_id
-         INNER JOIN  ce_menu  mu
+         INNER JOIN  lt_menu  mu
          ON mu.id=rm.menu_id
          WHERE   re.id=2
     </select>
@@ -119,28 +134,24 @@
     <select id="getAdminToMenu" resultMap="menuResult" parameterType="java.lang.Integer">
         SELECT p.`id`,p.`menu_name`,p.`url`,p.`status`,p.pid,p.index
         FROM
-        ce_menu p,ce_role_menu rp,ce_role r
+        lt_menu p,lt_role_menu rp,lt_role r
         WHERE
         r.id=rp.role_id AND rp.menu_id=p.id and p.pid='0' AND  r.id
         IN
         (SELECT r.id
         FROM
-        ce_admin u,ce_role r
+        lt_admin u,lt_role r
         WHERE
         u.`id` =#{userId} AND u.`role_id`=r.`id`);
     </select>
 
 
 
-    <!--根据手机号查找管理员信息-->
-    <select id="queryAdminInfoByMobile" parameterType="String" resultType="com.wisewin.backend.entity.bo.AdminBO">
-        SELECT *
-        FROM ce_admin WHERE phone_number = #{mobile}
-    </select>
+
     <!--添加管理员信息(管理員注冊)-->
     <insert id="adminRegister" parameterType="com.wisewin.backend.entity.bo.AdminBO" useGeneratedKeys="true"
             keyProperty="id">
-        INSERT INTO ce_admin  SET NAME = #{name},
+        INSERT INTO lt_admin  SET NAME = #{name},
         phone_number = #{phoneNumber},
         gender = #{gender},
         PASSWORD=#{password},
@@ -152,37 +163,37 @@
     </insert>
     <!-- 查找角色名是否注册过  -->
     <select id="selectCountByRoleName" parameterType="String" resultType="Integer">
-        SELECT count(role_name) FROM ce_role WHERE role_name = #{roleName}
+        SELECT count(role_name) FROM lt_role WHERE role_name = #{roleName}
     </select>
     <!-- 查找手机号是否注册过  -->
     <select id="selectCountByMobile" parameterType="String" resultType="int">
-        SELECT count(id) FROM ce_admin WHERE phone_number = #{mobile}
+        SELECT count(id) FROM lt_admin WHERE phone_number = #{mobile}
     </select>
 
     <!-- 查找用户名是否注册过  -->
     <select id="selectCountByName" parameterType="String" resultType="int">
-        SELECT count(name) FROM ce_admin WHERE name = #{name}
+        SELECT count(name) FROM lt_admin WHERE name = #{name}
     </select>
 
     <!-- 添加角色信息  -->
     <insert id="addRole" parameterType="com.wisewin.backend.entity.bo.RoleBO" useGeneratedKeys="true"
             keyProperty="id">
-        INSERT INTO ce_role  SET role_name = #{roleName},
+        INSERT INTO lt_role  SET role_name = #{roleName},
         create_time=#{createTime},
         update_time=#{updateTime}
     </insert>
     <!--  查询所有角色  -->
     <select id="getRoleList" resultType="com.wisewin.backend.entity.bo.RoleBO">
-        SELECT id,role_name FROM ce_role
+        SELECT id,role_name FROM lt_role
     </select>
     <!--  查询所有权限  -->
     <select id="getMenuList" resultMap="menuResult">
-        SELECT * FROM ce_menu where pid=0
+        SELECT * FROM lt_menu where pid=0
     </select>
     <!--  给角色赋予权限  -->
     <insert id="addRoleMenu" parameterType="com.wisewin.backend.entity.bo.RoleMenuBO" useGeneratedKeys="true"
             keyProperty="id">
-        INSERT INTO ce_role_menu  SET
+        INSERT INTO lt_role_menu  SET
         role_id=#{roleId},
         menu_id=#{menuId},
         create_time=#{createTime},
@@ -192,7 +203,7 @@
     <!--  添加权限信息  -->
     <insert id="addMenuByPid" parameterType="com.wisewin.backend.entity.bo.MenuBO" useGeneratedKeys="true"
             keyProperty="id">
-        INSERT INTO ce_menu  SET
+        INSERT INTO lt_menu  SET
         menu_name=#{menuName},
         `status`=#{status},
         pid=#{pid},
@@ -205,21 +216,21 @@
 
     <!-- 根据pid查询下面有没有子菜单  -->
     <select id="getMenuByPid" parameterType="Integer" resultType="com.wisewin.backend.entity.bo.MenuBO">
-        select * from ce_menu where pid=#{id}
+        select * from lt_menu where pid=#{id}
     </select>
     <!--  删除子菜单  -->
     <delete id="delMenuById" parameterType="Integer">
-        delete FROM ce_menu WHERE id=#{id}
+        delete FROM lt_menu WHERE id=#{id}
     </delete>
 
     <!--  根据权限名称查询权限名称时候存在 -->
     <select id="selectCountMenuName" parameterType="String" resultType="Boolean">
-        SELECT count(menu_name) FROM ce_menu WHERE menu_name = #{menuName}
+        SELECT count(menu_name) FROM lt_menu WHERE menu_name = #{menuName}
     </select>
 
     <!--  根据权限id修改权限信息  -->
     <select id="updateMenuById" parameterType="com.wisewin.backend.entity.bo.MenuBO" resultType="Integer">
-        UPDATE ce_menu SET
+        UPDATE lt_menu SET
         <if test="menuName !=null and menuName!=''">
             menu_name=#{menuName},
         </if>
@@ -243,7 +254,7 @@
 
     <!--  根据角色id修改角色名称  -->
     <select id="updateRoleNameByRoleId">
-        UPDATE ce_role SET
+        UPDATE lt_role SET
         <if test="roleName !=null and roleName!=''">
             role_name=#{roleName},
         </if>
@@ -254,7 +265,7 @@
     <select id="selectRoleToMenu" parameterType="java.util.Map" resultMap="roleMap">
         SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId,r.create_time createTime,r.update_time updateTime
         FROM
-          ce_menu p,ce_role_menu rp,ce_role r
+        lt_menu p,lt_role_menu rp,lt_role r
         WHERE
           r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id <include refid="limit" />
     </select>
@@ -262,7 +273,7 @@
     <select id="getCountRoleToMenu" parameterType="java.util.Map" resultType="Integer">
         SELECT count(*)
         FROM
-        ce_menu p,ce_role_menu rp,ce_role r
+        lt_menu p,lt_role_menu rp,lt_role r
         WHERE
         r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
@@ -271,7 +282,7 @@
     <select id="selectRoleMenuById" parameterType="Integer" resultMap="roleMap">
         SELECT r.`role_name`,p.`menu_name`,r.`id` roleId,p.`id` menuId,r.create_time createTime,r.update_time updateTime
         FROM
-        ce_menu p,ce_role_menu rp,ce_role r
+        lt_menu p,lt_role_menu rp,lt_role r
         WHERE
         rp.`role_id`=#{roleId} AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
@@ -280,14 +291,14 @@
 
     <!--  根据角色id删除角色信息  -->
     <delete id="delRoleById" parameterType="Integer">
-        DELETE  FROM  ce_role WHERE id=#{roleId}
+        DELETE  FROM  lt_role WHERE id=#{roleId}
     </delete>
 
     <!--  查询所有角色所对应的权限  -->
     <select id="getRoleMenu" resultType="com.wisewin.backend.entity.dto.MenuDTO" parameterType="String">
         SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
         FROM
-          ce_menu p,ce_role_menu rp,ce_role r
+        lt_menu p,lt_role_menu rp,lt_role r
         WHERE 1=1
         <if test="_parameter != null">
             AND r.`role_name`=#{roleName} AND r.id=rp.role_id AND rp.menu_id=p.id;
@@ -299,14 +310,14 @@
 
     <!-- 删除某个角色对应的权限 -->
     <delete id="delRoleMenu" parameterType="Integer">
-      DELETE FROM ce_role_menu WHERE role_id=#{roleId} AND menu_id=#{menuId}
+      DELETE FROM lt_role_menu WHERE role_id=#{roleId} AND menu_id=#{menuId}
     </delete>
 
     <!--  模糊查询角色信息  -->
     <select parameterType="String" resultType="com.wisewin.backend.entity.dto.MenuDTO" id="getDimRoleMenu">
         SELECT r.`role_name`,p.`menu_name`,r.`id`,p.`id`
         FROM
-          ce_menu p,ce_role_menu rp,ce_role r
+          lt_menu p,lt_role_menu rp,lt_role r
         WHERE
           r.`role_name` LIKE concat(concat('%',#{dimName}),'%') AND r.id=rp.role_id AND rp.menu_id=p.id;
     </select>
@@ -316,7 +327,7 @@
         SELECT
         u.id uid,r.id rid,u.name,r.`role_name` ,u.phone_number,u.gender
         FROM
-        ce_admin u,ce_role r
+        lt_admin u,lt_role r
         WHERE 1=1
         <if test="_parameter != null">
             AND u.name LIKE concat(concat('%',#{userName}),'%') AND u.role_id=r.id;
@@ -328,31 +339,31 @@
 
     <!--  编辑用户所对应的角色  -->
     <update id="editUserRole">
-      UPDATE ce_admin SET role_id=#{roleId} WHERE id=#{id}
+      UPDATE lt_admin SET role_id=#{roleId} WHERE id=#{id}
     </update>
 
     <!--  根据用户id删除信息  -->
     <delete id="delAdminById" parameterType="Integer">
-        DELETE  FROM  ce_admin WHERE id=#{id}
+        DELETE  FROM  lt_admin WHERE id=#{id}
     </delete>
 
     <!--  根据角色id删除对应的权限  -->
     <delete id="delRoleMenuByRoleId" parameterType="Integer">
-        DELETE FROM ce_role_menu WHERE role_id=#{roleId}
+        DELETE FROM lt_role_menu WHERE role_id=#{roleId}
     </delete>
 
     <!--  根据角色id查询角色信息  -->
     <select id="getRoleById" resultType="com.wisewin.backend.entity.bo.RoleBO" parameterType="Integer">
-        select * from ce_role where id = #{roleId}
+        select * from lt_role where id = #{roleId}
     </select>
 
     <select id="getMenuById" resultType="com.wisewin.backend.entity.bo.MenuBO" parameterType="Integer">
-        select * from ce_menu where id = #{id}
+        select * from lt_menu where id = #{id}
     </select>
 
     <!--  修改admin用户信息  -->
     <update id="updateAdminUser"  parameterType="com.wisewin.backend.entity.bo.AdminBO" >
-        UPDATE `ce_admin`
+        UPDATE `lt_admin`
         <set>
             <if test="name!=null and name!=''" >`name`=#{name},</if>
             <if test="phoneNumber !=null and phoneNumber!='' ">`phone_number`=#{phoneNumber},</if>
@@ -368,7 +379,7 @@
 
     <!--  查询admin用户信息  -->
     <select id="getAdmin" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.dto.AdminDTO">
-        SELECT ca.*,ca.phone_number mobile,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
+        SELECT ca.*,ca.phone_number mobile,cr.id,cr.role_name FROM lt_admin ca INNER JOIN lt_role cr ON ca.role_id=cr.id
         where 1=1
         <if test="id!=null and id!=''">
             and ca.id=#{id}
@@ -392,7 +403,7 @@
     </select>
     <!--  查找用户信息不使用分业  -->
     <select id="getAdminNoFenYe" parameterType="com.wisewin.backend.entity.bo.AdminBO" resultType="com.wisewin.backend.entity.dto.AdminDTO">
-        SELECT ca.*,ca.phone_number mobile,cr.id,cr.role_name FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
+        SELECT ca.*,ca.phone_number mobile,cr.id,cr.role_name FROM lt_admin ca INNER JOIN lt_role cr ON ca.role_id=cr.id
         where 1=1
         <if test="id!=null and id!=''">
             and ca.id=#{id}
@@ -413,7 +424,7 @@
 
     <!--  查询admin用户信息总数  -->
     <select id="getAdminCountByMap" parameterType="java.util.Map" resultType="Integer">
-        SELECT count(*) FROM ce_admin ca INNER JOIN ce_role cr ON ca.role_id=cr.id
+        SELECT count(*) FROM lt_admin ca INNER JOIN lt_role cr ON ca.role_id=cr.id
         where 1=1
         <if test="id!=null and id!=''">
             and ca.id=#{id}

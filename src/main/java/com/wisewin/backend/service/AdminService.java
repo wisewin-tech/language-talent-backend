@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("adminService")
 @Transactional
@@ -34,19 +31,14 @@ public class AdminService {
      * @return
      */
     public AdminBO queryAdminInfoByMobile(String mobile) {
-        if("".equals(mobile) || mobile == null){
-            return null;
-        }
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
-        // 查询用户所对应的权限
-        if(adminBO != null){
-            // List<MenuBO> menuBOS = adminDAO.getAdminToMenu(adminBO.getId());
-            List<RoleBO> roleBOS = adminDAO.getRoleMenuSuccess(adminBO.getRoleId());
-            adminBO.setRoleBO(roleBOS);
-            return adminBO;
+        if(adminBO!=null){
+            Set<String> urls=adminDAO.queryAdminUrl(adminBO.getRoleId());
+            adminBO.setUrl(urls);
         }
-        return null;
+        return adminBO;
     }
+
 
     /**
      * 管理员注册
@@ -555,11 +547,7 @@ public class AdminService {
         return adminDAO.getRoleMenuSuccess(roleId);
     }
 
-    // =======================测试
 
-    public RoleBO test(){
-        return adminDAO.test();
-    }
 
 
 

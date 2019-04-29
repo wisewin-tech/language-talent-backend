@@ -303,7 +303,7 @@ public class BaseCotroller {
      * session赋值
      */
     private void putSession (String key , Object value) {
-        RedissonHandler.getInstance().set(key , value , null);
+        RedissonHandler.getInstance().set(key , value , 86400L);
 //        RedisUtil.set(value , key) ;
     }
 

@@ -55,28 +55,37 @@ public class AdminController extends BaseCotroller {
             return ;
         }
         //手机号和密码登录
-        AdminBO userInfo = adminService.queryAdminInfoByMobile(mobile);
-        if(userInfo == null){
+        AdminBO adminBO = adminService.queryAdminInfoByMobile(mobile);
+        if(adminBO == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004" , "用户不存在！")) ;
             super.safeJsonPrint(response, result);
             return ;
         }
+
         // 判断密码是否正确
-        if(!MD5Util.digest(password).equals(userInfo.getPassword())){
+        if(!MD5Util.digest(password).equals(adminBO.getPassword())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "密码输入不正确！")) ;
             super.safeJsonPrint(response, result);
             return ;
         }
-        userInfo.setPassword("");
+        adminBO.setPassword("");
+        //该用户的所有菜单
+        List<RoleBO> roleMenuSuccess = adminService.getRoleMenuSuccess(adminBO.getRoleId());
         // 登陆客户信息放入Redis缓存
         String uuid = UUID.randomUUID().toString();
-        super.putLoginAdmin(uuid,userInfo);
-        System.out.print(createKey(uuid, SysConstants.CURRENT_LOGIN_USER));
+        super.putLoginAdmin(uuid,adminBO);
         super.setCookie(response, SysConstants.CURRENT_LOGIN_CLIENT_ID, uuid, 86400);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userInfo)) ;
+
+        Map<String,Object>  resultMap=new HashMap<String, Object>();
+        resultMap.put("menu",roleMenuSuccess);
+        resultMap.put("admin",adminBO);
+
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap)) ;
         super.safeJsonPrint(response, result);
-        //验证码登录
+        return;
     }
+
+
 
     /**
      * 管理员注册
@@ -352,7 +361,7 @@ public class AdminController extends BaseCotroller {
     }
 
     /**faild
-     * 根据id编辑权限信息
+     * 根据id 编辑权限信息
      * @param request
      * @param response
      * @param menuParam
