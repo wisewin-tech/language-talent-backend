@@ -79,25 +79,18 @@
     </insert>
 
     <!--查询，通过字典类型来查询出字典里面的内容-->
-    <select id="queryDictionaries" resultType="com.wisewin.backend.entity.bo.DictionariesjoinBO">
+    <select id="queryDictionaries" resultType="com.wisewin.backend.entity.bo.DictionariesBO">
 
-    SELECT
-      d.id,d.value,
-      d.dn_name,d.dn_releasetime,
-      d.update_user_id, d.rank,
-      t.key_name
-    FROM
-      lt_dictionaries d
-     JOIN
-      lt_dictionariestype t
-    ON
-      t.id=d.dn_id
-    WHERE
-      t.key_name
-    LIKE
-    '%${keyName}%'
-    order by
-      d.rank
+          SELECT
+            id,`key`,
+            `value`,dn_id,
+            dn_name,dn_releasetime,
+            update_user_id,rank
+          FROM
+            lt_dictionaries
+          WHERE
+            dn_id=#{dnId}
+
 
     </select>
 
