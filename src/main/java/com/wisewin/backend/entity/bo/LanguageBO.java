@@ -11,12 +11,12 @@ public class LanguageBO extends BaseModel{
     private String status; //状态
     private String foreignLanguageName; //外文名称
     private String ensignImageUrl; //国旗图片路径
-    private String thumbnailImageUrl; //
+    private String thumbnailImageUrl; //缩略图
     private Integer popularSort; //热门排序
     private String languageLightspot; //语言亮点
     private String purchaseNotes; //购买须知
     private String videoPath; //视频路径
-    private String languageIntro; //语言简介
+        private String languageIntro; //语言简介
     private BigDecimal price; //价格
     private BigDecimal discountPrice; //特惠价
     private Date discountStartTime; //特惠开始时间

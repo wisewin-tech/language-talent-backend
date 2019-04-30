@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 语言 -->
+<mapper namespace="com.wisewin.backend.dao.LanguageDAO">
+
+    <select id="queryLanguageList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LanguageBO" >
+        SELECT * FROM `lt_language`
+          <where>
+              <if test="languageName!=null and languageName!=''" >
+                  AND  language_name=#{languageName}
+              </if>
+              <if test="status!=null and  status!=''">
+                  AND   status=#{status}
+              </if>
+              <if test="hotOrNot!=null and hot_or_not!=''" >
+                  AND    hot_or_not=#{hotOrNot}
+              </if>
+              <if test="preference!=null" >
+                  AND      #{preference}  BETWEEN   discount_start_time  AND  discount_end_time
+              </if>
+          </where>
+
+        ORDER BY   popular_sort  ASC
+    </select>
+
+
+</mapper>
