@@ -11,11 +11,11 @@
 
         INSERT  INTO
           lt_dictionariestype (
-            key_name,key_id,
+            key_name,
             rank,update_name_id,
            update_time
           )VALUES (
-            #{keyName},#{keyId},
+            #{keyName},
             #{rank},#{updateNameId},
             now()
           )
@@ -26,11 +26,13 @@
     <select id="queryDictionariestype" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
 
       SELECT
-        key_name,key_id,
+       id,key_name,
         rank,update_name_id,
         update_time
       FROM
         lt_dictionariestype
+      WHERE
+        key_name=#{keyName}
       ORDER  BY
           rank
 
@@ -80,7 +82,7 @@
     <select id="queryDictionaries" resultType="com.wisewin.backend.entity.bo.DictionariesjoinBO">
 
     SELECT
-      d.value,
+      d.id,d.value,
       d.dn_name,d.dn_releasetime,
       d.update_user_id, d.rank,
       t.key_name
@@ -89,7 +91,7 @@
      JOIN
       lt_dictionariestype t
     ON
-      t.key_id=d.dn_id
+      t.id=d.dn_id
     WHERE
       t.key_name
     LIKE

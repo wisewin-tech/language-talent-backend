@@ -11,7 +11,6 @@ public class DictionariestypeDTO extends BaseModel {
 
     private Integer id; //字典类型表id
     private String keyName; //类型名字
-    private Integer keyId; //外键id
     private Double rank; //排序
     private Integer updateNameId; //最后修改人id
     private Date updateTime; //最后修改时间
@@ -26,9 +25,6 @@ public class DictionariestypeDTO extends BaseModel {
         this.keyName = keyName;
     }
 
-    public void setKeyId(Integer keyId) {
-        this.keyId = keyId;
-    }
 
     public void setRank(Double rank) {
         this.rank = rank;
@@ -50,9 +46,6 @@ public class DictionariestypeDTO extends BaseModel {
         return keyName;
     }
 
-    public Integer getKeyId() {
-        return keyId;
-    }
 
     public Double getRank() {
         return rank;

@@ -23,10 +23,14 @@
     <!--显示选择语言目的-->
     <select id="queryGoal" resultType="com.wisewin.backend.entity.bo.GoalBO">
         SELECT
+          id,
           pp_purpose,admin_id,
-          pp_releasetime,pp_updatetime
+          pp_releasetime,pp_updatetime,
+          rank
         FROM
           lt_goal
+         WHERE
+          pp_purpose=#{ppPurpose}
         ORDER  BY
           rank
     </select>

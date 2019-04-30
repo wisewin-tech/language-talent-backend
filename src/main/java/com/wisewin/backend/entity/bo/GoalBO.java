@@ -24,6 +24,15 @@ public class GoalBO extends BaseModel {
     }
 
 
+    public GoalBO(Integer id, String ppPurpose, Integer adminId, Date ppReleasetime, Date ppUpdatetime, Double rank) {
+        Id = id;
+        this.ppPurpose = ppPurpose;
+        this.adminId = adminId;
+        this.ppReleasetime = ppReleasetime;
+        this.ppUpdatetime = ppUpdatetime;
+        this.rank = rank;
+    }
+
     public GoalBO(String ppPurpose, Integer adminId, Date ppReleasetime, Date ppUpdatetime) {
         this.ppPurpose = ppPurpose;
         this.adminId = adminId;

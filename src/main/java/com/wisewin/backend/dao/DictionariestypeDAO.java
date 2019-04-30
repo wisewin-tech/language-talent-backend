@@ -17,7 +17,6 @@ public interface DictionariestypeDAO {
     /**
      * 添加
      * String keyName; //类型名字
-     * Integer keyId; //外键id
      * Double rank; //排序
      * Integer updateNameId; //最后修改人id
      *

@@ -33,13 +33,15 @@ public class GoalService {
     }
     /**
      *   显示目的
+     *   Integer id
      *   String ppPurpose; //目的
      *   Integer adminId; //创建人
      *   Date ppReleasetime; //创建时间
      *   Date ppUpdatetime; //修改时间
+     *
      */
-    public List<GoalBO> getqueryGoal(String ppPurpose, Integer adminId, Date ppReleasetime,Date ppUpdatetime){
-        GoalBO goalBO=new GoalBO(ppPurpose,adminId,ppReleasetime,ppUpdatetime);
+    public List<GoalBO> getqueryGoal(Integer id,String ppPurpose, Integer adminId, Date ppReleasetime,Date ppUpdatetime,Double rank){
+        GoalBO goalBO=new GoalBO(id,ppPurpose,adminId,ppReleasetime,ppUpdatetime,rank);
         return goalDAO.queryGoal(goalBO);
     }
 
