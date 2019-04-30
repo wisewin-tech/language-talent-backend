@@ -10,6 +10,7 @@ import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
 import com.wisewin.backend.entity.dto.RoleDTO;
+import com.wisewin.backend.entity.param.MenuParam;
 import com.wisewin.backend.entity.param.RegisterParam;
 import com.wisewin.backend.util.MD5Util;
 import org.springframework.stereotype.Service;
@@ -152,10 +153,19 @@ public class AdminService {
 
     /**
      * 根据菜单id修改菜单信息
-     * @param menuBO
+     * @param menuParam
      * @return
      */
-    public int updateMenuById(MenuBO menuBO){
+    public int updateMenuById(MenuParam menuParam){
+        MenuBO  menuBO = new MenuBO();
+        menuBO.setId(menuParam.getId());
+        menuBO.setPid(menuParam.getPid());
+        menuBO.setStatus(menuParam.getStatus());
+        menuBO.setUrl(menuParam.getUrl());
+        menuBO.setMenuName(menuParam.getMenuName());
+        menuBO.setIcon(menuParam.getIcon());
+        menuBO.setIndex(menuParam.getIndex());
+        menuBO.setUpdateTime(new Date());
         return adminDAO.updateMenuById(menuBO);
     }
 
