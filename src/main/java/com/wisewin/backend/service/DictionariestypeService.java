@@ -114,16 +114,20 @@ public class DictionariestypeService {
 
     /**
      *显示字典内容
-     * String value; //类型
-     * String dnName; //创建人
-     *  Date dnReleasetime; //发布时间
-     * Integer updateUserId; //修改用户id
-     *  Double rank; //排序
-     *  String keyName; //类型名字
+     private Integer id; //字典id
+     private String key; //类型名字
+     private String value; //类型
+     private Integer dnId; //连接字典类型表
+     private String dnName; //创建人
+     private Date dnReleasetime; //发布时间
+     private Integer updateUserId; //修改用户id
+     private Double rank; //排序
      */
-    public List<DictionariesjoinBO> getqueryDictionaries(DictionariesjoinBO dictionariesjoinBO){
+    public List<DictionariesBO> getqueryDictionaries(Integer id,String key,String value,Integer dnId,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
 
-        return dictionariestypeDAO.queryDictionaries(dictionariesjoinBO);
+        DictionariesBO dictionariesBO=new DictionariesBO(id,key,value,dnId,dnName,dnReleasetime,updateUserId,rank);
+
+        return dictionariestypeDAO.queryDictionaries(dictionariesBO);
 
     }
     /**

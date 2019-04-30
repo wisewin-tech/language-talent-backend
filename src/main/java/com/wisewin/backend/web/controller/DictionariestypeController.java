@@ -1,5 +1,6 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.DictionariesBO;
 import com.wisewin.backend.entity.bo.DictionariesjoinBO;
 import com.wisewin.backend.entity.bo.DictionariestypeBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
@@ -164,21 +165,19 @@ public class DictionariestypeController extends BaseCotroller {
 
     /**
      *显示字典内容
-     * String value; //类型
-     * String dnName; //创建人
-     *  Date dnReleasetime; //发布时间
-     * Integer updateUserId; //修改用户id
-     *  Double rank; //排序
-     *  String keyName; //类型名字
+     private Integer id; //字典id
+     private String key; //类型名字
+     private String value; //类型
+     private Integer dnId; //连接字典类型表
+     private String dnName; //创建人
+     private Date dnReleasetime; //发布时间
+     private Integer updateUserId; //修改用户id
+     private Double rank; //排序
      */
     @RequestMapping("/queryDictionaries")
-    public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, DictionariesjoinBO dictionariesjoinBO){
-        if (dictionariesjoinBO.getKeyName().equals("")){
-            String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response,json);
-            return;
-        }
-        List<DictionariesjoinBO> list=dictionariestypeService.getqueryDictionaries(dictionariesjoinBO);
+    public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, Integer id,String key,String value,Integer dnId,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
+
+        List<DictionariesBO> list=dictionariestypeService.getqueryDictionaries(id,key,value,dnId,dnName,dnReleasetime,updateUserId,rank);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
         super.safeJsonPrint(response,json);
             return;

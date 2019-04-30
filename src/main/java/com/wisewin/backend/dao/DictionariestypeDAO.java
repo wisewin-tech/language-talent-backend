@@ -74,7 +74,7 @@ public interface DictionariestypeDAO {
      *  Double rank; //排序
      *  String keyName; //类型名字
      */
-    List<DictionariesjoinBO> queryDictionaries(DictionariesjoinBO dictionariesjoinBO);
+    List<DictionariesBO> queryDictionaries(DictionariesBO DictionariesBO);
 
     /**
      *修改字典内容

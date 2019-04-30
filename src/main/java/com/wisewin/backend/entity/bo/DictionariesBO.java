@@ -20,6 +20,20 @@ public class DictionariesBO extends BaseModel {
     private Integer updateUserId; //修改用户id
     private Double rank; //排序
 
+    public DictionariesBO() {
+    }
+
+    public DictionariesBO(Integer id, String key, String value, Integer dnId, String dnName, Date dnReleasetime, Integer updateUserId, Double rank) {
+        this.id = id;
+        this.key = key;
+        this.value = value;
+        this.dnId = dnId;
+        this.dnName = dnName;
+        this.dnReleasetime = dnReleasetime;
+        this.updateUserId = updateUserId;
+        this.rank = rank;
+    }
+
     public DictionariesBO(String key, String value, Integer dnId, String dnName, Integer updateUserId, Double rank) {
         this.key = key;
         this.value = value;
