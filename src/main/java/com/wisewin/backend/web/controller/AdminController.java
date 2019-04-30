@@ -373,40 +373,21 @@ public class AdminController extends BaseCotroller {
             return ;
         }
         // 判断前端传的名字和后端查询的名字时候一样
-        MenuBO menuBO = adminService.getMenuById(menuParam.getId());
-        if(menuBO.getMenuName().equals(menuParam.getMenuName())){
+  //      MenuBO menuBO = adminService.getMenuById(menuParam.getId());
+      /*  if(menuBO.getMenuName().equals(menuParam.getMenuName())){
             // 一致设置为空
             menuParam.setMenuName("");
         }else{
-            // 不一致查询时候重复
+            // 不一致查询时候重复*/
             boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
             if(flag){
                 String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "菜单已存在")) ;
                 super.safeJsonPrint(response , result);
                 return ;
             }
-        }
-        menuBO.setId(menuParam.getId());
-        if(menuParam.getMenuName()!=null){
-            menuBO.setMenuName(menuParam.getMenuName());
-        }
-        if(menuParam.getPid()!=null){
-            menuBO.setPid(menuParam.getPid());
-        }
-        if(menuParam.getStatus()!=null){
-            menuBO.setStatus(menuParam.getStatus());
-        }
-        if(menuParam.getUrl()!=null){
-            menuBO.setUrl(menuParam.getUrl());
-        }
-        if(menuParam.getIndex()!=null){
-            menuBO.setIndex(menuParam.getIndex());
-        }
-        if(menuParam.getIcon()!=null){
-            menuBO.setIndex(menuParam.getIcon());
-        }
-        menuBO.setUpdateTime(new Date());
-        int line = adminService.updateMenuById(menuBO);
+       // }
+
+        int line = adminService.updateMenuById(menuParam);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
