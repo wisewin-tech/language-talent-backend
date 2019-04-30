@@ -39,13 +39,14 @@ public class DictionariestypeService {
     }
 
     /**
-     * 显示
+     * 有条件查询显示
      *  private Integer id; //字典类型表id
      * String keyName; //类型名字
      * Integer keyId; //外键id
      * Double rank; //排序
      * Integer updateNameId; //最后修改人id
      * Date updateTime; //最后修改时间
+     *
      */
     public List<DictionariestypeBO> getqueryDictionariestype(Integer id, String keyName,Double rank,Integer updateNameId,Date updateTime){
 
@@ -53,6 +54,21 @@ public class DictionariestypeService {
 
         return dictionariestypeDAO.queryDictionariestype(dictionariestypeBO);
     }
+
+    /**
+     * 显示字典类型
+     *    Integer id; //字典类型表id
+     *   String keyName; //类型名字
+     *   Double rank; //排序
+     *   Integer updateNameId; //最后修改人id
+     *   Date updateTime; //最后修改时间
+     */
+    public List<DictionariestypeBO> getqueryDictionariestypelist(Integer id, String keyName,Double rank,Integer updateNameId,Date updateTime){
+        DictionariestypeBO dictionariestypeBO=new DictionariestypeBO(id,keyName,rank,updateNameId,updateTime);
+        return  dictionariestypeDAO.queryDictionariestypelist(dictionariestypeBO);
+    }
+
+
 
     /**
      * 修改
@@ -129,6 +145,22 @@ public class DictionariestypeService {
 
         return dictionariestypeDAO.queryDictionaries(dictionariesBO);
 
+    }
+
+    /**
+     * 字典内容显示
+     *  Integer id; //字典id
+     *  String key; //类型名字
+     *  String value; //类型
+     *  Integer dnId; //连接字典类型表
+     *  String dnName; //创建人
+     *  Date dnReleasetime; //发布时间
+     *  Integer updateUserId; //修改用户id
+     *  Double rank; //排序
+     */
+    public List<DictionariesBO> getqueryloadDictionarieslist(Integer id,String key,String value,Integer dnId,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
+                DictionariesBO dictionariesBO=new DictionariesBO(id,key,value,dnId,dnName,dnReleasetime,updateUserId,rank);
+                return  dictionariestypeDAO.queryloadDictionarieslist(dictionariesBO);
     }
     /**
      *修改字典内容

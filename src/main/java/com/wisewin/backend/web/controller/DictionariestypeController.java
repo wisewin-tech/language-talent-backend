@@ -66,9 +66,17 @@ public class DictionariestypeController extends BaseCotroller {
     @RequestMapping("/queryDictionariestype")
     public void queryDictionariestype(HttpServletRequest request,HttpServletResponse response,Integer id,String keyName ,Double rank,Integer updateNameId,Date updateTime){
 
+        if (keyName.equals("")){
+            List<DictionariestypeBO> list1=dictionariestypeService.getqueryDictionariestypelist(id,keyName,rank,updateNameId,updateTime);
+            String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list1));
+            super.safeJsonPrint(response,json);
+            return;
+        }
+
         List<DictionariestypeBO> list=dictionariestypeService.getqueryDictionariestype(id,keyName,rank,updateNameId,updateTime);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
         super.safeJsonPrint(response,json);
+        return;
     }
 
     /**
@@ -176,6 +184,13 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/queryDictionaries")
     public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, Integer id,String key,String value,Integer dnId,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
+
+        if (dnId==null){
+            List<DictionariesBO> list1=dictionariestypeService.getqueryloadDictionarieslist(id,key,value,dnId,dnName,dnReleasetime,updateUserId,rank);
+            String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list1));
+            super.safeJsonPrint(response,json);
+            return;
+        }
 
         List<DictionariesBO> list=dictionariestypeService.getqueryDictionaries(id,key,value,dnId,dnName,dnReleasetime,updateUserId,rank);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));

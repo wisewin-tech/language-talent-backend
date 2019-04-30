@@ -24,7 +24,7 @@ public interface DictionariestypeDAO {
     Integer  addDictionariestype(DictionariestypeBO dictionariestypeBO);
 
     /**
-     * 显示
+     * 条件查询
      * String keyName; //类型名字
      * Integer keyId; //外键id
      * Double rank; //排序
@@ -32,6 +32,17 @@ public interface DictionariestypeDAO {
      * Date updateTime; //最后修改时间
      */
     List<DictionariestypeBO>  queryDictionariestype(DictionariestypeBO dictionariestypeBO);
+
+    /**
+     * 显示字典类型
+     *    Integer id; //字典类型表id
+     *   String keyName; //类型名字
+     *   Double rank; //排序
+     *   Integer updateNameId; //最后修改人id
+     *   Date updateTime; //最后修改时间
+     */
+    List<DictionariestypeBO> queryDictionariestypelist(DictionariestypeBO dictionariestypeBO);
+
 
     /**
      * 修改
@@ -66,7 +77,7 @@ public interface DictionariestypeDAO {
     Integer addDictionaries(DictionariesBO dictionariesBO);
 
     /**
-     *显示字典内容
+     *条件查询显示字典内容
      * String value; //类型
      * String dnName; //创建人
      *  Date dnReleasetime; //发布时间
@@ -75,6 +86,19 @@ public interface DictionariestypeDAO {
      *  String keyName; //类型名字
      */
     List<DictionariesBO> queryDictionaries(DictionariesBO DictionariesBO);
+
+    /**
+     * 字典内容显示
+     *  Integer id; //字典id
+     *  String key; //类型名字
+     *  String value; //类型
+     *  Integer dnId; //连接字典类型表
+     *  String dnName; //创建人
+     *  Date dnReleasetime; //发布时间
+     *  Integer updateUserId; //修改用户id
+     *  Double rank; //排序
+     */
+    List<DictionariesBO> queryloadDictionarieslist(DictionariesBO dictionariesBO);
 
     /**
      *修改字典内容
