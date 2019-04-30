@@ -22,7 +22,7 @@
 
     </insert>
 
-    <!--显示字典表所有数据-->
+    <!--条件查询s显示字典表所有数据-->
     <select id="queryDictionariestype" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
 
       SELECT
@@ -36,6 +36,18 @@
       ORDER  BY
           rank
 
+    </select>
+
+    <!--显示字典类型-->
+    <select id="queryDictionariestypelist" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
+        SELECT
+        id,key_name,
+        rank,update_name_id,
+        update_time,rank
+        FROM
+        lt_dictionariestype
+        ORDER  BY
+          rank
     </select>
 
     <!--修改字典类型表数据-->
@@ -91,7 +103,20 @@
           WHERE
             dn_id=#{dnId}
 
+    </select>
 
+    <!--显示字典内容表-->
+    <select id="queryloadDictionarieslist" resultType="com.wisewin.backend.entity.bo.DictionariesBO">
+
+    SELECT
+        id,`key`,
+        `value`,dn_id,
+        dn_name,dn_releasetime,
+        update_user_id,rank
+    FROM
+        lt_dictionaries
+    ORDER  BY
+      rank
     </select>
 
     <!--修改字典内容-->
