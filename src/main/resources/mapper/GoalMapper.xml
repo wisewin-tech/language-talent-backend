@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 目的 -->
+<mapper namespace="com.wisewin.backend.dao.GoalDAO">
+
+    <!--添加目的-->
+    <insert id="addGoal"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.wisewin.backend.entity.bo.GoalBO">
+
+        INSERT  INTO
+           lt_goal (
+           pp_purpose, admin_id,
+           pp_releasetime, pp_updatetime,
+           rank
+        ) VALUES (
+           #{ppPurpose},#{adminId},
+           now(),now(),#{rank}
+        )
+
+    </insert>
+
+    <!--显示选择语言目的-->
+    <select id="queryGoal" resultType="com.wisewin.backend.entity.bo.GoalBO">
+        SELECT
+          pp_purpose,admin_id,
+          pp_releasetime,pp_updatetime
+        FROM
+          lt_goal
+        ORDER  BY
+          rank
+    </select>
+
+    <!--修改语言目的-->
+    <update id="updateGoal" parameterType="java.util.Map">
+       UPDATE
+         lt_goal
+       SET
+          pp_purpose=#{ppPurpose},admin_id=#{adminId},
+          pp_updatetime=now(),rank=#{rank}
+        WHERE
+          id=#{id}
+    </update>
+
+    <delete id="deleteGoal">
+        DELETE  FROM
+          lt_goal
+        WHERE
+          id=#{id}
+    </delete>
+
+</mapper>

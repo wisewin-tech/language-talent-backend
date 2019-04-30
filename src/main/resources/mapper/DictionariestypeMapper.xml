@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 字典 -->
+<mapper namespace="com.wisewin.backend.dao.DictionariestypeDAO" >
+
+
+    <!--添加字典表-->
+    <insert id="addDictionariestype" useGeneratedKeys="true" keyProperty="id" parameterType="com.wisewin.backend.entity.bo.DictionariestypeBO">
+
+        INSERT  INTO
+          lt_dictionariestype (
+            key_name,key_id,
+            rank,update_name_id,
+           update_time
+          )VALUES (
+            #{keyName},#{keyId},
+            #{rank},#{updateNameId},
+            now()
+          )
+
+    </insert>
+
+    <!--显示字典表所有数据-->
+    <select id="queryDictionariestype" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
+
+      SELECT
+        key_name,key_id,
+        rank,update_name_id,
+        update_time
+      FROM
+        lt_dictionariestype
+      ORDER  BY
+          rank
+
+    </select>
+
+    <!--修改字典类型表数据-->
+    <update id="updateDictionariestype" parameterType="java.util.Map">
+     UPDATE
+        lt_dictionariestype
+     SET
+         key_name=#{keyName},rank=#{rank},
+         update_name_id=#{updateNameId},
+         update_time=now()
+      WHERE
+         id=#{id}
+    </update>
+
+    <!--删除字典类型表数据-->
+    <delete id="deleteDictionariestype">
+      DELETE  FROM
+          lt_dictionariestype
+      WHERE
+          id=#{id}
+    </delete>
+
+
+    <!--/////////////////////////字典内容表///////////////-->
+    <!--字典内容表添加s-->
+    <insert id="addDictionaries"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.wisewin.backend.entity.bo.DictionariesBO">
+
+        INSERT  INTO
+        lt_dictionaries(
+        `key`,`value`,
+        dn_id,dn_name,
+        dn_releasetime,update_user_id,
+        rank
+        )VALUES (
+        #{key},#{value},
+        #{dnId},#{dnName},
+        now(),#{updateUserId},
+        #{rank}
+        )
+
+    </insert>
+
+    <!--查询，通过字典类型来查询出字典里面的内容-->
+    <select id="queryDictionaries" resultType="com.wisewin.backend.entity.bo.DictionariesjoinBO">
+
+    SELECT
+      d.value,
+      d.dn_name,d.dn_releasetime,
+      d.update_user_id, d.rank,
+      t.key_name
+    FROM
+      lt_dictionaries d
+     JOIN
+      lt_dictionariestype t
+    ON
+      t.key_id=d.dn_id
+    WHERE
+      t.key_name
+    LIKE
+    '%${keyName}%'
+    order by
+      d.rank
+
+    </select>
+
+    <!--修改字典内容-->
+    <update id="updateDictionaries" parameterType="java.util.Map">
+        UPDATE
+          lt_dictionaries
+        SET
+          `key`=#{key},`value`=#{value},
+          dn_id=#{dnId},dn_name=#{dnName},
+          dn_releasetime=now(),
+          update_user_id=#{updateUserId},rank=#{rank}
+        WHERE
+          id=#{id}
+    </update>
+
+    <!--删除字典内容-->
+    <delete id="deleteDictionaries">
+    DELETE  FROM
+        lt_dictionaries
+    WHERE
+        id=#{id}
+
+    </delete>
+
+</mapper>

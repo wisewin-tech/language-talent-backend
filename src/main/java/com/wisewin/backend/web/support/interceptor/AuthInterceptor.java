@@ -48,18 +48,17 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-
-        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
+        String uri = this.getInvokeMethod(request);
+        if(unCheckSet.contains(uri)){
+            return true;
+        }
+  /*      AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
         if(loginAdmin==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
             baseCotroller.safeJsonPrint(response,result);
             return false;
         }
-        String uri = this.getInvokeMethod(request);
-
-        if(unCheckSet.contains(uri)){
-            return true;
-        }
+      */
         //TODO Xiaowen 等待接口路径完成判断是否有权限
 
         return true;
