@@ -28,6 +28,7 @@ public class TestController extends BaseCotroller {
 
     static final Logger log = LoggerFactory.getLogger(TestController.class);
 
+    ///
     @Resource
     private TestDAO testDAO;
 
