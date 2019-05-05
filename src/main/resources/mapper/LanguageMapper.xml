@@ -5,6 +5,8 @@
 <!-- 语言 -->
 <mapper namespace="com.wisewin.backend.dao.LanguageDAO">
 
+
+    <!--列表查询-->
     <select id="queryLanguageList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LanguageBO" >
         SELECT * FROM `lt_language`
           <where>
@@ -25,5 +27,89 @@
         ORDER BY   popular_sort  ASC
     </select>
 
+
+    <!--语言添加-->
+    <insert id="addLanguage"  parameterType="com.wisewin.backend.entity.bo.LanguageBO" >
+      INSERT INTO `lt_language` ( `language_name`, `status`, `foreign_language_name`, `ensign_image_url`, `thumbnail_image_url`,
+													`popular_sort`, `language_lightspot`, `purchase_notes`, `video_path`, `language_intro`,
+														`price`, `discount_price`, `discount_start_time`, `discount_end_time`, `hot_or_not`,
+													`create_user_id`, `create_time`, `update_user_id`, `update_time`)
+						     VALUES (#{languageName},#{status} ,#{foreignLanguageName} ,#{ensignImageUrl},#{thumbnailImageUrl},
+														#{popularSort},#{languageLightspot},#{purchaseNotes} ,#{videoPath},#{languageIntro},
+														#{price},#{discountPrice}, #{discountStartTime}, #{discountEndTime},#{hotOrNot},
+														#{createUserId}, #{createTime},#{updateUserId},#{updateTime});
+    </insert>
+
+
+    <!--修改-->
+    <update  id="updateLanguage"  parameterType="com.wisewin.backend.entity.bo.LanguageBO" >
+      UPDATE  `lt_language`
+        <set>
+            <if test="languageName!=null and languageName!=''"  >
+                `language_name`=#{languageName} ,
+            </if>
+            <if test="status!=null and status!=''"  >
+                `status`=#{status},
+            </if>
+            <if test="foreignLanguageName!=null and foreignLanguageName!=''"  >
+                `foreign_language_name`=#{foreignLanguageName} ,
+            </if>
+            <if test="ensignImageUrl!=null and ensignImageUrl!=''"  >
+                `ensign_image_url`=#{ensignImageUrl},
+            </if>
+            <if test="thumbnailImageUrl!=null and thumbnailImageUrl!=''" >
+                `thumbnail_image_url`=#{thumbnailImageUrl},
+            </if>
+            <if test="popularSort!=null and popularSort!=''" >
+                `popular_sort`=#{popularSort},
+            </if>
+            <if test="languageLightspot!=null and popularSort!=''" >
+                `language_lightspot`=#{languageLightspot},
+            </if>
+            <if test="purchaseNotes!=null and purchaseNotes!=''" >
+                `purchase_notes`=#{purchaseNotes},
+            </if>
+            <if test="videoPath!=null and videoPath!=''" >
+                `video_path`=#{videoPath},
+            </if>
+            <if test="languageIntro!=null and languageIntro!=''" >
+                `language_intro`=#{languageIntro},
+            </if>
+            <if test="price!=null" >
+                `price`=#{price},
+            </if>
+            <if test="discountPrice!=null" >
+                `discount_price`=#{discountPrice},
+            </if>
+            <if test="discountStartTime!=null" >
+                `discount_start_time`=#{discountStartTime},
+            </if>
+            <if test="discountEndTime!=null" >
+                `discount_end_time`=#{discountEndTime},
+            </if>
+            <if test="hotOrNot!=null" >
+                `hot_or_not`=#{hotOrNot},
+            </if>
+            <if test="createUserId!=null" >
+                `create_user_id`=#{createUserId},
+            </if>
+            <if test="createTime!=null" >
+                `create_time`=#{createTime},
+            </if>
+            <if test="updateUserId!=null" >
+                `update_user_id`=#{updateUserId},
+            </if>
+            <if test="updateTime!=null" >
+                `update_time`=#{updateTime},
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <!--通过id 查询-->
+    <select id="queryLanguageById"  parameterType="java.lang.Integer"  resultType="com.wisewin.backend.entity.bo.LanguageBO" >
+        SELECT *  FROM `lt_language` WHERE   id=#{id}
+    </select>
 
 </mapper>

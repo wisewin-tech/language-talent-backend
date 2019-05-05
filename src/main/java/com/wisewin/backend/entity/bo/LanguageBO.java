@@ -8,7 +8,7 @@ import java.util.Date;
 public class LanguageBO extends BaseModel{
     private Integer id; //语言表
     private String languageName; //语言名称
-    private String status; //状态
+    private String status; //状态  putaway / soldout
     private String foreignLanguageName; //外文名称
     private String ensignImageUrl; //国旗图片路径
     private String thumbnailImageUrl; //缩略图
@@ -16,11 +16,12 @@ public class LanguageBO extends BaseModel{
     private String languageLightspot; //语言亮点
     private String purchaseNotes; //购买须知
     private String videoPath; //视频路径
-        private String languageIntro; //语言简介
+    private String languageIntro; //语言简介
     private BigDecimal price; //价格
     private BigDecimal discountPrice; //特惠价
     private Date discountStartTime; //特惠开始时间
     private Date discountEndTime; //特惠结束时间
+    private String hotOrNot;//是否为热门 yes/no
     private Integer createUserId; //创建人id
     private Date createTime; //创建时间
     private Integer updateUserId; //修改人id
@@ -144,6 +145,14 @@ public class LanguageBO extends BaseModel{
 
     public void setDiscountEndTime(Date discountEndTime) {
         this.discountEndTime = discountEndTime;
+    }
+
+    public String getHotOrNot() {
+        return hotOrNot;
+    }
+
+    public void setHotOrNot(String hotOrNot) {
+        this.hotOrNot = hotOrNot;
     }
 
     public Integer getCreateUserId() {

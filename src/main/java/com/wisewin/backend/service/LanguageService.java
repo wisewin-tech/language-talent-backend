@@ -1,7 +1,7 @@
 package com.wisewin.backend.service;
 
+import com.wisewin.backend.common.constants.LanguageConstants;
 import com.wisewin.backend.dao.LanguageDAO;
-import com.wisewin.backend.dao.TestDAO;
 import com.wisewin.backend.entity.bo.LanguageBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +38,63 @@ public class LanguageService {
         return languageDAO.queryLanguageList(queryMap);
     }
 
+
+
+    /**
+     *    语言添加
+     *    languageName; //语言名称
+     *    status; //状态  putaway / soldout
+     *    foreignLanguageName; //外文名称
+     *    ensignImageUrl; //国旗图片路径
+     *    thumbnailImageUrl; //缩略图
+     *    popularSort; //热门排序
+     *    anguageLightspot; //语言亮点
+     *    videoPath; //视频路径
+     *    languageIntro; //语言简介
+     *    price; //价格
+     *    discountPrice; //特惠价
+     *    discountStartTime; //特惠开始时间
+     *    discountEndTime; //特惠结束时间
+     *    hotOrNot;//是否为热门 yes/no
+     *    createUserId; //创建人id
+     *    createTime; //创建时间
+     *    updateUserId; //修改人id
+     *    updateTime; //修改时间
+     *
+     */
+    public boolean addLanguage(LanguageBO languageBO, Integer userId) {
+        if(languageBO.getStatus()==null)
+             languageBO.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
+        languageBO.setCreateTime(new Date());
+        languageBO.setCreateUserId(userId);
+        return  languageDAO.addLanguage(languageBO)>0;
+    }
+
+    /**
+     *  语言修改
+     */
+    public boolean  updateLanguage(LanguageBO  languageBO, Integer userId){
+        languageBO.setUpdateTime(new Date());
+        languageBO.setUpdateUserId(userId);
+        return  languageDAO.updateLanguage(languageBO)>0;
+    }
+
+    /**
+     *  语言删除
+     */
+    public boolean  deleteLanguage(Integer id, Integer userId){
+        LanguageBO languageBO = languageDAO.queryLanguageById(id);
+        if(languageBO==null){
+            return false;
+        }
+        if(languageBO.getStatus()!=null && languageBO.getStatus().equals(LanguageConstants.STATUS_PUTAWAY.getValue())){  //上架状态
+            languageBO.setStatus(LanguageConstants.STATUS_SOLDOUT.getValue());
+        }else{
+            languageBO.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
+        }
+        languageBO.setUpdateTime(new Date());
+        languageBO.setUpdateUserId(userId);
+        return  languageDAO.updateLanguage(languageBO)>0;
+    }
 
 }
