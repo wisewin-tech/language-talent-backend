@@ -372,21 +372,6 @@ public class AdminController extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        // 判断前端传的名字和后端查询的名字时候一样
-  //      MenuBO menuBO = adminService.getMenuById(menuParam.getId());
-      /*  if(menuBO.getMenuName().equals(menuParam.getMenuName())){
-            // 一致设置为空
-            menuParam.setMenuName("");
-        }else{
-            // 不一致查询时候重复*/
-            boolean flag = adminService.selectCountMenuName(menuParam.getMenuName());
-            if(flag){
-                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "菜单已存在")) ;
-                super.safeJsonPrint(response , result);
-                return ;
-            }
-       // }
-
         int line = adminService.updateMenuById(menuParam);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
