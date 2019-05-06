@@ -2,6 +2,7 @@ package com.wisewin.backend.dao;
 
 
 import com.wisewin.backend.entity.bo.LanguageBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,14 @@ public interface LanguageDAO {
      * @param  id
      */
     LanguageBO queryLanguageById(Integer id);
+
+    /**
+     *  选择语言
+     *   return id
+     *          name
+     */
+    List<LanguageChoiceBO> queryLanguageChoice();
+
 
 
 

@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.common.constants.LanguageConstants;
 import com.wisewin.backend.dao.LanguageDAO;
 import com.wisewin.backend.entity.bo.LanguageBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class LanguageService {
         queryMap.put("languageName",languageName);
         queryMap.put("status",status);
         queryMap.put("hotOrNot",hotOrNot);
-        if(preference!=null)
+        if(preference!=null && preference.trim().length()>0)
              queryMap.put("preference",new Date());
         return languageDAO.queryLanguageList(queryMap);
     }
@@ -97,4 +98,12 @@ public class LanguageService {
         return  languageDAO.updateLanguage(languageBO)>0;
     }
 
+
+    /**
+     * 选择语言 查询
+     *
+     */
+    public List<LanguageChoiceBO>  queryLanguageChoice(){
+        return languageDAO.queryLanguageChoice();
+    }
 }

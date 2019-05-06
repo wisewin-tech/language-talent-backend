@@ -8,7 +8,9 @@
 
     <!--列表查询-->
     <select id="queryLanguageList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LanguageBO" >
-        SELECT * FROM `lt_language`
+        SELECT language_name,status,foreign_language_name,ensign_image_url,thumbnail_image_url,popular_sort,language_lightspot,
+          video_path,price,discount_price,discount_start_time,discount_end_time,hot_or_not
+        FROM `lt_language`
           <where>
               <if test="languageName!=null and languageName!=''" >
                   AND  language_name=#{languageName}
@@ -16,7 +18,7 @@
               <if test="status!=null and  status!=''">
                   AND   status=#{status}
               </if>
-              <if test="hotOrNot!=null and hot_or_not!=''" >
+              <if test="hotOrNot!=null and  hotOrNot!=''" >
                   AND    hot_or_not=#{hotOrNot}
               </if>
               <if test="preference!=null" >
@@ -24,7 +26,7 @@
               </if>
           </where>
 
-        ORDER BY   popular_sort  ASC
+        ORDER BY   popular_sort   ASC
     </select>
 
 
@@ -112,4 +114,10 @@
         SELECT *  FROM `lt_language` WHERE   id=#{id}
     </select>
 
+
+    <!--选择语言查询-->
+    <select id="queryLanguageChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO">
+        SELECT id,language_name as name  FROM `lt_language`  WHERE   status='putaway'
+         ORDER BY   popular_sort  ASC
+    </select>
 </mapper>

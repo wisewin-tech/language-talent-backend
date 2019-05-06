@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.LanguageBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.LanguageParam;
 import com.wisewin.backend.service.LanguageService;
@@ -132,5 +133,18 @@ public class LanguageController extends BaseCotroller {
         super.safeJsonPrint(response, json);
         return;
     }
+
+
+    /**
+     * 选择语言查询
+     */
+    @RequestMapping("/queryLanguageChoice")
+    public void queryLanguageChoice(HttpServletRequest request,HttpServletResponse response){
+        List<LanguageChoiceBO> languageChoiceBOS = languageService.queryLanguageChoice();
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(languageChoiceBOS));
+        super.safeJsonPrint(response, json);
+        return;
+    }
+
 
 }

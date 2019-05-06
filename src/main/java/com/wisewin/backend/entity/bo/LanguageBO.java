@@ -12,7 +12,7 @@ public class LanguageBO extends BaseModel{
     private String foreignLanguageName; //外文名称
     private String ensignImageUrl; //国旗图片路径
     private String thumbnailImageUrl; //缩略图
-    private Integer popularSort; //热门排序
+    private Double popularSort; //热门排序
     private String languageLightspot; //语言亮点
     private String purchaseNotes; //购买须知
     private String videoPath; //视频路径
@@ -75,11 +75,11 @@ public class LanguageBO extends BaseModel{
         this.thumbnailImageUrl = thumbnailImageUrl;
     }
 
-    public Integer getPopularSort() {
+    public Double getPopularSort() {
         return popularSort;
     }
 
-    public void setPopularSort(Integer popularSort) {
+    public void setPopularSort(Double popularSort) {
         this.popularSort = popularSort;
     }
 
