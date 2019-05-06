@@ -47,4 +47,10 @@ public interface DiscoverDAO {
      * 修改单表查询
      */
     DiscoverBO queryDiscoverBO(String id);
+
+
+    /**
+     * 查询总条数
+     */
+    Integer countDiscover(Map<String,Object> map);
 }
