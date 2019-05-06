@@ -2,9 +2,6 @@ package com.wisewin.backend.web.support.interceptor;
 
 import com.google.common.collect.Sets;
 import com.wisewin.backend.common.constants.SysConstants;
-import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.dto.ResultDTOBuilder;
-import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -191,5 +188,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         response.addCookie(cookie);
     }
 
+    public static void main(String[] args) {
+        int i = 0;
+
+        while(true){
+          i++;
+        }
+    }
 
 }

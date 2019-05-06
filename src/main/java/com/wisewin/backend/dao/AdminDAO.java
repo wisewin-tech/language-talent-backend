@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface AdminDAO {
+
     /**
      * 通过手机号查找管理员信息
      *
