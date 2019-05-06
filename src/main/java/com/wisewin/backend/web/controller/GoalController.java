@@ -57,9 +57,9 @@ public class GoalController extends BaseCotroller {
      *   Date ppUpdatetime; //修改时间
      */
     @RequestMapping("/queryGoal")
-    public void queryGoal(HttpServletRequest request, HttpServletResponse response, Integer id,String ppPurpose, Integer adminId, Date ppReleasetime, Date ppUpdatetime,Double rank){
+    public void queryGoal(HttpServletRequest request, HttpServletResponse response, Integer id,String ppPurpose, Integer adminId, String ppReleasetime, String ppUpdatetime,Double rank){
 
-        List<GoalBO> list=goalService.getqueryGoal(id,ppPurpose,adminId,ppReleasetime,ppUpdatetime,rank);
+        List<GoalBO> list=goalService.getqueryGoal(id,ppPurpose,adminId,com.wisewin.backend.util.dates.DateUtil.getDate(ppReleasetime),com.wisewin.backend.util.dates.DateUtil.getDate(ppUpdatetime),rank);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
         super.safeJsonPrint(response,json);
     }

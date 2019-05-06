@@ -9,18 +9,25 @@ public class CourseBO extends BaseModel{
     private Integer id; //课程分类表
     private String courseName; //课程名称
     private String languageId; //语言id
+    private String languageName;//语言名称
     private String foreignName; //外国名字
-    private String status; //状态
+    private String status; //状态  putaway / soldout
     private BigDecimal price; //价格
     private BigDecimal discountPrice; //特惠价
     private Date discountStartTime; //特惠开始时间
     private Date discountEndTime; //特惠结束时间
+    private Integer courseValidityPeriod;//课程有效期/天
+    private String thumbnailImageUrl;//缩略图
     private Integer studyNumber; //学习人数
     private String courseIntro; //课程简介
     private String courseLightspot; //课程亮点
     private String purchaseNotes; //购买须知
-    private Integer popularSort; //热门排序
+    private Double popularSort; //热门排序
     private String hotOrNot; //是否为热门
+    private String certificateOrNot;//是否可以考证
+    private String certificateTitle;//证书标题
+    private String certificateIntro;//证书简介
+    private String certificateImageUrl;//证书图标
     private Integer createUserId; //创建人id
     private Date createTime; //创建时间
     private Integer updateUserId; //修改人id
@@ -48,6 +55,14 @@ public class CourseBO extends BaseModel{
 
     public void setLanguageId(String languageId) {
         this.languageId = languageId;
+    }
+
+    public String getLanguageName() {
+        return languageName;
+    }
+
+    public void setLanguageName(String languageName) {
+        this.languageName = languageName;
     }
 
     public String getForeignName() {
@@ -98,6 +113,22 @@ public class CourseBO extends BaseModel{
         this.discountEndTime = discountEndTime;
     }
 
+    public Integer getCourseValidityPeriod() {
+        return courseValidityPeriod;
+    }
+
+    public void setCourseValidityPeriod(Integer courseValidityPeriod) {
+        this.courseValidityPeriod = courseValidityPeriod;
+    }
+
+    public String getThumbnailImageUrl() {
+        return thumbnailImageUrl;
+    }
+
+    public void setThumbnailImageUrl(String thumbnailImageUrl) {
+        this.thumbnailImageUrl = thumbnailImageUrl;
+    }
+
     public Integer getStudyNumber() {
         return studyNumber;
     }
@@ -130,11 +161,11 @@ public class CourseBO extends BaseModel{
         this.purchaseNotes = purchaseNotes;
     }
 
-    public Integer getPopularSort() {
+    public Double getPopularSort() {
         return popularSort;
     }
 
-    public void setPopularSort(Integer popularSort) {
+    public void setPopularSort(Double popularSort) {
         this.popularSort = popularSort;
     }
 
@@ -144,6 +175,38 @@ public class CourseBO extends BaseModel{
 
     public void setHotOrNot(String hotOrNot) {
         this.hotOrNot = hotOrNot;
+    }
+
+    public String getCertificateOrNot() {
+        return certificateOrNot;
+    }
+
+    public void setCertificateOrNot(String certificateOrNot) {
+        this.certificateOrNot = certificateOrNot;
+    }
+
+    public String getCertificateTitle() {
+        return certificateTitle;
+    }
+
+    public void setCertificateTitle(String certificateTitle) {
+        this.certificateTitle = certificateTitle;
+    }
+
+    public String getCertificateIntro() {
+        return certificateIntro;
+    }
+
+    public void setCertificateIntro(String certificateIntro) {
+        this.certificateIntro = certificateIntro;
+    }
+
+    public String getCertificateImageUrl() {
+        return certificateImageUrl;
+    }
+
+    public void setCertificateImageUrl(String certificateImageUrl) {
+        this.certificateImageUrl = certificateImageUrl;
     }
 
     public Integer getCreateUserId() {

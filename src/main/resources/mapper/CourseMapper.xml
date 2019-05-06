@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 课程 -->
+<mapper namespace="com.wisewin.backend.dao.CourseDAO">
+
+    <sql id="limit">
+         limit #{pageOffset},#{pageSize}
+    </sql>
+
+    <!--课程查询列表-->
+    <select id="queryCourseList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.CourseBO" >
+        SELECT le.language_name as languageName ,
+        te.course_name,te.foreign_name,te.`status` ,
+        te.price  ,te.discount_price,te.discount_start_time,
+        te.discount_end_time,te.course_validity_period ,te.study_number ,
+        te.thumbnail_image_url,te.course_intro,te.popular_sort,te.hot_or_not,
+        te.certificate_or_not
+        FROM `lt_course`  te  LEFT  JOIN  lt_language le  ON le.id= te.language_id
+          <where>
+            <if test="courseName!=null and  courseName!=''" >
+                te.course_name  LIKE  '%${courseName}%'
+            </if>
+            <if test="status!=null and status!='' ">
+              AND   te.status=#{status}
+            </if>
+            <if test="hotOrNot!=null and hotOrNot!=''"  >
+              AND  te.hot_or_not=#{hotOrNot}
+            </if>
+            <if test="certificateOrNot !=null " >
+              AND  te.certificate_or_not =#{certificateOrNot}
+            </if>
+          </where>
+        ORDER BY   te.popular_sort  ASC    <include refid="limit" />
+    </select>
+
+    <!--分页数量查询-->
+    <select id="queryCourseCount"  parameterType="java.util.Map"  resultType="java.lang.Integer" >
+        SELECT  COUNT(te.id)
+        FROM `lt_course`  te  LEFT  JOIN  lt_language le  ON le.id= te.language_id
+        <where>
+            <if test="courseName!=null and  courseName!=''" >
+                te.course_name  LIKE   '%${courseName}%'
+            </if>
+            <if test="status!=null and status!='' ">
+             AND   te.status=#{status}
+            </if>
+            <if test="hotOrNot!=null and hotOrNot!=''"  >
+                AND  te.hot_or_not=#{hotOrNot}
+            </if>
+            <if test="certificateOrNot !=null " >
+                AND  te.certificate_or_not =#{certificateOrNot}
+            </if>
+        </where>
+    </select>
+
+    <!--课程添加-->
+    <insert id="addCourse"  parameterType="com.wisewin.backend.entity.bo.CourseBO" >
+     INSERT INTO `lt_course` ( `course_name`, `language_id`, `foreign_name`, `status`, `price`,
+                              `discount_price`, `discount_start_time`, `discount_end_time`, `course_validity_period`, `study_number`,
+                              `thumbnail_image_url`, `course_intro`, `course_lightspot`, `purchase_notes`, `popular_sort`,
+                              `hot_or_not`, `certificate_or_not`, `certificate_title`, `certificate_intro`, `certificate_image_url`,
+                               `create_user_id`, `create_time`, `update_user_id`, `update_time`)
+                      VALUES (#{courseName},#{languageId},#{foreignName},#{status},#{price},
+                                #{discountPrice},#{discountStartTime},#{discountEndTime},#{courseValidityPeriod},#{studyNumber},
+                                #{thumbnailImageUrl},#{courseIntro},#{courseLightspot},#{purchaseNotes},#{popularSort},
+                                #{hotOrNot},#{certificateOrNot},#{certificateTitle},#{certificateIntro},#{certificateImageUrl},
+                                #{createUserId},#{createTime},#{updateUserId},#{updateTime});
+
+    </insert>
+
+<!--
+
+
+
+-->
+
+    <!--修改-->
+   <update  id="updateCourse"  parameterType="com.wisewin.backend.entity.bo.CourseBO" >
+
+      UPDATE `lt_course` <set>
+       <if test="courseName!=null and courseName!=''" >
+           `course_name`=#{courseName},
+       </if>
+       <if test="languageId!=null">
+           `language_id`=#{languageId},
+       </if>
+       <if test="foreignName!=null and foreignName!=''" >
+           `foreign_name`=#{foreignName},
+       </if>
+       <if test="status!=null and status!=''" >
+           status=#{status},
+       </if>
+       <if test="price!=null" >
+           price=#{price},
+       </if>
+       <if test="discountPrice!=null" >
+           discount_price=#{discountPrice},
+       </if>
+       <if test="discountStartTime!=null" >
+           discount_start_time=#{discountStartTime},
+       </if>
+       <if test="discountEndTime!=null" >
+           discount_end_time=#{discountEndTime},
+       </if>
+       <if test="courseValidityPeriod!=null" >
+           course_validity_period=#{courseValidityPeriod} ,
+       </if>
+       <if test="thumbnailImageUrl!=null" >
+           thumbnail_image_url=#{thumbnailImageUrl} ,
+       </if>
+       <if test="studyNumber!=null" >
+           `study_number`=#{studyNumber} ,
+       </if>
+       <if test="courseIntro!=null and courseIntro!=''" >
+           course_intro=#{courseIntro} ,
+       </if>
+       <if test="courseLightspot!=null and courseLightspot!=''" >
+           `course_lightspot`=#{courseLightspot},
+       </if>
+       <if test="purchaseNotes!=null" >
+          purchase_notes=#{purchaseNotes},
+       </if>
+       <if test="popularSort!=null" >
+           popular_sort =#{popularSort},
+       </if>
+       <if test="hotOrNot!=null" >
+           `hot_or_not`=#{hotOrNot} ,
+       </if>
+       <if test="certificateOrNot!=null"  >
+           `certificate_or_not`=#{certificateOrNot},
+       </if>
+       <if test="certificateTitle!=null and certificateTitle!=''" >
+           `certificate_title`=#{certificateTitle} ,
+       </if>
+       <if test="certificateIntro!=null and certificateIntro!=''" >
+            `certificate_intro`=#{certificateIntro},
+       </if>
+       <if test="certificateImageUrl!=null and certificateImageUrl!=''" >
+           `certificate_image_url`=#{certificateImageUrl},
+       </if>
+       <if test="createUserId!=null " >
+           `create_user_id`=#{createUserId},
+       </if>
+       <if test="createTime!=null" >
+           `create_time`=#{createTime},
+       </if>
+       <if test="updateUserId!=null" >
+           `update_user_id`=#{updateUserId},
+       </if>
+       <if test="updateTime!=null" >
+           `update_time`=#{updateTime}
+       </if>
+
+   </set>
+       WHERE
+        id = #{id}
+    </update>
+
+
+
+    <!--通过id 查询-->
+   <select id="queryCourseId"  parameterType="java.lang.Integer"  resultType="com.wisewin.backend.entity.bo.CourseBO" >
+        SELECT *  FROM `lt_course` WHERE   id=#{id}
+    </select>
+
+
+    <!--选择语言查询-->
+<!--    <select id="queryLanguageChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO">
+        SELECT id,language_name as name  FROM `lt_language`  WHERE   status='putaway'
+         ORDER BY   popular_sort  ASC
+    </select>-->
+
+</mapper>

@@ -35,8 +35,9 @@ public class StringUtils {
 	private static final String CURRENT_PATH = ".";
 
 	private static final char EXTENSION_SEPARATOR = '.';
+	public static boolean isEmpty;
 
-	/**
+    /**
 	 * Check if a String has length.
 	 * <p>
 	 * 

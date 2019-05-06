@@ -13,26 +13,29 @@
           lt_dictionariestype (
             key_name,
             rank,update_name_id,
-           update_time
+           update_time,value_name
           )VALUES (
             #{keyName},
             #{rank},#{updateNameId},
-            now()
+            now(),#{valueName}
           )
 
     </insert>
 
-    <!--条件查询s显示字典表所有数据-->
+    <!--条件查询显示字典表所有数据-->
     <select id="queryDictionariestype" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
 
       SELECT
        id,key_name,
         rank,update_name_id,
-        update_time
+        update_time,value_name
       FROM
         lt_dictionariestype
-      WHERE
-        key_name=#{keyName}
+        <where>
+            <if test="keyName!=null and keyName!='' ">
+                key_name=#{keyName}
+            </if>
+        </where>
       ORDER  BY
           rank
 
@@ -40,14 +43,35 @@
 
     <!--显示字典类型-->
     <select id="queryDictionariestypelist" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
-        SELECT
+      SELECT
         id,key_name,
         rank,update_name_id,
-        update_time,rank
-        FROM
+        update_time,rank,
+        valueName
+      FROM
         lt_dictionariestype
-        ORDER  BY
+      ORDER  BY
           rank
+    </select>
+
+    <!--根据条件查询是否有值-->
+    <select id="findDictionariestypevalueName" resultType="int">
+      SELECT
+          COUNT(value_name)
+       FROM
+          lt_dictionariestype
+      WHERE
+         value_name=#{valueName}
+
+    </select>
+    <!--根据条件查询-->
+    <select id="findDictionariestypekeyName" resultType="int">
+       SELECT
+          COUNT(key_name)
+       FROM
+          lt_dictionariestype
+      WHERE
+         key_name=#{keyName}
     </select>
 
     <!--修改字典类型表数据-->
@@ -57,17 +81,20 @@
      SET
          key_name=#{keyName},rank=#{rank},
          update_name_id=#{updateNameId},
-         update_time=now()
+         update_time=now(),value_name=#{valueName}
       WHERE
          id=#{id}
     </update>
 
     <!--删除字典类型表数据-->
-    <delete id="deleteDictionariestype">
+    <delete id="deleteDictionariestype" >
       DELETE  FROM
           lt_dictionariestype
-      WHERE
-          id=#{id}
+     WHERE
+          <foreach  collection="Did" item="id" separator="OR">
+                 id=#{id}
+          </foreach>
+
     </delete>
 
 
@@ -78,14 +105,14 @@
         INSERT  INTO
         lt_dictionaries(
         `key`,`value`,
-        dn_id,dn_name,
+        dn_name,
         dn_releasetime,update_user_id,
-        rank
+        rank,outer_id
         )VALUES (
         #{key},#{value},
-        #{dnId},#{dnName},
+        #{dnName},
         now(),#{updateUserId},
-        #{rank}
+        #{rank},#{outerId}
         )
 
     </insert>
@@ -95,24 +122,36 @@
 
           SELECT
             id,`key`,
-            `value`,dn_id,
+            `value`,
             dn_name,dn_releasetime,
-            update_user_id,rank
+            update_user_id,rank,
+            outer_id
           FROM
             lt_dictionaries
           WHERE
-            dn_id=#{dnId}
+            outer_id=#{outerId}
 
     </select>
 
+    <!--查找数据是否存在-->
+  <select id="findloadDictionaries" resultType="int">
+   SELECT
+      count(id)
+    FROM
+    lt_dictionaries
+    WHERE
+    `value`=#{value}
+  </select>
+
     <!--显示字典内容表-->
-    <select id="queryloadDictionarieslist" resultType="com.wisewin.backend.entity.bo.DictionariesBO">
+    <select id="queryloadDictionarieslist" resultType="com.wisewin.backend.entity.bo.DictionariesBO" >
 
     SELECT
         id,`key`,
-        `value`,dn_id,
+        `value`,
         dn_name,dn_releasetime,
-        update_user_id,rank
+        update_user_id,rank,
+        outer_id
     FROM
         lt_dictionaries
     ORDER  BY
@@ -125,9 +164,10 @@
           lt_dictionaries
         SET
           `key`=#{key},`value`=#{value},
-          dn_id=#{dnId},dn_name=#{dnName},
+          dn_name=#{dnName},
           dn_releasetime=now(),
-          update_user_id=#{updateUserId},rank=#{rank}
+          update_user_id=#{updateUserId},rank=#{rank},
+          outer_id=#{outerId}
         WHERE
           id=#{id}
     </update>
@@ -137,8 +177,9 @@
     DELETE  FROM
         lt_dictionaries
     WHERE
-        id=#{id}
-
+      <foreach collection="cid" item="id"  separator="or">
+          id=#{id}
+      </foreach>
     </delete>
 
 </mapper>

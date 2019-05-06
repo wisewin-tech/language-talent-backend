@@ -19,17 +19,47 @@ public class DictionariesBO extends BaseModel {
     private Date dnReleasetime; //发布时间
     private Integer updateUserId; //修改用户id
     private Double rank; //排序
+    private Integer outerId; //连接字典类型表
 
     public DictionariesBO() {
     }
 
-    public DictionariesBO(Integer id, String key, String value, Integer dnId, String dnName, Date dnReleasetime, Integer updateUserId, Double rank) {
+    public DictionariesBO(String value) {
+        this.value = value;
+    }
+
+    public DictionariesBO(Integer id, String value) {
+        this.id = id;
+        this.value = value;
+    }
+
+    public DictionariesBO(String key, String value, String dnName, Integer updateUserId, Double rank, Integer outerId) {
+        this.key = key;
+        this.value = value;
+        this.dnName = dnName;
+        this.updateUserId = updateUserId;
+        this.rank = rank;
+        this.outerId = outerId;
+    }
+
+    /**
+     *添加
+     *  String key; //类型名字
+     *  String value; //类型
+     *  Integer outerId; //连接字典类型表
+     *  String dnName; //创建人
+     *  Integer updateUserId; //修改用户id
+     *  Double rank; //排序
+     */
+
+
+    public DictionariesBO(Integer id, String key, String value, String dnName, Date dnReleasetime, Integer outerId, Integer updateUserId, Double rank) {
         this.id = id;
         this.key = key;
         this.value = value;
-        this.dnId = dnId;
         this.dnName = dnName;
         this.dnReleasetime = dnReleasetime;
+        this.outerId = outerId;
         this.updateUserId = updateUserId;
         this.rank = rank;
     }
@@ -41,6 +71,14 @@ public class DictionariesBO extends BaseModel {
         this.dnName = dnName;
         this.updateUserId = updateUserId;
         this.rank = rank;
+    }
+
+    public Integer getOuterId() {
+        return outerId;
+    }
+
+    public void setOuterId(Integer outerId) {
+        this.outerId = outerId;
     }
 
     public void setId(Integer id) {

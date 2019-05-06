@@ -9,7 +9,7 @@ public class DictionariesParam {
     private Integer id; //字典id
     private String key; //类型名字
     private String value; //类型
-    private Integer dnId; //连接字典类型表
+    private Integer outerId; //连接字典类型表
     private String dnName; //创建人
     private Integer updateUserId; //修改用户id
     private Date dnReleasetime; //最后修改时间时间
@@ -18,14 +18,7 @@ public class DictionariesParam {
 
     public DictionariesParam(){}
 
-    public DictionariesParam(String key, String value, Integer dnId, String dnName, Integer updateUserId, Double rank) {
-        this.key = key;
-        this.value = value;
-        this.dnId = dnId;
-        this.dnName = dnName;
-        this.updateUserId = updateUserId;
-        this.rank = rank;
-    }
+
 
     public void setId(Integer id) {
         this.id = id;
@@ -39,8 +32,13 @@ public class DictionariesParam {
         this.value = value;
     }
 
-    public void setDnId(Integer dnId) {
-        this.dnId = dnId;
+
+    public Integer getOuterId() {
+        return outerId;
+    }
+
+    public void setOuterId(Integer outerId) {
+        this.outerId = outerId;
     }
 
     public void setDnName(String dnName) {
@@ -71,9 +69,7 @@ public class DictionariesParam {
         return value;
     }
 
-    public Integer getDnId() {
-        return dnId;
-    }
+
 
     public String getDnName() {
         return dnName;
