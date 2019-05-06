@@ -13,10 +13,10 @@
         SELECT  ll.*,ce.course_name   FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
         <where>
              <if test="courseId!=null" >
-                 course_id=#{courseId}
+                 ll.course_id=#{courseId}
              </if>
              <if test="status!=null and status!=''" >
-                 AND  status=#{status}
+                 AND  ll.status=#{status}
              </if>
           </where>
         ORDER BY  serial_number DESC  <include refid="limit" />
@@ -27,10 +27,10 @@
         SELECT  COUNT(ll.id) FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
         <where>
             <if test="courseId!=null" >
-                course_id=#{courseId}
+                ll.course_id=#{courseId}
             </if>
             <if test="status!=null and status!=''" >
-                AND  status=#{status}
+                AND  ll.status=#{status}
             </if>
         </where>
 
@@ -38,7 +38,7 @@
 
     <!--课程添加-->
     <insert id="addLeavel"  parameterType="com.wisewin.backend.entity.bo.LevelBO" >
-        INSERT INT`lt_level` ( `level_name`, `course_id`, `status`, `level_intro`, `serial_number`,
+        INSERT INTO  `lt_level`  ( `level_name`, `course_id`, `status`, `level_intro`, `serial_number`,
                                 `medal_image_url`, `medal_name`, `create_user_id`, `update_user_id`, `create_time`,
                                 `update_time`)
                         VALUES (#{levelName},#{courseId},#{status},#{levelIntro}, #{serialNumber},
@@ -95,8 +95,8 @@
 
     <!--选择课程-->
     <select id="queryLeavelChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
-        SELECT id,level_name as name  FROM  `lt_course`   WHERE   status='putaway'   AND   course_id=#{courseId}
-        ORDER BY   popular_sort  ASC
+        SELECT id,level_name as name  FROM  `lt_level`   WHERE   status='putaway'   AND   course_id=1
+        ORDER BY   serial_number  ASC
     </select>
 
 </mapper>

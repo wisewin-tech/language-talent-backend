@@ -4,6 +4,7 @@ package com.wisewin.backend.util;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
+import com.wisewin.backend.pop.SystemConfig;
 import com.wisewin.backend.util.env.Env;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,21 +21,25 @@ import java.util.Random;
  * @date 2018/3/12 15:13
  */
 public class OSSClientUtil {
+    public static void main(String[] args){
+        OSSClientUtil ossClientUtil=new OSSClientUtil();
+
+    }
 
     //todo 这些变量信息自行到阿里云oss存储控制台获取
-    Env env=new Env();
+
     // endpoint
-    private String endpoint = env.getProperty("endpoint");
+    private String endpoint =SystemConfig.getString("endpoint");
     // accessKey
-    private String accessKeyId =env.getProperty("accessKeyId");
+    private String accessKeyId =SystemConfig.getString("accessKeyId");
     //accessKeySecret
-    private String accessKeySecret = env.getProperty("accessKeySecret");
+    private String accessKeySecret = SystemConfig.getString("accessKeySecret");
     // Bucket名称
-    private String bucketName =env.getProperty("bucketName");
+    private String bucketName =SystemConfig.getString("bucketName");
     // urlName
-    private String urlName =env.getProperty("urlName");
+    private String urlName =SystemConfig.getString("urlName");
     // 文件存储目录
-    private String filedir = env.getProperty("filedir");
+    private String filedir =SystemConfig.getString("filedir");
 
     private OSSClient ossClient;
 

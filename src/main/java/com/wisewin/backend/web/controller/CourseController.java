@@ -72,7 +72,7 @@ public class CourseController extends BaseCotroller {
    @RequestMapping("/addCourse")
    public void addCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
-       if(courseBO.getCourseName()==null){
+       if(courseBO.getCourseName()==null || courseBO.getLanguageId()==null){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
            super.safeJsonPrint(response, json);
            return;
