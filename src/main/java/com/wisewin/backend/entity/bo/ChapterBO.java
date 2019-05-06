@@ -4,16 +4,19 @@ import com.wisewin.backend.common.base.BaseModel;
 
 import java.util.Date;
 
-public class ChapterBO extends BaseModel {
+public class ChapterBO extends BaseModel{
     private Integer id; //课时表
     private String chapterName; //课时名称
     private Integer levelId; //级别id
+    private String content; //内容
+    private String status; //状态(上下架)
     private String videoPath; //链接地址
     private String duration; //时长
     private String chapterIntro; //简介
     private String manuscript; //文稿
     private String freeOrNot; //是否免费观看
     private Integer serialNumber; //序号
+    private String thumbnailUrl; //课时缩略图
     private Integer createUserId; //添加人id
     private Date createTime; //创建时间
     private Integer updateUserId; //添加人姓名
@@ -41,6 +44,22 @@ public class ChapterBO extends BaseModel {
 
     public void setLevelId(Integer levelId) {
         this.levelId = levelId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getVideoPath() {
@@ -89,6 +108,14 @@ public class ChapterBO extends BaseModel {
 
     public void setSerialNumber(Integer serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public Integer getCreateUserId() {
