@@ -2,6 +2,8 @@ package com.wisewin.backend.entity.param;
 
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
+import java.util.Date;
+
 /**
  * 字典类型表
  */
@@ -11,6 +13,8 @@ public class DictionariestypeParam extends BaseModel {
     private String keyName; //类型名字
     private Double rank; //排序
     private Integer updateNameId; //最后修改人id
+    private Date updateTime; //最后修改id
+    private String valueName; //类型内容
 
 
     public DictionariestypeParam(){}
@@ -27,6 +31,23 @@ public class DictionariestypeParam extends BaseModel {
         this.keyName = keyName;
         this.rank = rank;
         this.updateNameId = updateNameId;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+
+    public String getValueName() {
+        return valueName;
+    }
+
+    public void setValueName(String valueName) {
+        this.valueName = valueName;
     }
 
     public void setId(Integer id) {

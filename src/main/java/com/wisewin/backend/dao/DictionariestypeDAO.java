@@ -4,6 +4,7 @@ package com.wisewin.backend.dao;
 import com.wisewin.backend.entity.bo.DictionariesBO;
 import com.wisewin.backend.entity.bo.DictionariesjoinBO;
 import com.wisewin.backend.entity.bo.DictionariestypeBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,16 @@ public interface DictionariestypeDAO {
      */
     List<DictionariestypeBO> queryDictionariestypelist(DictionariestypeBO dictionariestypeBO);
 
+    /**
+     * 查询字典表是否有数据
+     */
+    int findDictionariestypevalueName(DictionariestypeBO dictionariestypeBO);
+
+    /**
+     * 查询是否有数据
+     */
+    int findDictionariestypekeyName(DictionariestypeBO dictionariestypeBO);
+
 
     /**
      * 修改
@@ -58,7 +69,7 @@ public interface DictionariestypeDAO {
      * 删除
      * Integer id //字典类型id
      */
-    Integer deleteDictionariestype(Integer id);
+    Integer deleteDictionariestype(@Param("Did") Integer[] Did);
 
 
 
@@ -101,6 +112,11 @@ public interface DictionariestypeDAO {
     List<DictionariesBO> queryloadDictionarieslist(DictionariesBO dictionariesBO);
 
     /**
+     * 查找是否存在数据
+     */
+    int findloadDictionaries(DictionariesBO dictionariesBO);
+
+    /**
      *修改字典内容
       Integer id; //字典id
       String key; //类型名字
@@ -116,6 +132,6 @@ public interface DictionariestypeDAO {
      * 删除字典内容
      * Integer id
      */
-    Integer deleteDictionaries(Integer id);
+    Integer deleteDictionaries(@Param("cid") Integer[] cid);
 
 }
