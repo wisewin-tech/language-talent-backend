@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.HelpCenterDAO">
+    <resultMap id="help" type="com.wisewin.backend.entity.bo.HelpCenterBO"  >
+        <result column="title"  property="title"  />
+        <result column="id"  property="id"  />
+        <result column="content"  property="content"  />
+        <result column="serial_number"  property="serialNumber"  />
+        <result column="create_id"  property="createId"  />
+        <result column="create_time"  property="createTime"  />
+        <result column="update_id"  property="updateId"  />
+        <result column="update_time"  property="updateTime"  />
+    </resultMap>
+    <!--查询帮助中心标题-->
+    <select id="selectHelpCenter" resultMap="help">
+        select title,id,content,serial_number,create_id,create_time,update_id,update_time
+         from lt_help_center WHERE 1=1 ORDER BY serial_number DESC
+    </select>
+
+    <!--新增帮助中心信息-->
+    <insert id="insertHelpCenter" parameterType="com.wisewin.backend.entity.bo.HelpCenterBO">
+        INSERT INTO lt_help_center
+        <set>
+            <if test="title!=null and title!=''">title = #{title},</if>
+            <if test="content!=null and content!=''">content = #{content},</if>
+            <if test="serialNumber!=null and serialNumber!=''">serial_number = #{serialNumber},</if>
+            <if test="createId!=null and createId!=''">create_id = #{createId},</if>
+            create_time=now()
+        </set>
+    </insert>
+
+    <!--  修改帮助中心信息  -->
+    <update id="updateHelpCenter" parameterType="com.wisewin.backend.entity.bo.HelpCenterBO">
+        UPDATE lt_help_center
+        <set>
+            <if test="title!=null and title!=''">title = #{title},</if>
+            <if test="content!=null and content!=''">content = #{content},</if>
+            <if test="serialNumber!=null and serialNumber!=''">serial_number = #{serialNumber},</if>
+            <if test="updateId!=null and updateId!=''">update_id = #{updateId},</if>
+            update_time = now()
+        </set>
+        WHERE   id=#{id}
+    </update>
+
+
+    <!--删除帮助中心信息-->
+    <delete id="deleteHelpContent" parameterType="Integer">
+        DELETE FROM lt_help_center WHERE id=#{id}
+    </delete>
+
+    <!--查看文本内容-->
+    <select id="getparticulars" parameterType="com.wisewin.backend.entity.bo.HelpCenterBO"
+     resultType="com.wisewin.backend.entity.bo.HelpCenterBO">
+        SELECT content FROM lt_help_center WHERE id=#{id}
+    </select>
+
+
+
+</mapper>
