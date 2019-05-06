@@ -83,7 +83,6 @@
         from
         lt_user
         <where>
-
             <if test="name!=null and name!=''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>
             <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
             <if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
@@ -104,10 +103,9 @@
         from
         lt_user
         <where>
-            1=1
             <if test="name!=null and mobile!=''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>
-            <if test="nickname!=null and mobile!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
-            <if test="email!=null and mobile!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
+            <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
+            <if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
             <if test="mobile!=null and mobile!=''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
         </where>
     </select>
