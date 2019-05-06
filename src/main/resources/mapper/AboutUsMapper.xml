@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.AboutUsDAO">
+    <resultMap id="aboutUs" type="com.wisewin.backend.entity.bo.AboutUsBO"  >
+
+        <result column="image_url"  property="imageUrl"  />
+
+    </resultMap>
+    <!--查询信息-->
+    <select id="selectAbout" resultMap="aboutUs">
+        select id,content,image_url from lt_about_us WHERE 1=1
+    </select>
+    <!--查询信息-->
+    <select id="selectid" resultType="java.lang.Integer">
+        select count(id) from lt_about_us
+    </select>
+    <!--通过id查询用户信息-->
+    <select id="selectAboutById" resultMap="aboutUs">
+        select id,content,image_url from lt_about_us
+        WHERE id=#{id}
+    </select>
+
+    <!--修改-->
+    <update id="updateAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBO">
+        UPDATE `lt_about_us`
+        <set>
+            <if test="content!=null||content!=''">`content`=#{content},</if>
+                `update_time`=now(),admin_id = #{adminId}
+        </set>
+
+    </update>
+    <!--增加-->
+    <insert id="insertAboutUs" parameterType="com.wisewin.backend.entity.bo.AboutUsBO">
+      INSERT INTO lt_about_us SET
+      content = #{content},`create_time`=now(),admin_id = #{adminId}
+
+
+    </insert>
+    <!--删除-->
+
+</mapper>
