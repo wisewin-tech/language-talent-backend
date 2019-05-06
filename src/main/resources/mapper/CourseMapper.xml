@@ -11,7 +11,7 @@
 
     <!--课程查询列表-->
     <select id="queryCourseList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.CourseBO" >
-        SELECT le.language_name as languageName ,
+        SELECT le.language_name as languageName ,te.id,
         te.course_name,te.foreign_name,te.`status` ,
         te.price  ,te.discount_price,te.discount_start_time,
         te.discount_end_time,te.course_validity_period ,te.study_number ,
@@ -32,7 +32,7 @@
               AND  te.certificate_or_not =#{certificateOrNot}
             </if>
           </where>
-        ORDER BY   te.popular_sort  ASC    <include refid="limit" />
+        ORDER BY   te.popular_sort  DESC    <include refid="limit" />
     </select>
 
     <!--分页数量查询-->
@@ -158,18 +158,17 @@
         id = #{id}
     </update>
 
-
-
     <!--通过id 查询-->
    <select id="queryCourseId"  parameterType="java.lang.Integer"  resultType="com.wisewin.backend.entity.bo.CourseBO" >
         SELECT *  FROM `lt_course` WHERE   id=#{id}
     </select>
 
 
-    <!--选择语言查询-->
-<!--    <select id="queryLanguageChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO">
-        SELECT id,language_name as name  FROM `lt_language`  WHERE   status='putaway'
+    <!--选择课程-->
+   <select id="queryCourseChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
+        SELECT id,course_name as name  FROM `lt_course`   WHERE   status='putaway'   AND   language_id=#{languageId}
          ORDER BY   popular_sort  ASC
-    </select>-->
+    </select>
+
 
 </mapper>

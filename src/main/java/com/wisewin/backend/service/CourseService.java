@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.common.constants.LanguageConstants;
 import com.wisewin.backend.dao.CourseDAO;
 import com.wisewin.backend.entity.bo.CourseBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,5 +78,13 @@ public class CourseService {
             queryCourse.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
         }
         return courseDAO.updateCourse(queryCourse) > 0;
+    }
+
+    /**
+     * 通过语言查询所有课程
+     *  param languageId  语言id
+     */
+    public  List<LanguageChoiceBO> queryCourseChoice(Integer languageId){
+        return courseDAO.queryCourseChoice(languageId);
     }
 }
