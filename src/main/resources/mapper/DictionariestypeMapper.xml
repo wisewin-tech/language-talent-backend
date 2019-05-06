@@ -119,7 +119,6 @@
 
     <!--查询，通过字典类型来查询出字典里面的内容-->
     <select id="queryDictionaries" resultType="com.wisewin.backend.entity.bo.DictionariesBO">
-
           SELECT
             id,`key`,
             `value`,
