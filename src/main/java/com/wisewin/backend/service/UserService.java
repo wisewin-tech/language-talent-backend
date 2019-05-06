@@ -14,6 +14,8 @@ import com.wisewin.backend.util.redisUtils.RedissonHandler;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -72,5 +74,22 @@ public class UserService {
         userDAO.updateUser(userParam);
 
     }
+
+    /**
+     * 条件分页查询用户信息
+     * @param map
+     */
+    public List<UserBO> selectUsers(Map<String,Object> map) {
+       return userDAO.selectUsers(map);
+    }
+
+    /**
+     * 批量删除用户
+     * @param idArr
+     */
+    public Integer deleteUsersById(Integer[] idArr) {
+        return userDAO.deleteUsersById(idArr);
+    }
+
 
 }
