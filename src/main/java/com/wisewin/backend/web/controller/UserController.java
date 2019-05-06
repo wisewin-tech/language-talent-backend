@@ -36,10 +36,10 @@ public class UserController extends BaseCotroller {
             return;
         }
         Map<String,Object> map=new HashMap<String, Object>();
-        map.put("name",param.getName());
-        map.put("nickname",param.getNickname());
-        map.put("email",param.getEmail());
-        map.put("mobile",param.getMobile());
+        map.put("name",param.getName().equals("")?null:param.getName());
+        map.put("nickname",param.getNickname().equals("")?null:param.getNickname());
+        map.put("email",param.getEmail().equals("")?null:param.getEmail());
+        map.put("mobile",param.getMobile().equals("")?null:param.getMobile());
 
         QueryInfo queryInfo = getQueryInfo(param.getPageIndex(),param.getPageSize());
         if(queryInfo != null){
