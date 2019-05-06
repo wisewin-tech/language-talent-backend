@@ -48,4 +48,8 @@ public class DiscoverService {
     }
 
 
+    public Integer countDiscover(Map<String,Object> map){
+        return discoverDAO.countDiscover(map);
+    }
+
 }
