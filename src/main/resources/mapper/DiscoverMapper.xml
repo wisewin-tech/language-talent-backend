@@ -6,6 +6,23 @@
 <mapper namespace="com.wisewin.backend.dao.DiscoverDAO">
 
 
+    <select id="countDiscover" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM lt_discover
+        <where>
+            <if test="type != '' and type != null">
+                type   LIKE  CONCAT('%',#{type},'%')
+            </if>
+            <if test="dcReleasetime != '' and dcReleasetime != null">
+                AND dc_releasetime LIKE  CONCAT('%',#{dcReleasetime},'%')
+            </if>
+            <if test="title != '' and title != null">
+                AND title LIKE  CONCAT('%',#{title},'%')
+            </if>
+            and  `show` =  #{yes}
+        </where>
+
+    </select>
+
     <select id="queryListDiscoverBO" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.DiscoverBO">
   SELECT id, title, browse, dc_name as dcName, dc_releasetime as dcReleasetime, dc_updatename as dcUpdatename,
    dc_updatetime as dcUpdatetime, thumbnail, video, content, `type`,

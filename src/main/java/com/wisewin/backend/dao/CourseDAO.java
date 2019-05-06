@@ -2,6 +2,7 @@ package com.wisewin.backend.dao;
 
 
 import com.wisewin.backend.entity.bo.CourseBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 
 import java.util.List;
 import java.util.Map;
@@ -46,5 +47,10 @@ public interface CourseDAO {
     CourseBO queryCourseId(Integer id);
 
 
+    /**
+     * 通过语言查询所有课程
+     *  param languageId  语言id
+     */
+    List<LanguageChoiceBO> queryCourseChoice(Integer languageId);
 
 }

@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.CourseBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.CourseParam;
 import com.wisewin.backend.query.QueryInfo;
@@ -71,7 +72,7 @@ public class CourseController extends BaseCotroller {
    @RequestMapping("/addCourse")
    public void addCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
-       if(courseBO.getCourseName()==null){
+       if(courseBO.getCourseName()==null || courseBO.getLanguageId()==null){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
            super.safeJsonPrint(response, json);
            return;
@@ -144,5 +145,25 @@ public class CourseController extends BaseCotroller {
         return;
     }
 
+
+
+    /**
+     *   通过语言查询所有课程
+     *  param languageId  语言id
+     */
+    @RequestMapping("/queryCourseChoice")
+     public void  queryCourseChoice(HttpServletRequest request,HttpServletResponse response,Integer languageId){
+
+        if(languageId==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+
+        List<LanguageChoiceBO> languageChoiceBOS = courseService.queryCourseChoice(languageId);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(languageChoiceBOS));
+        super.safeJsonPrint(response, json);
+        return;
+    }
 
 }

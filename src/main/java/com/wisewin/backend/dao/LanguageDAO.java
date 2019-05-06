@@ -21,7 +21,6 @@ public interface LanguageDAO {
      */
     List<LanguageBO>  queryLanguageList(Map<String,Object> map);
 
-
     /**
      *    语言添加
      *    languageName; //语言名称

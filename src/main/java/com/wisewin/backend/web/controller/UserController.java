@@ -52,7 +52,7 @@ public class UserController extends BaseCotroller {
         Integer userCount=userService.selectUsersCount(map);//用户数量
         Map<String,Object> resultMap=new HashMap<String, Object>();
         resultMap.put("userBOList",userBOList);
-        resultMap.put("userCount",userCount);
+        resultMap.put("count",userCount);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
 
         super.safeJsonPrint(response,json);
@@ -63,14 +63,14 @@ public class UserController extends BaseCotroller {
      *传入用户id数组的json，转为数组把用户删除
      * */
     @RequestMapping("/deleteUsersById")
-    public void deleteUsersById(HttpServletRequest request,HttpServletResponse response,String idArrJSON){
+    public void deleteUsersById(HttpServletRequest request,HttpServletResponse response,String idArrJSON,String status){
         if(idArrJSON.equals("")||idArrJSON==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
         }
         Integer[] idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
-        Integer line=userService.deleteUsersById(idArr);
+        Integer line=userService.deleteUsersById(idArr,status);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
             super.safeJsonPrint(response , result);

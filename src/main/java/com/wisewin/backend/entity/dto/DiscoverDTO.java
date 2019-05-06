@@ -9,9 +9,10 @@ import java.util.List;
  */
 public class DiscoverDTO {
    private  List<DiscoverBO> list;
-    private String  type;
+   private Integer count;
+/*    private String  type;
     private String dcReleasetime;
-    private String title;
+    private String title;*/
 
     public List<DiscoverBO> getList() {
         return list;
@@ -21,27 +22,11 @@ public class DiscoverDTO {
         this.list = list;
     }
 
-    public String getType() {
-        return type;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDcReleasetime() {
-        return dcReleasetime;
-    }
-
-    public void setDcReleasetime(String dcReleasetime) {
-        this.dcReleasetime = dcReleasetime;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

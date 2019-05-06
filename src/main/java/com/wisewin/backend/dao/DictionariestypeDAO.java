@@ -45,6 +45,11 @@ public interface DictionariestypeDAO {
     List<DictionariestypeBO> queryDictionariestypelist(DictionariestypeBO dictionariestypeBO);
 
     /**
+     * 通过id查找
+     */
+    DictionariestypeBO findDictionariestypeid(DictionariestypeBO dictionariestypeBO);
+
+    /**
      * 查询字典表是否有数据
      */
     int findDictionariestypevalueName(DictionariestypeBO dictionariestypeBO);
@@ -110,6 +115,11 @@ public interface DictionariestypeDAO {
      *  Double rank; //排序
      */
     List<DictionariesBO> queryloadDictionarieslist(DictionariesBO dictionariesBO);
+
+    /**
+     * 通过id来查找数据
+     */
+    DictionariesBO findDictionariesId(DictionariesBO dictionariesBO);
 
     /**
      * 查找是否存在数据

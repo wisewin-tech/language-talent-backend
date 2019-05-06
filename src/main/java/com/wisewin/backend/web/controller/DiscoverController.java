@@ -11,7 +11,6 @@ import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,14 +58,18 @@ public class DiscoverController extends BaseCotroller {
         condition.put("dcReleasetime", dcReleasetime);
         condition.put("title", title);
         condition.put("yes", "yes");
+        Map<String, Object> countMap = new HashMap<String, Object>();
+        countMap.put("type", type);
+        countMap.put("dcReleasetime", dcReleasetime);
+        countMap.put("title", title);
+        countMap.put("yes", "yes");
+        Integer count =  discoverService.countDiscover(countMap);
 
         List<DiscoverBO> list = discoverService.queryListDiscoverBO(condition);
-
         DiscoverDTO  jsonString = new DiscoverDTO();
         jsonString.setList(list);
-        jsonString.setDcReleasetime(dcReleasetime);
-        jsonString.setType(type);
-        jsonString.setTitle(title);
+        jsonString.setCount(count);
+
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonString));
 
         super.safeJsonPrint(response, json);

@@ -1,19 +1,22 @@
 package com.wisewin.backend.entity.bo;
 
 import com.wisewin.backend.common.base.BaseModel;
-
 import java.util.Date;
 
 public class LevelBO extends BaseModel {
     private Integer id; //级别表
-    private Integer levelName; //级别名称
-    private Integer courseId; //课程id
-    private String levelIntro; //简介
-    private Integer serialNumber; //序号
-    private Integer createUserId; //添加人id
-    private Integer updateUserId; //添加人姓名
-    private Date createTime; //创建时间
-    private Date updateTime; //修改时间
+    private String courseName;//课程名字
+    private String levelName;//级别名字
+    private Integer courseId;//课程id
+    private String  status;//状态 putaway/soldout
+    private String levelIntro;//简介
+    private Double serialNumber;//序号
+    private String medalImageUrl;//勋章图片地址
+    private String medalName;//勋章名称
+    private Integer createUserId;//添加人id
+    private Integer updateUserId;//修改人id
+    private Date createTime;//创建时间
+    private Date updateTime;//修改时间
 
     public Integer getId() {
         return id;
@@ -23,12 +26,20 @@ public class LevelBO extends BaseModel {
         this.id = id;
     }
 
-    public Integer getLevelName() {
+    public String getLevelName() {
         return levelName;
     }
 
-    public void setLevelName(Integer levelName) {
+    public void setLevelName(String levelName) {
         this.levelName = levelName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public Integer getCourseId() {
@@ -39,6 +50,14 @@ public class LevelBO extends BaseModel {
         this.courseId = courseId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getLevelIntro() {
         return levelIntro;
     }
@@ -47,12 +66,28 @@ public class LevelBO extends BaseModel {
         this.levelIntro = levelIntro;
     }
 
-    public Integer getSerialNumber() {
+    public Double getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(Integer serialNumber) {
+    public void setSerialNumber(Double serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public String getMedalImageUrl() {
+        return medalImageUrl;
+    }
+
+    public void setMedalImageUrl(String medalImageUrl) {
+        this.medalImageUrl = medalImageUrl;
+    }
+
+    public String getMedalName() {
+        return medalName;
+    }
+
+    public void setMedalName(String medalName) {
+        this.medalName = medalName;
     }
 
     public Integer getCreateUserId() {

@@ -41,6 +41,18 @@
 
     </select>
 
+    <select id="findDictionariestypeid" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
+        SELECT
+           id,key_name,
+           rank,update_name_id,
+           update_time,value_name
+        FROM
+          lt_dictionariestype
+        WHERE
+          id=#{id}
+
+    </select>
+
     <!--显示字典类型-->
     <select id="queryDictionariestypelist" resultType="com.wisewin.backend.entity.bo.DictionariestypeBO">
       SELECT
@@ -116,6 +128,17 @@
         )
 
     </insert>
+
+    <!--通过id来查询-->
+    <select id="findDictionariesId"  resultType="com.wisewin.backend.entity.bo.DictionariesBO">
+      SELECT
+         id,`value`
+      FROM
+         lt_dictionaries
+      WHERE
+          id=#{id}
+    </select>
+
 
     <!--查询，通过字典类型来查询出字典里面的内容-->
     <select id="queryDictionaries" resultType="com.wisewin.backend.entity.bo.DictionariesBO">
