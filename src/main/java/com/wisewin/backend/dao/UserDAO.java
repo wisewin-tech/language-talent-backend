@@ -73,6 +73,15 @@ public interface UserDAO {
 
     /**
      *
+     * 条件分页查询用户个数
+     * @param map
+     * @return
+     */
+    Integer selectUsersCount(Map<String,Object> map);
+
+
+    /**
+     *
      * 批量 逻辑删除用户
      * @param idArr
      * @return

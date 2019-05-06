@@ -35,11 +35,12 @@ public class UserController extends BaseCotroller {
             super.safeHtmlPrint(response,languagejson);
             return;
         }
+
         Map<String,Object> map=new HashMap<String, Object>();
-        map.put("name",param.getName().equals("")?null:param.getName());
-        map.put("nickname",param.getNickname().equals("")?null:param.getNickname());
-        map.put("email",param.getEmail().equals("")?null:param.getEmail());
-        map.put("mobile",param.getMobile().equals("")?null:param.getMobile());
+        map.put("name",param.getName());
+        map.put("nickname",param.getNickname());
+        map.put("email",param.getEmail());
+        map.put("mobile",param.getMobile());
 
         QueryInfo queryInfo = getQueryInfo(param.getPageIndex(),param.getPageSize());
         if(queryInfo != null){
@@ -47,8 +48,13 @@ public class UserController extends BaseCotroller {
             map.put("pageIndex",queryInfo.getPageOffset());
         }
 
-        List<UserBO> userBOList=userService.selectUsers(map);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userBOList));
+        List<UserBO> userBOList=userService.selectUsers(map);//查询到用户信息
+        Integer userCount=userService.selectUsersCount(map);//用户数量
+        Map<String,Object> resultMap=new HashMap<String, Object>();
+        resultMap.put("userBOList",userBOList);
+        resultMap.put("userCount",userCount);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
+
         super.safeJsonPrint(response,json);
     }
 

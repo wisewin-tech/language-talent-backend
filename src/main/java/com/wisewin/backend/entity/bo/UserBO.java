@@ -32,6 +32,15 @@ public class UserBO  extends BaseModel{
     private Integer updateId; //修改人id
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
+    private String status;//是否被拉黑
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {

@@ -78,15 +78,15 @@
         id,head_portrait_url as headPortraitUrl,nickname,email,birthday,integral,job,
         cumulative_sign as cumulativeSign,continuous_learning as continuousLearning,
         create_time as createTime,name,mobile,sex,invite_code as inviteCode,currency,by_invite as byInvite,
-        continuous_sign as continuousSign,last_sign as lastSign,cumulative_learning as cumulativeLearning
+        continuous_sign as continuousSign,last_sign as lastSign,cumulative_learning as cumulativeLearning,
+        status
         from
         lt_user
         <where>
-            status = 'no'
-            <if test="name!=null and mobile==''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>
-            <if test="nickname!=null and mobile==''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
-            <if test="email!=null and mobile==''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
-            <if test="mobile!=null and mobile==''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
+            <if test="name!=null and name!=''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>
+            <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
+            <if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
+            <if test="mobile!=null and mobile!=''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
         </where>
         order by createTime desc
         <include refid="userLimit" />
@@ -96,14 +96,28 @@
       limit #{pageIndex},#{pageSize}
     </sql>
 
+    <!--通过条件分页查询用户个数-->
+    <select id="selectUsersCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(*)
+        from
+        lt_user
+        <where>
+            <if test="name!=null and name!=''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>
+            <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
+            <if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
+            <if test="mobile!=null and mobile!=''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
+        </where>
+    </select>
+
     <!--批量 逻辑删除用户-->
     <update id="deleteUsersById">
         update lt_user set status="yes"
-        <where>
-            <foreach collection="idArr" item="id" separator=" ">
-                or id=#{id}
+        where id in
+            <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+                #{id}
             </foreach>
-        </where>
+
     </update>
 
 

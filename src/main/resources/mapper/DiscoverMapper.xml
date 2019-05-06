@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【管理员】 -->
+<mapper namespace="com.wisewin.backend.dao.DiscoverDAO">
+
+
+    <select id="queryListDiscoverBO" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.DiscoverBO">
+  SELECT id, title, browse, dc_name as dcName, dc_releasetime as dcReleasetime, dc_updatename as dcUpdatename,
+   dc_updatetime as dcUpdatetime, thumbnail, video, content, `type`,
+    likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip,way
+	FROM
+	language_talent.lt_discover
+
+            <where>
+                <if test="type != '' and type != null">
+                    type   LIKE  CONCAT('%',#{type},'%')
+                </if>
+                <if test="dcReleasetime != '' and dcReleasetime != null">
+                    AND dc_releasetime LIKE  CONCAT('%',#{dcReleasetime},'%')
+                </if>
+                <if test="title != '' and title != null">
+                    AND title LIKE  CONCAT('%',#{title},'%')
+                </if>
+                and  `show` =  #{yes}
+        </where>
+	ORDER  BY  stick  DESC
+        <include refid="limit" />
+    </select>
+
+    <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
+
+
+
+    <update id="updateDiscoverbyShows" parameterType="Integer[]" >
+
+    UPDATE language_talent.lt_discover
+        SET
+        `show` = 'no'
+         where id in
+            <foreach item="item" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </update>
+
+    <update id="updateDiscoverbySticks" parameterType="Integer[]" >
+
+        UPDATE language_talent.lt_discover
+        SET
+        `stick` = 'yes'
+        where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateDiscoverbyStick" parameterType="java.lang.String">
+    UPDATE language_talent.lt_discover
+        SET
+        stick = 'yes'
+
+        WHERE
+        id = #{discoverId} ;
+    </update>
+
+
+    <update id="updateDiscoverbyShow" parameterType="java.lang.String">
+        UPDATE language_talent.lt_discover
+        SET
+        `show` = 'no'
+
+        WHERE
+        id = #{id} ;
+    </update>
+
+    <update id="updateDiscover" parameterType="com.wisewin.backend.entity.bo.DiscoverBO">
+
+        UPDATE language_talent.lt_discover
+            SET
+            title = #{title} ,
+            browse = #{browse} ,
+            dc_name = #{dcName} ,
+            dc_releasetime = #{dcReleasetime} ,
+            dc_updatename = #{dcUpdatename} ,
+            dc_updatetime = #{dcUpdatetime},
+            thumbnail = #{thumbnail} ,
+            video = #{video} ,
+            content = #{content} ,
+            `TYPE` = #{type} ,
+            likenum = #{likenum} ,
+            participation = #{participation} ,
+            activitytime = #{activitytime} ,
+            activitysite = #{activitysite} ,
+            phone = #{phone} ,
+            ticket = #{ticket} ,
+            priority = #{priority} ,
+            stick = #{stick} ,
+            SHOW = #{show} ,
+            skip = #{skip} ,
+            way =  #{way}
+
+            WHERE
+            id = #{id} ;
+    </update>
+
+    <select id="queryDiscoverBO" resultType="com.wisewin.backend.entity.bo.DiscoverBO" parameterType="java.lang.String">
+         SELECT id, title, browse, dc_name as dcName, dc_releasetime as dcReleasetime, dc_updatename as dcUpdatename,
+   dc_updatetime as dcUpdatetime, thumbnail, video, content, `type`,
+    likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip
+	FROM
+	language_talent.lt_discover where id = #{id}
+    </select>
+</mapper>
