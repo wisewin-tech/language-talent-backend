@@ -99,11 +99,11 @@
     <!--批量 逻辑删除用户-->
     <update id="deleteUsersById">
         update lt_user set status="yes"
-        <where>
-            <foreach collection="idArr" item="id" separator=" ">
-                or id=#{id}
+        where id in
+            <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+                #{id}
             </foreach>
-        </where>
+
     </update>
 
 
