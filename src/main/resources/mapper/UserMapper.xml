@@ -110,9 +110,9 @@
         </where>
     </select>
 
-    <!--批量 逻辑删除用户-->
+    <!--批量 修改用户状态-->
     <update id="deleteUsersById">
-        update lt_user set status="yes"
+        update lt_user set status=#{status}
         where id in
             <foreach collection="idArr" item="id" open="(" close=")" separator=",">
                 #{id}

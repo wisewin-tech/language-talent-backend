@@ -89,8 +89,8 @@ public class UserService {
      * 批量删除用户
      * @param idArr
      */
-    public Integer deleteUsersById(Integer[] idArr) {
-        return userDAO.deleteUsersById(idArr);
+    public Integer deleteUsersById(Integer[] idArr,String status) {
+        return userDAO.deleteUsersById(idArr,status);
     }
 
     /**
