@@ -82,11 +82,11 @@ public interface UserDAO {
 
     /**
      *
-     * 批量 逻辑删除用户
+     * 批量 修改用户状态(拉黑，取消拉黑)
      * @param idArr
      * @return
      */
-    Integer deleteUsersById(@Param("idArr") Integer[] idArr);
+    Integer deleteUsersById(@Param("idArr") Integer[] idArr,@Param("status") String status);
 
     /**
      *
