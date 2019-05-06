@@ -107,12 +107,12 @@
         `key`,`value`,
         dn_name,
         dn_releasetime,update_user_id,
-        rank,outer_id
+        rank,`outer`
         )VALUES (
         #{key},#{value},
         #{dnName},
         now(),#{updateUserId},
-        #{rank},#{outerId}
+        #{rank},#{outer}
         )
 
     </insert>
@@ -125,11 +125,11 @@
             `value`,
             dn_name,dn_releasetime,
             update_user_id,rank,
-            outer_id
+            `outer`
           FROM
             lt_dictionaries
           WHERE
-            outer_id=#{outerId}
+            `outer`=#{outer}
 
     </select>
 
@@ -151,7 +151,7 @@
         `value`,
         dn_name,dn_releasetime,
         update_user_id,rank,
-        outer_id
+        `outer`
     FROM
         lt_dictionaries
     ORDER  BY
@@ -167,7 +167,7 @@
           dn_name=#{dnName},
           dn_releasetime=now(),
           update_user_id=#{updateUserId},rank=#{rank},
-          outer_id=#{outerId}
+          `outer`=#{outer}
         WHERE
           id=#{id}
     </update>

@@ -178,7 +178,7 @@ public class DictionariestypeController extends BaseCotroller {
         }
 
 
-        if (param.getKey().equals("") && param.getValue().equals("") && param.getOuterId()==null
+        if (param.getKey().equals("") && param.getValue().equals("") && param.getOuter().equals("")
                 && param.getDnName().equals("") && param.getUpdateUserId()==null  && param.getRank()==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
@@ -193,7 +193,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         boolean addDictionariesjson=dictionariestypeService.getaddDictionaries(param.getKey(),param.getValue(),param.getDnName(),
-                param.getUpdateUserId(),param.getRank(),param.getOuterId());
+                param.getUpdateUserId(),param.getRank(),param.getOuter());
         if (addDictionariesjson){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
             super.safeJsonPrint(response,languagejson);
@@ -213,15 +213,15 @@ public class DictionariestypeController extends BaseCotroller {
      private Double rank; //排序
      */
     @RequestMapping("/queryDictionaries")
-    public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, Integer id,String key,String value,Integer outerId,String dnName,String dnReleasetime,Integer updateUserId,Double rank){
+    public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, Integer id,String key,String value,String outer,String dnName,String dnReleasetime,Integer updateUserId,Double rank){
 
-        if ( !StringUtils.isObjEmpty(outerId)){
-            List<DictionariesBO> list=dictionariestypeService.getqueryDictionaries(id,key,value,outerId,dnName,com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime),updateUserId,rank);
+        if ( !StringUtils.isEmpty(outer)){
+            List<DictionariesBO> list=dictionariestypeService.getqueryDictionaries(id,key,value,outer,dnName,com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime),updateUserId,rank);
             String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
             super.safeJsonPrint(response,json);
             return;
         }
-        List<DictionariesBO> list1=dictionariestypeService.getqueryloadDictionarieslist(id,key,value,outerId,dnName,com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime),updateUserId,rank);
+        List<DictionariesBO> list1=dictionariestypeService.getqueryloadDictionarieslist(id,key,value,outer,dnName,com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime),updateUserId,rank);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list1));
         super.safeJsonPrint(response,json);
         return;
@@ -247,14 +247,14 @@ public class DictionariestypeController extends BaseCotroller {
       }
 
 
-      if (param.getId()==null && param.getKey().equals("") && param.getValue().equals("") && param.getOuterId()==null
+      if (param.getId()==null && param.getKey().equals("") && param.getValue().equals("") && param.getOuter().equals("")
                                                                 && param.getUpdateUserId()==null && param.getRank()==null){
           String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
           super.safeJsonPrint(response,json);
           return;
       }
 
-      boolean updateDictionaries=dictionariestypeService.getupdateDictionaries(param.getId(),param.getKey(),param.getValue(),param.getOuterId(),param.getUpdateUserId(),param.getRank());
+      boolean updateDictionaries=dictionariestypeService.getupdateDictionaries(param.getId(),param.getKey(),param.getValue(),param.getOuter(),param.getUpdateUserId(),param.getRank());
       if (updateDictionaries){
           String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
           super.safeJsonPrint(response,languagejson);

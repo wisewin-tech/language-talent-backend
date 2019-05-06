@@ -140,9 +140,9 @@ public class DictionariestypeService {
      *  Integer updateUserId; //修改用户id
      *  Double rank; //排序
      */
-    public boolean getaddDictionaries(String key,String value,String dnName,Integer updateUserId,Double rank,Integer outerId){
+    public boolean getaddDictionaries(String key,String value,String dnName,Integer updateUserId,Double rank,String outer){
 
-        DictionariesBO dictionariesBO=new DictionariesBO(key,value,dnName,updateUserId,rank,outerId);
+        DictionariesBO dictionariesBO=new DictionariesBO(key,value,dnName,updateUserId,rank,outer);
 
         return  dictionariestypeDAO.addDictionaries(dictionariesBO)>0;
     }
@@ -158,11 +158,11 @@ public class DictionariestypeService {
      private Integer updateUserId; //修改用户id
      private Double rank; //排序
      */
-    public List<DictionariesBO> getqueryDictionaries(Integer id,String key,String value,Integer outerId,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
+    public List<DictionariesBO> getqueryDictionaries(Integer id,String key,String value,String outer,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
 
-        DictionariesBO dictionariesBO=new DictionariesBO(id, key, value, dnName, dnReleasetime, outerId, updateUserId, rank);
+        DictionariesBO dictionariesBO=new DictionariesBO(id, key, value, dnName, dnReleasetime, outer, updateUserId, rank);
 
-        return dictionariestypeDAO.queryDictionaries(dictionariesBO);
+         return dictionariestypeDAO.queryDictionaries(dictionariesBO);
 
     }
 
@@ -177,8 +177,8 @@ public class DictionariestypeService {
      *  Integer updateUserId; //修改用户id
      *  Double rank; //排序
      */
-    public List<DictionariesBO> getqueryloadDictionarieslist(Integer id,String key,String value,Integer outerId,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
-                DictionariesBO dictionariesBO=new DictionariesBO(id, key, value, dnName, dnReleasetime, outerId, updateUserId, rank);
+    public List<DictionariesBO> getqueryloadDictionarieslist(Integer id,String key,String value,String outer,String dnName,Date dnReleasetime,Integer updateUserId,Double rank){
+                DictionariesBO dictionariesBO=new DictionariesBO(id, key, value, dnName, dnReleasetime, outer, updateUserId, rank);
                 return  dictionariestypeDAO.queryloadDictionarieslist(dictionariesBO);
     }
 
@@ -201,14 +201,14 @@ public class DictionariestypeService {
      Integer updateUserId; //修改用户id
      Double rank; //排序
      */
-    public boolean getupdateDictionaries(Integer id,String key,String value,Integer dnId,Integer updateUserId,Double rank){
+    public boolean getupdateDictionaries(Integer id,String key,String value,String outer,Integer updateUserId,Double rank){
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("id",id);
         map.put("key",key);
         map.put("value",value);
-        map.put("dnId",dnId);
         map.put("updateUserId",updateUserId);
         map.put("rank",rank);
+        map.put("outer",outer);
 
         return dictionariestypeDAO.updateDictionaries(map)>0;
 

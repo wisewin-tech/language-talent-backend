@@ -9,7 +9,7 @@ public class DictionariesParam {
     private Integer id; //字典id
     private String key; //类型名字
     private String value; //类型
-    private Integer outerId; //连接字典类型表
+    private String outer; //连接字典类型表
     private String dnName; //创建人
     private Integer updateUserId; //修改用户id
     private Date dnReleasetime; //最后修改时间时间
@@ -33,13 +33,16 @@ public class DictionariesParam {
     }
 
 
-    public Integer getOuterId() {
-        return outerId;
+
+
+    public String getOuter() {
+        return outer;
     }
 
-    public void setOuterId(Integer outerId) {
-        this.outerId = outerId;
+    public void setOuter(String outer) {
+        this.outer = outer;
     }
+
 
     public void setDnName(String dnName) {
         this.dnName = dnName;

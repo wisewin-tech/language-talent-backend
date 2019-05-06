@@ -19,7 +19,7 @@ public class DictionariesBO extends BaseModel {
     private Date dnReleasetime; //发布时间
     private Integer updateUserId; //修改用户id
     private Double rank; //排序
-    private Integer outerId; //连接字典类型表
+    private String outer; //连接字典类型表valuename
 
     public DictionariesBO() {
     }
@@ -33,13 +33,13 @@ public class DictionariesBO extends BaseModel {
         this.value = value;
     }
 
-    public DictionariesBO(String key, String value, String dnName, Integer updateUserId, Double rank, Integer outerId) {
+    public DictionariesBO(String key, String value, String dnName, Integer updateUserId, Double rank, String outer) {
         this.key = key;
         this.value = value;
         this.dnName = dnName;
         this.updateUserId = updateUserId;
         this.rank = rank;
-        this.outerId = outerId;
+        this.outer = outer;
     }
 
     /**
@@ -53,13 +53,13 @@ public class DictionariesBO extends BaseModel {
      */
 
 
-    public DictionariesBO(Integer id, String key, String value, String dnName, Date dnReleasetime, Integer outerId, Integer updateUserId, Double rank) {
+    public DictionariesBO(Integer id, String key, String value, String dnName, Date dnReleasetime, String outer, Integer updateUserId, Double rank) {
         this.id = id;
         this.key = key;
         this.value = value;
         this.dnName = dnName;
         this.dnReleasetime = dnReleasetime;
-        this.outerId = outerId;
+        this.outer = outer;
         this.updateUserId = updateUserId;
         this.rank = rank;
     }
@@ -73,12 +73,13 @@ public class DictionariesBO extends BaseModel {
         this.rank = rank;
     }
 
-    public Integer getOuterId() {
-        return outerId;
+
+    public String getOuter() {
+        return outer;
     }
 
-    public void setOuterId(Integer outerId) {
-        this.outerId = outerId;
+    public void setOuter(String outer) {
+        this.outer = outer;
     }
 
     public void setId(Integer id) {
