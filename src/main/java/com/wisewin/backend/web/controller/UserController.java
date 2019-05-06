@@ -60,11 +60,11 @@ public class UserController extends BaseCotroller {
 
     /**
      *
-     *传入用户id数组的json，转为数组把用户删除
+     *传入json格式用户id数组，转为数组把用户删除
      * */
     @RequestMapping("/deleteUsersById")
     public void deleteUsersById(HttpServletRequest request,HttpServletResponse response,String idArrJSON,String status){
-        if(idArrJSON.equals("")||idArrJSON==null){
+        if(idArrJSON==null||idArrJSON.equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;

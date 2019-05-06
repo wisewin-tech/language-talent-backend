@@ -1,6 +1,10 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.BannerBO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface BannerDAO {
     /**
@@ -10,4 +14,32 @@ public interface BannerDAO {
      * @return UserDO
      */
     AdminBO queryAdminInfoByMobile(String mobile);
+
+    /**
+     * 查看首页信息 轮播图 要跳转的地址等等
+     * @return BannerBO
+     */
+    List<BannerBO> queryBanner();
+
+    /**
+     * 查看一条首页信息 轮播图 要跳转的地址等等
+     * @return BannerBO
+     */
+    BannerBO queryBannerById(@Param("id")Integer id);
+
+
+    /**
+     * 删除一条Banner
+     */
+    Integer deleteBanner(Integer id);
+
+    /**
+     * 添加一条Banner
+     */
+    Integer addBanner(BannerBO bannerBO);
+
+    /**
+     * 修改一条Banner
+     */
+    Integer updateBanner(BannerBO bannerBO);
 }

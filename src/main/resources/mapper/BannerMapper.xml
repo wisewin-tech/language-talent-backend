@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 首页Banner -->
+<mapper namespace="com.wisewin.backend.dao.BannerDAO">
+
+    <!--查询首页信息  status no代表没下架 yes代表以下架 sort值越大越靠前-->
+    <select id="queryBanner" resultType="com.wisewin.backend.entity.bo.BannerBO">
+        select
+        id,title,picture_url as pictureUrl,type,
+        skip_url as skipUrl,sort,status,create_user_id as createUserId,
+        create_time as createTime,update_user_id as updateUserID,update_time as updateTime
+        from
+        lt_banner
+        where status="no"
+        order by sort desc
+    </select>
+
+
+    <!--查询单条首页信息  status no代表没下架 yes代表以下架 sort值越大越靠前-->
+    <select id="queryBannerById" resultType="com.wisewin.backend.entity.bo.BannerBO">
+        select
+        id,title,picture_url as pictureUrl,type,
+        skip_url as skipUrl,sort,status,create_user_id as createUserId,
+        create_time as createTime,update_user_id as updateUserID,update_time as updateTime
+        from
+        lt_banner
+        where id=#{id}
+    </select>
+
+
+    <!--添加首页信息-->
+    <insert id="addBanner" parameterType="com.wisewin.backend.entity.bo.BannerBO">
+        insert into
+        lt_banner
+        (title,picture_url,type,skip_url,sort,status,create_user_id,create_time)
+        values
+        (#{title},#{pictureUrl},#{type},#{skipUrl},#{sort},#{status},#{createUserId},now())
+    </insert>
+
+    <!--修改首页信息-->
+    <update id="updateBanner" parameterType="com.wisewin.backend.entity.bo.BannerBO">
+        update lt_banner
+        set
+        title=#{title},picture_url=#{pictureUrl},type=#{type},
+        skip_url=#{skipUrl},sort=#{sort},status=#{status},
+        update_user_id=#{updateUserId},update_time=now()
+        where id =#{id}
+    </update>
+
+    <!--删除首页信息 数据删除了，如果要下架就修改状态相当于逻辑删除-->
+    <delete id="deleteBanner">
+        delete from lt_banner where id=#{id}
+    </delete>
+
+</mapper>
