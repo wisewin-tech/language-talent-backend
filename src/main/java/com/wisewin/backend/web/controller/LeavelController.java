@@ -62,10 +62,10 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @param levelBO
      */
-    @RequestMapping("/addCourse")
-    public void addCourse(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
+    @RequestMapping("/addLeavel")
+    public void addLeavel(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        if(levelBO.getLevelName()==null){
+        if(levelBO.getLevelName()==null||levelBO.getCourseId()==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
@@ -137,9 +137,8 @@ public class LeavelController extends BaseCotroller {
     }
 
 
-
     /**
-     *   通过语言查询所有课程
+     *   查询级别
      *  param courseId  课程id
      */
     @RequestMapping("/queryCourseChoice")

@@ -25,6 +25,11 @@ public class DictionariestypeBO extends BaseModel {
 
     public DictionariestypeBO(){}
 
+    public DictionariestypeBO(Integer id, String keyName, String valueName) {
+        this.id = id;
+        this.keyName = keyName;
+        this.valueName = valueName;
+    }
 
     public DictionariestypeBO(Integer id, String keyName, Double rank, Integer updateNameId, Date updateTime, String valueName) {
         this.id = id;

@@ -66,6 +66,16 @@ public class DictionariestypeService {
         return dictionariestypeDAO.queryDictionariestype(dictionariestypeBO);
     }
 
+
+
+    /**
+     * 通过id查找
+     */
+    public DictionariestypeBO getfindDictionariestypeid(Integer id,String keyName,String valueName){
+        DictionariestypeBO dictionariestypeBO=new DictionariestypeBO(id,keyName,valueName);
+        return  dictionariestypeDAO.findDictionariestypeid(dictionariestypeBO);
+    }
+
     /**
      * 显示字典类型
      *    Integer id; //字典类型表id
@@ -193,6 +203,16 @@ public class DictionariestypeService {
 
 
     /**
+     * 通过id来查找
+     */
+    public DictionariesBO getfindDictionariesId(Integer id){
+        DictionariesBO dictionariesBO=new DictionariesBO();
+        dictionariesBO.setId(id);
+
+        return  dictionariestypeDAO.findDictionariesId(dictionariesBO);
+    }
+
+    /**
      *修改字典内容
      Integer id; //字典id
      String key; //类型名字
@@ -201,7 +221,7 @@ public class DictionariestypeService {
      Integer updateUserId; //修改用户id
      Double rank; //排序
      */
-    public boolean getupdateDictionaries(Integer id,String key,String value,String outer,Integer updateUserId,Double rank){
+    public boolean getupdateDictionaries(Integer id,String key,String value,Integer updateUserId,Double rank,String outer){
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("id",id);
         map.put("key",key);
