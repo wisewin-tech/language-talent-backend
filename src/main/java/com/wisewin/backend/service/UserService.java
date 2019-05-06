@@ -93,5 +93,14 @@ public class UserService {
         return userDAO.deleteUsersById(idArr);
     }
 
+    /**
+     *
+     * 条件分页查询用户个数
+     * @param map
+     * @return
+     */
+    public Integer selectUsersCount(Map<String,Object> map){
+        return userDAO.selectUsersCount(map);
+    }
 
 }
