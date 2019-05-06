@@ -5,6 +5,9 @@ import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.param.UserParam;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserDAO {
 
 
@@ -59,6 +62,39 @@ public interface UserDAO {
      * @return
      */
     UserBO  selectUserByUsername(String name);
+
+    /**
+     *
+     * 条件分页查询用户信息
+     * @param map
+     * @return
+     */
+    List<UserBO> selectUsers(Map<String,Object> map);
+
+    /**
+     *
+     * 批量 逻辑删除用户
+     * @param idArr
+     * @return
+     */
+    Integer deleteUsersById(@Param("idArr") Integer[] idArr);
+
+    /**
+     *
+     * 按用户id查看用户信息
+     * @param id
+     * @return
+     */
+    UserBO selectUsersById(@Param("id")Integer id);
+
+    /**
+     *
+     * 按用户id修改用户信息
+     * @param userParam
+     * @return
+     */
+    Integer updateUsersById(@Param("userParam")UserParam userParam);
+
 
 
 

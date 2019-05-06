@@ -27,6 +27,24 @@ public class UserParam {
     private String job; //职业
     private String qqOpenid; //
     private String wxOpenid; //
+    private Integer pageSize;//分页 每页的数量
+    private Integer pageIndex;//分页 页码
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(Integer pageIndex) {
+        this.pageIndex = pageIndex;
+    }
 
     public Integer getId() {
         return id;

@@ -72,6 +72,41 @@
         name=#{name}
     </select>
 
+    <!--通过条件分页查询用户信息-->
+    <select id="selectUsers" resultType="com.wisewin.backend.entity.bo.UserBO" parameterType="java.util.Map">
+        select
+        id,head_portrait_url as headPortraitUrl,nickname,email,birthday,integral,job,
+        cumulative_sign as cumulativeSign,continuous_learning as continuousLearning,
+        create_time as createTime,name,mobile,sex,invite_code as inviteCode,currency,by_invite as byInvite,
+        continuous_sign as continuousSign,last_sign as lastSign,cumulative_learning as cumulativeLearning
+        from
+        lt_user
+        <where>
+            status = 'no'
+            <if test="name!=null"> AND name LIKE concat(concat('%',#{name}),'%')</if>
+            <if test="nickname!=null"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
+            <if test="email!=null"> AND email LIKE concat(concat('%',#{email}),'%')</if>
+            <if test="mobile!=null"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
+        </where>
+        order by createTime desc
+        <include refid="userLimit" />
+
+    </select>
+    <sql id="userLimit">
+      limit #{pageIndex},#{pageSize}
+    </sql>
+
+    <!--批量 逻辑删除用户-->
+    <update id="deleteUsersById">
+        update lt_user set status="yes"
+        <where>
+            <foreach collection="idArr" item="id" separator=" ">
+                or id=#{id}
+            </foreach>
+        </where>
+    </update>
+
+
 
 
 
