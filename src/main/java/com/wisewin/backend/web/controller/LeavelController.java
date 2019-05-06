@@ -1,12 +1,11 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.CourseBO;
-import com.wisewin.backend.entity.bo.LanguageChoiceBO;
+import com.wisewin.backend.entity.bo.LevelBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
-import com.wisewin.backend.entity.param.CourseParam;
+import com.wisewin.backend.entity.param.LeavelParam;
 import com.wisewin.backend.query.QueryInfo;
-import com.wisewin.backend.service.CourseService;
+import com.wisewin.backend.service.LeavelService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
@@ -20,93 +19,59 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  课程
+ *  级别
  */
 @Controller
-@RequestMapping("/course")
-public class CourseController extends BaseCotroller {
+@RequestMapping("/leavel")
+public class LeavelController extends BaseCotroller {
 
     @Resource
-    private CourseService  courseService;
+    private LeavelService leavelService;
 
     /**
-     *  查询课程列表
-     *  courseName 课程名字
-     *  status  状态
-     *  hotOrNot 是否为热门
-     *  certificateOrNot  是否可以考证
+     * 查询级别
+     * param  courseId  课程id
      * @return
      */
-    @RequestMapping("/queryCourseList")
-    public void queryCourseList(HttpServletRequest request, HttpServletResponse response, CourseParam  courseParam){
-
-        QueryInfo queryInfo = getQueryInfo(courseParam.getPageNo(),courseParam.getPageSize());
+    @RequestMapping("/queryLeavelList")
+    public void  queryLeavelList(HttpServletRequest request, HttpServletResponse  response, LeavelParam  leavelParam){
+        QueryInfo queryInfo = getQueryInfo(leavelParam.getPageNo(),leavelParam.getPageSize());
         Map<String, Object> queryMap = new HashMap<String, Object>();
         if(queryInfo != null){
             queryMap.put("pageOffset", queryInfo.getPageOffset());
             queryMap.put("pageSize", queryInfo.getPageSize());
         }
+        queryMap.put("courseName",leavelParam.getCourseId());
+        queryMap.put("status",leavelParam.getStatus());
 
-        queryMap.put("courseName",courseParam.getCourseName());
-        queryMap.put("status",courseParam.getStatus());
-        queryMap.put("hotOrNot",courseParam.getHotOrNot());
-        queryMap.put("certificateOrNot",courseParam.getCertificateOrNot());
-
-
-        List<CourseBO> courseBOS = courseService.queryCourseList(queryMap);
-        Integer count = courseService.queryCourseCount(queryMap);
-        Map<String,Object>  resultMap = new HashMap<String, Object>();
+        List<LevelBO> levelBOS = leavelService.queryLeavelList(queryMap);
+        Integer count = leavelService.queryLeavelCount(queryMap);
+        Map<String,Object>  resultMap=new HashMap<String, Object>();
+        resultMap.put("levelList",levelBOS);
         resultMap.put("count",count);
-        resultMap.put("courseList",courseBOS);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         super.safeJsonPrint(response, json);
     }
 
 
-    /**
-     *  添加课程
-     * @param request
-     * @param response
-     * @param courseBO
-     */
-   @RequestMapping("/addCourse")
-   public void addCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
-       AdminBO loginAdmin = super.getLoginAdmin(request);
-       if(courseBO.getCourseName()==null){
-           String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-           super.safeJsonPrint(response, json);
-           return;
-       }
-
-       boolean falg = courseService.addCourse(courseBO,loginAdmin.getId());
-
-       if(falg){
-           String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
-           super.safeJsonPrint(response, json);
-           return;
-       }
-       String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-       super.safeJsonPrint(response, json);
-       return;
-   }
 
 
     /**
-     *  修改课程
+     *  添加级别
      * @param request
      * @param response
-     * @param courseBO
+     * @param levelBO
      */
-    @RequestMapping("/updateCourse")
-    public void updateCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
-        AdminBO  adminBO=super.getLoginAdmin(request);
-        if(courseBO.getId()==null){
+    @RequestMapping("/addCourse")
+    public void addCourse(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        if(levelBO.getLevelName()==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
         }
 
-        boolean falg = courseService.updateCourse(courseBO,adminBO.getId());
+        boolean falg = leavelService.addLeavel(levelBO,loginAdmin.getId());
 
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
@@ -120,10 +85,38 @@ public class CourseController extends BaseCotroller {
 
 
     /**
-     *  删除课程
+     *  修改级别
      * @param request
      * @param response
-     * @Param id  课程id
+     * @param levelBO
+     */
+    @RequestMapping("/updateCourse")
+    public void updateCourse(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
+        AdminBO  adminBO=super.getLoginAdmin(request);
+        if(levelBO.getId()==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+
+        boolean falg = leavelService.updateLeavel(levelBO,adminBO.getId());
+
+        if(falg){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+        super.safeJsonPrint(response, json);
+        return;
+    }
+
+
+    /**
+     *  删除级别
+     * @param request
+     * @param response
+     * @Param id  级别id
      */
     @RequestMapping("/deledeCourse")
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,Integer id){
@@ -132,9 +125,7 @@ public class CourseController extends BaseCotroller {
             super.safeJsonPrint(response, json);
             return;
         }
-
-        boolean falg = courseService.deledeCourse(id);
-
+        boolean falg = leavelService.deleteLeavel(id);
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
             super.safeJsonPrint(response, json);
@@ -149,21 +140,21 @@ public class CourseController extends BaseCotroller {
 
     /**
      *   通过语言查询所有课程
-     *  param languageId  语言id
+     *  param courseId  课程id
      */
     @RequestMapping("/queryCourseChoice")
-     public void  queryCourseChoice(HttpServletRequest request,HttpServletResponse response,Integer languageId){
-
-        if(languageId==null){
+    public void  queryCourseChoice(HttpServletRequest request,HttpServletResponse response,Integer courseId){
+        if(courseId==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
         }
-
-        List<LanguageChoiceBO> languageChoiceBOS = courseService.queryCourseChoice(languageId);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(languageChoiceBOS));
+        List<LevelBO> levelBOS = leavelService.queryLeavelChoice(courseId);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(levelBOS));
         super.safeJsonPrint(response, json);
         return;
     }
+
+
 
 }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 级别 -->
+<mapper namespace="com.wisewin.backend.dao.LeavelDAO">
+    <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
+
+    <!--课程查询列表-->
+    <select id="queryLeavelList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LevelBO" >
+        SELECT  ll.*,ce.course_name   FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
+        <where>
+             <if test="courseId!=null" >
+                 course_id=#{courseId}
+             </if>
+             <if test="status!=null and status!=''" >
+                 AND  status=#{status}
+             </if>
+          </where>
+        ORDER BY  serial_number DESC  <include refid="limit" />
+    </select>
+
+    <!--分页数量查询-->
+    <select id="queryLeavelCount"  parameterType="java.util.Map"  resultType="java.lang.Integer" >
+        SELECT  COUNT(ll.id) FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
+        <where>
+            <if test="courseId!=null" >
+                course_id=#{courseId}
+            </if>
+            <if test="status!=null and status!=''" >
+                AND  status=#{status}
+            </if>
+        </where>
+
+    </select>
+
+    <!--课程添加-->
+    <insert id="addLeavel"  parameterType="com.wisewin.backend.entity.bo.LevelBO" >
+        INSERT INT`lt_level` ( `level_name`, `course_id`, `status`, `level_intro`, `serial_number`,
+                                `medal_image_url`, `medal_name`, `create_user_id`, `update_user_id`, `create_time`,
+                                `update_time`)
+                        VALUES (#{levelName},#{courseId},#{status},#{levelIntro}, #{serialNumber},
+                                  #{medalImageUrl},#{medalName},#{createUserId},#{updateUserId},#{createTime},
+                                   #{updateTime})
+    </insert>
+
+    <!--修改-->
+    <update  id="updateLeavel"  parameterType="com.wisewin.backend.entity.bo.LevelBO" >
+        UPDATE  `lt_level`
+        <set>
+           <if test="levelName!=null and levelName!=''" >
+                `level_name`=#{levelName} ,
+            </if>
+            <if test="courseId!=null" >
+                `course_id`=#{courseId},
+            </if>
+            <if test="status!=null and status!=''" >
+                `status`=#{status},
+            </if>
+            <if test="levelIntro!=null and levelIntro!=''" >
+                `level_intro`=#{levelIntro},
+            </if>
+            <if test="serialNumber!=null " >
+                `serial_number`=#{serialNumber} ,
+            </if>
+            <if test="medalImageUrl!=null and medalImageUrl!=''" >
+                `medal_image_url`=#{medalImageUrl} ,
+             </if>
+            <if test="medalName!=null and medalName!=''" >
+                `medal_name`=#{medalName} ,
+            </if>
+            <if test="createUserId!=null " >
+                `create_user_id`=#{createUserId} ,
+            </if>
+            <if test="updateUserId!=null " >
+                `update_user_id`=#{updateUserId} ,
+            </if>
+            <if test="createTime!=null " >
+                `create_time`=#{createTime} ,
+            </if>
+            <if test="updateTime!=null " >
+                update_time =#{updateTime}
+            </if>
+
+        </set>
+        WHERE  id=#{id}
+    </update>
+
+    <!--通过id 查询-->
+    <select id="queryLeavelById"  parameterType="java.lang.Integer"  resultType="com.wisewin.backend.entity.bo.LevelBO" >
+        SELECT *  FROM `lt_level` WHERE   id=#{id}
+    </select>
+
+    <!--选择课程-->
+    <select id="queryLeavelChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
+        SELECT id,level_name as name  FROM  `lt_course`   WHERE   status='putaway'   AND   course_id=#{courseId}
+        ORDER BY   popular_sort  ASC
+    </select>
+
+</mapper>

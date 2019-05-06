@@ -8,7 +8,7 @@
 
     <!--列表查询-->
     <select id="queryLanguageList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LanguageBO" >
-        SELECT language_name,status,foreign_language_name,ensign_image_url,thumbnail_image_url,popular_sort,language_lightspot,
+        SELECT id,language_name,status,foreign_language_name,ensign_image_url,thumbnail_image_url,popular_sort,language_lightspot,
           video_path,price,discount_price,discount_start_time,discount_end_time,hot_or_not
         FROM `lt_language`
           <where>
