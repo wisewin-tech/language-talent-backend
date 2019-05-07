@@ -23,9 +23,13 @@
             <if test="hotOrNot!=null and hotOrNot!=''"  >
               AND  te.hot_or_not=#{hotOrNot}
             </if>
-            <if test="certificateOrNot !=null " >
+            <if test="certificateOrNot !=null and certificateOrNot !='' " >
               AND  te.certificate_or_not =#{certificateOrNot}
             </if>
+            <if test="languageId!=null" >
+              AND   language_id=#{languageId}
+            </if>
+
           </where>
         ORDER BY   te.popular_sort  DESC    <include refid="limit" />
     </select>
@@ -44,8 +48,11 @@
             <if test="hotOrNot!=null and hotOrNot!=''"  >
                 AND  te.hot_or_not=#{hotOrNot}
             </if>
-            <if test="certificateOrNot !=null " >
+            <if test="certificateOrNot !=null and certificateOrNot!=null " >
                 AND  te.certificate_or_not =#{certificateOrNot}
+            </if>
+            <if test="languageId!=null" >
+                AND   language_id=#{languageId}
             </if>
         </where>
     </select>
@@ -132,7 +139,7 @@
        <if test="certificateIntro!=null and certificateIntro!=''" >
             `certificate_intro`=#{certificateIntro},
        </if>
-       <if test="certificateImageUrl!=null and certificateImageUrl!=''" >
+       <if test="certificateImageUrl!=null" >
            `certificate_image_url`=#{certificateImageUrl},
        </if>
        <if test="createUserId!=null " >

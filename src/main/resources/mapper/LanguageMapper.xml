@@ -55,10 +55,10 @@
             <if test="foreignLanguageName!=null and foreignLanguageName!=''"  >
                 `foreign_language_name`=#{foreignLanguageName} ,
             </if>
-            <if test="ensignImageUrl!=null and ensignImageUrl!=''"  >
+            <if test="ensignImageUrl!=null "  >
                 `ensign_image_url`=#{ensignImageUrl},
             </if>
-            <if test="thumbnailImageUrl!=null and thumbnailImageUrl!=''" >
+            <if test="thumbnailImageUrl!=null" >
                 `thumbnail_image_url`=#{thumbnailImageUrl},
             </if>
             <if test="popularSort!=null and popularSort!=''" >
