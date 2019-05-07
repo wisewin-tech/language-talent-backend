@@ -170,7 +170,7 @@ public class OSSClientUtil {
             objectMetadata.setContentLength(instream.available());
             objectMetadata.setCacheControl("no-cache");
             objectMetadata.setHeader("Pragma", "no-cache");
-            objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
+            objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf(".")+1)));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             // 上传文件
             PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
