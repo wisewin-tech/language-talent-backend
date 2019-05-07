@@ -1,6 +1,8 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.OrderBO;
+import com.wisewin.backend.entity.bo.OrderCoursesBO;
+import com.wisewin.backend.entity.param.OrderParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,4 +17,19 @@ public interface OrderDao {
      * 语言订单里包括这个订单的多个课程
      */
     public List<OrderBO> queryOrderById(@Param("id")Integer id);
+
+    /**
+     * 语言订单里包括这个订单下的子课程
+     */
+    public List<OrderCoursesBO> queryOrderCoursesByOrderId(@Param("orderId")Integer orderId);
+
+    /**
+     * 按时间段 手机号 订单号 分页查询所有订单
+     */
+    public List<OrderBO> queryOrderByCond(OrderParam orderParam);
+
+    /**
+     * 按时间段 手机号 订单号 分页查询所有订单总数
+     */
+    public List<OrderBO> queryOrderByCondCount(OrderParam orderParam);
 }

@@ -4,7 +4,9 @@
 
 <!-- 【记录】 -->
 <mapper namespace="com.wisewin.backend.dao.RecordDAO">
-    <select id="queryRecordById" resultType="com.wisewin.backend.entity.bo.RecordBO">
+
+    <!-- 查看一个用户的咖豆积分等的增减记录 -->
+    <select id="queryRecordById" resultType="com.wisewin.backend.entity.bo.RecordBO" parameterType="com.wisewin.backend.entity.param.RecordParam">
         select id,user_id as userId,source,
         `status`,specific_amount as specificAmount,
         `describe`,effective_date as effectiveDate,create_time as createTime
@@ -15,6 +17,23 @@
             <if test="afterTime!=null and afterTime!=''"> AND create_time &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND create_time &lt;=#{beforeTime}</if>
         </where>
+        <include refid="recordLimit" />
     </select>
 
+    <sql id="recordLimit">
+      limit #{pageNo},#{pageSize}
+    </sql>
+
+    <!-- 查看一个用户的咖豆积分等的增减记录总页数 -->
+    <select id="queryRecordByIdCount" resultType="java.lang.Integer" parameterType="com.wisewin.backend.entity.param.RecordParam">
+        select count(*)
+        from lt_record
+        <where>
+            user_id=#{id}
+            <if test="source!=null and source!=''"> AND source=#{source}</if>
+            <if test="afterTime!=null and afterTime!=''"> AND create_time &gt;=#{afterTime}</if>
+            <if test="beforeTime!=null and beforeTime!=''"> AND create_time &lt;=#{beforeTime}</if>
+        </where>
+
+    </select>
 </mapper>

@@ -9,6 +9,7 @@ import java.util.List;
 public class OrderBO extends BaseModel {
     private Integer id; //订单表
     private Integer userId; //用户id
+    private String mobile;//用户手机号
     private Integer languageId; //语言id
     private Integer coursesId; //课程id
     private String languageName; //语言名称
@@ -24,6 +25,15 @@ public class OrderBO extends BaseModel {
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private List<OrderCoursesBO> orderCoursesBOList;//订单中的多个课程
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+
 
     public Date getCourseValidityPeriod() {
         return courseValidityPeriod;

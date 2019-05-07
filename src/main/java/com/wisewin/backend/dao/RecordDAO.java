@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.RecordBO;
+import com.wisewin.backend.entity.param.RecordParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -10,9 +11,16 @@ public interface RecordDAO {
 
     /**
      * 查看用户咖豆积分礼品卡的增减记录
-     * 时间
-     * 咖豆或者积分或者礼品卡
+     * 用户id 时间 类型 页码
      */
-   List<RecordBO> queryRecordById(@Param("id")Integer id, @Param("source")String source, @Param("afterTime") Date afterTime, @Param("beforeTime")Date beforeTime);
+   List<RecordBO> queryRecordById(RecordParam recordParam);
+
+    /**
+     * 查看用户咖豆积分礼品卡的增减记录总数
+     */
+    Integer queryRecordByIdCount(RecordParam recordParam);
+
+
+
 
 }
