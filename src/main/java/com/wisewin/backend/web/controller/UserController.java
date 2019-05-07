@@ -30,7 +30,7 @@ public class UserController extends BaseCotroller {
      * */
     @RequestMapping("/queryUsers")
     public void queryUsers(HttpServletRequest request, HttpServletResponse response, UserParam param){
-        if(param.getPageIndex()==0||param.getPageSize()==0){
+        if(param.getPageNo()==0||param.getPageSize()==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
@@ -42,7 +42,7 @@ public class UserController extends BaseCotroller {
         map.put("email",param.getEmail());
         map.put("mobile",param.getMobile());
 
-        QueryInfo queryInfo = getQueryInfo(param.getPageIndex(),param.getPageSize());
+        QueryInfo queryInfo = getQueryInfo(param.getPageNo(),param.getPageSize());
         if(queryInfo != null){
             map.put("pageSize",queryInfo.getPageSize());
             map.put("pageIndex",queryInfo.getPageOffset());

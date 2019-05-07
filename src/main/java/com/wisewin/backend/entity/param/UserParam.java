@@ -28,7 +28,15 @@ public class UserParam {
     private String qqOpenid; //
     private String wxOpenid; //
     private Integer pageSize;//分页 每页的数量
-    private Integer pageIndex;//分页 页码
+    private Integer pageNo;//分页 页码
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
 
     public Integer getPageSize() {
         return pageSize;
@@ -38,13 +46,6 @@ public class UserParam {
         this.pageSize = pageSize;
     }
 
-    public Integer getPageIndex() {
-        return pageIndex;
-    }
-
-    public void setPageIndex(Integer pageIndex) {
-        this.pageIndex = pageIndex;
-    }
 
     public Integer getId() {
         return id;

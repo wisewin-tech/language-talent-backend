@@ -29,7 +29,11 @@ public class OrderController extends BaseCotroller {
      */
     @RequestMapping("queryOrderById")
     public void queryOrderById(HttpServletRequest request, HttpServletResponse response,Integer id){
-
+        if(id==null||id==0){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
         List<OrderBO> orderBOS = orderService.queryOrderById(id);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(orderBOS));
 
