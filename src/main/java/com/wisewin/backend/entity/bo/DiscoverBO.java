@@ -17,11 +17,11 @@ public class DiscoverBO extends BaseModel {
     //创建人
     private String dcName;
     //发布时间
-    private Date dcReleasetime;
+    private Date createTime;
     //最后修改人
     private String dcUpdatename;
     //最后修改时间
-    private Date dcUpdatetime;
+    private Date updateTime;
     //缩略图url
     private String thumbnail;
     //视频URL
@@ -85,12 +85,12 @@ public class DiscoverBO extends BaseModel {
         this.dcName = dcName;
     }
 
-    public Date getDcReleasetime() {
-        return dcReleasetime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setDcReleasetime(Date dcReleasetime) {
-        this.dcReleasetime = dcReleasetime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getDcUpdatename() {
@@ -101,12 +101,12 @@ public class DiscoverBO extends BaseModel {
         this.dcUpdatename = dcUpdatename;
     }
 
-    public Date getDcUpdatetime() {
-        return dcUpdatetime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setDcUpdatetime(Date dcUpdatetime) {
-        this.dcUpdatetime = dcUpdatetime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getThumbnail() {

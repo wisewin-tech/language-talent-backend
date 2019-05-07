@@ -31,14 +31,6 @@ public class DiscoverService {
         discoverDAO.updateDiscoverbySticks(idArr);
     }
 
-    public void updateDiscoverbyStick(String discoverId){
-        discoverDAO.updateDiscoverbyStick(discoverId);
-    }
-
-    public void updateDiscoverbyShow(String id){
-        discoverDAO.updateDiscoverbyShow(id);
-    }
-
     public void updateDiscover(DiscoverBO discoverBO){
         discoverDAO.updateDiscover(discoverBO);
     }

@@ -43,11 +43,10 @@ public class DiscoverController extends BaseCotroller {
      * @param pageNo  当前页 默认1
      * @param pageSize 每页显示条数  默认10
      * @param type 类型 条件  可选
-     * @param dcReleasetime  创建时间 条件 可选
      * @param title 标题 条件 可选
      */
     @RequestMapping(value = "/discoverList", method = RequestMethod.POST)
-    public void discoverList(HttpServletRequest request, HttpServletResponse response, Integer pageNo, Integer pageSize,String type,String dcReleasetime,String title) {
+    public void discoverList(HttpServletRequest request, HttpServletResponse response, Integer pageNo, Integer pageSize,String type,String createTime,String title) {
 
 
 
@@ -62,12 +61,12 @@ public class DiscoverController extends BaseCotroller {
 
         }
         condition.put("type", type);
-        condition.put("dcReleasetime", dcReleasetime);
+        condition.put("createTime", createTime);
         condition.put("title", title);
         condition.put("yes", "yes");
         Map<String, Object> countMap = new HashMap<String, Object>();
         countMap.put("type", type);
-        countMap.put("dcReleasetime", dcReleasetime);
+        countMap.put("createTime", createTime);
         countMap.put("title", title);
         countMap.put("yes", "yes");
         Integer count =  discoverService.countDiscover(countMap);
@@ -176,7 +175,7 @@ public class DiscoverController extends BaseCotroller {
         discoverBO.setDcUpdatename(adminBO.getName());
         Date date = new Date();
 
-        discoverBO.setDcUpdatetime(date);
+        discoverBO.setUpdateTime(new Date());
 
         if(discoverBO.getId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
