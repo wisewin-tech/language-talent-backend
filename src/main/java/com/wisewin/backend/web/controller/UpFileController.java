@@ -18,6 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/upFile")
 public class UpFileController extends BaseCotroller {
+
+    @RequestMapping("/upVideo")
+    public void upVideo(HttpServletResponse response, MultipartFile video) throws Exception {
+        if (video==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response,json);
+        }
+        OSSClientUtil ossClientUtil=new OSSClientUtil();
+        //上传
+        String name=ossClientUtil.uploadImgvideo(video);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(name));
+        super.safeJsonPrint(response,json);
+    }
+
     //上传图片
     @RequestMapping("/upFile")
     public void upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile image)
