@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("bannerService")
+@Service("BannerService")
 @Transactional
 public class BannerService {
 
@@ -17,18 +17,12 @@ public class BannerService {
     BannerDAO bannerDAO;
 
     /**
-     * 查询Banner信息
+     * 查询一条或者多条Banner信息
      */
-    public List<BannerBO> queryBanner(){
-       return bannerDAO.queryBanner();
+    public List<BannerBO> queryBannerAllOrById(Integer id){
+       return bannerDAO.queryBannerAllOrById(id);
     }
 
-    /**
-     * 查看一条首页信息 轮播图 要跳转的地址等等
-     */
-    public BannerBO queryBannerById(Integer id){
-        return bannerDAO.queryBannerById(id);
-    }
 
     /**
      * 删除一条Banner

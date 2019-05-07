@@ -4,6 +4,7 @@ import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class OrderBO extends BaseModel {
     private Integer id; //订单表
@@ -16,11 +17,29 @@ public class OrderBO extends BaseModel {
     private String orderNumber; //订单号
     private String productName; //商品名称(拼接字段)
     private Date creationDate; //购买日期
+    private Date courseValidityPeriod;//有效期
     private String standby; //备用
     private Integer createId; //创建人id
     private Integer updateId; //修改人id
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
+    private List<OrderCoursesBO> orderCoursesBOList;//订单中的多个课程
+
+    public Date getCourseValidityPeriod() {
+        return courseValidityPeriod;
+    }
+
+    public void setCourseValidityPeriod(Date courseValidityPeriod) {
+        this.courseValidityPeriod = courseValidityPeriod;
+    }
+
+    public List<OrderCoursesBO> getOrderCoursesBOList() {
+        return orderCoursesBOList;
+    }
+
+    public void setOrderCoursesBOList(List<OrderCoursesBO> orderCoursesBOList) {
+        this.orderCoursesBOList = orderCoursesBOList;
+    }
 
     @Override
     public String toString() {

@@ -6,28 +6,23 @@
 <mapper namespace="com.wisewin.backend.dao.BannerDAO">
 
     <!--查询首页信息  status no代表没下架 yes代表以下架 sort值越大越靠前-->
-    <select id="queryBanner" resultType="com.wisewin.backend.entity.bo.BannerBO">
+    <select id="queryBannerAllOrById" resultType="com.wisewin.backend.entity.bo.BannerBO">
         select
         id,title,picture_url as pictureUrl,type,
         skip_url as skipUrl,sort,status,create_user_id as createUserId,
         create_time as createTime,update_user_id as updateUserID,update_time as updateTime
         from
         lt_banner
-        where status="no"
+        <where>
+            status="no"
+            <if test="id!=null">and id=#{id}</if>
+        </where>
+
         order by sort desc
     </select>
 
 
-    <!--查询单条首页信息  status no代表没下架 yes代表以下架 sort值越大越靠前-->
-    <select id="queryBannerById" resultType="com.wisewin.backend.entity.bo.BannerBO">
-        select
-        id,title,picture_url as pictureUrl,type,
-        skip_url as skipUrl,sort,status,create_user_id as createUserId,
-        create_time as createTime,update_user_id as updateUserID,update_time as updateTime
-        from
-        lt_banner
-        where id=#{id}
-    </select>
+
 
 
     <!--添加首页信息-->

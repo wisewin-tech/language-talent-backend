@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 订单 -->
+<mapper namespace="com.wisewin.backend.dao.OrderDao">
+
+    <select id="queryOrderById" resultMap="queryOrderByIdMap">
+        select
+        id,user_id,
+        price,order_number,
+        product_name,
+        creation_date,
+        course_validity_period
+        from lt_order where user_id=#{id}
+    </select>
+    <resultMap id="queryOrderByIdMap" type="com.wisewin.backend.entity.bo.OrderBO">
+        <id column="id" property="id"></id>
+        <result column="user_id" property="userId"></result>
+        <result column="price" property="price"></result>
+        <result column="order_number" property="orderNumber"></result>
+        <result column="product_name" property="productName"></result>
+        <result column="creation_date" property="creationDate"></result>
+        <result column="course_validity_period" property="courseValidityPeriod"></result>
+        <collection select="queryOrderCoursesByOrderId" property="orderCoursesBOList"
+                    ofType="com.wisewin.backend.entity.bo.OrderCoursesBO"
+                    column="{orderId=order_number}" >
+            <id property="id" column="id"></id>
+            <result column="user_id" property="userId"></result>
+            <result column="order_id" property="orderId"></result>
+            <result column="courses_id" property="coursesId"></result>
+            <result column="courses_name" property="coursesName"></result>
+        </collection>
+    </resultMap>
+    <select id="queryOrderCoursesByOrderId" resultType="com.wisewin.backend.entity.bo.OrderCoursesBO">
+        select id,user_id,order_id,
+        courses_id,courses_name
+        from lt_order_courses where order_id=#{orderId}
+    </select>
+
+</mapper>

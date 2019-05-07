@@ -16,16 +16,10 @@ public interface BannerDAO {
     AdminBO queryAdminInfoByMobile(String mobile);
 
     /**
-     * 查看首页信息 轮播图 要跳转的地址等等
+     * 查看一条或者多条首页信息 轮播图 要跳转的地址等等
      * @return BannerBO
      */
-    List<BannerBO> queryBanner();
-
-    /**
-     * 查看一条首页信息 轮播图 要跳转的地址等等
-     * @return BannerBO
-     */
-    BannerBO queryBannerById(@Param("id")Integer id);
+    List<BannerBO> queryBannerAllOrById(@Param("id")Integer id);
 
 
     /**

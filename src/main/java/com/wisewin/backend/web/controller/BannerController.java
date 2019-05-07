@@ -21,11 +21,11 @@ public class BannerController extends BaseCotroller {
     BannerService bannerService;
 
     /**
-     * 查询首页信息，轮播图，标题等
+     * 查询一条或者所有首页信息，轮播图，标题等
      * */
-    @RequestMapping("/queryBanner")
-    public void queryBanner(HttpServletResponse response, HttpServletRequest request){
-        List<BannerBO> bannerBOList=bannerService.queryBanner();
+    @RequestMapping("/queryBannerAllOrById")
+    public void queryBannerAllOrById(HttpServletResponse response, HttpServletRequest request,Integer id){
+        List<BannerBO> bannerBOList=bannerService.queryBannerAllOrById(id);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(bannerBOList));
         super.safeJsonPrint(response,json);
     }
