@@ -27,7 +27,7 @@
               AND  ch.free_or_not=#{freeOrNot}
             </if>
           </where>
-        ORDER BY   ch.serial_number  ASC    <include refid="limit" />
+        ORDER BY   ch.serial_number  DESC    <include refid="limit" />
     </select>
 
     <!--分页数量查询-->
