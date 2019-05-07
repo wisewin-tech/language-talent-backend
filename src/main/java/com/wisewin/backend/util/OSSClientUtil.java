@@ -78,6 +78,20 @@ public class OSSClientUtil {
         }
     }
 
+    public String uploadImgvideo(MultipartFile file) throws Exception {
+
+        String originalFilename = file.getOriginalFilename();
+        try {
+            InputStream inputStream = file.getInputStream();
+            this.uploadFile2OSS(inputStream, originalFilename);
+            return urlName+filedir+originalFilename;
+        } catch (Exception e) {
+            throw new Exception("视频上传失败");
+        }
+
+    }
+
+
     public String uploadImg2Oss(MultipartFile file) throws Exception {
 
         String originalFilename = file.getOriginalFilename();

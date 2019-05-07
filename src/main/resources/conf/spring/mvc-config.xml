@@ -27,7 +27,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <mvc:resources mapping="/static/**" location="/static/" />
+    <mvc:resources mapping="/*" location="/" />
 
 
     <!--配置拦截器, 多个拦截器,顺序执行 -->

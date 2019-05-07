@@ -10,7 +10,7 @@
         SELECT COUNT(1) FROM lt_discover
         <where>
             <if test="type != '' and type != null">
-                type   LIKE  CONCAT('%',#{type},'%')
+                `type`   LIKE  CONCAT('%',#{type},'%')
             </if>
             <if test="dcReleasetime != '' and dcReleasetime != null">
                 AND dc_releasetime LIKE  CONCAT('%',#{dcReleasetime},'%')
@@ -20,7 +20,8 @@
             </if>
             and  `show` =  #{yes}
         </where>
-        WHERE `type` LIKE   AND dc_releasetime LIKE 	AND title  LIKE
+        <!-- WHERE `type` LIKE   AND dc_releasetime LIKE 	AND title  LIKE-->
+
     </select>
 
     <select id="queryListDiscoverBO" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.DiscoverBO">
@@ -32,7 +33,7 @@
 
             <where>
                 <if test="type != '' and type != null">
-                    type   LIKE  CONCAT('%',#{type},'%')
+                    `type`   LIKE  CONCAT('%',#{type},'%')
                 </if>
                 <if test="dcReleasetime != '' and dcReleasetime != null">
                     AND dc_releasetime LIKE  CONCAT('%',#{dcReleasetime},'%')
