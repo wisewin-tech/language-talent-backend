@@ -30,15 +30,6 @@ public class BannerController extends BaseCotroller {
         super.safeJsonPrint(response,json);
     }
 
-    /**
-     * 查询一条首页信息，轮播图，标题等
-     * */
-    @RequestMapping("/queryBanner")
-    public void queryBannerById(HttpServletResponse response, HttpServletRequest request){
-        List<BannerBO> bannerBOList=bannerService.queryBanner();
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(bannerBOList));
-        super.safeJsonPrint(response,json);
-    }
 
     /**
      * 物理删除一条Banner
