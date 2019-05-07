@@ -32,14 +32,22 @@ public class OrderController extends BaseCotroller {
      * 语言订单里包括这个订单的多个课程
      */
     @RequestMapping("queryOrderById")
-    public void queryOrderById(HttpServletRequest request, HttpServletResponse response,Integer id){
+    public void queryOrderById(HttpServletRequest request, HttpServletResponse response,Integer id,Integer pageNo,Integer pageSize){
         if(id==null||id==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
         }
-        List<OrderBO> orderBOS = orderService.queryOrderById(id);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(orderBOS));
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        Map<String,Object> map=new HashMap<String, Object>();
+        if(queryInfo != null){
+            List<OrderBO> orderBOS = orderService.queryOrderById(id,queryInfo.getPageOffset(),queryInfo.getPageSize());
+            Integer count=orderService.queryOrderByIdCount(id);
+            map.put("orderBOS",orderBOS);
+            map.put("count",count);
+        }
+
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
 
         super.safeJsonPrint(response,json);
     }
@@ -60,13 +68,8 @@ public class OrderController extends BaseCotroller {
             orderParam.setPageSize(queryInfo.getPageSize());
         }
 
-        List<OrderBO> orderBOList = orderService.queryOrderByCond(orderParam);//记录信息
+        Map<String,Object> map = orderService.queryOrderByCond(orderParam);//记录信息
 
-        List<OrderBO> countList=orderService.queryOrderByCondCount(orderParam);//记录总数
-
-        Map<String,Object> map=new HashMap<String, Object>();
-        map.put("count",countList.size());
-        map.put("orderBOList",orderBOList);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response,json);
     }

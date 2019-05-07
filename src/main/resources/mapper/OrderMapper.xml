@@ -5,6 +5,7 @@
 <!-- 订单 -->
 <mapper namespace="com.wisewin.backend.dao.OrderDao">
 
+    <!--查看某个用户的订单信息-->
     <select id="queryOrderById" resultMap="queryOrderByIdMap">
         select
         id,user_id,
@@ -13,6 +14,7 @@
         creation_date,
         course_validity_period
         from lt_order where user_id=#{id}
+        <include refid="orderLimit" />
     </select>
     <resultMap id="queryOrderByIdMap" type="com.wisewin.backend.entity.bo.OrderBO">
         <id column="id" property="id"></id>
@@ -24,6 +26,12 @@
         <result column="course_validity_period" property="courseValidityPeriod"></result>
     </resultMap>
 
+    <!--查看某个用户的订单总数-->
+    <select id="queryOrderByIdCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from lt_order where user_id=#{id}
+    </select>
     <!--查询订单下的子课程-->
     <select id="queryOrderCoursesByOrderId" resultType="com.wisewin.backend.entity.bo.OrderCoursesBO">
         select id,user_id,order_id,
@@ -31,19 +39,16 @@
         from lt_order_courses where order_id=#{orderId}
     </select>
 
-    <!--按时间段 手机号 订单号 分页查询所有订单-->
+    <!-- 按时间段 手机号 订单号 分页查询所有订单-->
     <select id="queryOrderByCond" resultType="com.wisewin.backend.entity.bo.OrderBO" parameterType="com.wisewin.backend.entity.param.OrderParam">
         select
         lt_order.id as id,user_id as userId,
         price,order_number as orderNumber,
         product_name as productName,
         creation_date as creationDate,
-        course_validity_period as courseValidityPeriod,
-        mobile
-        from lt_order,lt_user
+        course_validity_period as courseValidityPeriod
+        from lt_order
         <where>
-            user_id=lt_user.id
-            <if test="mobile!=null and mobile!=''"> AND mobile=#{mobile}</if>
             <if test="orderNumber!=null and orderNumber!=''"> AND order_number=#{orderNumber}</if>
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND creation_date &lt;=#{beforeTime}</if>
@@ -54,14 +59,12 @@
       limit #{pageNo},#{pageSize}
     </sql>
 
-    <!--按时间段 手机号 订单号 分页查询所有订单总数-->
-    <select id="queryOrderByCondCount" resultType="com.wisewin.backend.entity.bo.OrderBO" parameterType="com.wisewin.backend.entity.param.OrderParam">
+    <!--按时间段 手机号 订单号 查询所有订单的用户id-->
+    <select id="queryOrderByCondCount" resultType="java.lang.Integer" parameterType="com.wisewin.backend.entity.param.OrderParam">
         select
-        user_id,user_id=lt_user.id
-        from lt_order,lt_user
+        user_id
+        from lt_order
         <where>
-            user_id=lt_user.id
-            <if test="mobile!=null and mobile!=''"> AND mobile=#{mobile}</if>
             <if test="orderNumber!=null and orderNumber!=''"> AND order_number=#{orderNumber}</if>
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND creation_date &lt;=#{beforeTime}</if>
