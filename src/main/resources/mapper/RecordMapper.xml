@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【记录】 -->
+<mapper namespace="com.wisewin.backend.dao.RecordDAO">
+    <select id="queryRecordById" resultType="com.wisewin.backend.entity.bo.RecordBO">
+        select id,user_id as userId,source,
+        `status`,specific_amount as specificAmount,
+        `describe`,effective_date as effectiveDate,create_time as createTime
+        from lt_record
+        <where>
+            user_id=#{id}
+            <if test="source!=null and source!=''"> AND source=#{source}</if>
+            <if test="afterTime!=null and afterTime!=''"> AND create_time &gt;=#{afterTime}</if>
+            <if test="beforeTime!=null and beforeTime!=''"> AND create_time &lt;=#{beforeTime}</if>
+        </where>
+    </select>
+
+</mapper>
