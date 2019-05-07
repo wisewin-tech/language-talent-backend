@@ -20,7 +20,7 @@
             </if>
             and  `show` =  #{yes}
         </where>
-
+        WHERE `type` LIKE   AND dc_releasetime LIKE 	AND title  LIKE
     </select>
 
     <select id="queryListDiscoverBO" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.DiscoverBO">
@@ -94,19 +94,16 @@
     </update>
 
     <update id="updateDiscover" parameterType="com.wisewin.backend.entity.bo.DiscoverBO">
-
         UPDATE language_talent.lt_discover
             SET
             title = #{title} ,
             browse = #{browse} ,
-            dc_name = #{dcName} ,
-            dc_releasetime = #{dcReleasetime} ,
             dc_updatename = #{dcUpdatename} ,
             dc_updatetime = #{dcUpdatetime},
             thumbnail = #{thumbnail} ,
             video = #{video} ,
             content = #{content} ,
-            `TYPE` = #{type} ,
+            `type` = #{type} ,
             likenum = #{likenum} ,
             participation = #{participation} ,
             activitytime = #{activitytime} ,
@@ -115,19 +112,18 @@
             ticket = #{ticket} ,
             priority = #{priority} ,
             stick = #{stick} ,
-            SHOW = #{show} ,
+            `show` = #{show} ,
             skip = #{skip} ,
             way =  #{way}
-
             WHERE
             id = #{id} ;
     </update>
 
     <select id="queryDiscoverBO" resultType="com.wisewin.backend.entity.bo.DiscoverBO" parameterType="java.lang.String">
          SELECT id, title, browse, dc_name as dcName, dc_releasetime as dcReleasetime, dc_updatename as dcUpdatename,
-   dc_updatetime as dcUpdatetime, thumbnail, video, content, `type`,
-    likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip
-	FROM
-	language_talent.lt_discover where id = #{id}
+       dc_updatetime as dcUpdatetime, thumbnail, video, content, `type`,
+        likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip
+        FROM
+        language_talent.lt_discover where id = #{id}
     </select>
 </mapper>

@@ -53,8 +53,6 @@ public class DiscoverBO extends BaseModel {
     //展示方式【上下排序或左右排序】
     private String way;
 
-
-
     public Integer getId() {
         return id;
     }
