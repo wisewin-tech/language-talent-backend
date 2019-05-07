@@ -102,12 +102,13 @@
             <result column="url" property="url"/>
             <result column="index" property="index"/>
             <result column="pid" property="pid"/>
+            <result column="icon" property="icon"/>
             <collection property="ch"   column="menu_id" select="getCh"  />
     </resultMap>
 
     <!--  根据角色id查询对应的角色对应的权限  -->
     <select id="getRoleMenuSuccess" parameterType="Integer" resultMap="roleMenuMap">
-        SELECT  rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
+        SELECT  mu.icon,rm.`role_id`,rm.`menu_id`,re.`role_name`,re.`id`,mu.`index`,mu.`menu_name`,mu.`pid`,mu.`status`,mu.`url`,mu.`id`,mu.`update_time`
         FROM
         lt_role_menu  rm
         INNER JOIN   lt_role  re
