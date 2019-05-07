@@ -14,4 +14,5 @@ public interface RecordDAO {
      * 咖豆或者积分或者礼品卡
      */
    List<RecordBO> queryRecordById(@Param("id")Integer id, @Param("source")String source, @Param("afterTime") Date afterTime, @Param("beforeTime")Date beforeTime);
+
 }
