@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 系统操作 -->
+<mapper namespace="com.wisewin.backend.dao.SystemoperationDAO">
+
+    <insert id="addSystemoperation" parameterType="com.wisewin.backend.entity.bo.SystemoperationBO">
+        INSERT  INTO
+          lt_systemoperation(
+          admin_id,content,
+          contenttype,operationtype,
+          so_releasetime
+          )VALUES (
+          #{adminId},#{content},
+          #{contenttype}，
+          #{operationtype},now()
+          )
+
+    </insert>
+
+    <select id="querySystemoperation" resultType="com.wisewin.backend.entity.bo.SystemoperationBO">
+        SELECT
+          id,admin_id,
+          content,contenttype,
+          operationtype,so_releasetime
+        FROM
+          lt_systemoperation
+
+        <where>
+            <if test="contenttype!=null and contenttype!='' ">
+                contenttype=#{contenttype}
+            </if>
+        </where>
+
+        ORDER  BY
+          so_releasetime
+        DESC
+
+    </select>
+
+
+</mapper>
