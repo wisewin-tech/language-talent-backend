@@ -5,7 +5,6 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
 import com.wisewin.backend.pop.SystemConfig;
-import com.wisewin.backend.util.env.Env;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -224,6 +223,9 @@ public class OSSClientUtil {
         }
         if (filenameExtension.equalsIgnoreCase("xml")) {
             return "text/xml";
+        }
+        if(filenameExtension.equalsIgnoreCase("mp4")){
+            return "video/mp4";
         }
         return "image/jpeg";
     }

@@ -11,12 +11,7 @@
 
     <!--课程查询列表-->
     <select id="queryCourseList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.CourseBO" >
-        SELECT le.language_name as languageName ,te.id,
-        te.course_name,te.foreign_name,te.`status` ,
-        te.price  ,te.discount_price,te.discount_start_time,
-        te.discount_end_time,te.course_validity_period ,te.study_number ,
-        te.thumbnail_image_url,te.course_intro,te.popular_sort,te.hot_or_not,
-        te.certificate_or_not
+        SELECT le.language_name as languageName ,te.*
         FROM `lt_course`  te  LEFT  JOIN  lt_language le  ON le.id= te.language_id
           <where>
             <if test="courseName!=null and  courseName!=''" >
