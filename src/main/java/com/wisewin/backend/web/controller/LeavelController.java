@@ -43,6 +43,7 @@ public class LeavelController extends BaseCotroller {
         }
         queryMap.put("courseName",leavelParam.getCourseId());
         queryMap.put("status",leavelParam.getStatus());
+        queryMap.put("courseId",leavelParam.getCourseId());
         queryMap.put("languageId",leavelParam.getLanguageId());
 
         List<LevelBO> levelBOS = leavelService.queryLeavelList(queryMap);

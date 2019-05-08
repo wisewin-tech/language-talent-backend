@@ -1,8 +1,6 @@
 package com.wisewin.backend.web.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.google.gson.JsonArray;
 import com.wisewin.backend.dao.TestDAO;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
@@ -16,11 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
