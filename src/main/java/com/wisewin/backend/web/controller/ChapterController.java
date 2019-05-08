@@ -142,5 +142,19 @@ public class ChapterController extends BaseCotroller {
         return;
     }
 
+    @RequestMapping("selectChapterById")
+    public void selectChapterById(ChapterBO chapterBO,HttpServletRequest request,HttpServletResponse response){
+        if (chapterBO==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+        List<ChapterBO> chapterBOList = chapterService.selectChapterById(chapterBO);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(chapterBOList));
+        super.safeJsonPrint(response, json);
+        return;
+
+    }
+
 
 }
