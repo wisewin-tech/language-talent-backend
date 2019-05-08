@@ -29,7 +29,7 @@
 
     <!--分页数量查询-->
     <select id="queryLeavelCount"  parameterType="java.util.Map"  resultType="java.lang.Integer" >
-        SELECT  ll.*,ce.course_name   FROM `lt_level` ll
+        SELECT  count(ll.id)   FROM `lt_level` ll
         LEFT JOIN      `lt_course` ce   ON  ll.course_id=ce.id
         LEFT JOIN      `lt_language`  le  ON  le.id=ce.language_id
         <where>
