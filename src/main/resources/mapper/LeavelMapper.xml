@@ -10,7 +10,9 @@
 
     <!--课程查询列表-->
     <select id="queryLeavelList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LevelBO" >
-        SELECT  ll.*,ce.course_name   FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
+        SELECT  ll.*,ce.course_name   FROM `lt_level` ll
+        LEFT JOIN      `lt_course` ce   ON  ll.course_id=ce.id
+        LEFT JOIN      `lt_language`  le  ON  le.id=ce.language_id
         <where>
              <if test="courseId!=null" >
                  ll.course_id=#{courseId}
@@ -18,19 +20,27 @@
              <if test="status!=null and status!=''" >
                  AND  ll.status=#{status}
              </if>
+            <if test="languageId!=null" >
+                AND  le.id=#{languageId}
+            </if>
           </where>
         ORDER BY  serial_number DESC  <include refid="limit" />
     </select>
 
     <!--分页数量查询-->
     <select id="queryLeavelCount"  parameterType="java.util.Map"  resultType="java.lang.Integer" >
-        SELECT  COUNT(ll.id) FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
+        SELECT  ll.*,ce.course_name   FROM `lt_level` ll
+        LEFT JOIN      `lt_course` ce   ON  ll.course_id=ce.id
+        LEFT JOIN      `lt_language`  le  ON  le.id=ce.language_id
         <where>
             <if test="courseId!=null" >
                 ll.course_id=#{courseId}
             </if>
             <if test="status!=null and status!=''" >
                 AND  ll.status=#{status}
+            </if>
+            <if test="languageId!=null" >
+                AND  le.id=#{languageId}
             </if>
         </where>
 

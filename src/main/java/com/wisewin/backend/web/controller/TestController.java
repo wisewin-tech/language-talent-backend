@@ -1,5 +1,7 @@
 package com.wisewin.backend.web.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.gson.JsonArray;
 import com.wisewin.backend.dao.TestDAO;
 import com.wisewin.backend.entity.bo.AdminBO;
@@ -31,9 +33,9 @@ public class TestController extends BaseCotroller {
 
     static final Logger log = LoggerFactory.getLogger(TestController.class);
 
-    ///
     @Resource
     private TestDAO testDAO;
+
 
     @RequestMapping("/test")
     public void test(HttpServletResponse response, HttpServletRequest  request) {
@@ -43,9 +45,20 @@ public class TestController extends BaseCotroller {
 
     }
 
-    public static void main(String[] args) throws ParseException {
-        List<String>  list=new ArrayList<String>();
-        JsonArray   json=new JsonArray();
+    @RequestMapping("/test1")
+    public void test1(HttpServletResponse response, HttpServletRequest  request) {
 
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(loginAdmin));
+        super.safeJsonPrint(response, json);
+    }
+
+
+    public static void main(String[] args) throws ParseException {
+      String strArr="[\"a\",\"b\",\"c\",\"d\"]";
+
+        List<String> lists = JSON.parseArray(strArr, String.class);
+
+        System.out.println(lists);
     }
 }
