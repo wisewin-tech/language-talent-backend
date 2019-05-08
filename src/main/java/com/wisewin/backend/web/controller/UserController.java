@@ -30,7 +30,7 @@ public class UserController extends BaseCotroller {
      * */
     @RequestMapping("/queryUsers")
     public void queryUsers(HttpServletRequest request, HttpServletResponse response, UserParam param){
-        if(param.getPageNo()==0||param.getPageSize()==0){
+        if(param.getPageNo()==null||param.getPageSize()==null||param.getPageNo()==0||param.getPageSize()==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;

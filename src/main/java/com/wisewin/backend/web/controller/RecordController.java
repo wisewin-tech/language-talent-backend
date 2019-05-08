@@ -41,7 +41,7 @@ public class RecordController extends BaseCotroller {
 
     @RequestMapping("queryRecordById")
     public void queryRecordById(HttpServletResponse response, HttpServletRequest request, RecordParam param){
-        if(param.getId()==0||param.getId()==null){
+        if(param.getId()==null||param.getId()==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
