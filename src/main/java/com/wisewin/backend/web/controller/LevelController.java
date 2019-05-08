@@ -5,7 +5,7 @@ import com.wisewin.backend.entity.bo.LevelBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.LeavelParam;
 import com.wisewin.backend.query.QueryInfo;
-import com.wisewin.backend.service.LeavelService;
+import com.wisewin.backend.service.LevelService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
@@ -24,10 +24,10 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/leavel")
-public class LeavelController extends BaseCotroller {
+public class LevelController extends BaseCotroller {
 
     @Resource
-    private LeavelService leavelService;
+    private LevelService levelService;
 
     /**
      * 查询级别
@@ -47,8 +47,8 @@ public class LeavelController extends BaseCotroller {
         queryMap.put("courseId",leavelParam.getCourseId());
         queryMap.put("languageId",leavelParam.getLanguageId());
 
-        List<LevelBO> levelBOS = leavelService.queryLeavelList(queryMap);
-        Integer count = leavelService.queryLeavelCount(queryMap);
+        List<LevelBO> levelBOS = levelService.queryLeavelList(queryMap);
+        Integer count = levelService.queryLeavelCount(queryMap);
         Map<String,Object>  resultMap=new HashMap<String, Object>();
         resultMap.put("levelList",levelBOS);
         resultMap.put("count",count);
@@ -74,7 +74,7 @@ public class LeavelController extends BaseCotroller {
             return;
         }
 
-        boolean falg = leavelService.addLeavel(levelBO,loginAdmin.getId());
+        boolean falg = levelService.addLeavel(levelBO,loginAdmin.getId());
 
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
@@ -102,7 +102,7 @@ public class LeavelController extends BaseCotroller {
             return;
         }
 
-        boolean falg = leavelService.updateLeavel(levelBO,adminBO.getId());
+        boolean falg = levelService.updateLeavel(levelBO,adminBO.getId());
 
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
@@ -128,7 +128,7 @@ public class LeavelController extends BaseCotroller {
             super.safeJsonPrint(response, json);
             return;
         }
-        boolean falg = leavelService.deleteLeavel(id);
+        boolean falg = levelService.deleteLeavel(id);
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
             super.safeJsonPrint(response, json);
@@ -151,7 +151,7 @@ public class LeavelController extends BaseCotroller {
             super.safeJsonPrint(response, json);
             return;
         }
-        List<LevelBO> levelBOS = leavelService.queryLeavelChoice(courseId);
+        List<LevelBO> levelBOS = levelService.queryLeavelChoice(courseId);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(levelBOS));
         super.safeJsonPrint(response, json);
         return;

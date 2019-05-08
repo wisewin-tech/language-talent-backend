@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 级别 -->
-<mapper namespace="com.wisewin.backend.dao.LeavelDAO">
+<mapper namespace="com.wisewin.backend.dao.LevelDAO">
     <sql id="limit">
         limit #{pageOffset},#{pageSize}
     </sql>
