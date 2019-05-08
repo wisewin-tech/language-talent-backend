@@ -105,8 +105,8 @@
 
     <!--选择课程-->
     <select id="queryLeavelChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
-        SELECT id,level_name as name  FROM  `lt_level`   WHERE   status='putaway'   AND   course_id=1
-        ORDER BY   serial_number  ASC
+        SELECT id,level_name as name  FROM  `lt_level`   WHERE   status='putaway'   AND   course_id=#{courseId}
+        ORDER BY   serial_number  DESC
     </select>
 
 </mapper>
