@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.DiscoverBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -26,17 +27,7 @@ public interface DiscoverDAO {
      * 批量置顶
      * @param idArr
      */
-    void updateDiscoverbySticks(Integer[] idArr);
-
-    /**
-     * 置顶
-     */
-    void updateDiscoverbyStick(String discoverId);
-
-    /**
-     * 删除
-     */
-    void updateDiscoverbyShow(String id);
+    void updateDiscoverbySticks(@Param("idArr")Integer[] idArr, @Param("stick")String stick);
 
     /**
      * 修改

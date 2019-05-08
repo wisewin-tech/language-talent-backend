@@ -27,8 +27,8 @@ public class DiscoverService {
           discoverDAO.updateDiscoverbyShows(idArr);
     }
 
-    public void updateDiscoverbySticks(Integer[] idArr) {
-        discoverDAO.updateDiscoverbySticks(idArr);
+    public void updateDiscoverbySticks(Integer[] idArr,String stick) {
+        discoverDAO.updateDiscoverbySticks(idArr,stick);
     }
 
     public void updateDiscover(DiscoverBO discoverBO){

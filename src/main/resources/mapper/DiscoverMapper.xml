@@ -64,13 +64,17 @@
             </foreach>
         </update>
 
-    <update id="updateDiscoverbySticks" parameterType="Integer[]" >
+    <update id="updateDiscoverbySticks"  >
 
         UPDATE language_talent.lt_discover
         SET
-        `stick` = 'yes'
+
+        <if test="stick != null and stick != ''">
+            `stick` =  #{stick}
+        </if>
+
         where id in
-        <foreach item="item" collection="array" open="(" separator="," close=")">
+        <foreach item="item" collection="idArr" open="(" separator="," close=")">
             #{item}
         </foreach>
     </update>

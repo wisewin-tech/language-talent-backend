@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -98,12 +97,14 @@ public class DiscoverController extends BaseCotroller {
         if(!first.equals("[")||!last.equals("]")){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" ));
             super.safeJsonPrint(response , result);
+            return;
         }
 
         Integer[] idArr=JsonUtils.getIntegerArray4Json(discoverById);
         if(idArr == null || idArr.length == 0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
             super.safeJsonPrint(response , result);
+            return;
         }
         discoverService.updateDiscoverbyShows(idArr);
 
@@ -116,7 +117,7 @@ public class DiscoverController extends BaseCotroller {
      * 批量置顶
      */
     @RequestMapping("/updateDiscoverbySticks")
-    public void updateDiscoverbySticks(HttpServletRequest request,HttpServletResponse response,String discoverById) {
+    public void updateDiscoverbySticks(HttpServletRequest request,HttpServletResponse response,String discoverById,String stick) {
         if (StringUtils.isEmpty(discoverById)) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
             super.safeJsonPrint(response, result);
@@ -129,18 +130,37 @@ public class DiscoverController extends BaseCotroller {
         if (!first.equals("[") || !last.equals("]")) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
+            return;
         }
-
+        if(StringUtils.isEmpty(stick)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        System.out.println(stick);
         Integer[] idArr = JsonUtils.getIntegerArray4Json(discoverById);
         if (idArr == null || idArr.length == 0) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
+            return;
         }
-        discoverService.updateDiscoverbySticks(idArr);
 
+        //置顶
+        if(stick.equals("yes")){
+            discoverService.updateDiscoverbySticks(idArr,stick);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("置顶成功"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
 
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("置顶成功"));
-        super.safeJsonPrint(response, result);
+        //置顶
+        if(stick.equals("no")){
+            discoverService.updateDiscoverbySticks(idArr,stick);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("取消置顶成功"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
     }
 
 
@@ -153,6 +173,7 @@ public class DiscoverController extends BaseCotroller {
         if(StringUtils.isEmpty(id)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
+            return;
         }
        DiscoverBO discoverBO = discoverService.queryDiscover(id);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(discoverBO));
@@ -170,6 +191,7 @@ public class DiscoverController extends BaseCotroller {
         if(adminBO == null||adminBO.equals("")){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
             super.safeJsonPrint(response, result);
+            return;
         }
         //修改人赋值
         discoverBO.setDcUpdatename(adminBO.getName());
@@ -180,11 +202,13 @@ public class DiscoverController extends BaseCotroller {
         if(discoverBO.getId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
+            return;
         }
 
         if(discoverBO.equals("")||discoverBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
+            return;
         }
         discoverService.updateDiscover(discoverBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
