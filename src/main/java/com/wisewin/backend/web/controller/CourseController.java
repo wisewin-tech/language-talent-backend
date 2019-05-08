@@ -51,6 +51,7 @@ public class CourseController extends BaseCotroller {
         queryMap.put("status",courseParam.getStatus());
         queryMap.put("hotOrNot",courseParam.getHotOrNot());
         queryMap.put("certificateOrNot",courseParam.getCertificateOrNot());
+        queryMap.put("languageId",courseParam.getLanguageId());
 
 
         List<CourseBO> courseBOS = courseService.queryCourseList(queryMap);
