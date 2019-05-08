@@ -48,6 +48,9 @@ public class ChapterController extends BaseCotroller {
         queryMap.put("chapterName",chapterParam.getChapterName());
         queryMap.put("status",chapterParam.getStatus());
         queryMap.put("freeOrNot",chapterParam.getFreeOrNot());
+        queryMap.put("languageId",chapterParam.getLanguageId());
+        queryMap.put("courseId",chapterParam.getCourseId());
+        queryMap.put("levelId",chapterParam.getLevelId());
 
 
         List<ChapterBO> chapterBOS = chapterService.queryChapterList(queryMap);

@@ -6,6 +6,33 @@ public class ChapterParam {
     private String  freeOrNot;// 是否免费观看  yes/no
     private Integer pageNo;//当前页
     private Integer pageSize;//页面容量
+    private Integer levelId; //级别id
+    private Integer languageId;//语言id
+    private Integer courseId;//课程id
+
+    public Integer getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(Integer levelId) {
+        this.levelId = levelId;
+    }
+
+    public Integer getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
+    }
+
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
+    }
 
     public String getChapterName() {
         return chapterName;
