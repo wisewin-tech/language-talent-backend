@@ -36,7 +36,7 @@
                     `type`   LIKE  CONCAT('%',#{type},'%')
                 </if>
                 <if test="create_time != '' and createTime != null">
-                    AND dc_releasetime LIKE  CONCAT('%',#{createTime},'%')
+                    AND create_time LIKE  CONCAT('%',#{createTime},'%')
                 </if>
                 <if test="title != '' and title != null">
                     AND title LIKE  CONCAT('%',#{title},'%')
