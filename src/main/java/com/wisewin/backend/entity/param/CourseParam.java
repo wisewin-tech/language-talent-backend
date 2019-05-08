@@ -9,9 +9,15 @@ public class CourseParam {
   private String  certificateOrNot;// 是否可以考证  yes/no
   private Integer pageNo;//当前页
   private Integer pageSize;//页面容量
+  private Integer languageId; //语言id
 
+    public Integer getLanguageId() {
+        return languageId;
+    }
 
-
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
+    }
 
     public String getCourseName() {
         return courseName;

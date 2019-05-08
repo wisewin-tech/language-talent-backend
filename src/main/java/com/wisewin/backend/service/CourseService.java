@@ -20,6 +20,8 @@ import java.util.Map;
 public class CourseService {
     @Resource
     private CourseDAO  courseDAO;
+    @Resource
+    private NoticeService  noticeService;
 
     /**
      *  查询课程列表
@@ -46,6 +48,11 @@ public class CourseService {
      * 添加课程
      */
     public boolean addCourse(CourseBO  courseBO,Integer userId){
+        if(courseBO.getPurchaseNotes()==null){
+            courseBO.setPurchaseNotes(noticeService.queryNotice());
+        }
+        if(courseBO.getStatus()==null)
+            courseBO.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
         courseBO.setCreateUserId(userId);
         courseBO.setCreateTime(new Date());
         return  courseDAO.addCourse(courseBO)>0;
@@ -86,5 +93,13 @@ public class CourseService {
      */
     public  List<LanguageChoiceBO> queryCourseChoice(Integer languageId){
         return courseDAO.queryCourseChoice(languageId);
+    }
+
+    /**
+     * 修改购买须知
+     * @param notice
+     */
+    public void updateNotice(String notice){
+        courseDAO.updateNotice(notice);
     }
 }

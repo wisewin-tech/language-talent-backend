@@ -64,7 +64,5 @@ public interface LanguageDAO {
     List<LanguageChoiceBO> queryLanguageChoice();
 
 
-
-
-
+    void updateNotice(String notice);
 }

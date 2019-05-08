@@ -53,4 +53,5 @@ public interface CourseDAO {
      */
     List<LanguageChoiceBO> queryCourseChoice(Integer languageId);
 
+    void updateNotice(String notice);
 }

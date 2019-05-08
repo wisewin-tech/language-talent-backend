@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 购买须知 -->
+<mapper namespace="com.wisewin.backend.dao.NoticeDAO">
+
+    <!--查询购买须知-->
+    <select id="queryNotice" resultType="java.lang.String"  >
+        select notice  from lt_notice
+    </select>
+
+    <!--添加购买须知-->
+    <insert id="addNotice" parameterType="java.lang.String" >
+        INSERT  INTO lt_notice(notice) VALUES (#{notice})
+    </insert>
+
+    <!--查询购买须知数量-->
+    <select id="queryCount" resultType="int"  >
+        select count(id)  from  lt_notice
+    </select>
+
+    <!--修改购买须知-->
+    <update id="updateNotice"  parameterType="java.lang.String"  >
+        UPDATE  lt_notice  SET   notice=#{notice}
+    </update>
+
+</mapper>
