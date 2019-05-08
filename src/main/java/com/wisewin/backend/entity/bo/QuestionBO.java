@@ -9,14 +9,13 @@ public class QuestionBO extends BaseModel{
     private Integer id; //题库表
     private String topic; //题目
     private String option; //选项
-    private String answer; //答案
-    private String analysis; //解析
+    private String answer; //答案和解析
     private BigDecimal score; //分值
-    private String stage; //阶段
     private Integer chapterId; //课时id
     private Integer courseId; //课程id
     private String isCertificateExamination; //是否为证书考试题
-    private Integer serialNumber; //序号
+    private String questionType; //判断（judge） 阅读（`read`） 课后测试:常规（common）翻译（translate） 拼写（`write`） 听力和文本匹配（hearingAndTest） 听音完成句子（hearingAndSentence） 图文匹配(imageText)
+    private String type; //学前热身(warmUp)  课后测试（test）   能力检测(detection)
     private Integer createUserId; //创建人id
     private Integer updateUserId; //修改人id
     private Date createTime; //创建时间
@@ -54,28 +53,12 @@ public class QuestionBO extends BaseModel{
         this.answer = answer;
     }
 
-    public String getAnalysis() {
-        return analysis;
-    }
-
-    public void setAnalysis(String analysis) {
-        this.analysis = analysis;
-    }
-
     public BigDecimal getScore() {
         return score;
     }
 
     public void setScore(BigDecimal score) {
         this.score = score;
-    }
-
-    public String getStage() {
-        return stage;
-    }
-
-    public void setStage(String stage) {
-        this.stage = stage;
     }
 
     public Integer getChapterId() {
@@ -102,12 +85,20 @@ public class QuestionBO extends BaseModel{
         this.isCertificateExamination = isCertificateExamination;
     }
 
-    public Integer getSerialNumber() {
-        return serialNumber;
+    public String getQuestionType() {
+        return questionType;
     }
 
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getCreateUserId() {
