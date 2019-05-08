@@ -10,6 +10,7 @@ import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class LeavelController extends BaseCotroller {
      * param  courseId  课程id
      * @return
      */
-    @RequestMapping("/queryLeavelList")
+    @RequestMapping(value="/queryLeavelList" ,method= RequestMethod.POST)
     public void  queryLeavelList(HttpServletRequest request, HttpServletResponse  response, LeavelParam  leavelParam){
         QueryInfo queryInfo = getQueryInfo(leavelParam.getPageNo(),leavelParam.getPageSize());
         Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -43,6 +44,8 @@ public class LeavelController extends BaseCotroller {
         }
         queryMap.put("courseName",leavelParam.getCourseId());
         queryMap.put("status",leavelParam.getStatus());
+        queryMap.put("courseId",leavelParam.getCourseId());
+        queryMap.put("languageId",leavelParam.getLanguageId());
 
         List<LevelBO> levelBOS = leavelService.queryLeavelList(queryMap);
         Integer count = leavelService.queryLeavelCount(queryMap);
@@ -62,7 +65,7 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @param levelBO
      */
-    @RequestMapping("/addLeavel")
+    @RequestMapping(value="/addLeavel",method= RequestMethod.POST)
     public void addLeavel(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         if(levelBO.getLevelName()==null||levelBO.getCourseId()==null){
@@ -90,7 +93,7 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @param levelBO
      */
-    @RequestMapping("/updateCourse")
+    @RequestMapping(value = "/updateCourse",method= RequestMethod.POST)
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
         AdminBO  adminBO=super.getLoginAdmin(request);
         if(levelBO.getId()==null){
@@ -118,7 +121,7 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @Param id  级别id
      */
-    @RequestMapping("/deledeCourse")
+    @RequestMapping(value = "/deledeCourse",method= RequestMethod.POST)
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,Integer id){
         if(id==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -141,7 +144,7 @@ public class LeavelController extends BaseCotroller {
      *   查询级别
      *  param courseId  课程id
      */
-    @RequestMapping("/queryCourseChoice")
+    @RequestMapping(value = "/queryCourseChoice",method= RequestMethod.POST)
     public void  queryCourseChoice(HttpServletRequest request,HttpServletResponse response,Integer courseId){
         if(courseId==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -153,7 +156,6 @@ public class LeavelController extends BaseCotroller {
         super.safeJsonPrint(response, json);
         return;
     }
-
 
 
 }

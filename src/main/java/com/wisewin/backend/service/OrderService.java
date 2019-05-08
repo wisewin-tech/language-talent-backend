@@ -56,25 +56,23 @@ public class OrderService {
     public Map<String,Object> queryOrderByCond(OrderParam orderParam){
         Map<String,Object> map=new HashMap<String, Object>();
         List<OrderBO> orderBOList=orderDao.queryOrderByCond(orderParam);//没有手机号条件 分页查出的
-        List<Integer> idList=orderDao.queryOrderByCondCount(orderParam);//没有分页的用户id 也就是总数
-        if(orderParam.getMobile()!=null&&orderParam.getMobile()!=""){
-            //筛选手机号
-            Integer id = userDAO.selectByPhone(orderParam.getMobile()).getId();//用户id
-            for (int i=0;i<orderBOList.size();i++){
-                if(!orderBOList.get(i).getUserId().equals(id)){//如果用户id不等于查出来的订单的id 就代表没有那个手机号的订单 则删除
-                    orderBOList.remove(i);
-                }
-            }
-            //筛选手机号计算总数
-            for (int i=0;i<idList.size();i++){
-                if(!idList.get(i).equals(id)){//如果用户id不等于查出来的订单的id 就代表没有那个手机号的订单 则删除
-                    idList.remove(i);
-                }
-            }
-
-
-        }
-        map.put("count",idList.size());
+        Integer count=orderDao.queryOrderByCondCount(orderParam);//没有分页的用户id 也就是总数
+//        if(orderParam.getMobile()!=null&&orderParam.getMobile()!=""){
+//            //筛选手机号
+//            Integer id = userDAO.selectByPhone(orderParam.getMobile()).getId();//用户id
+//            for (int i=0;i<orderBOList.size();i++){
+//                if(!orderBOList.get(i).getUserId().equals(id)){//如果用户id不等于查出来的订单的id 就代表没有那个手机号的订单 则删除
+//                    orderBOList.remove(i);
+//                }
+//            }
+//            //筛选手机号计算总数
+//            for (int i=0;i<idList.size();i++){
+//                if(!idList.get(i).equals(id)){//如果用户id不等于查出来的订单的id 就代表没有那个手机号的订单 则删除
+//                    idList.remove(i);
+//                }
+//            }
+//        }
+        map.put("count",count);
         map.put("orderBOList",orderBOList);
         return map;
     }

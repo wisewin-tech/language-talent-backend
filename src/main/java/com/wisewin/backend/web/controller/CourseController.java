@@ -11,6 +11,7 @@ import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class CourseController extends BaseCotroller {
      *  certificateOrNot  是否可以考证
      * @return
      */
-    @RequestMapping("/queryCourseList")
+    @RequestMapping(value = "/queryCourseList",method= RequestMethod.POST)
     public void queryCourseList(HttpServletRequest request, HttpServletResponse response, CourseParam  courseParam){
 
         QueryInfo queryInfo = getQueryInfo(courseParam.getPageNo(),courseParam.getPageSize());
@@ -70,7 +71,7 @@ public class CourseController extends BaseCotroller {
      * @param response
      * @param courseBO
      */
-   @RequestMapping("/addCourse")
+   @RequestMapping(value = "/addCourse",method= RequestMethod.POST)
    public void addCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
        if(courseBO.getCourseName()==null || courseBO.getLanguageId()==null){
@@ -98,7 +99,7 @@ public class CourseController extends BaseCotroller {
      * @param response
      * @param courseBO
      */
-    @RequestMapping("/updateCourse")
+    @RequestMapping(value = "/updateCourse",method= RequestMethod.POST)
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
         AdminBO  adminBO=super.getLoginAdmin(request);
         if(courseBO.getId()==null){
@@ -126,7 +127,7 @@ public class CourseController extends BaseCotroller {
      * @param response
      * @Param id  课程id
      */
-    @RequestMapping("/deledeCourse")
+    @RequestMapping(value = "/deledeCourse",method= RequestMethod.POST)
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,Integer id){
         if(id==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -152,7 +153,7 @@ public class CourseController extends BaseCotroller {
      *   通过语言查询所有课程
      *  param languageId  语言id
      */
-    @RequestMapping("/queryCourseChoice")
+    @RequestMapping(value = "/queryCourseChoice",method= RequestMethod.POST)
      public void  queryCourseChoice(HttpServletRequest request,HttpServletResponse response,Integer languageId){
 
         if(languageId==null){

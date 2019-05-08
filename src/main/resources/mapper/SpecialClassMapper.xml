@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 专题分类 -->
+<mapper namespace="com.wisewin.backend.dao.SpecialClassDAO">
+
+    <!-- 状态正常或者不正常的专题分类 -->
+    <select id="selectSpecialClassBO" resultType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        select * from lt_special_class
+        where status=#{status}
+    </select>
+
+    <!-- 添加专题分类 如果status是null的话 默认为no也就是默认不展示-->
+    <insert id="addSpecialClass" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        insert into lt_special_class values (null,#{title},#{describe},#{coverUrl},#{status})
+    </insert>
+
+    <!-- 修改专题分类-->
+    <update id="updateSpecialClassById" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        update lt_special_class
+        set
+        title=#{title},`describe`=#{describe},cover_url=#{coverUrl},`status`=#{status}
+        where
+        id=#{id}
+    </update>
+
+    <!-- 修改一条或者多条专题分类的状态 -->
+    <update id="delSpecialClassById">
+        update  lt_special_class
+        set status=#{status}
+        where
+        id in
+        <foreach collection="idArr" item="id" separator="," open="(" close=")">
+               #{id}
+        </foreach>
+
+    </update>
+
+</mapper>
