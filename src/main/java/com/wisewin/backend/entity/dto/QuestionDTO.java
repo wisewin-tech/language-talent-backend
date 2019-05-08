@@ -9,11 +9,12 @@ public class QuestionDTO {
     private String option; //选项
     private String answer; //答案和解析
     private BigDecimal score; //分值
-    private Integer chapterId; //课时id
-    private Integer courseId; //课程id
-    private String isCertificateExamination; //是否为证书考试题
-    private String questionType; //判断（judge） 阅读（`read`） 课后测试:常规（common）翻译（translate） 拼写（`write`） 听力和文本匹配（hearingAndTest） 听音完成句子（hearingAndSentence） 图文匹配(imageText)
-    private String type; //学前热身(warmUp)  课后测试（test）   能力检测(detection)
+    private Integer relevanceId; //关联id
+    private String questionType; //判断（judge） 阅读（`read`） 课后测试:常规（common）
+                                    // 翻译（translate） 拼写（`write`） 听力和文本匹配（hearingAndTest）
+                                    // 听音完成句子（hearingAndSentence） 图文匹配(imageText)
+    private String testType; //语言能力测试（languageTest）课程考证题（courseCertificate）课时测试题（chapterTest）
+    private String chapterType; //学前热身(warmUp)  课后测试（test）
     private Integer createUserId; //创建人id
     private Integer updateUserId; //修改人id
     private Date createTime; //创建时间
@@ -59,28 +60,12 @@ public class QuestionDTO {
         this.score = score;
     }
 
-    public Integer getChapterId() {
-        return chapterId;
+    public Integer getRelevanceId() {
+        return relevanceId;
     }
 
-    public void setChapterId(Integer chapterId) {
-        this.chapterId = chapterId;
-    }
-
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getIsCertificateExamination() {
-        return isCertificateExamination;
-    }
-
-    public void setIsCertificateExamination(String isCertificateExamination) {
-        this.isCertificateExamination = isCertificateExamination;
+    public void setRelevanceId(Integer relevanceId) {
+        this.relevanceId = relevanceId;
     }
 
     public String getQuestionType() {
@@ -91,12 +76,20 @@ public class QuestionDTO {
         this.questionType = questionType;
     }
 
-    public String getType() {
-        return type;
+    public String getTestType() {
+        return testType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTestType(String testType) {
+        this.testType = testType;
+    }
+
+    public String getChapterType() {
+        return chapterType;
+    }
+
+    public void setChapterType(String chapterType) {
+        this.chapterType = chapterType;
     }
 
     public Integer getCreateUserId() {
