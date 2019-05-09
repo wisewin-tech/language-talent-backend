@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 版本 -->
+<mapper namespace="com.wisewin.backend.dao.VersionsDAO">
+
+    <!--添加版本-->
+    <insert id="addVersions" parameterType="com.wisewin.backend.entity.bo.VersionsBO">
+
+        INSERT  INTO
+            lt_versions(
+        versionsnum,model,
+        content,admin_id,
+        create_time,updateadmin_id,
+        update_time,compatibility
+        )VALUES (
+        #{versionsnum},#{model},
+        #{content},#{adminId},
+        now(),#{updateadminId},
+        now(),#{compatibility}
+        )
+    </insert>
+
+    <!--查询-->
+    <select id="queryVersions" resultType="com.wisewin.backend.entity.param.VersionsParam">
+
+        SELECT
+          id,versionsnum,
+          model,content,
+          admin_id,create_time,
+          updateadmin_id,update_time,
+          compatibility
+        FROM
+        lt_versions
+        <where>
+            <if test="model!=null and model!='' ">
+                model=#{model}
+            </if>
+        </where>
+        ORDER BY
+           create_time
+        desc
+         <include refid="orderLimit" />
+    </select>
+    <sql id="orderLimit">
+        limit #{pageNo},#{pageSize}
+    </sql>
+
+
+    <!--删除-->
+    <delete id="deleteVersions">
+        DELETE  FROM
+          lt_versions
+        <where>
+        <foreach collection="idArr" item="id" separator="OR">
+            id=#{id}
+        </foreach>
+        </where>
+    </delete>
+
+
+    <!--修改内容-->
+    <update id="updateVersions" parameterType="com.wisewin.backend.entity.bo.VersionsBO">
+        UPDATE
+          lt_versions
+        SET
+          versionsnum=#{versionsnum},model=#{model},
+          content=#{content},updateadmin_id=#{updateadminId},
+          update_time=now(),compatibility=#{compatibility}
+        WHERE
+         id=#{id}
+    </update>
+</mapper>

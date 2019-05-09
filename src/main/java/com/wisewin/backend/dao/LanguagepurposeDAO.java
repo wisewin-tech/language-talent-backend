@@ -18,4 +18,5 @@ public interface LanguagepurposeDAO {
      */
     Integer addLanguagepurpose(LanguagepurposeBO languagepurposeBO);
 
+
 }
