@@ -52,6 +52,8 @@ public class DiscoverBO extends BaseModel {
     private String skip;
     //展示方式【上下排序或左右排序】
     private String way;
+    //存放视频封面url
+    private String  videoImg;
 
     public Integer getId() {
         return id;
@@ -227,5 +229,13 @@ public class DiscoverBO extends BaseModel {
 
     public void setWay(String way) {
         this.way = way;
+    }
+
+    public String getVideoImg() {
+        return videoImg;
+    }
+
+    public void setVideoImg(String videoImg) {
+        this.videoImg = videoImg;
     }
 }

@@ -27,7 +27,7 @@
     <select id="queryListDiscoverBO" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.DiscoverBO">
   SELECT id, title, browse, dc_name as dcName, create_time as createTime, dc_updatename as dcUpdatename,
         update_time as updateTime, thumbnail, video, content, `type`,
-    likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip,way
+    likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip,way,videoImg
 	FROM
 	language_talent.lt_discover
 
@@ -119,7 +119,8 @@
             stick = #{stick} ,
             `show` = #{show} ,
             skip = #{skip} ,
-            way =  #{way}
+            way =  #{way},
+            videoImg = #{videoImg}
             WHERE
             id = #{id} ;
     </update>
@@ -127,7 +128,7 @@
     <select id="queryDiscoverBO" resultType="com.wisewin.backend.entity.bo.DiscoverBO" parameterType="java.lang.String">
          SELECT id, title, browse, dc_name as dcName, create_time as createTime, dc_updatename as dcUpdatename,
        update_time as updateTime, thumbnail, video, content, `type`,
-        likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip
+        likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip,way,videoImg
         FROM
         language_talent.lt_discover where id = #{id}
     </select>
@@ -156,7 +157,8 @@ INSERT INTO language_talent.lt_discover
             stick,
             `show`,
             skip,
-            way
+            way,
+            videoImg
             )
             VALUES
             (
@@ -180,7 +182,8 @@ INSERT INTO language_talent.lt_discover
             #{stick},
             #{show},
             #{skip},
-            #{way}
+            #{way},
+            #{videoImg}
             );
 
     </insert>

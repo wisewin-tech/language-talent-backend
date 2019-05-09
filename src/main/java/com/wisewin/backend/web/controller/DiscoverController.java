@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -119,7 +118,7 @@ public class DiscoverController extends BaseCotroller {
     @RequestMapping("/updateDiscoverbySticks")
     public void updateDiscoverbySticks(HttpServletRequest request,HttpServletResponse response,String discoverById,String stick) {
         if (StringUtils.isEmpty(discoverById)) {
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
         }
         //获取第一个字符
@@ -235,7 +234,6 @@ public class DiscoverController extends BaseCotroller {
         discoverBO.setDcName(adminBO.getName());
         discoverBO.setDcUpdatename(adminBO.getName());
         discoverService.insertDiscover(discoverBO);
-        discoverService.updateDiscover(discoverBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
         super.safeJsonPrint(response, result);
     }
