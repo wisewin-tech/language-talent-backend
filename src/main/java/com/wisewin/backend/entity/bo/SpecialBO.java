@@ -10,7 +10,7 @@ import java.util.Date;
 public class SpecialBO extends BaseModel {
 
     private Integer id;
-    private Integer specialId;//专题分类id
+    private Integer classId;//专题分类id
     private String title;//专题标题
     private String describe;//专题描述
     private Date releaseDate;//专题上传日期
@@ -60,12 +60,12 @@ public class SpecialBO extends BaseModel {
         this.id = id;
     }
 
-    public Integer getSpecialId() {
-        return specialId;
+    public Integer getClassId() {
+        return classId;
     }
 
-    public void setSpecialId(Integer specialId) {
-        this.specialId = specialId;
+    public void setClassId(Integer classId) {
+        this.classId = classId;
     }
 
     public String getDescribe() {

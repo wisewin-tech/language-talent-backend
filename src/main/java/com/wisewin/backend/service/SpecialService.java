@@ -42,15 +42,15 @@ public class SpecialService {
     /**
      * 专题的查询
      * */
-    public List<SpecialBO> selectSpecialBO(String status,Integer specialId,Integer pageNo,Integer pageSize){
-        return specialDAO.selectSpecialBO(status,specialId,pageNo,pageSize);
+    public List<SpecialBO> selectSpecialBO(String status,Integer classId,Integer pageNo,Integer pageSize){
+        return specialDAO.selectSpecialBO(status,classId,pageNo,pageSize);
     }
 
     /**
      * 专题分类 状态的查询数量
      * */
-    public Integer selectSpecialBOCount(@Param("status") String status, @Param("specialId")Integer specialId){
-        return specialDAO.selectSpecialBOCount(status,specialId);
+    public Integer selectSpecialBOCount(String status,Integer classId){
+        return specialDAO.selectSpecialBOCount(status,classId);
     }
 
 

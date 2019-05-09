@@ -28,12 +28,12 @@ public interface SpecialDAO {
     /**
      * 专题分类 状态的查询
      * */
-    List<SpecialBO> selectSpecialBO(@Param("status") String status,@Param("specialId")Integer specialId,@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize);
+    List<SpecialBO> selectSpecialBO(@Param("status") String status,@Param("classId")Integer classId,@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize);
 
     /**
      * 专题分类 状态的查询数量
      * */
-    Integer selectSpecialBOCount(@Param("status") String status,@Param("specialId")Integer specialId);
+    Integer selectSpecialBOCount(@Param("status") String status,@Param("classId")Integer classId);
 
 
 }

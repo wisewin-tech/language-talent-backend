@@ -33,7 +33,7 @@ public class SpecialController extends BaseCotroller {
      * 按展示或者为展示也就是yes no 展示 专题分类
      * */
     @RequestMapping("selectSpecialBO")
-    public void selectSpecialBO(HttpServletRequest request, HttpServletResponse response,String status,Integer specialId,Integer pageNo,Integer pageSize){
+    public void selectSpecialBO(HttpServletRequest request, HttpServletResponse response,String status,Integer classId,Integer pageNo,Integer pageSize){
         if(pageNo==null||pageNo==0||pageSize==null||pageSize==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
@@ -42,8 +42,8 @@ public class SpecialController extends BaseCotroller {
         Map<String,Object> map=new HashMap<String, Object>();
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
         if(queryInfo != null) {
-            List<SpecialBO> specialBOList=specialService.selectSpecialBO(status,specialId,queryInfo.getPageOffset(),queryInfo.getPageSize());
-            Integer count=specialService.selectSpecialBOCount(status,specialId);
+            List<SpecialBO> specialBOList=specialService.selectSpecialBO(status,classId,queryInfo.getPageOffset(),queryInfo.getPageSize());
+            Integer count=specialService.selectSpecialBOCount(status,classId);
             map.put("count",count);
             map.put("specialBOList",specialBOList);
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));

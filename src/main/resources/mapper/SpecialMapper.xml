@@ -10,7 +10,7 @@
         select * from lt_special
         <where>
             <if test="status!=null and status !=''">and status=#{status}</if>
-            <if test="specialId!=null and specialId !=''">and special_id=#{specialId}</if>
+            <if test="classId!=null and classId !=''">and class_id=#{classId}</if>
         </where>
         order by sorting desc
         <include refid="Limit" />
@@ -24,22 +24,22 @@
         select count(*) from lt_special
         <where>
             <if test="status!=null and status !=''">and status=#{status}</if>
-            <if test="specialId!=null and specialId !=''">and special_id=#{specialId}</if>
+            <if test="classId!=null and classId !=''">and class_id=#{classId}</if>
         </where>
     </select>
 
     <!-- 添加专题 -->
     <insert id="addSpecial" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
             insert into lt_special
-     (special_id,title,`describe`,release_date,video_url,status,sorting)
-     values (#{specialId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting})
+     (class_id,title,`describe`,release_date,video_url,status,sorting)
+     values (#{classId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting})
     </insert>
 
     <!-- 修改专题-->
     <update id="updateSpecialById" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
         update lt_special
         set
-        special_id=#{specialId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},sorting=#{sorting}
+        class_id=#{classId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},sorting=#{sorting}
         where
         id=#{id}
     </update>
