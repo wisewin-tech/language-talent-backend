@@ -17,18 +17,18 @@ public class BannerService {
     BannerDAO bannerDAO;
 
     /**
-     * 查询一条或者多条Banner信息
+     * 按状态查询
      */
-    public List<BannerBO> queryBannerAllOrById(Integer id){
-       return bannerDAO.queryBannerAllOrById(id);
+    public List<BannerBO> queryBannerAllOrById(String status){
+       return bannerDAO.queryBannerAllOrById(status);
     }
 
 
     /**
      * 删除一条Banner
      */
-    public boolean deleteBanner(Integer id){
-        return bannerDAO.deleteBanner(id)>0;
+    public boolean deleteBanner(String bannerId,String status,Integer id){
+        return bannerDAO.deleteBanner(bannerId,status,id)>0;
     }
 
     /**

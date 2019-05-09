@@ -19,13 +19,13 @@ public interface BannerDAO {
      * 查看一条或者多条首页信息 轮播图 要跳转的地址等等
      * @return BannerBO
      */
-    List<BannerBO> queryBannerAllOrById(@Param("id")Integer id);
+    List<BannerBO> queryBannerAllOrById(@Param("status")String status);
 
 
     /**
      * 删除一条Banner
      */
-    Integer deleteBanner(Integer id);
+    Integer deleteBanner(@Param("bannerId") String bannerId,@Param("status")String status,@Param("id") Integer id);
 
     /**
      * 添加一条Banner
