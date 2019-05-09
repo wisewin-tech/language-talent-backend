@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.dao.SpecialClassDAO;
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.SpecialClassBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
@@ -66,8 +67,17 @@ public class SpecialClassController extends BaseCotroller {
             return;
         }
 
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
+
         Integer[] idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
-        boolean b=specialClassService.delSpecialClassById(idArr,status);
+        boolean b=specialClassService.delSpecialClassById(idArr,status,id);
         if(b){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
@@ -87,6 +97,18 @@ public class SpecialClassController extends BaseCotroller {
             super.safeHtmlPrint(response,languagejson);
             return;
         }
+
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
+
+        specialClassBO.setUpdateId(id);
+
         if(specialClassService.updateSpecialClassById(specialClassBO)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
@@ -106,6 +128,18 @@ public class SpecialClassController extends BaseCotroller {
             super.safeHtmlPrint(response,languagejson);
             return;
         }
+
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
+
+        specialClassBO.setCreateId(id);
+
         if(specialClassService.addSpecialClass(specialClassBO)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
             super.safeJsonPrint(response , result);

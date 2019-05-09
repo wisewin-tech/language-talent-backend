@@ -17,7 +17,7 @@ public interface SpecialClassDAO {
     /**
      * 专题分类的删除
      * */
-    Integer delSpecialClassById(@Param("idArr") Integer[] idArr,@Param("status")String status);
+    Integer delSpecialClassById(@Param("idArr") Integer[] idArr,@Param("status")String status,@Param("updateId")Integer updateId);
     /**
      * 专题分类的修改
      * */
