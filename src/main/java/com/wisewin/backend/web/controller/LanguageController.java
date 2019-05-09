@@ -10,6 +10,7 @@ import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,7 @@ public class LanguageController extends BaseCotroller {
      * updateUserId; //修改人id
      * updateTime; //修改时间
      */
-    @RequestMapping("/addLanguage")
+    @RequestMapping(value = "/addLanguage",method= RequestMethod.POST)
     public void queryLanguageList(HttpServletRequest request, HttpServletResponse response, LanguageBO languageParam) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
 
@@ -88,7 +89,7 @@ public class LanguageController extends BaseCotroller {
     /**
      *  语言修改
      */
-    @RequestMapping("/updateLanguage")
+    @RequestMapping(value = "/updateLanguage" ,method= RequestMethod.POST)
     public void  updateLanguage(HttpServletRequest request,HttpServletResponse response,LanguageBO  languageParam){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         if(languageParam.getId()==null ){
@@ -115,7 +116,7 @@ public class LanguageController extends BaseCotroller {
      *  语言删除
      *  @param  id  语言id
      */
-    @RequestMapping("/deleteLanguage")
+    @RequestMapping(value = "/deleteLanguage",method= RequestMethod.POST)
     public void   deleteLanguage(HttpServletResponse response,HttpServletRequest  request,Integer id){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         if(id==null ){
@@ -138,13 +139,15 @@ public class LanguageController extends BaseCotroller {
     /**
      * 选择语言查询
      */
-    @RequestMapping("/queryLanguageChoice")
+    @RequestMapping(value = "/queryLanguageChoice",method= RequestMethod.POST)
     public void queryLanguageChoice(HttpServletRequest request,HttpServletResponse response){
         List<LanguageChoiceBO> languageChoiceBOS = languageService.queryLanguageChoice();
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(languageChoiceBOS));
         super.safeJsonPrint(response, json);
         return;
     }
+
+
 
 
 }

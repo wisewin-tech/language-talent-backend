@@ -119,4 +119,11 @@
         SELECT id,language_name as name  FROM `lt_language`  WHERE   status='putaway'
          ORDER BY   popular_sort  ASC
     </select>
+
+
+    <!--修改购买须知-->
+    <update id="updateNotice"  parameterType="java.lang.String" >
+        UPDATE lt_language SET purchase_notes=#{notice}
+    </update>
+
 </mapper>

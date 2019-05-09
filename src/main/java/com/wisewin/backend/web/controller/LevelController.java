@@ -5,11 +5,12 @@ import com.wisewin.backend.entity.bo.LevelBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.LeavelParam;
 import com.wisewin.backend.query.QueryInfo;
-import com.wisewin.backend.service.LeavelService;
+import com.wisewin.backend.service.LevelService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,17 +24,17 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/leavel")
-public class LeavelController extends BaseCotroller {
+public class LevelController extends BaseCotroller {
 
     @Resource
-    private LeavelService leavelService;
+    private LevelService levelService;
 
     /**
      * 查询级别
      * param  courseId  课程id
      * @return
      */
-    @RequestMapping("/queryLeavelList")
+    @RequestMapping(value="/queryLeavelList" ,method= RequestMethod.POST)
     public void  queryLeavelList(HttpServletRequest request, HttpServletResponse  response, LeavelParam  leavelParam){
         QueryInfo queryInfo = getQueryInfo(leavelParam.getPageNo(),leavelParam.getPageSize());
         Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -43,9 +44,11 @@ public class LeavelController extends BaseCotroller {
         }
         queryMap.put("courseName",leavelParam.getCourseId());
         queryMap.put("status",leavelParam.getStatus());
+        queryMap.put("courseId",leavelParam.getCourseId());
+        queryMap.put("languageId",leavelParam.getLanguageId());
 
-        List<LevelBO> levelBOS = leavelService.queryLeavelList(queryMap);
-        Integer count = leavelService.queryLeavelCount(queryMap);
+        List<LevelBO> levelBOS = levelService.queryLeavelList(queryMap);
+        Integer count = levelService.queryLeavelCount(queryMap);
         Map<String,Object>  resultMap=new HashMap<String, Object>();
         resultMap.put("levelList",levelBOS);
         resultMap.put("count",count);
@@ -62,7 +65,7 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @param levelBO
      */
-    @RequestMapping("/addLeavel")
+    @RequestMapping(value="/addLeavel",method= RequestMethod.POST)
     public void addLeavel(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         if(levelBO.getLevelName()==null||levelBO.getCourseId()==null){
@@ -71,7 +74,7 @@ public class LeavelController extends BaseCotroller {
             return;
         }
 
-        boolean falg = leavelService.addLeavel(levelBO,loginAdmin.getId());
+        boolean falg = levelService.addLeavel(levelBO,loginAdmin.getId());
 
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
@@ -90,7 +93,7 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @param levelBO
      */
-    @RequestMapping("/updateCourse")
+    @RequestMapping(value = "/updateCourse",method= RequestMethod.POST)
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,LevelBO levelBO){
         AdminBO  adminBO=super.getLoginAdmin(request);
         if(levelBO.getId()==null){
@@ -99,7 +102,7 @@ public class LeavelController extends BaseCotroller {
             return;
         }
 
-        boolean falg = leavelService.updateLeavel(levelBO,adminBO.getId());
+        boolean falg = levelService.updateLeavel(levelBO,adminBO.getId());
 
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
@@ -118,14 +121,14 @@ public class LeavelController extends BaseCotroller {
      * @param response
      * @Param id  级别id
      */
-    @RequestMapping("/deledeCourse")
+    @RequestMapping(value = "/deledeCourse",method= RequestMethod.POST)
     public void updateCourse(HttpServletRequest request,HttpServletResponse  response,Integer id){
         if(id==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
         }
-        boolean falg = leavelService.deleteLeavel(id);
+        boolean falg = levelService.deleteLeavel(id);
         if(falg){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
             super.safeJsonPrint(response, json);
@@ -141,19 +144,18 @@ public class LeavelController extends BaseCotroller {
      *   查询级别
      *  param courseId  课程id
      */
-    @RequestMapping("/queryCourseChoice")
+    @RequestMapping(value = "/queryCourseChoice",method= RequestMethod.POST)
     public void  queryCourseChoice(HttpServletRequest request,HttpServletResponse response,Integer courseId){
         if(courseId==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
         }
-        List<LevelBO> levelBOS = leavelService.queryLeavelChoice(courseId);
+        List<LevelBO> levelBOS = levelService.queryLeavelChoice(courseId);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(levelBOS));
         super.safeJsonPrint(response, json);
         return;
     }
-
 
 
 }

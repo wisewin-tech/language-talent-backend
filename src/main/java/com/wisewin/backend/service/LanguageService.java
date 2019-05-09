@@ -21,7 +21,8 @@ import java.util.Map;
 public class LanguageService {
     @Resource
     private LanguageDAO  languageDAO;
-
+    @Resource
+    private NoticeService noticeService;
     /**
      * 查询所有语言
      *  param languageName 语言名称
@@ -64,6 +65,10 @@ public class LanguageService {
      *
      */
     public boolean addLanguage(LanguageBO languageBO, Integer userId) {
+        if(languageBO.getPurchaseNotes()==null){
+            languageBO.setPurchaseNotes(noticeService.queryNotice());
+        }
+
         if(languageBO.getStatus()==null)
              languageBO.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
         languageBO.setCreateTime(new Date());
@@ -105,5 +110,13 @@ public class LanguageService {
      */
     public List<LanguageChoiceBO>  queryLanguageChoice(){
         return languageDAO.queryLanguageChoice();
+    }
+
+    /**
+     * 修改购买须知
+     * @param notice
+     */
+    public void updateNotice(String notice){
+        languageDAO.updateNotice(notice);
     }
 }

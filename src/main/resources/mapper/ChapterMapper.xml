@@ -11,21 +11,17 @@
 
     <!--课程查询列表-->
     <select id="queryChapterList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.ChapterBO" >
-        SELECT le.level_name as levelName ,
-        ch.id,chapter_name,level_id,content,ch.`status`,
-        video_path,duration,chapter_intro,manuscript,
-        free_or_not,ch.serial_number,ch.thumbnail_url
+        SELECT ch.*,le.id levelId,le.level_name,co.id courseId,co.course_name,la.id languageId,la.language_name
         FROM `lt_chapter`  ch  LEFT  JOIN  lt_level le  ON le.id= ch.level_id
+        LEFT JOIN lt_course co ON le.course_id = co.id
+        LEFT JOIN lt_language la ON co.language_id = la.id
           <where>
-            <if test="chapterName!=null and  chapterName!=''" >
-                ch.chapter_name  LIKE  '%${chapterName}%'
-            </if>
-            <if test="status!=null and status!='' ">
-              AND   ch.status=#{status}
-            </if>
-            <if test="freeOrNot!=null and freeOrNot!=''"  >
-              AND  ch.free_or_not=#{freeOrNot}
-            </if>
+              <if test="chapterName!=null and  chapterName!=''" >ch.chapter_name  LIKE  '%${chapterName}%'</if>
+              <if test="status!=null and status!='' ">AND   ch.status=#{status}</if>
+              <if test="freeOrNot!=null and freeOrNot!=''" >AND  ch.free_or_not=#{freeOrNot}</if>
+              <if test="languageId!=null">la.id=#{languageId} </if>
+              <if test="courseId!=null">AND co.id=#{courseId} </if>
+              <if test="levelId!=null">AND le.id=#{levelId} </if>
           </where>
         ORDER BY   ch.serial_number  DESC    <include refid="limit" />
     </select>
@@ -34,16 +30,15 @@
     <select id="queryChapterCount"  parameterType="java.util.Map"  resultType="java.lang.Integer" >
         SELECT  COUNT(ch.id)
         FROM `lt_chapter`  ch  LEFT  JOIN  lt_level le  ON le.id= ch.level_id
+        LEFT JOIN lt_course co ON le.course_id = co.id
+        LEFT JOIN lt_language la ON co.language_id = la.id
         <where>
-            <if test="chapterName!=null and  chapterName!=''" >
-                ch.chapter_name  LIKE  '%${chapterName}%'
-            </if>
-            <if test="status!=null and status!='' ">
-                AND   ch.status=#{status}
-            </if>
-            <if test="freeOrNot!=null and freeOrNot!=''"  >
-                AND  ch.free_or_not=#{freeOrNot}
-            </if>
+            <if test="chapterName!=null and  chapterName!=''" >ch.chapter_name  LIKE  '%${chapterName}%'</if>
+            <if test="status!=null and status!='' ">AND   ch.status=#{status}</if>
+            <if test="freeOrNot!=null and freeOrNot!=''" >AND  ch.free_or_not=#{freeOrNot}</if>
+            <if test="languageId!=null">la.id=#{languageId} </if>
+            <if test="courseId!=null">AND co.id=#{courseId} </if>
+            <if test="levelId!=null">AND le.id=#{levelId} </if>
         </where>
     </select>
 
@@ -125,9 +120,27 @@
 
 
     <!--选择语言查询-->
-<!--    <select id="queryLanguageChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO">
+   <!--<select id="queryLanguageChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO">
         SELECT id,language_name as name  FROM `lt_language`  WHERE   status='putaway'
          ORDER BY   popular_sort  ASC
     </select>-->
+
+    <!--通过语言id/课程id/级别id查询-->
+    <select id="selectChapterById"  resultType="com.wisewin.backend.entity.bo.ChapterBO" parameterType="java.lang.Integer">
+        SELECT le.level_name as levelName ,
+        ch.id,chapter_name,level_id,ch.content,ch.`status`,
+        ch.video_path,ch.duration,ch.chapter_intro,ch.manuscript,
+        ch.free_or_not,ch.serial_number,ch.thumbnail_url,
+        ch.create_user_id,ch.create_time,
+        ch.update_user_id,ch.update_time
+        FROM lt_chapter ch LEFT JOIN lt_level le ON ch.level_id = le.id
+        LEFT JOIN lt_course co ON le.course_id = co.id
+        LEFT JOIN lt_language la ON co.language_id = la.id
+        <where>
+            <if test="languageId!=null">la.id=#{languageId} </if>
+            <if test="courseId!=null">AND co.id=#{courseId} </if>
+            <if test="courseId!=null">AND le.id=#{levelId} </if>
+        </where>
+    </select>
 
 </mapper>

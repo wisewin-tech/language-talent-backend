@@ -10,7 +10,7 @@ public class ChapterBO extends BaseModel{
     private Integer levelId; //级别id
     private String content; //内容
     private String status; //状态(上下架)
-    private String videoPath; //链接地址
+    private String videoPath; //视频链接地址
     private String duration; //时长
     private String chapterIntro; //简介
     private String manuscript; //文稿
@@ -21,6 +21,59 @@ public class ChapterBO extends BaseModel{
     private Date createTime; //创建时间
     private Integer updateUserId; //添加人姓名
     private Date updateTime; //修改时间
+    private Integer languageId;//语言id
+    private Integer courseId;//课程id
+    private String courseName;//课程名称
+    private String languageName;//语言名称
+    private String levelName;//级别名称
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
+    public Integer getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getLanguageName() {
+        return languageName;
+    }
+
+    public void setLanguageName(String languageName) {
+        this.languageName = languageName;
+    }
+
+    public Integer getLanguangId() {
+        return languageId;
+    }
+
+    public void setLanguangId(Integer languangId) {
+        this.languageId = languangId;
+    }
+
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
+    }
 
     public Integer getId() {
         return id;

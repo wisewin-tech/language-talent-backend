@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -119,7 +118,7 @@ public class DiscoverController extends BaseCotroller {
     @RequestMapping("/updateDiscoverbySticks")
     public void updateDiscoverbySticks(HttpServletRequest request,HttpServletResponse response,String discoverById,String stick) {
         if (StringUtils.isEmpty(discoverById)) {
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
         }
         //获取第一个字符
@@ -185,7 +184,6 @@ public class DiscoverController extends BaseCotroller {
      */
     @RequestMapping(value = "/updateDiscover",method = RequestMethod.POST)
     public void updateDiscover(HttpServletRequest request,HttpServletResponse response, DiscoverBO discoverBO){
-        Cookie[] cookie = request.getCookies();
         //从cookie中获取当前登陆用户
         AdminBO adminBO = super.getLoginAdmin(request);
         if(adminBO == null||adminBO.equals("")){
@@ -212,6 +210,31 @@ public class DiscoverController extends BaseCotroller {
         }
         discoverService.updateDiscover(discoverBO);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+        super.safeJsonPrint(response, result);
+    }
+    /**
+     * 添加
+     */
+    @RequestMapping(value = "/insertDiscover",method = RequestMethod.POST)
+    public void insertDiscover(HttpServletRequest request,HttpServletResponse response, DiscoverBO discoverBO){
+        AdminBO adminBO = super.getLoginAdmin(request);
+        if(adminBO == null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        if(discoverBO == null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        if(discoverBO.getSkip() == null || discoverBO.getSkip().equals("")){
+            discoverBO.setSkip("no");
+        }
+        discoverBO.setDcName(adminBO.getName());
+        discoverBO.setDcUpdatename(adminBO.getName());
+        discoverService.insertDiscover(discoverBO);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
         super.safeJsonPrint(response, result);
     }
 }

@@ -3,14 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 级别 -->
-<mapper namespace="com.wisewin.backend.dao.LeavelDAO">
+<mapper namespace="com.wisewin.backend.dao.LevelDAO">
     <sql id="limit">
         limit #{pageOffset},#{pageSize}
     </sql>
 
     <!--课程查询列表-->
     <select id="queryLeavelList"  parameterType="java.util.Map"  resultType="com.wisewin.backend.entity.bo.LevelBO" >
-        SELECT  ll.*,ce.course_name   FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
+        SELECT  ll.*,ce.course_name   FROM `lt_level` ll
+        LEFT JOIN      `lt_course` ce   ON  ll.course_id=ce.id
+        LEFT JOIN      `lt_language`  le  ON  le.id=ce.language_id
         <where>
              <if test="courseId!=null" >
                  ll.course_id=#{courseId}
@@ -18,19 +20,27 @@
              <if test="status!=null and status!=''" >
                  AND  ll.status=#{status}
              </if>
+            <if test="languageId!=null" >
+                AND  le.id=#{languageId}
+            </if>
           </where>
         ORDER BY  serial_number DESC  <include refid="limit" />
     </select>
 
     <!--分页数量查询-->
     <select id="queryLeavelCount"  parameterType="java.util.Map"  resultType="java.lang.Integer" >
-        SELECT  COUNT(ll.id) FROM `lt_level` ll  LEFT JOIN   `lt_course` ce  ON  ll.course_id=ce.id
+        SELECT  count(ll.id)   FROM `lt_level` ll
+        LEFT JOIN      `lt_course` ce   ON  ll.course_id=ce.id
+        LEFT JOIN      `lt_language`  le  ON  le.id=ce.language_id
         <where>
             <if test="courseId!=null" >
                 ll.course_id=#{courseId}
             </if>
             <if test="status!=null and status!=''" >
                 AND  ll.status=#{status}
+            </if>
+            <if test="languageId!=null" >
+                AND  le.id=#{languageId}
             </if>
         </where>
 
@@ -95,8 +105,8 @@
 
     <!--选择课程-->
     <select id="queryLeavelChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
-        SELECT id,level_name as name  FROM  `lt_level`   WHERE   status='putaway'   AND   course_id=1
-        ORDER BY   serial_number  ASC
+        SELECT id,level_name as name  FROM  `lt_level`   WHERE   status='putaway'   AND   course_id=#{courseId}
+        ORDER BY   serial_number  DESC
     </select>
 
 </mapper>

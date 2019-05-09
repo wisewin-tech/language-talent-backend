@@ -9,14 +9,14 @@ public class QuestionBO extends BaseModel{
     private Integer id; //题库表
     private String topic; //题目
     private String option; //选项
-    private String answer; //答案
-    private String analysis; //解析
+    private String answer; //答案和解析
     private BigDecimal score; //分值
-    private String stage; //阶段
-    private Integer chapterId; //课时id
-    private Integer courseId; //课程id
-    private String isCertificateExamination; //是否为证书考试题
-    private Integer serialNumber; //序号
+    private Integer relevanceId; //关联id
+    private String questionType; //判断（judge） 阅读（`read`） 课后测试:常规（common）
+    // 翻译（translate） 拼写（`write`） 听力和文本匹配（hearingAndTest）
+    // 听音完成句子（hearingAndSentence） 图文匹配(imageText)
+    private String testType; //语言能力测试（languageTest）课程考证题（courseCertificate）课时测试题（chapterTest）
+    private String chapterType; //学前热身(warmUp)  课后测试（test）
     private Integer createUserId; //创建人id
     private Integer updateUserId; //修改人id
     private Date createTime; //创建时间
@@ -54,14 +54,6 @@ public class QuestionBO extends BaseModel{
         this.answer = answer;
     }
 
-    public String getAnalysis() {
-        return analysis;
-    }
-
-    public void setAnalysis(String analysis) {
-        this.analysis = analysis;
-    }
-
     public BigDecimal getScore() {
         return score;
     }
@@ -70,44 +62,36 @@ public class QuestionBO extends BaseModel{
         this.score = score;
     }
 
-    public String getStage() {
-        return stage;
+    public Integer getRelevanceId() {
+        return relevanceId;
     }
 
-    public void setStage(String stage) {
-        this.stage = stage;
+    public void setRelevanceId(Integer relevanceId) {
+        this.relevanceId = relevanceId;
     }
 
-    public Integer getChapterId() {
-        return chapterId;
+    public String getQuestionType() {
+        return questionType;
     }
 
-    public void setChapterId(Integer chapterId) {
-        this.chapterId = chapterId;
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
     }
 
-    public Integer getCourseId() {
-        return courseId;
+    public String getTestType() {
+        return testType;
     }
 
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
+    public void setTestType(String testType) {
+        this.testType = testType;
     }
 
-    public String getIsCertificateExamination() {
-        return isCertificateExamination;
+    public String getChapterType() {
+        return chapterType;
     }
 
-    public void setIsCertificateExamination(String isCertificateExamination) {
-        this.isCertificateExamination = isCertificateExamination;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setChapterType(String chapterType) {
+        this.chapterType = chapterType;
     }
 
     public Integer getCreateUserId() {

@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  *  级别
  */
-public interface LeavelDAO{
+public interface LevelDAO {
     /**
      * 查询级别
      * param  courseId  课时id

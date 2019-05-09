@@ -29,7 +29,6 @@
             <if test="languageId!=null" >
               AND   language_id=#{languageId}
             </if>
-
           </where>
         ORDER BY   te.popular_sort  DESC    <include refid="limit" />
     </select>
@@ -48,7 +47,7 @@
             <if test="hotOrNot!=null and hotOrNot!=''"  >
                 AND  te.hot_or_not=#{hotOrNot}
             </if>
-            <if test="certificateOrNot !=null and certificateOrNot!=null " >
+            <if test="certificateOrNot !=null and certificateOrNot!='' " >
                 AND  te.certificate_or_not =#{certificateOrNot}
             </if>
             <if test="languageId!=null" >
@@ -172,5 +171,8 @@
          ORDER BY   popular_sort  ASC
     </select>
 
-
+    <!--修改购买须知-->
+    <update id="updateNotice"  parameterType="java.lang.String"  >
+       UPDATE lt_course SET purchase_notes=#{notice}
+    </update>
 </mapper>

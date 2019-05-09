@@ -48,6 +48,9 @@ public class ChapterController extends BaseCotroller {
         queryMap.put("chapterName",chapterParam.getChapterName());
         queryMap.put("status",chapterParam.getStatus());
         queryMap.put("freeOrNot",chapterParam.getFreeOrNot());
+        queryMap.put("languageId",chapterParam.getLanguageId());
+        queryMap.put("courseId",chapterParam.getCourseId());
+        queryMap.put("levelId",chapterParam.getLevelId());
 
 
         List<ChapterBO> chapterBOS = chapterService.queryChapterList(queryMap);
@@ -140,6 +143,20 @@ public class ChapterController extends BaseCotroller {
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
         super.safeJsonPrint(response, json);
         return;
+    }
+
+    @RequestMapping("selectChapterById")
+    public void selectChapterById(ChapterBO chapterBO,HttpServletRequest request,HttpServletResponse response){
+        if (chapterBO==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+        List<ChapterBO> chapterBOList = chapterService.selectChapterById(chapterBO);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(chapterBOList));
+        super.safeJsonPrint(response, json);
+        return;
+
     }
 
 

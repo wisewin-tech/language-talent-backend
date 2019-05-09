@@ -44,6 +44,11 @@ public interface ChapterDAO {
      */
     ChapterBO queryChapterId(Integer id);
 
-
+    /**
+     * 通过语言id/课程id/级别id查询
+     * @param chapterBO
+     * @return
+     */
+    List<ChapterBO> selectChapterById(ChapterBO chapterBO);
 
 }

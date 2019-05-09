@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 专题分类 -->
+<mapper namespace="com.wisewin.backend.dao.SpecialClassDAO">
+
+    <!-- 分页 按 状态正常或者不正常的查看专题分类 -->
+    <select id="selectSpecialClassBO" resultType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        select * from lt_special_class
+        <where>
+            <if test="status!=null and status!=''"> and status=#{status}</if>
+        </where>
+        order by sorting desc
+        <include refid="Limit" />
+
+    </select>
+    <sql id="Limit">
+      limit #{pageNo},#{pageSize}
+    </sql>
+    <!-- 按 状态正常或者不正常的查看专题分类总页数 -->
+    <select id="selectSpecialClassBOCount" resultType="java.lang.Integer">
+        select count(*) from lt_special_class
+        <where>
+            <if test="status!=null and status!=''"> and status=#{status}</if>
+        </where>
+    </select>
+
+
+    <!-- 添加专题分类-->
+    <insert id="addSpecialClass" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        insert into lt_special_class values (null,#{title},#{describe},#{coverUrl},#{status},#{sorting})
+    </insert>
+
+    <!-- 修改专题分类-->
+    <update id="updateSpecialClassById" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        update lt_special_class
+        set
+        title=#{title},`describe`=#{describe},cover_url=#{coverUrl},`status`=#{status},sorting=#{sorting}
+        where
+        id=#{id}
+    </update>
+
+    <!-- 修改一条或者多条专题分类的状态 -->
+    <update id="delSpecialClassById">
+        update  lt_special_class
+        set status=#{status}
+        where
+        id in
+        <foreach collection="idArr" item="id" separator="," open="(" close=")">
+               #{id}
+        </foreach>
+
+    </update>
+
+</mapper>

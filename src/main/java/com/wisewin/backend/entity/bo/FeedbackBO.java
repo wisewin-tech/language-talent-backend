@@ -17,6 +17,24 @@ public class FeedbackBO extends BaseModel {
     private String status;//状态
     private Integer adminId;//操作员id
     private Date updateTime;//修改时间
+    private String userName;//用户名
+    private String adminName;//管理员名称
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
 
     public Integer getId() {
         return id;
