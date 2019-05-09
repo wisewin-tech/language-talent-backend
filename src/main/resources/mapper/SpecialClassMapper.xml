@@ -5,22 +5,38 @@
 <!-- 专题分类 -->
 <mapper namespace="com.wisewin.backend.dao.SpecialClassDAO">
 
-    <!-- 状态正常或者不正常的专题分类 -->
+    <!-- 分页 按 状态正常或者不正常的查看专题分类 -->
     <select id="selectSpecialClassBO" resultType="com.wisewin.backend.entity.bo.SpecialClassBO">
         select * from lt_special_class
-        where status=#{status}
+        <where>
+            <if test="status!=null and status!=''"> and status=#{status}</if>
+        </where>
+        order by sorting desc
+        <include refid="Limit" />
+
+    </select>
+    <sql id="Limit">
+      limit #{pageNo},#{pageSize}
+    </sql>
+    <!-- 按 状态正常或者不正常的查看专题分类总页数 -->
+    <select id="selectSpecialClassBOCount" resultType="java.lang.Integer">
+        select count(*) from lt_special_class
+        <where>
+            <if test="status!=null and status!=''"> and status=#{status}</if>
+        </where>
     </select>
 
-    <!-- 添加专题分类 如果status是null的话 默认为no也就是默认不展示-->
+
+    <!-- 添加专题分类-->
     <insert id="addSpecialClass" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
-        insert into lt_special_class values (null,#{title},#{describe},#{coverUrl},#{status})
+        insert into lt_special_class values (null,#{title},#{describe},#{coverUrl},#{status},#{sorting})
     </insert>
 
     <!-- 修改专题分类-->
     <update id="updateSpecialClassById" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
         update lt_special_class
         set
-        title=#{title},`describe`=#{describe},cover_url=#{coverUrl},`status`=#{status}
+        title=#{title},`describe`=#{describe},cover_url=#{coverUrl},`status`=#{status},sorting=#{sorting}
         where
         id=#{id}
     </update>

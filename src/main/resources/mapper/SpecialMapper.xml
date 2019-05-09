@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 专题 -->
+<mapper namespace="com.wisewin.backend.dao.SpecialDAO">
+
+    <!-- 根据状态 分类id 分页查看 的专题 -->
+    <select id="selectSpecialBO" resultType="com.wisewin.backend.entity.bo.SpecialBO">
+        select * from lt_special
+        <where>
+            <if test="status!=null and status !=''">and status=#{status}</if>
+            <if test="specialId!=null and specialId !=''">and special_id=#{specialId}</if>
+        </where>
+        order by sorting desc
+        <include refid="Limit" />
+    </select>
+    <sql id="Limit">
+      limit #{pageNo},#{pageSize}
+    </sql>
+
+    <!-- 根据状态 分类id 查看 专题 的数量-->
+    <select id="selectSpecialBOCount" resultType="java.lang.Integer">
+        select count(*) from lt_special
+        <where>
+            <if test="status!=null and status !=''">and status=#{status}</if>
+            <if test="specialId!=null and specialId !=''">and special_id=#{specialId}</if>
+        </where>
+    </select>
+
+    <!-- 添加专题 -->
+    <insert id="addSpecial" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
+            insert into lt_special
+     (special_id,title,`describe`,release_date,video_url,status,sorting)
+     values (#{specialId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting})
+    </insert>
+
+    <!-- 修改专题-->
+    <update id="updateSpecialById" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
+        update lt_special
+        set
+        special_id=#{specialId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},sorting=#{sorting}
+        where
+        id=#{id}
+    </update>
+
+    <!-- 修改一条或者多条专题的状态 -->
+    <update id="delSpecialById">
+        update  lt_special
+        set status=#{status}
+        where
+        id in
+        <foreach collection="idArr" item="id" separator="," open="(" close=")">
+               #{id}
+        </foreach>
+
+    </update>
+
+</mapper>

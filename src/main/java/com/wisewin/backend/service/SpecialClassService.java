@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.dao.SpecialClassDAO;
 import com.wisewin.backend.entity.bo.SpecialClassBO;
 import org.apache.ibatis.annotations.Param;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +41,15 @@ public class SpecialClassService {
     /**
      * 专题分类的查询
      * */
-    public List<SpecialClassBO> selectSpecialClassBO(String status){
-        return specialClassDAO.selectSpecialClassBO(status);
+    public List<SpecialClassBO> selectSpecialClassBO(String status, Integer pageNo,Integer pageSize){
+        return specialClassDAO.selectSpecialClassBO(status,pageNo,pageSize);
+    }
+
+    /**
+     * 查询 专题展示或者不展示的共有多少条
+     * */
+    public Integer selectSpecialClassBOCount(String status){
+        return specialClassDAO.selectSpecialClassBOCount(status);
     }
 
 }

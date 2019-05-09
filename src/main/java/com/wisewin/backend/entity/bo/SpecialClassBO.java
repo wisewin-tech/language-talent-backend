@@ -10,6 +10,15 @@ public class SpecialClassBO extends BaseModel {
     private String describe;//专分类题描述
     private String coverUrl;//专题分类封面图片地址
     private String status;//是否展示(yes为展示,no为不展示)
+    private Double sorting;//排序
+
+    public Double getSorting() {
+        return sorting;
+    }
+
+    public void setSorting(Double sorting) {
+        this.sorting = sorting;
+    }
 
     public String getStatus() {
         return status;

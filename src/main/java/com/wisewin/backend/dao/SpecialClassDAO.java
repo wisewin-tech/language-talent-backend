@@ -24,7 +24,13 @@ public interface SpecialClassDAO {
     Integer updateSpecialClassById(SpecialClassBO specialClassBO);
 
     /**
-     * 专题展示或者不展示分类的查询
+     * 分页 专题展示或者不展示的分类查询
      * */
-    List<SpecialClassBO> selectSpecialClassBO(@Param("status")String status);
+    List<SpecialClassBO> selectSpecialClassBO(@Param("status")String status,@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize);
+
+    /**
+     * 查询 专题展示或者不展示的共有多少条
+     * */
+    Integer selectSpecialClassBOCount(@Param("status")String status);
+
 }
