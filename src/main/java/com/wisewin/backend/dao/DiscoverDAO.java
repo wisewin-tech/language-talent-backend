@@ -44,4 +44,9 @@ public interface DiscoverDAO {
      * 查询总条数
      */
     Integer countDiscover(Map<String,Object> map);
+
+    /**
+     * 添加
+     */
+    void insertDiscover(DiscoverBO discoverBO);
 }

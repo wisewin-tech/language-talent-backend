@@ -131,4 +131,57 @@
         FROM
         language_talent.lt_discover where id = #{id}
     </select>
+
+    <insert id="insertDiscover"  parameterType="com.wisewin.backend.entity.bo.DiscoverBO">
+
+INSERT INTO language_talent.lt_discover
+            (
+            title,
+            browse,
+            dc_name,
+            create_time,
+            dc_updatename,
+            update_time,
+            thumbnail,
+            video,
+            content,
+            `type`,
+            likenum,
+            participation,
+            activitytime,
+            activitysite,
+            phone,
+            ticket,
+            priority,
+            stick,
+            `show`,
+            skip,
+            way
+            )
+            VALUES
+            (
+            #{title},
+            #{browse},
+            #{dcName},
+            #{createTime},
+            #{dcUpdatename},
+            #{updateTime},
+            #{thumbnail},
+            #{video},
+            #{content},
+            #{type},
+            #{likenum},
+            #{participation},
+            #{activitytime},
+            #{activitysite},
+            #{phone},
+            #{ticket},
+            #{priority},
+            #{stick},
+            #{show},
+            #{skip},
+            #{way}
+            );
+
+    </insert>
 </mapper>

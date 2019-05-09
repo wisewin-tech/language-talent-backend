@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,16 @@ public class DiscoverService {
 
     public Integer countDiscover(Map<String,Object> map){
         return discoverDAO.countDiscover(map);
+    }
+
+    public void insertDiscover(DiscoverBO discoverBO){
+            discoverBO.setBrowse(0);
+            discoverBO.setCreateTime(new Date());
+            discoverBO.setUpdateTime(new Date());
+            discoverBO.setLikenum(0);
+            discoverBO.setParticipation(0);
+            discoverBO.setShow("yes");
+          discoverDAO.insertDiscover(discoverBO);
     }
 
 }
