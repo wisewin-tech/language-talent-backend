@@ -79,48 +79,7 @@
         </foreach>
     </update>
 
-    <update id="updateDiscoverbyStick" parameterType="java.lang.String">
-    UPDATE language_talent.lt_discover
-        SET
-        stick = 'yes'
 
-        WHERE
-        id = #{discoverId} ;
-    </update>
-
-
-    <update id="updateDiscoverbyShow" parameterType="java.lang.String">
-        UPDATE language_talent.lt_discover
-        SET
-        `show` = 'no'
-
-        WHERE
-        id = #{id} ;
-    </update>
-
-    <update id="updateDiscover" parameterType="com.wisewin.backend.entity.bo.DiscoverBO">
-        UPDATE language_talent.lt_discover
-            SET
-            title = #{title} ,
-            dc_updatename = #{dcUpdatename} ,
-            update_time = #{updateTime},
-            thumbnail = #{thumbnail} ,
-            video = #{video} ,
-            content = #{content} ,
-            `type` = #{type} ,
-            participation = #{participation} ,
-            activitytime = #{activitytime} ,
-            activitysite = #{activitysite} ,
-            phone = #{phone} ,
-            ticket = #{ticket} ,
-            priority = #{priority} ,
-            stick = #{stick} ,
-            skip = #{skip} ,
-            way =  #{way},
-            videoImg = #{videoImg}
-            WHERE
-            id = #{id} ;
-    </update>
 
     <select id="queryDiscoverBO" resultType="com.wisewin.backend.entity.bo.DiscoverBO" parameterType="java.lang.String">
          SELECT id, title, browse, dc_name as dcName, create_time as createTime, dc_updatename as dcUpdatename,
@@ -130,37 +89,119 @@
         language_talent.lt_discover where id = #{id}
     </select>
 
-    <insert id="insertDiscover"  parameterType="com.wisewin.backend.entity.bo.DiscoverBO">
+    <!--修改 新闻类型 Journalism-->
+        <update id="updateJournalism" parameterType="com.wisewin.backend.entity.bo.DiscoverBO">
+        UPDATE language_talent.lt_discover
+            SET
+            title = #{title} ,  <!--标题-->
+            dc_updatename = #{dcUpdatename} , <!--修改人后端录入-->
+            update_time = #{updateTime} , <!--修改时间后台录入-->
+            thumbnail = #{thumbnail} , <!--缩略图url-->
+            content = #{content} , <!--内容-->
+            `type` = #{type} , <!--类型-->
+            way = #{way}, <!--排序-->
+            videoImg=#{videoImg} <!--存放视频封面url-->
+            WHERE
+            id = #{id} ;
+        </update>
+    <!--修改 视频类型 curriculum-->
+        <update id="updateCurriculum" >
+                UPDATE language_talent.lt_discover
+                    SET
+                    title = #{title} , <!--标题-->
+                    dc_updatename = #{dcUpdatename} , <!--修改人后台录入-->
+                    update_time = #{updateTime} , <!--修改时间后台录入-->
+                    thumbnail = #{thumbnail} , <!--缩略图url-->
+                    video = #{video} , <!--视频url-->
+                    content =  #{content} , <!--内容-->
+                    `TYPE` = #{type} , <!--类型-->
+                    skip = #{skip} , <!--跳转url-->
+                    way = #{way} , <!--排序-->
+                    videoImg = #{videoImg} <!--视频封面url-->
+                    WHERE
+                    id = #{id} ;
+                </update>
+    <!--修改 线下活动类型 activity-->
+        <update id="updateActivity" >
+        UPDATE language_talent.lt_discover
+            SET
+            title = #{title} , <!--标题-->
+            dc_updatename = #{dcUpdatename} , <!--修改人后台录入-->
+            update_time = #{updateTime} , <!--修改时间后台录入-->
+            thumbnail = #{thumbnail} , <!--缩略图url-->
+            content = #{content} , <!--内容-->
+            `type` = #{type} ,  <!--类型-->
+            activitytime = #{activitytime} , <!--活动时间-->
+            activitysite = #{activitysite} , <!--活动地址-->
+            phone = #{phone} , <!--手机号-->
+            ticket = #{ticket} , <!--在线购票-->
+            skip = #{skip} <!--跳转url-->
 
+            WHERE
+            id = #{id} ;
+        </update>
+
+
+    <!--添加 新闻类型 Journalism-->
+    <insert id="insertJournalism" >
+INSERT INTO language_talent.lt_discover
+	(
+	title, <!--标题-->
+    browse,<!--浏览人数后台录入默认0-->
+	dc_name, <!--发布人后台录入-->
+	create_time, <!--发布时间后台录入-->
+	dc_updatename, <!--最后修改人后台录入-->
+	update_time, <!--最后修改时间后台录入-->
+	thumbnail, <!--缩略图url-->
+	content, <!--内容-->
+	`TYPE`, <!--类型-->
+    likenum, <!--喜欢人数后台录入-->
+	stick, <!--置顶-->
+	`SHOW`, <!--是否显示后台录入默认yes-->
+	way, <!--排序-->
+	videoImg <!--封面url-->
+	)
+	VALUES
+	(#{title},
+     #{browse},
+	#{dcName},
+	#{createTime},
+	#{dcUpdatename},
+	#{updateTime},
+	#{thumbnail},
+	#{content},
+	#{type},
+    #{likenum},
+	#{stick},
+	#{show},
+	#{way},
+	#{videoImg}
+	);
+    </insert>
+    <!--添加 视频类型 curriculum-->
+    <insert id="insertCurriculum" >
 INSERT INTO language_talent.lt_discover
             (
-            title,
-            browse,
-            dc_name,
-            create_time,
-            dc_updatename,
-            update_time,
-            thumbnail,
-            video,
-            content,
-            `type`,
-            likenum,
-            participation,
-            activitytime,
-            activitysite,
-            phone,
-            ticket,
-            priority,
-            stick,
-            `show`,
-            skip,
-            way,
-            videoImg
+            title, <!--标题-->
+             browse,<!--浏览人数后台录入默认0-->
+            dc_name, <!--发布人后台录入-->
+            create_time,  <!--发布时间后台录入-->
+            dc_updatename,<!--最后修改人后台录入-->
+            update_time, <!--最后修改时间后台录入-->
+            thumbnail, <!--缩略图url-->
+            video, <!--视频url-->
+            content, <!--内容-->
+            `TYPE`, <!--类型-->
+            likenum, <!--喜欢人数后台录入-->
+            stick, <!--置顶-->
+            `SHOW`, <!--显示后台录入默认yes-->
+            skip, <!--跳转url-->
+            way, <!--排序-->
+            videoImg <!--存放视频封面url-->
             )
             VALUES
-            (
-            #{title},
-            #{browse},
+            (#{title},
+             #{browse},
             #{dcName},
             #{createTime},
             #{dcUpdatename},
@@ -170,18 +211,55 @@ INSERT INTO language_talent.lt_discover
             #{content},
             #{type},
             #{likenum},
-            #{participation},
-            #{activitytime},
-            #{activitysite},
-            #{phone},
-            #{ticket},
-            #{priority},
             #{stick},
             #{show},
             #{skip},
             #{way},
             #{videoImg}
             );
+
+    </insert>
+    <!--添加 线下活动类型 activity-->
+    <insert id="insertActivity">
+insert into language_talent.lt_discover
+	(
+	title, <!--标题-->
+    browse,<!--浏览人数后台录入默认0-->
+	dc_name,  <!--发布人后台录入-->
+	create_time,  <!--发布时间后台录入-->
+	dc_updatename, <!--最后修改人后台录入-->
+	update_time, <!--最后修改时间后台录入-->
+	thumbnail, <!--缩略图url-->
+	content, <!--内容-->
+	`type`, <!--类型-->
+	likenum, <!--喜欢人数后台录入默认0-->
+	participation, <!--要参与后台录入默认0-->
+	activitytime, <!--活动时间-->
+	activitysite, <!--活动地点-->
+	phone, <!--联系电话-->
+	stick, <!--置顶后台录入默认no-->
+	`show`, <!--是否显示后台录入默认yes-->
+	skip <!--跳转url-->
+	)
+	values
+	(#{title},
+    #{browse},
+	#{dcName},
+	#{createTime},
+	#{dcUpdatename},
+	#{updateTime},
+	#{thumbnail},
+	#{content},
+	#{type},
+	#{likenum},
+	#{participation},
+	#{activitytime},
+	#{activitysite},
+	#{phone},
+	#{stick},
+	#{show},
+	#{skip}
+	);
 
     </insert>
 </mapper>

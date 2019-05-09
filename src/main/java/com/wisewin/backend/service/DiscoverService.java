@@ -32,27 +32,64 @@ public class DiscoverService {
         discoverDAO.updateDiscoverbySticks(idArr,stick);
     }
 
-    public void updateDiscover(DiscoverBO discoverBO){
-        discoverDAO.updateDiscover(discoverBO);
-    }
-
     public DiscoverBO queryDiscover(String id){
      return    discoverDAO.queryDiscoverBO(id);
     }
-
 
     public Integer countDiscover(Map<String,Object> map){
         return discoverDAO.countDiscover(map);
     }
 
-    public void insertDiscover(DiscoverBO discoverBO){
-            discoverBO.setBrowse(0);
-            discoverBO.setCreateTime(new Date());
-            discoverBO.setUpdateTime(new Date());
-            discoverBO.setLikenum(0);
-            discoverBO.setParticipation(0);
-            discoverBO.setShow("yes");
-          discoverDAO.insertDiscover(discoverBO);
+    /**
+     * 修改 新闻类型 Journalism
+     */
+    public void  updateJournalism(DiscoverBO discoverBO){
+        discoverDAO.updateJournalism(discoverBO);
+    }
+
+    /**
+     * 修改 视频类型 curriculum
+     */
+    public  void  updateCurriculum(DiscoverBO discoverBO){
+        discoverDAO.updateCurriculum(discoverBO);
+    }
+
+    /**
+     * 修改 线下活动类型 activity
+     */
+    public  void  updateActivity(DiscoverBO discoverBO){
+        discoverDAO.updateActivity(discoverBO);
+    }
+
+    /**
+     * 添加 新闻类型 Journalism
+     */
+    public void insertJournalism(DiscoverBO discoverBO){
+        discoverBO.setBrowse(0);
+        discoverBO.setLikenum(0);
+        discoverBO.setShow("yes");
+        discoverDAO.insertJournalism(discoverBO);
+    }
+
+    /**
+     * 修改 视频类型 curriculum
+     */
+    public  void  insertCurriculum(DiscoverBO discoverBO){
+        discoverBO.setBrowse(0);
+        discoverBO.setLikenum(0);
+        discoverBO.setShow("yes");
+        discoverDAO.insertCurriculum(discoverBO);
+    }
+
+    /**
+     * 修改 线下活动类型 activity
+     */
+    public void  insertActivity(DiscoverBO discoverBO){
+        discoverBO.setBrowse(0);
+        discoverBO.setLikenum(0);
+        discoverBO.setParticipation(0);
+        discoverBO.setShow("yes");
+        discoverDAO.insertActivity(discoverBO);
     }
 
 }
