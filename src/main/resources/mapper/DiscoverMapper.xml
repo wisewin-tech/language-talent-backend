@@ -102,14 +102,12 @@
         UPDATE language_talent.lt_discover
             SET
             title = #{title} ,
-            browse = #{browse} ,
             dc_updatename = #{dcUpdatename} ,
             update_time = #{updateTime},
             thumbnail = #{thumbnail} ,
             video = #{video} ,
             content = #{content} ,
             `type` = #{type} ,
-            likenum = #{likenum} ,
             participation = #{participation} ,
             activitytime = #{activitytime} ,
             activitysite = #{activitysite} ,
@@ -117,7 +115,6 @@
             ticket = #{ticket} ,
             priority = #{priority} ,
             stick = #{stick} ,
-            `show` = #{show} ,
             skip = #{skip} ,
             way =  #{way},
             videoImg = #{videoImg}
