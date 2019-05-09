@@ -77,4 +77,12 @@ public class ChapterService {
         }
         return chapterDAO.updateChapter(queryChapter) > 0;
     }
+    /**
+     * 通过语言id/课程id/级别id查询
+     * @param chapterBO
+     * @return
+     */
+    public List<ChapterBO> selectChapterById(ChapterBO chapterBO){
+        return chapterDAO.selectChapterById(chapterBO);
+    }
 }

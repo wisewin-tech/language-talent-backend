@@ -37,5 +37,5 @@ public interface OrderDao {
     /**
      * 按时间段 手机号 订单号 查询所有订单的用户id
      */
-    public List<Integer> queryOrderByCondCount(OrderParam orderParam);
+    public Integer queryOrderByCondCount(OrderParam orderParam);
 }

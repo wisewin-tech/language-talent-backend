@@ -1,7 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.common.constants.LanguageConstants;
-import com.wisewin.backend.dao.LeavelDAO;
+import com.wisewin.backend.dao.LevelDAO;
 import com.wisewin.backend.entity.bo.LevelBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +16,9 @@ import java.util.Map;
  */
 @Service("LeavelService")
 @Transactional
-public class LeavelService {
+public class LevelService {
     @Resource
-    private LeavelDAO leavelDAO;
+    private LevelDAO leavelDAO;
 
 
     /**

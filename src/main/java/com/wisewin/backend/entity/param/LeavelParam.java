@@ -6,6 +6,16 @@ public class LeavelParam {
     private String status ;// 状态  putaway/soldout
     private Integer pageNo;//当前页
     private Integer pageSize;//页面容量
+    private Integer languageId;//语言id
+
+
+    public Integer getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
+    }
 
     public Integer getCourseId() {
         return courseId;
