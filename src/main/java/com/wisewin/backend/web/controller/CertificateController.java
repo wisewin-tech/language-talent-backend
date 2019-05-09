@@ -33,6 +33,7 @@ public class CertificateController extends BaseCotroller {
     @RequestMapping("/selectUserCert")
     public void selectUserMedal(Integer pageNo, Integer pageSize,
                                 String send,String status,Integer userId,
+                                String mobile,
                                 HttpServletResponse response) {
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
@@ -46,6 +47,7 @@ public class CertificateController extends BaseCotroller {
         condition.put("userId",userId);
         condition.put("send",send);
         condition.put("status",status);
+        condition.put("mobile",mobile);
         //查询用户证书
         List<CertificateResultBO> certificateResultBOS = certificateService.selectUser(condition);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(certificateResultBOS));
