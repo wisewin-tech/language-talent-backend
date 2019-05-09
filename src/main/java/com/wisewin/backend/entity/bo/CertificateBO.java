@@ -5,10 +5,11 @@ import com.wisewin.backend.common.base.BaseModel;
 import java.util.Date;
 
 public class CertificateBO extends BaseModel {
-    private Integer id; //证书表
-    private String title; //标题
-    private String certificateIntro; //证书简介
-    private String imageUrl; //图片路径
+    private Integer id; //用户证书关联表
+    private Integer userId; //用户id
+    private Integer courseId; //课程id
+    private String status; //证书是否获得(yes已获得/no)
+    private String send; //证书是否发送(yes已发送/no/in在路上)
     private Integer createUserId; //创建人id
     private Date createTime; //创建时间
     private Integer updateUserId; //修改人id
@@ -22,28 +23,36 @@ public class CertificateBO extends BaseModel {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getCertificateIntro() {
-        return certificateIntro;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCertificateIntro(String certificateIntro) {
-        this.certificateIntro = certificateIntro;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getStatus() {
+        return status;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSend() {
+        return send;
+    }
+
+    public void setSend(String send) {
+        this.send = send;
     }
 
     public Integer getCreateUserId() {
