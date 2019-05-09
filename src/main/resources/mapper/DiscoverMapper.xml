@@ -99,8 +99,8 @@
             thumbnail = #{thumbnail} , <!--缩略图url-->
             content = #{content} , <!--内容-->
             `type` = #{type} , <!--类型-->
-            way = #{way}, <!--排序-->
-            videoImg=#{videoImg} <!--存放视频封面url-->
+            stick =  #{stick}, <!--修改置顶url-->
+            way = #{way} <!--排序-->
             WHERE
             id = #{id} ;
         </update>

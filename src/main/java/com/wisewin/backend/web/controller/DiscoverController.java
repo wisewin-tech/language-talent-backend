@@ -202,12 +202,21 @@ public class DiscoverController extends BaseCotroller {
         discoverBO.setUpdateTime(new Date());
         if(discoverBO.getType().equals("Journalism")){
             discoverService.updateJournalism(discoverBO);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
+            super.safeJsonPrint(response , result);
+            return;
         }
         if(discoverBO.getType().equals("curriculum")){
             discoverService.updateCurriculum(discoverBO);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
+            super.safeJsonPrint(response , result);
+            return;
         }
         if(discoverBO.getType().equals("activity")){
             discoverService.updateActivity(discoverBO);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
+            super.safeJsonPrint(response , result);
+            return;
         }
     }
 }
