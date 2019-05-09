@@ -25,10 +25,17 @@ public class BannerService {
 
 
     /**
-     * 删除一条Banner
+     * 上下架一条Banner
      */
     public boolean deleteBanner(String bannerId,String status,Integer id){
         return bannerDAO.deleteBanner(bannerId,status,id)>0;
+    }
+
+    /**
+     * 物理删除Banner
+     */
+    public boolean removeBanner(String bannerId){
+        return bannerDAO.removeBanner(bannerId)>0;
     }
 
     /**

@@ -43,10 +43,15 @@
         where id =#{id}
     </update>
 
-    <!--删除首页信息 如果要下架就修改状态相当于逻辑删除-->
+    <!--上下架-->
     <update id="deleteBanner">
         update lt_banner set status=#{status},update_time=now(),update_user_id=#{id}
         where id =#{bannerId}
     </update>
+
+    <!--物理删除banner-->
+    <delete id="removeBanner">
+        delete from lt_banner where id=#{bannerId}
+    </delete>
 
 </mapper>

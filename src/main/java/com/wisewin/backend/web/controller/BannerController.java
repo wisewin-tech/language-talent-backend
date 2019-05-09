@@ -33,7 +33,7 @@ public class BannerController extends BaseCotroller {
 
 
     /**
-     * 删除一条或者多条Banner
+     * 修改banner上下架
      * */
     @RequestMapping("/deleteBanner")
     public void deleteBanner(HttpServletResponse response, HttpServletRequest request,String bannerId,String status){
@@ -59,6 +59,27 @@ public class BannerController extends BaseCotroller {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "删除失敗")) ;
             super.safeJsonPrint(response , result);
         }
+
+    }
+
+    /**
+     * 删除banner上下架
+     * */
+    @RequestMapping("/removeBanner")
+    public void removeBanner(HttpServletResponse response, HttpServletRequest request,String bannerId){
+        if(bannerId==null||bannerId.equals("")){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        if(bannerService.removeBanner(bannerId)){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
+            super.safeJsonPrint(response , result);
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "删除失敗")) ;
+            super.safeJsonPrint(response , result);
+        }
+
 
     }
 

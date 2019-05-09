@@ -23,9 +23,14 @@ public interface BannerDAO {
 
 
     /**
-     * 删除一条Banner
+     * 上下架一条Banner
      */
     Integer deleteBanner(@Param("bannerId") String bannerId,@Param("status")String status,@Param("id") Integer id);
+
+    /**
+     * 物理一条Banner
+     */
+    Integer removeBanner(@Param("bannerId")String bannerId);
 
     /**
      * 添加一条Banner
