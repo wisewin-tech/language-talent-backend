@@ -89,6 +89,7 @@ public class DiscoverService {
         discoverBO.setLikenum(0);
         discoverBO.setParticipation(0);
         discoverBO.setShow("yes");
+        discoverBO.setStick("no");
         discoverDAO.insertActivity(discoverBO);
     }
 

@@ -220,6 +220,53 @@ public class DiscoverController extends BaseCotroller {
             return;
         }
     }
+
+    /**
+     * 发现添加
+     * @param request
+     * @param response
+     * @param discoverBO
+     */
+    @RequestMapping("/insertDiscover")
+    public void insertDiscover(HttpServletRequest request,HttpServletResponse response,DiscoverBO discoverBO){
+        AdminBO adminBO = super.getLoginAdmin(request);
+        if(adminBO == null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
+        if(StringUtils.isEmpty(discoverBO.getType())){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        discoverBO.setDcUpdatename(adminBO.getName());
+        discoverBO.setUpdateTime(new Date());
+        discoverBO.setDcName(adminBO.getName());
+        discoverBO.setCreateTime(new Date());
+        //新闻
+        if(discoverBO.getType().equals("journalism")){
+            discoverService.insertJournalism(discoverBO);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
+            super.safeJsonPrint(response , result);
+            return;
+        }
+        //视频
+        if(discoverBO.getType().equals("curriculum")){
+            discoverService.insertCurriculum(discoverBO);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
+            super.safeJsonPrint(response , result);
+            return;
+        }
+        //线下活动
+        if(discoverBO.getType().equals("activity")){
+            discoverService.insertActivity(discoverBO);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
+            super.safeJsonPrint(response , result);
+            return;
+        }
+    }
 }
 
 
