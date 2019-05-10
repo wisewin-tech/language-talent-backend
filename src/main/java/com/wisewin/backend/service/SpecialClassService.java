@@ -27,8 +27,8 @@ public class SpecialClassService {
     /**
      * 专题分类的删除
      * */
-    public boolean delSpecialClassById(Integer[] idArr,String status){
-        return specialClassDAO.delSpecialClassById(idArr,status)>0;
+    public boolean delSpecialClassById(Integer[] idArr,String status,Integer id){
+        return specialClassDAO.delSpecialClassById(idArr,status,id)>0;
     }
 
     /**

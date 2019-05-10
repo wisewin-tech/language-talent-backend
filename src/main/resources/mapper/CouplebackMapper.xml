@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 反馈 -->
+<mapper namespace="com.wisewin.backend.dao.CouplebackDAO">
+
+
+    <select id="queryCoupleback" resultType="com.wisewin.backend.entity.bo.CouplebackBO">
+        SELECT
+          userid,content,
+          contactpattern,pattern,
+          pictureurl,update_time,
+        disposeresult,disposeperson
+        FROM
+          lt_coupleback
+        <where>
+            <if test="disposeresult!=null and disposeresult!='' ">
+                disposeresult=#{disposeresult}
+            </if>
+        </where>
+        ORDER  BY
+        update_time
+        DESC
+    </select>
+
+
+</mapper>

@@ -130,6 +130,7 @@ public class BaseCotroller {
         return 0;
     }
 
+
     class ThreadUtil implements Runnable {
         // 设置读取的字符编码
         private String character = "UTF-8";

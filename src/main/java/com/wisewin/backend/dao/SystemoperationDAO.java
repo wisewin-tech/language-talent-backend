@@ -20,7 +20,7 @@ public interface SystemoperationDAO {
     Integer addSystemoperation(SystemoperationBO systemoperationBO);
 
     /**
-     * 显示
+     * 根据contenttype查询
      *   Integer id; //系统操作id
      * Integer adminId; //后台id
      * String content; //内容
@@ -29,6 +29,8 @@ public interface SystemoperationDAO {
      *  Date soReleasetime; //操作时间
      */
     List<SystemoperationBO> querySystemoperation(SystemoperationBO systemoperationBO);
+
+
 
 
 }

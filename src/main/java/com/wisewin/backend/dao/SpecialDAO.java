@@ -19,7 +19,7 @@ public interface SpecialDAO {
     /**
      * 批量修改专题状态
      * */
-    Integer delSpecialById(@Param("idArr") Integer[] idArr, @Param("status") String status);
+    Integer delSpecialById(@Param("idArr") Integer[] idArr, @Param("status") String status,@Param("updateId")Integer updateId);
     /**
      * 修改一条专题的信息
      * */

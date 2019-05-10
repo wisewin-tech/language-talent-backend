@@ -1,5 +1,6 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.DictionariesBO;
 import com.wisewin.backend.entity.bo.DictionariesjoinBO;
 import com.wisewin.backend.entity.bo.DictionariestypeBO;
@@ -39,8 +40,16 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/addDictionariestype")
     public void addDictionariestype(HttpServletRequest request, HttpServletResponse response, DictionariestypeParam param){
+        //创建获取管理员id
+        AdminBO loginAdmin = super.getLoginAdmin(request);
 
-        if (param.getKeyName().equals("") && param.getRank()==null  && param.getUpdateNameId()==null){
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
+        if (param.getKeyName().equals("") && param.getRank()==null  && id==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
             return;
@@ -50,7 +59,7 @@ public class DictionariestypeController extends BaseCotroller {
         if (dictionariestype==0){
             int findictionaries=dictionariestypeService.getfindDictionariestype(param.getValueName());
             if (findictionaries==0){
-                boolean dictionariestypejson=dictionariestypeService.getaddDictionariestype(param.getKeyName(),param.getRank(),param.getUpdateNameId(),param.getValueName());
+                boolean dictionariestypejson=dictionariestypeService.getaddDictionariestype(param.getKeyName(),param.getRank(),id,param.getValueName());
                 if (dictionariestypejson){
                     String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
                     super.safeJsonPrint(response,languagejson);
@@ -105,8 +114,16 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/updateDictionariestype")
     public  void updateDictionariestype(HttpServletRequest request,HttpServletResponse response,DictionariestypeParam param) {
+        //创建获取管理员id
+        AdminBO loginAdmin = super.getLoginAdmin(request);
 
-        if (param.getId() == null && param.getKeyName().equals(" ") && param.getRank() == null && param.getUpdateNameId() == null) {
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
+        if (param.getId() == null && param.getKeyName().equals(" ") && param.getRank() == null && id == null) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
@@ -115,7 +132,7 @@ public class DictionariestypeController extends BaseCotroller {
             DictionariestypeBO dictionariestypeBO=dictionariestypeService.getfindDictionariestypeid(param.getId(),param.getKeyName(),param.getValueName());
             if (dictionariestypeBO.getKeyName().equals(param.getKeyName())){
                 if (dictionariestypeBO.getValueName().equals(param.getValueName())){
-                    boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), param.getUpdateNameId(), param.getValueName());
+                    boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), id, param.getValueName());
                     if (updateDictionariestypejson) {
                         String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
                         super.safeJsonPrint(response, languagejson);
@@ -154,7 +171,7 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/deleteDictionariestype")
     public void deleteDictionariestype(HttpServletRequest request,HttpServletResponse response,String Dcyid){
-        if (Dcyid==null){
+        if (Dcyid.equals("")){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
         }
@@ -185,7 +202,15 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/addDictionaries")
     public void addDictionaries(HttpServletRequest request,HttpServletResponse response,DictionariesParam param,String keyName ){
+        //创建获取管理员id
+        AdminBO loginAdmin = super.getLoginAdmin(request);
 
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
         List<DictionariestypeBO> list=dictionariestypeService.getqueryDictionarieslist(keyName);
         if (list==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -195,7 +220,7 @@ public class DictionariestypeController extends BaseCotroller {
 
 
         if (param.getKey().equals("") && param.getValue().equals("") && param.getOuter().equals("")
-                && param.getDnName().equals("") && param.getUpdateUserId()==null  && param.getRank()==null){
+                && param.getDnName().equals("") && id==null  && param.getRank()==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
             return;
@@ -209,7 +234,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         boolean addDictionariesjson=dictionariestypeService.getaddDictionaries(param.getKey(),param.getValue(),param.getDnName(),
-                param.getUpdateUserId(),param.getRank(),param.getOuter());
+               id,param.getRank(),param.getOuter());
         if (addDictionariesjson){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
             super.safeJsonPrint(response,languagejson);
@@ -255,7 +280,15 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/updateDictionaries")
     public void updateDictionaries(HttpServletRequest request,HttpServletResponse response,DictionariesParam param,String keyName){
+        //创建获取管理员id
+        AdminBO loginAdmin = super.getLoginAdmin(request);
 
+        if(loginAdmin==null){
+            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        Integer id = loginAdmin.getId();
       List<DictionariestypeBO> list=dictionariestypeService.getqueryDictionarieslist(keyName);
       if (list.equals("")){
           String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -264,7 +297,7 @@ public class DictionariestypeController extends BaseCotroller {
       }
 
       if (param.getId()==null && param.getKey().equals("") && param.getValue().equals("") && param.getOuter().equals("")
-                                                                && param.getUpdateUserId()==null && param.getRank()==null){
+                                                                && id==null && param.getRank()==null){
           String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
           super.safeJsonPrint(response,json);
           return;
@@ -280,7 +313,7 @@ public class DictionariestypeController extends BaseCotroller {
          }
       }
 
-            boolean updateDictionaries=dictionariestypeService.getupdateDictionaries(param.getId(),param.getKey(),param.getValue(),param.getUpdateUserId(),param.getRank(),param.getOuter());
+            boolean updateDictionaries=dictionariestypeService.getupdateDictionaries(param.getId(),param.getKey(),param.getValue(),id,param.getRank(),param.getOuter());
             if (updateDictionaries){
                 String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
                 super.safeJsonPrint(response,languagejson);
@@ -296,7 +329,7 @@ public class DictionariestypeController extends BaseCotroller {
      */
     @RequestMapping("/deleteDictionaries")
     public void deleteDictionaries(HttpServletRequest request,HttpServletResponse response,String DcId){
-    if (DcId==null){
+    if (DcId.equals("")){
         String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
         super.safeHtmlPrint(response,languagejson);
         return;
