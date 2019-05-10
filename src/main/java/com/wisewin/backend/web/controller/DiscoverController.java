@@ -200,7 +200,7 @@ public class DiscoverController extends BaseCotroller {
         }
         discoverBO.setDcUpdatename(adminBO.getName());
         discoverBO.setUpdateTime(new Date());
-        if(discoverBO.getType().equals("Journalism")){
+        if(discoverBO.getType().equals("journalism")){
             discoverService.updateJournalism(discoverBO);
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
@@ -213,6 +213,7 @@ public class DiscoverController extends BaseCotroller {
             return;
         }
         if(discoverBO.getType().equals("activity")){
+
             discoverService.updateActivity(discoverBO);
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
