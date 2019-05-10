@@ -42,7 +42,7 @@
     <select id="queryOrderByCond" resultType="com.wisewin.backend.entity.bo.OrderBO" parameterType="com.wisewin.backend.entity.param.OrderParam">
         select
         `name`,mobile,
-        price,order_number,status,
+        price,order_number,lt_order.status,
         creation_date,
         course_validity_period
         from lt_order,lt_user
