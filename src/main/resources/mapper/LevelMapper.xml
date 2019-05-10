@@ -23,6 +23,8 @@
             <if test="languageId!=null" >
                 AND  le.id=#{languageId}
             </if>
+                 AND   le.status='putaway'``
+                 AND   ce.status='putaway'
           </where>
         ORDER BY  serial_number DESC  <include refid="limit" />
     </select>

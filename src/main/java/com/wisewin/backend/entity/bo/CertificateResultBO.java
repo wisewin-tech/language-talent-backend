@@ -1,39 +1,17 @@
 package com.wisewin.backend.entity.bo;
 
+import java.util.Date;
+
 public class CertificateResultBO {
     private Integer id; //用户证书结果集
     private Integer userId; //用户id
-    private String nickname; //用户昵称
-    private String mobile; //用户手机号
     private Integer courseId; //课程id
     private String status; //证书是否获得(yes已获得/no)
     private String send; //证书是否发送(Sent已发送/unSent)
-    private String courseName; //课程名称
-    private String imageUrl; //证书图片路径
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getSend() {
-        return send;
-    }
-
-    public void setSend(String send) {
-        this.send = send;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    private Integer createUserId;//创建人id
+    private Integer updateUserId;//修改人id
+    private Date  createTime;//创建时间
+    private Date updateTime;//修改时间
 
     public Integer getId() {
         return id;
@@ -67,20 +45,43 @@ public class CertificateResultBO {
         this.status = status;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getSend() {
+        return send;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setSend(String send) {
+        this.send = send;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Integer getCreateUserId() {
+        return createUserId;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
     }
 
+    public Integer getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Integer updateUserId) {
+        this.updateUserId = updateUserId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }
