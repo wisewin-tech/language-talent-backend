@@ -115,7 +115,7 @@
                     video = #{video} , <!--视频url-->
                     content =  #{content} , <!--内容-->
                     `TYPE` = #{type} , <!--类型-->
-                    skip = #{skip} , <!--跳转url-->
+                    stick =  #{stick}, <!--置顶-->
                     way = #{way} , <!--排序-->
                     videoImg = #{videoImg} <!--视频封面url-->
                     WHERE
@@ -158,8 +158,8 @@ INSERT INTO language_talent.lt_discover
     likenum, <!--喜欢人数后台录入-->
 	stick, <!--置顶-->
 	`SHOW`, <!--是否显示后台录入默认yes-->
-	way, <!--排序-->
-	videoImg <!--封面url-->
+	way <!--展示方式-->
+
 	)
 	VALUES
 	(#{title},
@@ -174,8 +174,8 @@ INSERT INTO language_talent.lt_discover
     #{likenum},
 	#{stick},
 	#{show},
-	#{way},
-	#{videoImg}
+	#{way}
+
 	);
     </insert>
     <!--添加 视频类型 curriculum-->

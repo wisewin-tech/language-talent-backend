@@ -35,11 +35,6 @@ public class SpecialController extends BaseCotroller {
      * */
     @RequestMapping("selectSpecialBO")
     public void selectSpecialBO(HttpServletRequest request, HttpServletResponse response,String status,Integer classId,Integer pageNo,Integer pageSize){
-        if(pageNo==null||pageNo==0||pageSize==null||pageSize==0){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
         Map<String,Object> map=new HashMap<String, Object>();
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
         if(queryInfo != null) {
