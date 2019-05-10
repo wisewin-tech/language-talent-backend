@@ -81,7 +81,7 @@ public class HelpCenterController extends BaseCotroller {
      */
     @RequestMapping("/updateHelpCenter")
     public void updateHelpCenter(Integer id, String title, String content, Integer serialNumber, HttpServletResponse response, HttpServletRequest request) {
-        if (StringUtils.isEmpty(String.valueOf(id)) || StringUtils.isEmpty(title) || StringUtils.isEmpty(content)) {
+        if (id==null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！"));
             super.safeJsonPrint(response, result);
             return;
