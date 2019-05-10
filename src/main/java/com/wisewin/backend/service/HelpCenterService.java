@@ -30,11 +30,9 @@ public class HelpCenterService {
      * @return
      */
     public Integer insertHelpCenter(HelpCenterBO helpCenterBO) {
-        if (helpCenterBO.getTitle() == null || helpCenterBO.getContent() == null) {
-            return 0;
-        } else {
+
             return helpCenterDAO.insertHelpCenter(helpCenterBO);
-        }
+
     }
 
     /**

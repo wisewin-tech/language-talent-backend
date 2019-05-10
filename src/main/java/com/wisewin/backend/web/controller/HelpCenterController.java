@@ -46,20 +46,18 @@ public class HelpCenterController extends BaseCotroller {
      * @param request
      */
     @RequestMapping("/insertHelpCenter")
-    public void insertHelpCenter(String title, String content, Integer serialNumber, HttpServletResponse response, HttpServletRequest request) {
-        if (StringUtils.isEmpty(title) || StringUtils.isEmpty(content)) {
+    public void insertHelpCenter(HelpCenterBO helpCenterBO, HttpServletResponse response, HttpServletRequest request) {
+        if (helpCenterBO==null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！"));
             super.safeJsonPrint(response, result);
             return;
         }
 
-        HelpCenterBO helpCenterBO = new HelpCenterBO();
+
         //从cookie中获取对象
         AdminBO adminBO = super.getLoginAdmin(request);
         helpCenterBO.setCreateId(adminBO.getId());
-        helpCenterBO.setTitle(title);
-        helpCenterBO.setContent(content);
-        helpCenterBO.setSerialNumber(serialNumber);
+
         Integer i = helpCenterService.insertHelpCenter(helpCenterBO);
         if (i > 0) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("帮助中心信息添加成功！"));
