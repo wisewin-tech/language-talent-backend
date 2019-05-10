@@ -39,9 +39,6 @@ public class HelpCenterController extends BaseCotroller {
 
     /**
      * 新增帮助中心信息
-     * @param title        标题
-     * @param content      内容
-     * @param serialNumber 排序码
      * @param response
      * @param request
      */
