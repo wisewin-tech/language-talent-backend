@@ -174,8 +174,8 @@ INSERT INTO language_talent.lt_discover
     #{likenum},
 	#{stick},
 	#{show},
-	#{way},
-	#{videoImg}
+	#{way}
+
 	);
     </insert>
     <!--添加 视频类型 curriculum-->
