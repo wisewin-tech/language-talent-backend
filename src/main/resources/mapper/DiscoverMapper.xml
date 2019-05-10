@@ -115,7 +115,7 @@
                     video = #{video} , <!--视频url-->
                     content =  #{content} , <!--内容-->
                     `TYPE` = #{type} , <!--类型-->
-                    skip = #{skip} , <!--跳转url-->
+                    stick =  #{stick}, <!--修改置顶url-->
                     way = #{way} , <!--排序-->
                     videoImg = #{videoImg} <!--视频封面url-->
                     WHERE
