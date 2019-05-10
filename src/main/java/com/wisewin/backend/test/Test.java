@@ -1,6 +1,9 @@
 package com.wisewin.backend.test;
 
 
+import com.wisewin.backend.common.constants.DiscoverConstants;
+import com.wisewin.backend.common.constants.LanguageConstants;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -121,4 +124,9 @@ public class Test {
         list.add("");
         list.add("");
     }
+
+    public void aaa (){
+
+    }
+
 }

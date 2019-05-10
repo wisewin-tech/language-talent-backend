@@ -34,23 +34,20 @@
     </select>
     <!--查询订单下的子课程-->
     <select id="queryOrderCoursesByOrderId" resultType="com.wisewin.backend.entity.bo.OrderCoursesBO">
-        select id,user_id,order_id,
-        courses_id,courses_name
+        select courses_name
         from lt_order_courses where order_id=#{orderId}
     </select>
 
     <!-- 按时间段 手机号 订单号 分页查询所有订单-->
     <select id="queryOrderByCond" resultType="com.wisewin.backend.entity.bo.OrderBO" parameterType="com.wisewin.backend.entity.param.OrderParam">
         select
-        lt_order.id as id,user_id as userId,
-        price,order_number as orderNumber,
-        product_name as productName,
-        creation_date as creationDate,
-        course_validity_period as courseValidityPeriod,
-        mobile
+        `name`,mobile,
+        price,order_number,lt_order.status,
+        creation_date,
+        course_validity_period
         from lt_order,lt_user
         <where>
-            user_id=lt_user.id
+            lt_user.id=lt_order.user_id and order_type='购买'
             <if test="mobile!=null and mobile!=''"> AND mobile=#{mobile}</if>
             <if test="orderNumber!=null and orderNumber!=''"> AND order_number=#{orderNumber}</if>
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
@@ -68,7 +65,7 @@
         count(*)
         from lt_order,lt_user
         <where>
-            user_id=lt_user.id
+            lt_user.id=lt_order.user_id and order_type='购买'
             <if test="mobile!=null and mobile!=''"> AND mobile=#{mobile}</if>
             <if test="orderNumber!=null and orderNumber!=''"> AND order_number=#{orderNumber}</if>
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
@@ -76,6 +73,8 @@
         </where>
     </select>
 
-
+    <select id="queryCoursesById" resultType="java.lang.Integer">
+        select user_id from lt_order_courses where courses_id=#{coursesId}
+    </select>
 
 </mapper>

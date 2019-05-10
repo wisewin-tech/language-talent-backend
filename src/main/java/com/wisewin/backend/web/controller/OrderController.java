@@ -69,4 +69,7 @@ public class OrderController extends BaseCotroller {
         super.safeJsonPrint(response,json);
     }
 
+    /**
+     * 根据课程id 查出购买这个课程的userId
+     */
 }
