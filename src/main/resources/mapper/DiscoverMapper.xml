@@ -158,8 +158,8 @@ INSERT INTO language_talent.lt_discover
     likenum, <!--喜欢人数后台录入-->
 	stick, <!--置顶-->
 	`SHOW`, <!--是否显示后台录入默认yes-->
-	way, <!--展示方式-->
-	videoImg <!--封面url-->
+	way <!--展示方式-->
+
 	)
 	VALUES
 	(#{title},
