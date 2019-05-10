@@ -24,6 +24,14 @@ public class KeyValService {
     }
 
     /**
+     * 修改val值
+     * @param map
+     */
+    public void updateVal(Map<String,Object> map) {
+        keyValDAO.updateVal(map);
+    }
+
+    /**
      * 添加
      * @param key
      * @param val
@@ -41,13 +49,6 @@ public class KeyValService {
      */
     public void deleteKey(Integer id) {
        keyValDAO.deleteKey(id);
-    }
-    /**
-     * 修改val值
-     * @param map
-     */
-    public void updateVal(Map<String,Object> map) {
-        keyValDAO.updateVal(map);
     }
 
 }

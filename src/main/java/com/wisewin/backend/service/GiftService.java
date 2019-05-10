@@ -56,8 +56,6 @@ public class GiftService {
             gif.setStarttime(giftParam.getStarttime());
             gif.setFinishtime(giftParam.getFinishtime());
             gif.setCause(giftParam.getCause());
-            gif.setCause(giftParam.getCause());
-            gif.setStatus("not use");
             list.add(gif);
         }
 

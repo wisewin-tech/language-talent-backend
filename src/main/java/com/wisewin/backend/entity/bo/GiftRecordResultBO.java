@@ -1,10 +1,10 @@
-package com.wisewin.backend.entity.param;
+package com.wisewin.backend.entity.bo;
 
-import com.wisewin.backend.common.base.BaseModel;
+import com.wisewin.backend.util.dates.DateUtil;
 
 import java.util.Date;
 
-public class GiftRecordParam extends BaseModel {
+public class GiftRecordResultBO {
     private Integer id; //礼品记录id
     private Integer giftId; //礼品卡iD
     private Integer  userId; //用户id
@@ -12,8 +12,8 @@ public class GiftRecordParam extends BaseModel {
     private String  mobile; //用户手机号
     private String  title; //标题名称
     private Integer value; //兑换值
-    private Date grReleasetime; //兑换时间
-    private Date createTime; //创建时间
+    private String grReleasetime; //兑换时间
+    private String createTime; //创建时间
 
     public Integer getId() {
         return id;
@@ -71,19 +71,19 @@ public class GiftRecordParam extends BaseModel {
         this.value = value;
     }
 
-    public Date getGrReleasetime() {
-        return grReleasetime;
+    public String getGrReleasetime() {
+        return DateUtil.getStr(grReleasetime);
     }
 
-    public void setGrReleasetime(Date grReleasetime) {
-        this.grReleasetime = grReleasetime;
+    public void setGrReleasetime(String grReleasetime) {
+        this.grReleasetime = DateUtil.getStr(grReleasetime);
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCreateTime() {
+        return DateUtil.getStr(createTime);
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateTime(String createTime) {
+        this.createTime = DateUtil.getStr(createTime);
     }
 }

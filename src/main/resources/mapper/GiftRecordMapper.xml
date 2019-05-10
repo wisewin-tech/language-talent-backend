@@ -5,24 +5,28 @@
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.GiftRecordDAO">
     <!--通过条件分页查询键值信息-->
-    <select id="selectAll" resultType="com.wisewin.backend.entity.bo.GiftRecordBO"
+    <select id="selectAll" resultType="com.wisewin.backend.entity.bo.GiftRecordResultBO"
             parameterType="java.util.Map">
         select
-        lgr.id,lgr.giftid,lgr.userid,lgr.grReleasetime,lgr.exchangevalue, lgr.statecase, lgr.annotation,
---         lg.title,lg.status
+        gr.id,gr.user_id,gr.gift_id,gr.gr_releasetime,gr.create_time,
+        lg.title,lg.value,
+        lu.nickname,lu.mobile
         from
-        lt_giftrecord AS `lgr`
-        LEFT JOIN lt_gift AS `lg`
-        ON `lgr`.giftid=`lg`.id
+        lt_giftrecord AS gr
+        LEFT JOIN lt_gift AS lg ON gr.gift_id=lg.id
+        LEFT JOIN lt_user AS lu ON lu.id=gr.user_id
         <where>
-
-            <if test="giftRecordParam.title!=null"> AND `title` LIKE '%${giftRecordParam.title}%' </if>
-            <if test="giftRecordParam.userid!=null">`userid`=#{giftRecordParam.userid},</if>
-            <if test="giftRecordParam.status!=null">`status`=#{giftRecordParam.status},</if>
+            <if test="giftRecordParam.userId!=null "> AND gr.`user_id`=#{giftRecordParam.userId}</if>
+            <if test="giftRecordParam.giftId!=null "> AND gr.`gift_id`=#{giftRecordParam.giftId}</if>
+            <if test="giftRecordParam.grReleasetime!=null "> AND gr.`gr_releasetime`=#{giftRecordParam.grReleasetime}</if>
+            <if test="giftRecordParam.createTime!=null "> AND gr.`create_time`=#{giftRecordParam.createTime}</if>
+            <if test="giftRecordParam.title!=null and giftRecordParam.title!='' "> AND lg.title LIKE '%${giftRecordParam.title}%' </if>
+            <if test="giftRecordParam.value!=null "> AND lg.`value`=#{giftRecordParam.value}</if>
+            <if test="giftRecordParam.nickname!=null and giftRecordParam.nickname!=''"> AND lu.`nickname`=#{giftRecordParam.nickname},</if>
+            <if test="giftRecordParam.mobile!=null and giftRecordParam.mobile!=''"> AND lu.`mobile`=#{giftRecordParam.mobile},</if>
         </where>
-        order by lgr.create_time desc
+        order by gr.create_time desc
         <include refid="limit" />
-
     </select>
     <sql id="limit">
       limit #{pageOffset},#{pageSize}

@@ -34,7 +34,7 @@ public class CertificateService {
      * @param id
      * @return
      */
-    public void updateSend(Integer id){
+    public void updateSend(Integer id,Integer userid){
         Map<String,Object> map=new HashMap<String, Object>();
 //        map.put("userId",userId);
 //        map.put("courseId",courseId);
@@ -44,7 +44,8 @@ public class CertificateService {
 //        当userId,为空courseId为空时,修改所有用户的所有课时为已发送证书
 //        当userId,不为空courseId不为空时,修改userId用户的 courseId 课时为已发送证书
         map.put("id",id);
-        map.put("send","Sent");
+        map.put("userId",userid);
+        map.put("send","yes");
          certificateDAO.updateSend(map);
     }
 

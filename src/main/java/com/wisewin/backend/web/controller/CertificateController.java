@@ -56,11 +56,19 @@ public class CertificateController extends BaseCotroller {
 
     @RequestMapping("/updateCertSend")
     public void updateSend(Integer id,HttpServletResponse response, HttpServletRequest request) {
+        //获取管理员id
+        Integer userId=super.getLoginAdmin(request).getId();
+        //验证管理员是否登录
+        if (userId==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+            super.safeJsonPrint(response, result);
+            return;
+        }
         if (id==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        certificateService.updateSend(id);
+        certificateService.updateSend(id,userId);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(null));
         super.safeJsonPrint(response, json);
     }

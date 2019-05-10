@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 配置表
+ */
 @Controller
 @RequestMapping("/keyVal")
 public class KeyValController extends BaseCotroller {
@@ -53,14 +56,17 @@ public class KeyValController extends BaseCotroller {
     }
     /**
      * 修改val值
-     * @param id
-     * @param comment
+     * @param id 配置表id
+     * @param values 配置的属性值
+     * @param comment 备注
      * @param response
      * @param request
      */
     @RequestMapping("/updateVal")
     public void updateVal(Integer id,String values,String comment,HttpServletResponse response, HttpServletRequest request) {
+        //获取管理员id
         Integer userId=super.getLoginAdmin(request).getId();
+        //验证管理员是否登录
         if (userId==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
             super.safeJsonPrint(response, result);
@@ -73,6 +79,7 @@ public class KeyValController extends BaseCotroller {
             return;
         }
         Map<String,Object> map=new HashMap<String, Object>();
+        //把要修改的内容userId,val,comment以及条件id放入map中
         map.put("id",id);
         map.put("userId",userId);
         map.put("val",values);

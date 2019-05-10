@@ -30,7 +30,7 @@
     </sql>
 
     <!--添加礼品卡-->
-    <insert id="addGift" >
+    <insert id="addGift" parameterType="com.wisewin.backend.entity.param.GiftParam">
 
         INSERT  INTO lt_gift
         ( `title`,`value`,`cardnumber`,`scope`,`exchangeyard`,  `starttime`,`finishtime`,
