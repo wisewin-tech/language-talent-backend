@@ -123,7 +123,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         Integer id = loginAdmin.getId();
-        if (param.getId() == null && param.getKeyName().equals(" ") && param.getRank() == null && id == null) {
+        if (param.getId() == null || param.getKeyName().equals(" ") || param.getRank() == null || id == null) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
@@ -219,8 +219,8 @@ public class DictionariestypeController extends BaseCotroller {
         }
 
 
-        if (param.getKey().equals("") && param.getValue().equals("") && param.getOuter().equals("")
-                && param.getDnName().equals("") && id==null  && param.getRank()==null){
+        if (param.getKey().equals("") || param.getValue().equals("") || param.getOuter().equals("")
+                || param.getDnName().equals("") || id==null  || param.getRank()==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
             return;

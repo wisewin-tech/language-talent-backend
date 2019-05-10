@@ -28,7 +28,7 @@ public class LanguagepurposeController extends BaseCotroller {
     @RequestMapping("/addLanguagepurpose")
     public void addLanguagepurpose(HttpServletRequest request, HttpServletResponse response, LanguagepurposeParam param){
 
-        if (param.getPurposeId().equals("") && param.getUserId().equals("")){
+        if (param.getPurposeId().equals("") || param.getUserId().equals("")){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
         }
