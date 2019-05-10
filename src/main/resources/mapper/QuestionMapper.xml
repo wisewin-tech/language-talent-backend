@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.QuestionDAO">
+
+    <insert id="addquestion" parameterType="java.util.List">
+        INSERT INTO lt_question(topic,`option`,answer,score,relevance_id,
+          question_type,test_type,chapter_type,create_user_id,create_time)
+        VALUES
+            (#{topic},#{option},#{answer},#{score},#{relevanceId},
+            #{questionType},#{testType},#{chapterType},#{createUserId},now())
+    </insert>
+
+    <select id="selectQuestion" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.QuestionBO">
+      SELECT  *  FROM  `lt_question`
+      <where>
+        <if test="questionBO.questionType!=null and questionBO.questionType!=''">
+            question_type =#{questionBO.questionType}</if>
+        <if test="questionBO.testType!=null and questionBO.testType!=''">
+            AND `test_type`=#{questionBO.testType}</if>
+          <if test="questionBO.chapterType!=null and questionBO.chapterType!=''">
+              AND `chapter_type`=#{questionBO.chapterType}</if>
+          <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
+              AND `relevance_id`=#{questionBO.relevanceId}</if>
+      </where>
+        <include refid="limit" />
+    </select>
+    <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
+
+
+    <!--查询所有条数-->
+    <select id="selectbylimitCount"   parameterType="java.util.Map"   resultType="java.lang.Integer">
+        SELECT  count(1)  FROM  lt_question
+        <where>
+            <if test="questionBO.questionType!=null and questionBO.questionType!=''">
+                question_type =#{questionBO.questionType}</if>
+            <if test="questionBO.testType!=null and questionBO.testType!=''">
+                AND `test_type`=#{questionBO.testType}</if>
+            <if test="questionBO.chapterType!=null and questionBO.chapterType!=''">
+                AND `chapter_type`=#{questionBO.chapterType}</if>
+            <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
+                AND `relevance_id`=#{questionBO.relevanceId}</if>
+        </where>
+
+    </select>
+
+    <!--修改题目-->
+    <update id="updateQuestion"  parameterType="com.wisewin.backend.entity.bo.QuestionBO" >
+        UPDATE `lt_question`
+        <set>
+            <if test="topic!=null and topic!=''" > `topic` =#{topic},</if>
+            <if test="option!=null and option!=''" > `option` =#{option},</if>
+            <if test="answer!=null and answer!=''" > `answer` =#{answer},</if>
+            <if test="score!=null and score!=''" > `score` =#{score},</if>
+            <if test="relevanceId!=null and relevanceId!=''" > `relevance_id` =#{relevanceId},</if>
+            <if test="questionType!=null and questionType!=''">
+                question_type =#{questionType},</if>
+            <if test="testType!=null and testType!=''">
+                `test_type`=#{testType},</if>
+            <if test="chapterType!=null and chapterType!=''">
+                `chapter_type`=#{chapterType},</if>
+            `update_user_id` =#{updateUserId},
+           `update_time` = now()
+        </set>
+        WHERE   id=#{id}
+    </update>
+
+    <delete id="delQuestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO">
+        DELETE FROM `lt_question`
+        WHERE id = #{id}
+    </delete>
+
+    <!--通过id查询所有信息-->
+    <select id="getQuestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO"
+            resultType="com.wisewin.backend.entity.bo.QuestionBO">
+        select * from lt_question
+        where 1=1
+        <if test="id!=null and id!=''">
+            and id=#{id}
+        </if>
+    </select>
+
+</mapper>
