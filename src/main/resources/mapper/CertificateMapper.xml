@@ -37,4 +37,17 @@
         id=#{id}
     </update>
 
+    <!--查询课程数量-->
+    <select id="queryUserCount"  parameterType="java.lang.Integer"  resultType="int">
+        SELECT  count(id)  FROM   lt_certificate  WHERE  course_id=#{ceId}
+    </select>
+
+    <!--添加证书-->
+    <insert id="addCertificate"  parameterType="com.wisewin.backend.entity.bo.CertificateResultBO"  >
+      INSERT INTO `lt_certificate` ( `user_id`, `course_id`, `send`, `status`, `create_user_id`, `create_time`,
+       `update_user_id`, `update_time`)
+        VALUES (#{userId},#{courseId},#{status},#{send},#{createUserId},#{createTime},#{updateUserId},#{updateTime});
+
+    </insert>
+
 </mapper>
