@@ -44,10 +44,10 @@ public class KeyValService {
     }
     /**
      * 修改val值
-     * @param id
+     * @param map
      */
-    public void updateVal(Integer id,String val) {
-        keyValDAO.updateVal(id,val);
+    public void updateVal(Map<String,Object> map) {
+        keyValDAO.updateVal(map);
     }
 
 }

@@ -54,19 +54,30 @@ public class KeyValController extends BaseCotroller {
     /**
      * 修改val值
      * @param id
-     * @param val
+     * @param comment
      * @param response
      * @param request
      */
     @RequestMapping("/updateVal")
-    public void updateVal(Integer id,String val,HttpServletResponse response, HttpServletRequest request) {
+    public void updateVal(Integer id,String values,String comment,HttpServletResponse response, HttpServletRequest request) {
+        Integer userId=super.getLoginAdmin(request).getId();
+        if (userId==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+            super.safeJsonPrint(response, result);
+            return;
+        }
         //参数非空验证
-        if(id==null|| StringUtils.isEmpty(val)){
+        if(id==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
             super.safeJsonPrint(response, result);
             return;
         }
-        keyValService.updateVal(id,val);
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("id",id);
+        map.put("userId",userId);
+        map.put("val",values);
+        map.put("comment",comment);
+        keyValService.updateVal(map);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
     }

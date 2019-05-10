@@ -41,12 +41,16 @@
 
         </where>
     </update>
-    <update id="updateVal">
-        UPDATE lt_key_val SET
-        `values`=#{val}
+    <update id="updateVal" parameterType="java.util.Map">
+        UPDATE lt_key_val
+        <set>
+            <if test="val!=null  and  val!='' "> `values`=#{val},</if>
+            <if test="comment!=null and  comment!='' ">  `comment` =#{comment},</if>
+            update_id=#{userId},
+            update_time=now()
+        </set>
         <where>
             id=#{id}
-
         </where>
     </update>
 

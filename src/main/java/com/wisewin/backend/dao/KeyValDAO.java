@@ -22,7 +22,7 @@ public interface KeyValDAO {
      * 修改
      * @param
      */
-    void updateVal(@Param("id")Integer id,@Param("val")String val);
+    void updateVal(Map<String,Object> map);
 
     /**
      * 删除
