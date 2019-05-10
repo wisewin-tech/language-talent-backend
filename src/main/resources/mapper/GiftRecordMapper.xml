@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.GiftRecordDAO">
+    <!--通过条件分页查询键值信息-->
+    <select id="selectAll" resultType="com.wisewin.backend.entity.bo.GiftRecordBO"
+            parameterType="java.util.Map">
+        select
+        lgr.id,lgr.giftid,lgr.userid,lgr.grReleasetime,lgr.exchangevalue, lgr.statecase, lgr.annotation,
+--         lg.title,lg.status
+        from
+        lt_giftrecord AS `lgr`
+        LEFT JOIN lt_gift AS `lg`
+        ON `lgr`.giftid=`lg`.id
+        <where>
+
+            <if test="giftRecordParam.title!=null"> AND `title` LIKE '%${giftRecordParam.title}%' </if>
+            <if test="giftRecordParam.userid!=null">`userid`=#{giftRecordParam.userid},</if>
+            <if test="giftRecordParam.status!=null">`status`=#{giftRecordParam.status},</if>
+        </where>
+        order by lgr.create_time desc
+        <include refid="limit" />
+
+    </select>
+    <sql id="limit">
+      limit #{pageOffset},#{pageSize}
+    </sql>
+
+</mapper>

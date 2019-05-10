@@ -8,7 +8,7 @@
     <select id="selectAll" resultType="com.wisewin.backend.entity.bo.KeyValuesBO"
             parameterType="java.util.Map">
         select
-        `id` ,`key`,`values`,create_time
+        `id` ,`key`,`values`,ready,create_time
         from
         lt_key_val
         <where>
