@@ -57,11 +57,6 @@ public class OrderController extends BaseCotroller {
      */
     @RequestMapping("queryOrderByCond")
     public void queryOrderByCond(HttpServletRequest request, HttpServletResponse response, OrderParam orderParam){
-        if(orderParam.getPageNo()==null||orderParam.getPageSize()==null||orderParam.getPageNo()==0||orderParam.getPageSize()==0){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
         QueryInfo queryInfo = getQueryInfo(orderParam.getPageNo(),orderParam.getPageSize());
         if(queryInfo != null){
             orderParam.setPageNo(queryInfo.getPageOffset());
