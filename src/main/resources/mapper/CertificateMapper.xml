@@ -19,6 +19,7 @@
             <if test="send!=null">ltc.`send`=#{send},</if>
             <if test="status!=null">ltc.`status`=#{status},</if>
             <if test="userId!=null">ltc.`user_id`=#{userId},</if>
+            <if test="mobile!=null">ltu.`mobile`=#{mobile},</if>
         </where>
         <include refid="limit" />
     </select>
