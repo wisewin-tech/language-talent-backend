@@ -28,8 +28,8 @@ public class SpecialService {
     /**
      * 专题的删除
      * */
-    public boolean delSpecialById(Integer[] idArr,String status){
-        return specialDAO.delSpecialById(idArr,status)>0;
+    public boolean delSpecialById(Integer[] idArr,String status,Integer updateId){
+        return specialDAO.delSpecialById(idArr,status,updateId)>0;
     }
 
     /**
