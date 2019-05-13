@@ -26,7 +26,14 @@ public class GiftService {
      * @return
      */
     public List<GiftBO> selectAll(Map<String,Object> map) {
-       return giftDAO.selectAll(map);
+        return giftDAO.selectAll(map);
+    }
+    /**
+     * 查询礼品卡数量
+     * @return
+     */
+    public Integer selectCount(Map<String,Object> map) {
+        return giftDAO.selectCount(map);
     }
 
     /**

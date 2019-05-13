@@ -14,5 +14,7 @@ public interface GiftRecordDAO {
      * @return
      */
     List<GiftRecordBO> selectAll(Map<String, Object> map);
+    //查询用户礼品卡记录的数量
+    Integer selectCount(Map<String, Object> map);
 
 }

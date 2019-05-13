@@ -13,6 +13,7 @@ public interface GiftDAO {
      * @return
      */
     List<GiftBO> selectAll(Map<String, Object> map);
+    Integer selectCount(Map<String, Object> map);
 
     /**
      * 添加

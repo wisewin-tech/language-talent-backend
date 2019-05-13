@@ -47,7 +47,11 @@ public class GiftController extends BaseCotroller {
         //把参数条件 放入map中
         condition.put("giftParam",giftParam);
         List<GiftBO> giftBOS = giftService.selectAll(condition);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(giftBOS));
+        Integer count=giftService.selectCount(condition);
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("giftBOS",giftBOS);
+        map.put("count",count);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, json);
     }
 

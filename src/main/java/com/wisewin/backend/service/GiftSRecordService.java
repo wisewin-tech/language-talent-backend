@@ -26,6 +26,17 @@ public class GiftSRecordService {
     public List<GiftRecordBO> selectAll(Map<String,Object> map) {
        return giftRecordDAO.selectAll(map);
     }
+    /**
+     * 查询所有礼品卡信息
+     * @return
+     */
+    /**
+     * 查询礼品卡数量
+     * @return
+     */
+    public Integer selectCount(Map<String,Object> map) {
+        return giftRecordDAO.selectCount(map);
+    }
 
 
 

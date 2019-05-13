@@ -28,7 +28,23 @@
     <sql id="limit">
       limit #{pageOffset},#{pageSize}
     </sql>
+        <!--条件查询卡品卡总条数-->
+    <select id="selectCount" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        select
+        count(id)
+        from
+        lt_gift
+        <where>
 
+            <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
+            <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
+            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber` LIKE '%${giftParam.cardnumber}%'</if>
+            <if test="giftParam.value!=null and  giftParam.value!='' "> AND `value`=#{giftParam.value}</if>
+            <if test="giftParam.status!=null and  giftParam.status!='' ">AND `status`=#{giftParam.status}</if>
+        </where>
+
+    </select>
     <!--添加礼品卡-->
     <insert id="addGift" parameterType="com.wisewin.backend.entity.param.GiftParam">
 
@@ -67,7 +83,8 @@
 
     <!--批量删除礼品卡-->
     <update id="deleteGift">
-        DELETE FROM lt_gift
+       UPDATE  lt_gift SET
+        cause='已删除'
         where id in
         <foreach collection="idArr" item="id" open="(" close=")" separator=",">
             #{id}
