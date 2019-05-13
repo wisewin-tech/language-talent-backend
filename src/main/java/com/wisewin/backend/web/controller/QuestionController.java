@@ -123,7 +123,7 @@ public class QuestionController extends BaseCotroller{
 
         Integer i = questionService.delQuestion(idArr);
         if (i>0){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除题目成功！"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除题目成功！共删除"+i+"条数据"));
             super.safeJsonPrint(response, result);
         }else {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002", "删除题目失败！")) ;
