@@ -30,7 +30,7 @@ public class SpecialClassController extends BaseCotroller {
     SpecialClassService specialClassService;
 
     /**
-     * 按展示或者为展示也就是yes no 还有数量 展示 专题分类
+     * 按状态 分页 展示 专题分类
      * */
     @RequestMapping("selectSpecialClassBO")
     public void selectSpecialClassBO(HttpServletRequest request, HttpServletResponse response,String status,Integer pageNo,Integer pageSize){
