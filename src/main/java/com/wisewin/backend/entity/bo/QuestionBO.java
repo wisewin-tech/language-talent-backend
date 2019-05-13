@@ -84,7 +84,7 @@ public class QuestionBO extends BaseModel{
     public void setTestType(String testType) {
         this.testType = testType;
     }
-    
+
     public Integer getCreateUserId() {
         return createUserId;
     }
