@@ -220,7 +220,7 @@ public class DictionariestypeController extends BaseCotroller {
 
 
         if (param.getKey().equals("") || param.getValue().equals("") || param.getOuter().equals("")
-                || param.getDnName().equals("") || id==null  || param.getRank()==null){
+                 || id==null  || param.getRank()==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
             return;
