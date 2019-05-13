@@ -7,10 +7,10 @@
 
     <insert id="addquestion" parameterType="java.util.List">
         INSERT INTO lt_question(topic,`option`,answer,score,relevance_id,
-          question_type,test_type,chapter_type,create_user_id,create_time)
+          question_type,test_type,create_user_id,create_time)
         VALUES
             (#{topic},#{option},#{answer},#{score},#{relevanceId},
-            #{questionType},#{testType},#{chapterType},#{createUserId},now())
+            #{questionType},#{testType},#{createUserId},now())
     </insert>
 
     <select id="selectQuestion" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.QuestionBO">
@@ -20,8 +20,6 @@
             question_type =#{questionBO.questionType}</if>
         <if test="questionBO.testType!=null and questionBO.testType!=''">
             AND `test_type`=#{questionBO.testType}</if>
-          <if test="questionBO.chapterType!=null and questionBO.chapterType!=''">
-              AND `chapter_type`=#{questionBO.chapterType}</if>
           <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
               AND `relevance_id`=#{questionBO.relevanceId}</if>
       </where>
@@ -40,8 +38,6 @@
                 question_type =#{questionBO.questionType}</if>
             <if test="questionBO.testType!=null and questionBO.testType!=''">
                 AND `test_type`=#{questionBO.testType}</if>
-            <if test="questionBO.chapterType!=null and questionBO.chapterType!=''">
-                AND `chapter_type`=#{questionBO.chapterType}</if>
             <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
                 AND `relevance_id`=#{questionBO.relevanceId}</if>
         </where>
@@ -61,8 +57,6 @@
                 question_type =#{questionType},</if>
             <if test="testType!=null and testType!=''">
                 `test_type`=#{testType},</if>
-            <if test="chapterType!=null and chapterType!=''">
-                `chapter_type`=#{chapterType},</if>
             `update_user_id` =#{updateUserId},
            `update_time` = now()
         </set>
