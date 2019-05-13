@@ -11,7 +11,15 @@
 
     <update id="updClause" parameterType="com.wisewin.backend.entity.bo.ClauseBO">
         update lt_clause
-        set classify=#{classify},content=#{content},update_id=#{updateId},update_time=now()
+        set
+        <if test="classify!=null and classify!=''">
+            classify=#{classify},
+        </if>
+        <if test="content!=null and content!=''">
+            content=#{content},
+        </if>
+        update_id=#{updateId},
+        update_time=now()
         where id=#{id}
     </update>
 
