@@ -61,10 +61,10 @@ public class QuestionService {
 
     /**
      * 删除题目
-     * @param id
+     * @param idArr
      * @return
      */
-    public Integer delQuestion(Integer id){
-        return questionDAO.delQuestion(id);
+    public Integer delQuestion(Integer []idArr){
+        return questionDAO.delQuestion(idArr);
     }
 }

@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.QuestionBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -42,8 +43,8 @@ public interface QuestionDAO {
 
     /**
      * 删除题目
-     * @param id
+     * @param idArr
      * @return
      */
-    Integer delQuestion(Integer id);
+    Integer delQuestion(@Param("idArr")Integer [] idArr);
 }

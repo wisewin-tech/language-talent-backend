@@ -97,13 +97,31 @@ public class QuestionController extends BaseCotroller{
     }
 
     @RequestMapping("/delQuestion")
-    public void delQuestion(Integer id,HttpServletResponse response){
-        if (id==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
-            super.safeJsonPrint(response, result);
-            return ;
+    public void delQuestion(String idArrJSON,HttpServletResponse response){
+        //用户传参验证
+        if (StringUtils.isEmpty(idArrJSON)){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
         }
-        Integer i = questionService.delQuestion(id);
+
+        Integer[] idArr=null;
+        //把用户的参数中有id的转为json数组
+        try {
+            idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
+
+        }catch (Exception e){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+
+
+        if (idArr.length==0){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+        }
+
+        Integer i = questionService.delQuestion(idArr);
         if (i>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除题目成功！"));
             super.safeJsonPrint(response, result);

@@ -63,9 +63,12 @@
         WHERE   id=#{id}
     </update>
 
-    <delete id="delQuestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO">
+    <delete id="delQuestion">
         DELETE FROM `lt_question`
-        WHERE id = #{id}
+        WHERE id IN
+        <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
     <!--通过id查询所有信息-->
