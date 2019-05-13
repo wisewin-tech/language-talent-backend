@@ -33,6 +33,7 @@ public class CertificateController extends BaseCotroller {
     @RequestMapping("/selectUserCert")
     public void selectUserMedal(Integer pageNo, Integer pageSize,
                                 String send,String status,Integer userId,
+                                String mobile,
                                 HttpServletResponse response) {
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
@@ -46,6 +47,7 @@ public class CertificateController extends BaseCotroller {
         condition.put("userId",userId);
         condition.put("send",send);
         condition.put("status",status);
+        condition.put("mobile",mobile);
         //查询用户证书
         List<CertificateResultBO> certificateResultBOS = certificateService.selectUser(condition);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(certificateResultBOS));
@@ -54,11 +56,19 @@ public class CertificateController extends BaseCotroller {
 
     @RequestMapping("/updateCertSend")
     public void updateSend(Integer id,HttpServletResponse response, HttpServletRequest request) {
+        //获取管理员id
+        Integer userId=super.getLoginAdmin(request).getId();
+        //验证管理员是否登录
+        if (userId==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+            super.safeJsonPrint(response, result);
+            return;
+        }
         if (id==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        certificateService.updateSend(id);
+        certificateService.updateSend(id,userId);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(null));
         super.safeJsonPrint(response, json);
     }

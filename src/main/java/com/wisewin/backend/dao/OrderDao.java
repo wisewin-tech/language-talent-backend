@@ -19,6 +19,11 @@ public interface OrderDao {
     public List<OrderBO> queryOrderById(@Param("id")Integer id,@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize);
 
     /**
+     * 根据课程id 查出购买这个课程的用户id
+     */
+    public List<Integer> queryCoursesById(@Param("coursesId")Integer coursesId);
+
+    /**
      * 语言订单里包括这个订单下的子课程
      */
     public List<OrderCoursesBO> queryOrderCoursesByOrderId(@Param("orderId")Integer orderId);

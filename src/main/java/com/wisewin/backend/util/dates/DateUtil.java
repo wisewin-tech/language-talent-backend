@@ -29,7 +29,7 @@ public class DateUtil {
 
 
     /**
-     * date转换为String类型
+     * String转换为date类型
      * yyyy-MM-dd
      */
     public  static Date getDate(String date){
@@ -47,7 +47,7 @@ public class DateUtil {
 
     }
     /**
-     * date转换为String类型
+     * String转换为String类型
      * yyyy-MM-dd
      */
     public  static String getStr(String date) {

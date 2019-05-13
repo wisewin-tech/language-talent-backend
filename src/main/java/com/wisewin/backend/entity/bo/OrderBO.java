@@ -10,6 +10,7 @@ public class OrderBO extends BaseModel {
     private Integer id; //订单表
     private Integer userId; //用户id
     private String mobile;//用户手机号
+    private String name;//用户名
     private Integer languageId; //语言id
     private Integer coursesId; //课程id
     private String languageName; //语言名称
@@ -25,6 +26,7 @@ public class OrderBO extends BaseModel {
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private List<OrderCoursesBO> orderCoursesBOList;//订单中的多个课程
+
     public String getMobile() {
         return mobile;
     }
@@ -33,7 +35,13 @@ public class OrderBO extends BaseModel {
         this.mobile = mobile;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Date getCourseValidityPeriod() {
         return courseValidityPeriod;

@@ -29,6 +29,7 @@
             <if test="languageId!=null" >
               AND   language_id=#{languageId}
             </if>
+              AND  le.status='putaway'
           </where>
         ORDER BY   te.popular_sort  DESC    <include refid="limit" />
     </select>
@@ -168,7 +169,7 @@
     <!--选择课程-->
    <select id="queryCourseChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
         SELECT id,course_name as name  FROM `lt_course`   WHERE   status='putaway'   AND   language_id=#{languageId}
-         ORDER BY   popular_sort  ASC
+         ORDER BY   popular_sort  DESC
     </select>
 
     <!--修改购买须知-->

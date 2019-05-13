@@ -31,7 +31,7 @@ public class GoalController extends BaseCotroller {
     @RequestMapping("/addGoal")
     public void addPurpose(HttpServletRequest request, HttpServletResponse response, GoalParam param){
 
-        if (param.getPpPurpose().equals("") && param.getAdminId().equals("")){
+        if (param.getPpPurpose().equals("") || param.getAdminId().equals("")){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
         }
@@ -73,7 +73,7 @@ public class GoalController extends BaseCotroller {
     @RequestMapping("/updateGoal")
     public void updateGoal(HttpServletRequest request,HttpServletResponse response,GoalParam param){
 
-        if (param.getId().equals(" ") && param.getPpPurpose().equals(" ")){
+        if (param.getId().equals(" ") || param.getPpPurpose().equals(" ")){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
         }
