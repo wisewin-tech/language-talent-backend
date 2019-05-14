@@ -8,12 +8,21 @@ public class CertificateResultBO {
     private Integer courseId; //课程id
     private String status; //证书是否获得(yes已获得/no)
     private String send; //证书是否发送(Sent已发送/unSent)
+    private String logistics; //物流编号
     private String courseName; //课程名称
     private String imageUrl; //证书图片路径
     private Integer createUserId;//创建人id
     private Integer updateUserId;//修改人id
     private Date  createTime;//创建时间
     private Date updateTime;//修改时间
+
+    public String getLogistics() {
+        return logistics;
+    }
+
+    public void setLogistics(String logistics) {
+        this.logistics = logistics;
+    }
 
     public String getCourseName() {
         return courseName;
