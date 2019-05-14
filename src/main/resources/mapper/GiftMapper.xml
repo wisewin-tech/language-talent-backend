@@ -17,9 +17,9 @@
 
             <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
             <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
-            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber` LIKE '%${giftParam.cardnumber}%'</if>
+            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber`=#{giftParam.cardnumber}</if>
             <if test="giftParam.value!=null and  giftParam.value!='' "> AND `value`=#{giftParam.value}</if>
-            <if test="giftParam.batchNumber!=null and  giftParam.batchNumber!='' ">AND `batchNumber`=#{giftParam.batchNumber}</if>
+            <if test="giftParam.batchNumber!=null and  giftParam.batchNumber!='' ">AND `batch_number`=#{giftParam.batchNumber}</if>
             <if test="giftParam.status!=null and  giftParam.status!='' ">AND `status`=#{giftParam.status}</if>
         </where>
         order by create_time desc
@@ -86,7 +86,7 @@
     <update id="frostGift">
        UPDATE  lt_gift SET
         status='frost'
-        where id in
+        where status='not' AND id in
         <foreach collection="idArr" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
