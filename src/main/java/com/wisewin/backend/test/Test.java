@@ -3,7 +3,14 @@ package com.wisewin.backend.test;
 
 import com.wisewin.backend.common.constants.DiscoverConstants;
 import com.wisewin.backend.common.constants.LanguageConstants;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.MultimediaInfo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +22,7 @@ import java.util.List;
 public class Test {
 
 
-    public static void main(String[] args) {
+    public static void main111(String[] args) {
 
         new Test().test();
 
@@ -129,4 +136,7 @@ public class Test {
 
     }
 
+    public static void main(String[] args) throws FileNotFoundException {
+        OutputStream os = new FileOutputStream(new File(""));
+    }
 }

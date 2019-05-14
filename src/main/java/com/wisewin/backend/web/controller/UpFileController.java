@@ -5,12 +5,17 @@ import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.OSSClientUtil;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.MultimediaInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import sun.nio.cs.ext.DoubleByte;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 
 /**
  * 文件上传与删除
@@ -26,7 +31,6 @@ public class UpFileController extends BaseCotroller {
             super.safeJsonPrint(response,json);
         }
         OSSClientUtil ossClientUtil=new OSSClientUtil();
-        //上传
         String name=ossClientUtil.uploadImgvideo(video);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(name));
         super.safeJsonPrint(response,json);
@@ -64,4 +68,7 @@ public class UpFileController extends BaseCotroller {
                 (null));
         super.safeJsonPrint(response,json);
     }
+
+
+
 }

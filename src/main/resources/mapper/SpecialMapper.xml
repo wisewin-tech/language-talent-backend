@@ -31,16 +31,18 @@
     <!-- 添加专题 -->
     <insert id="addSpecial" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
             insert into lt_special
-             (class_id,title,`describe`,release_date,video_url,status,sorting,create_id,create_time)
+             (class_id,title,`describe`,release_date,video_url,status,sorting,create_id,create_time,video_length,video_cover)
              values
-             (#{classId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting},#{createId},now())
+             (#{classId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting},#{createId},now(),#{videoLength},#{videoCover})
     </insert>
 
     <!-- 修改专题-->
     <update id="updateSpecialById" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
         update lt_special
         set
-        class_id=#{classId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},sorting=#{sorting},update_id=#{updateId},update_time=now()
+        class_id=#{classId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},
+        video_length=#{videoLength},video_cover=#{videoCover},
+        sorting=#{sorting},update_id=#{updateId},update_time=now()
         where
         id=#{id}
     </update>
