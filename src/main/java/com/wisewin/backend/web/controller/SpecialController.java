@@ -2,10 +2,8 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.SpecialBO;
-import com.wisewin.backend.entity.bo.SpecialClassBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
-import com.wisewin.backend.service.SpecialClassService;
 import com.wisewin.backend.service.SpecialService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -15,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,11 +113,12 @@ public class SpecialController extends BaseCotroller {
         }
     }
 
+
     /**
      * 增加一条专题
      * */
     @RequestMapping("addSpecial")
-    public void addSpecial(HttpServletRequest request, HttpServletResponse response,SpecialBO specialBO){
+    public void addSpecial(HttpServletRequest request, HttpServletResponse response,SpecialBO specialBO) throws IOException {
         if(specialBO==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
@@ -138,5 +141,7 @@ public class SpecialController extends BaseCotroller {
             super.safeJsonPrint(response , result);
         }
     }
+
+
 
 }
