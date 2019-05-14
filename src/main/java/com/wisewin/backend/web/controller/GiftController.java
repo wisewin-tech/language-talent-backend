@@ -64,9 +64,13 @@ public class GiftController extends BaseCotroller {
     public void addGift(GiftParam giftParam,Integer num,HttpServletResponse response, HttpServletRequest request) {
         //获取管理员账号
         String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
-        if (ParamNullUtil.checkObjAllFieldsIsNull(giftParam)||num==null||num<0){
+        if (num==null||num<0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+        }
+        if (StringUtils.isEmpty(giftParam.getTitle())||giftParam.getValue()==null||
+                StringUtils.isEmpty(giftParam.getStarttime())||
+                StringUtils.isEmpty(giftParam.getFinishtime())){
         }
         giftService.addGift(giftParam,num,phoneNumber);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));

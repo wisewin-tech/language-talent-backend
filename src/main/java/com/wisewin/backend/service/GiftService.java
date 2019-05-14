@@ -85,9 +85,9 @@ public class GiftService {
             return -1;
         }
         if(status.equals("frost")){ //如果是冻结状态.改为解冻状态
-            return giftDAO.unfreezeGift(idArr);
-        }else{//如果是未使用状态,改为冻结状态
             return giftDAO.frostGift(idArr);
+        }else{//如果是未使用状态,改为冻结状态
+            return giftDAO.unfreezeGift(idArr);
         }
 
     }

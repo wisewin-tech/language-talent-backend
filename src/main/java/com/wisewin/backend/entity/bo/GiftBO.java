@@ -17,8 +17,8 @@ public class GiftBO extends BaseModel{
     private String starttime; //起始期
     private String finishtime; //结束效期
     private String cause; //不可用原因
-    private Date createTime; //创建时间
-    private Date updateTime; //修改时间
+    private String createTime; //创建时间
+    private String updateTime; //修改时间
     private String status; //状态(已用和未使用)英文来表示
 
     @Override
@@ -118,12 +118,12 @@ public class GiftBO extends BaseModel{
         this.cause = cause;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCreateTime() {
+        return DateUtil.getStr(createTime);
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateTime(String createTime) {
+        this.createTime = DateUtil.getStr(createTime);
     }
 
     public String getStatus() {
@@ -134,11 +134,11 @@ public class GiftBO extends BaseModel{
         this.status = status;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public String getUpdateTime() {
+        return DateUtil.getStr(updateTime);
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = DateUtil.getStr(updateTime);
     }
 }
