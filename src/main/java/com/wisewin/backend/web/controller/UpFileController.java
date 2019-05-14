@@ -45,7 +45,7 @@ public class UpFileController extends BaseCotroller {
         }
         OSSClientUtil ossClientUtil=new OSSClientUtil();
         //上传
-        String name=ossClientUtil.uploadImg2Oss(file);
+        String name=ossClientUtil.uploadImg2Oss(file,false);
         //name:图片路径+图片名(图片名为生成的随机数)
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(name));
         super.safeJsonPrint(response,json);

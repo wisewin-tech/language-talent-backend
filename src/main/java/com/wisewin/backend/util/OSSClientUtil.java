@@ -78,32 +78,26 @@ public class OSSClientUtil {
         }
     }
 
-    public String upFileOss(MultipartFile file,Boolean  flag) throws Exception {
-        String fileName = file.getOriginalFilename();
-        InputStream inputStream = file.getInputStream();
-        if(flag==null){
-            fileName= UUID.randomUUID().toString()+fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+
+    /**
+     *
+     * @param file
+     * @param flag  是否不重命名
+     * @return
+     * @throws Exception
+     */
+    public String uploadImg2Oss(MultipartFile file,boolean flag) throws Exception {
+        String filename = file.getOriginalFilename();
+        if(!flag){
+            String substring = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+            Random random = new Random();
+            filename= random.nextInt(10000) + System.currentTimeMillis() + substring;
         }
 
-        try {
-            this.uploadFile2OSS(inputStream, fileName);
-            return urlName+filedir+fileName;
-        } catch (Exception e) {
-            throw new Exception("视频上传失败");
-        }
-
-    }
-
-
-    public String uploadImg2Oss(MultipartFile file) throws Exception {
-        String originalFilename = file.getOriginalFilename();
-        String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
-        Random random = new Random();
-        String name = random.nextInt(10000) + System.currentTimeMillis() + substring;
         try {
             InputStream inputStream = file.getInputStream();
-            this.uploadFile2OSS(inputStream, name);
-            return urlName+filedir+name;
+            this.uploadFile2OSS(inputStream, filename);
+            return urlName+filedir+filename;
         } catch (Exception e) {
             throw new Exception("图片上传失败");
         }
