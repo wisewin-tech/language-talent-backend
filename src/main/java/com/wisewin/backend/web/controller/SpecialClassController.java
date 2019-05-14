@@ -52,11 +52,21 @@ public class SpecialClassController extends BaseCotroller {
     }
 
     /**
+     * 查询状态正常的专题分类name id
+     * */
+    @RequestMapping("selectNameAndId")
+    public void selectNameAndId(HttpServletRequest request, HttpServletResponse response){
+        List<SpecialClassBO> specialClassBOList=specialClassService.selectNameAndId();
+        String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(specialClassBOList));
+        super.safeJsonPrint(response,json);
+    }
+
+    /**
      * 修改一条或者多条专题分类状态
      * */
     @RequestMapping("delSpecialClassById")
-    public void delSpecialClassById(HttpServletRequest request, HttpServletResponse response,String idArrJSON,String status){
-        if(idArrJSON==null||idArrJSON.equals("")){
+    public void delSpecialClassById(HttpServletRequest request, HttpServletResponse response,String idArr,String status){
+        if(idArr==null||idArr.equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
@@ -70,9 +80,8 @@ public class SpecialClassController extends BaseCotroller {
             return;
         }
         Integer id = loginAdmin.getId();
-
-        Integer[] idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
-        boolean b=specialClassService.delSpecialClassById(idArr,status,id);
+        String[] ids=idArr.split(",");
+        boolean b=specialClassService.delSpecialClassById(ids,status,id);
         if(b){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);

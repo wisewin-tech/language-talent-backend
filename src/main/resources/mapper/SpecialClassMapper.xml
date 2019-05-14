@@ -25,6 +25,9 @@
         </where>
     </select>
 
+    <select id="selectNameAndId" resultType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        select title,id from lt_special_class where status='putaway' order by sorting desc
+    </select>
 
     <!-- 添加专题分类-->
     <insert id="addSpecialClass" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">

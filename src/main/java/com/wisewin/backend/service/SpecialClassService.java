@@ -27,7 +27,7 @@ public class SpecialClassService {
     /**
      * 专题分类的删除
      * */
-    public boolean delSpecialClassById(Integer[] idArr,String status,Integer id){
+    public boolean delSpecialClassById(String[] idArr,String status,Integer id){
         return specialClassDAO.delSpecialClassById(idArr,status,id)>0;
     }
 
@@ -52,4 +52,11 @@ public class SpecialClassService {
         return specialClassDAO.selectSpecialClassBOCount(status);
     }
 
+
+    /**
+     * 查询 状态正常的专题名称和id
+     * */
+    public List<SpecialClassBO> selectNameAndId(){
+        return specialClassDAO.selectNameAndId();
+    }
 }
