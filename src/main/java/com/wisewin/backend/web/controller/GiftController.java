@@ -62,11 +62,13 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/addGift")
     public void addGift(GiftParam giftParam,Integer num,HttpServletResponse response, HttpServletRequest request) {
+        //获取管理员账号
+        String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
         if (ParamNullUtil.checkObjAllFieldsIsNull(giftParam)||num==null||num<0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        giftService.addGift(giftParam,num);
+        giftService.addGift(giftParam,num,phoneNumber);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
     }
@@ -90,8 +92,10 @@ public class GiftController extends BaseCotroller {
      * @param response
      * @param request
      */
-    @RequestMapping("/deleteGift")
-    public void deleteGift(String idArrJSON,HttpServletResponse response, HttpServletRequest request) {
+    @RequestMapping("/frostGift")
+    public void frostGift(String idArrJSON,HttpServletResponse response, HttpServletRequest request) {
+        //获取管理员账号
+        String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
         //用户传参验证
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
@@ -114,7 +118,7 @@ public class GiftController extends BaseCotroller {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        Integer line=giftService.deleteGift(idArr);
+        Integer line=giftService.frostGift(idArr);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("共删除"+line+"条信息")) ;
             super.safeJsonPrint(response , result);

@@ -31,7 +31,7 @@ public interface GiftDAO {
      * 批量删除
      * @param idArr
      */
-    Integer deleteGift(@Param("idArr") Integer[] idArr);
+    Integer frostGift(@Param("idArr") Integer[] idArr);
 
 
 

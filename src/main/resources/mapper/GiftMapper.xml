@@ -49,14 +49,14 @@
     <insert id="addGift" parameterType="com.wisewin.backend.entity.param.GiftParam">
 
         INSERT  INTO lt_gift
-        ( `title`,`value`,`cardnumber`,`scope`,`exchangeyard`,  `starttime`,`finishtime`,
+        ( `title`,`value`,`cardnumber`,`batch_number`,`exchangeyard`, `remark`, `starttime`,`finishtime`,
          `cause`,`create_time`)
         VALUES
         <foreach collection ="list" item="giftParam" separator =",">
             (
             #{giftParam.title}, #{giftParam.value},
-            #{giftParam.cardnumber}, #{giftParam.scope}, #{giftParam.exchangeyard},
-            #{giftParam.starttime}, #{giftParam.finishtime}, #{giftParam.cause},now()
+            #{giftParam.cardnumber}, #{giftParam.batchNumber}, #{giftParam.exchangeyard},
+            #{giftParam.remark},#{giftParam.starttime}, #{giftParam.finishtime}, #{giftParam.cause},now()
             )
         </foreach >
 
@@ -81,10 +81,10 @@
 
     </update>
 
-    <!--批量删除礼品卡-->
-    <update id="deleteGift">
+    <!--批量冻结礼品卡-->
+    <update id="frostGift">
        UPDATE  lt_gift SET
-        cause='已删除'
+        cause='frost'
         where id in
         <foreach collection="idArr" item="id" open="(" close=")" separator=",">
             #{id}
