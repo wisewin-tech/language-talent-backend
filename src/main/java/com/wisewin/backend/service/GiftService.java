@@ -76,11 +76,20 @@ public class GiftService {
         giftDAO.updateGift(giftParam);
     }
     /**
-     * 删除
+     * 冻结/解冻
      * @param  idArr
      */
-    public Integer frostGift(Integer[] idArr) {
-       return giftDAO.frostGift(idArr);
+    public Integer frostGift(Integer[] idArr,String status) {
+        //如果是使用状态.直接返回
+        if (status.equals("use")){
+            return -1;
+        }
+        if(status.equals("frost")){ //如果是冻结状态.改为解冻状态
+            return giftDAO.unfreezeGift(idArr);
+        }else{//如果是未使用状态,改为冻结状态
+            return giftDAO.frostGift(idArr);
+        }
+
     }
 
 }

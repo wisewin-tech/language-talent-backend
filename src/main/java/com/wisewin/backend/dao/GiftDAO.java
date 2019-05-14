@@ -32,6 +32,7 @@ public interface GiftDAO {
      * @param idArr
      */
     Integer frostGift(@Param("idArr") Integer[] idArr);
+    Integer unfreezeGift(@Param("idArr") Integer[] idArr);
 
 
 

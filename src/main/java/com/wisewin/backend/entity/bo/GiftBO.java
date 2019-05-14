@@ -13,6 +13,7 @@ public class GiftBO extends BaseModel{
     private String cardnumber; //卡号
     private String scope; //范围
     private String exchangeyard; //兑换码
+    private String batchNumber; //批次号
     private String starttime; //起始期
     private String finishtime; //结束效期
     private String cause; //不可用原因
@@ -35,6 +36,14 @@ public class GiftBO extends BaseModel{
                 ", createTime=" + createTime +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public String getBatchNumber() {
+        return batchNumber;
+    }
+
+    public void setBatchNumber(String batchNumber) {
+        this.batchNumber = batchNumber;
     }
 
     public Integer getId() {

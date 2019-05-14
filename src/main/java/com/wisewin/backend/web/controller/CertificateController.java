@@ -50,7 +50,11 @@ public class CertificateController extends BaseCotroller {
         condition.put("mobile",mobile);
         //查询用户证书
         List<CertificateResultBO> certificateResultBOS = certificateService.selectUser(condition);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(certificateResultBOS));
+        int size = certificateResultBOS.size();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("certificateResultBOS",certificateResultBOS);
+        map.put("count",size);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, json);
     }
 
