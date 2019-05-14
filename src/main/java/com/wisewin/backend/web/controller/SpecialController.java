@@ -57,8 +57,8 @@ public class SpecialController extends BaseCotroller {
      * 修改一条或者多条专题分类状态
      * */
     @RequestMapping("delSpecialById")
-    public void delSpecialById(HttpServletRequest request, HttpServletResponse response,String idArrJSON,String status){
-        if(idArrJSON==null||idArrJSON.equals("")){
+    public void delSpecialById(HttpServletRequest request, HttpServletResponse response,String idArr,String status){
+        if(idArr==null||idArr.equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
@@ -73,8 +73,8 @@ public class SpecialController extends BaseCotroller {
         Integer id = loginAdmin.getId();
 
 
-        Integer[] idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
-        boolean b=specialService.delSpecialById(idArr,status,id);
+        String[] ids=idArr.split(",");
+        boolean b=specialService.delSpecialById(ids,status,id);
         if(b){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);

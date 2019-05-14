@@ -66,7 +66,7 @@ public class SpecialClassController extends BaseCotroller {
      * */
     @RequestMapping("delSpecialClassById")
     public void delSpecialClassById(HttpServletRequest request, HttpServletResponse response,String idArr,String status){
-        if(idArr==null||idArr.equals("")){
+        if(idArr==null||idArr.equals("")||status==null||status.equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
