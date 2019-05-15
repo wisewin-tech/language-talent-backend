@@ -6,10 +6,12 @@ import com.wisewin.backend.entity.bo.BannerBO;
 import com.wisewin.backend.entity.bo.ClauseBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.service.ClauseService;
+import com.wisewin.backend.service.NoticeService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,9 @@ public class ClauseController extends BaseCotroller {
 
     @Resource
     ClauseService clauseService;
+
+    @Resource
+    NoticeService noticeService;
 
     /**
      * 增加一条条款
@@ -79,6 +84,7 @@ public class ClauseController extends BaseCotroller {
         clauseBO.setUpdateId(id);
 
         if(clauseService.updClause(clauseBO)){
+            noticeService.updateNotice(clauseBO.getContent());
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
         }else{
