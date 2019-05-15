@@ -34,7 +34,7 @@ public class CertificateService {
      * @param id
      * @return
      */
-    public void updateSend(Integer id,Integer userid){
+    public void updateSend(Integer id,Integer userid,String logistics){
         Map<String,Object> map=new HashMap<String, Object>();
 //        map.put("userId",userId);
 //        map.put("courseId",courseId);
@@ -46,6 +46,7 @@ public class CertificateService {
         map.put("id",id);
         map.put("userId",userid);
         map.put("send","yes");
+        map.put("logistics",logistics);
          certificateDAO.updateSend(map);
     }
 

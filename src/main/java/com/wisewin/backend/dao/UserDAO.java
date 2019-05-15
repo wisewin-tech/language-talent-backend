@@ -48,12 +48,7 @@ public interface UserDAO {
 
     UserBO selectById(Integer id);
 
-    /**
-     * 通过手机号发送验证码修改密码
-     * @param phone
-     * @param newpassword
-     */
-    void changePassword(String phone, String newpassword);
+
 
     /**
      *
@@ -87,24 +82,5 @@ public interface UserDAO {
      * @return
      */
     Integer deleteUsersById(@Param("idArr") Integer[] idArr,@Param("status") String status);
-
-    /**
-     *
-     * 按用户id查看用户信息
-     * @param id
-     * @return
-     */
-    UserBO selectUsersById(@Param("id")Integer id);
-
-    /**
-     *
-     * 按用户id修改用户信息
-     * @param userParam
-     * @return
-     */
-    Integer updateUsersById(@Param("userParam")UserParam userParam);
-
-
-
 
 }

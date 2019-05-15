@@ -8,6 +8,7 @@ import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.CertificateService;
 import com.wisewin.backend.service.UserService;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class CertificateController extends BaseCotroller {
     @RequestMapping("/selectUserCert")
     public void selectUserMedal(Integer pageNo, Integer pageSize,
                                 String send,String status,Integer userId,
-                                String mobile,
+                                String mobile,String logistics,
                                 HttpServletResponse response) {
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
@@ -48,14 +49,19 @@ public class CertificateController extends BaseCotroller {
         condition.put("send",send);
         condition.put("status",status);
         condition.put("mobile",mobile);
+        condition.put("logistics",logistics);
         //查询用户证书
         List<CertificateResultBO> certificateResultBOS = certificateService.selectUser(condition);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(certificateResultBOS));
+        int size = certificateResultBOS.size();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("certificateResultBOS",certificateResultBOS);
+        map.put("count",size);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, json);
     }
 
     @RequestMapping("/updateCertSend")
-    public void updateSend(Integer id,HttpServletResponse response, HttpServletRequest request) {
+    public void updateSend(Integer id,String logistics,HttpServletResponse response, HttpServletRequest request) {
         //获取管理员id
         Integer userId=super.getLoginAdmin(request).getId();
         //验证管理员是否登录
@@ -64,11 +70,12 @@ public class CertificateController extends BaseCotroller {
             super.safeJsonPrint(response, result);
             return;
         }
-        if (id==null){
+        if (id==null|| StringUtils.isEmpty(logistics)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        certificateService.updateSend(id,userId);
+
+        certificateService.updateSend(id,userId,logistics);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(null));
         super.safeJsonPrint(response, json);
     }

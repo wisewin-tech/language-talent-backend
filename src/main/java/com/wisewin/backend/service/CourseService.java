@@ -123,4 +123,6 @@ public class CourseService {
     public void updateNotice(String notice){
         courseDAO.updateNotice(notice);
     }
+
+
 }

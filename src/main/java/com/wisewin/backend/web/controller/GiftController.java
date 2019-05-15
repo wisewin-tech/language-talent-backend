@@ -62,11 +62,17 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/addGift")
     public void addGift(GiftParam giftParam,Integer num,HttpServletResponse response, HttpServletRequest request) {
-        if (ParamNullUtil.checkObjAllFieldsIsNull(giftParam)||num==null||num<0){
+        //获取管理员账号
+        String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
+        if (num==null||num<0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        giftService.addGift(giftParam,num);
+        if (StringUtils.isEmpty(giftParam.getTitle())||giftParam.getValue()==null||
+                StringUtils.isEmpty(giftParam.getStarttime())||
+                StringUtils.isEmpty(giftParam.getFinishtime())){
+        }
+        giftService.addGift(giftParam,num,phoneNumber);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
     }
@@ -90,31 +96,27 @@ public class GiftController extends BaseCotroller {
      * @param response
      * @param request
      */
-    @RequestMapping("/deleteGift")
-    public void deleteGift(String idArrJSON,HttpServletResponse response, HttpServletRequest request) {
+    @RequestMapping("/frostGift")
+    public void frostGift(String idArrJSON,String status,HttpServletResponse response, HttpServletRequest request) {
+        //获取管理员账号
+        String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
+        String[] split = idArrJSON.split(",");
+        Integer [] ints= new Integer [split.length];
+        for (int i = 0; i < split.length; i++) {
+            ints[i]=Integer.parseInt(split[i]);
+        }
+
         //用户传参验证
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
 
-        Integer[] idArr=null;
-        //把用户的参数中有id的转为json数组
-        try {
-            idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
-
-        }catch (Exception e){
-            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response, json);
-            return;
-        }
-
-
-        if (idArr.length==0){
+        if (ints.length==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
-        Integer line=giftService.deleteGift(idArr);
+        Integer line=giftService.frostGift(ints,status);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("共删除"+line+"条信息")) ;
             super.safeJsonPrint(response , result);

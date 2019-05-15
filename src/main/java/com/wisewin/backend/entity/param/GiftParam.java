@@ -12,7 +12,9 @@ public class GiftParam extends BaseModel{
     private Integer value; //兑换值
     private String cardnumber; //卡号
     private String scope; //范围
+    private String batchNumber; //批次号
     private String exchangeyard; //兑换码
+    private String remark; //备注
     private String starttime; //起始期
     private String finishtime; //结束效期
     private String cause; //不可用原因
@@ -38,6 +40,21 @@ public class GiftParam extends BaseModel{
                 '}';
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getBatchNumber() {
+        return batchNumber;
+    }
+
+    public void setBatchNumber(String batchNumber) {
+        this.batchNumber = batchNumber;
+    }
 
     public Integer getId() {
         return id;

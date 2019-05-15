@@ -10,15 +10,16 @@
         select
         `id`,`title`,`value`,`cardnumber`,`scope`,
         `exchangeyard`,  `starttime`,`finishtime`,
-        `cause`,`create_time`,`status`
+        `cause`,`create_time`,`status`,batch_number
         from
         lt_gift
         <where>
 
             <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
             <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
-            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber` LIKE '%${giftParam.cardnumber}%'</if>
+            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber`=#{giftParam.cardnumber}</if>
             <if test="giftParam.value!=null and  giftParam.value!='' "> AND `value`=#{giftParam.value}</if>
+            <if test="giftParam.batchNumber!=null and  giftParam.batchNumber!='' ">AND `batch_number`=#{giftParam.batchNumber}</if>
             <if test="giftParam.status!=null and  giftParam.status!='' ">AND `status`=#{giftParam.status}</if>
         </where>
         order by create_time desc
@@ -49,14 +50,14 @@
     <insert id="addGift" parameterType="com.wisewin.backend.entity.param.GiftParam">
 
         INSERT  INTO lt_gift
-        ( `title`,`value`,`cardnumber`,`scope`,`exchangeyard`,  `starttime`,`finishtime`,
+        ( `title`,`value`,`cardnumber`,`batch_number`,`exchangeyard`, `remark`, `starttime`,`finishtime`,
          `cause`,`create_time`)
         VALUES
         <foreach collection ="list" item="giftParam" separator =",">
             (
             #{giftParam.title}, #{giftParam.value},
-            #{giftParam.cardnumber}, #{giftParam.scope}, #{giftParam.exchangeyard},
-            #{giftParam.starttime}, #{giftParam.finishtime}, #{giftParam.cause},now()
+            #{giftParam.cardnumber}, #{giftParam.batchNumber}, #{giftParam.exchangeyard},
+            #{giftParam.remark},#{giftParam.starttime}, #{giftParam.finishtime}, #{giftParam.cause},now()
             )
         </foreach >
 
@@ -81,20 +82,24 @@
 
     </update>
 
-    <!--批量删除礼品卡-->
-    <update id="deleteGift">
+    <!--批量冻结礼品卡-->
+    <update id="frostGift">
        UPDATE  lt_gift SET
-        cause='已删除'
-        where id in
+        status='frost'
+        where status='not' AND id in
         <foreach collection="idArr" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
 
     </update>
-
-
-
-
-
+    <!--批量解冻礼品卡-->
+    <update id="unfreezeGift">
+        UPDATE  lt_gift SET
+        status='not'
+        where id in
+        <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
 
 </mapper>

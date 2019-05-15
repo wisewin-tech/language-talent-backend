@@ -1,6 +1,7 @@
 package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.GiftRecordBO;
+import com.wisewin.backend.entity.bo.GiftRecordResultBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.GiftRecordParam;
 import com.wisewin.backend.query.QueryInfo;
@@ -42,8 +43,12 @@ public class GiftRecordController extends BaseCotroller {
         }
         //把参数条件 放入map中
         condition.put("giftRecordParam",giftRecordParam);
-        List<GiftRecordBO> giftRecordBOS = giftSRecordService.selectAll(condition);
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(giftRecordBOS));
+        List<GiftRecordResultBO> giftRecordBOS = giftSRecordService.selectAll(condition);
+        int size = giftRecordBOS.size();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("giftRecordBOS",giftRecordBOS);
+        map.put("count",size);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, json);
     }
 
