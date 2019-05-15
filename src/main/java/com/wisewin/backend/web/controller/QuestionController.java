@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
+import com.wisewin.backend.entity.bo.common.constants.QuestionConstants;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.QuestionService;
@@ -141,10 +142,11 @@ public class QuestionController extends BaseCotroller{
         }
         QuestionBO questionBO = questionService.getQuestion(id);
         ChapterIdBO idBO = new ChapterIdBO();
+        System.out.println(QuestionConstants.LANGUAGETEST.getValue());
         if (questionBO != null) {
-            if ("languageTest".equals(questionBO.getTestType())) {
+            if (QuestionConstants.LANGUAGETEST.getValue().equals(questionBO.getTestType())) {
                 idBO.setLanguageId(questionBO.getRelevanceId());
-            } else if (questionBO.getTestType().equals("courseCertificate")) {
+            } else if (QuestionConstants.COURSECERTIFICATE.getValue().equals(questionBO.getTestType())) {
                 idBO = questionService.getCourseId(questionBO.getRelevanceId());
             } else {
                 idBO = questionService.getChapterId(questionBO.getRelevanceId());
