@@ -10,7 +10,7 @@ public class QuestionBO extends BaseModel{
     private String topic; //题目
     private String option; //选项
     private String answer; //答案和解析
-    private BigDecimal score; //分值
+    private String score; //分值
     private Integer relevanceId; //关联id
     private String questionType; //判断（judge） 阅读（`read`） 课后测试:常规（common）
     // 翻译（translate） 拼写（`write`） 听力和文本匹配（hearingAndTest）
@@ -53,11 +53,11 @@ public class QuestionBO extends BaseModel{
         this.answer = answer;
     }
 
-    public BigDecimal getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(BigDecimal score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
