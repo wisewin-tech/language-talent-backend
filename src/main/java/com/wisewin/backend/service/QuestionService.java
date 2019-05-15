@@ -1,6 +1,7 @@
 package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.QuestionDAO;
+import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,11 +53,19 @@ public class QuestionService {
 
     /**
      * 查询某题的所有信息
-     * @param questionBO
+     * @param id
      * @return
      */
-    public List<QuestionBO> getQuestion(QuestionBO questionBO){
-        return questionDAO.getQuestion(questionBO);
+    public QuestionBO getQuestion(Integer id){
+        return questionDAO.getQuestion(id);
+    }
+    //通过课程id查找语言id
+    public ChapterIdBO getCourseId(Integer id){
+        return questionDAO.getCourseId(id);
+    }
+    //通过课时id查找课程id级别id语言id
+    public ChapterIdBO getChapterId(Integer id){
+        return questionDAO.getChapterId(id);
     }
 
     /**

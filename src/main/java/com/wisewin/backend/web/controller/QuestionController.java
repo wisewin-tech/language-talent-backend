@@ -3,6 +3,7 @@ package com.wisewin.backend.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
@@ -131,13 +132,34 @@ public class QuestionController extends BaseCotroller{
         }
     }
 
-//测试
-//    public static void main(String[] args) {
-//        String strArr="[\"a\",\"b\",\"c\",\"d\"]";
-//
-//        List<String> lists = JSON.parseArray(strArr, String.class);
-//        JSONArray array = JSON.parseArray(strArr);
-//        System.out.println(lists);
-//        System.out.println(array);
-//    }
-}
+    @RequestMapping("/getQuestionById")
+    public void getQuestionById(Integer id,HttpServletRequest request,HttpServletResponse response) {
+        if (id == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        QuestionBO questionBO = questionService.getQuestion(id);
+        ChapterIdBO idBO = new ChapterIdBO();
+        if (questionBO != null) {
+            if ("languageTest".equals(questionBO.getTestType())) {
+                idBO.setLanguageId(questionBO.getRelevanceId());
+            } else if (questionBO.getTestType().equals("courseCertificate")) {
+                idBO = questionService.getCourseId(questionBO.getRelevanceId());
+            } else {
+                idBO = questionService.getChapterId(questionBO.getRelevanceId());
+            }
+        }
+            Map map = new HashMap();
+            map.put("question", questionBO);
+            map.put("idBO", idBO);
+
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
+            super.safeJsonPrint(response, result);
+        }
+    
+
+    }
+
+
+
