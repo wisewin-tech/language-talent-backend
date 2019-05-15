@@ -157,8 +157,6 @@ public class QuestionController extends BaseCotroller{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
             super.safeJsonPrint(response, result);
         }
-    
-
     }
 
 
