@@ -1,5 +1,6 @@
 package com.wisewin.backend.dao;
 
+import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,10 +37,14 @@ public interface QuestionDAO {
     boolean updateQuestion(QuestionBO questionBO);
     /**
      * 查询所有信息
-     * @param questionBO
+     * @param id
      * @return
      */
-    List<QuestionBO> getQuestion(QuestionBO questionBO);
+    QuestionBO getQuestion(Integer id);
+    //通过课程id查找语言id
+    ChapterIdBO getCourseId(Integer id);
+    //通过课时id查找课程id级别id语言id
+    ChapterIdBO getChapterId(Integer id);
 
     /**
      * 删除题目
