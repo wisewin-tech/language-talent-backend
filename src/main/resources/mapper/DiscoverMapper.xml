@@ -239,7 +239,8 @@ insert into language_talent.lt_discover
 	phone, <!--联系电话-->
 	stick, <!--置顶后台录入默认no-->
 	`show`, <!--是否显示后台录入默认yes-->
-	skip <!--跳转url-->
+	skip, <!--跳转url-->
+        ticket
 	)
 	values
 	(#{title},
@@ -258,7 +259,8 @@ insert into language_talent.lt_discover
 	#{phone},
 	#{stick},
 	#{show},
-	#{skip}
+	#{skip},
+        #{ticket}
 	);
 
     </insert>
