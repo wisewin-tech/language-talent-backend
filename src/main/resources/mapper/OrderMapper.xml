@@ -34,7 +34,7 @@
     </select>
     <!--查询订单下的子课程-->
     <select id="queryOrderCoursesByOrderId" resultType="com.wisewin.backend.entity.bo.OrderCoursesBO">
-        select courses_name
+        select courses_name,course_validity_period
         from lt_order_courses where order_id=#{orderId}
     </select>
 
@@ -44,8 +44,7 @@
         lt_order.id,lt_order.status,
         `name`,mobile,
         price,order_number,lt_order.status,
-        creation_date,
-        course_validity_period
+        creation_date
         from lt_order,lt_user
         <where>
             lt_user.id=lt_order.user_id and order_type='购买'

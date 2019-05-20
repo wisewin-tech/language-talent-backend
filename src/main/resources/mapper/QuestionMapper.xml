@@ -7,10 +7,10 @@
 
     <insert id="addquestion" parameterType="java.util.List">
         INSERT INTO lt_question(topic,`option`,answer,score,relevance_id,
-          question_type,test_type,chapter_type,create_user_id,create_time)
+          question_type,test_type,create_user_id,create_time)
         VALUES
             (#{topic},#{option},#{answer},#{score},#{relevanceId},
-            #{questionType},#{testType},#{chapterType},#{createUserId},now())
+            #{questionType},#{testType},#{createUserId},now())
     </insert>
 
     <select id="selectQuestion" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.QuestionBO">
@@ -20,8 +20,6 @@
             question_type =#{questionBO.questionType}</if>
         <if test="questionBO.testType!=null and questionBO.testType!=''">
             AND `test_type`=#{questionBO.testType}</if>
-          <if test="questionBO.chapterType!=null and questionBO.chapterType!=''">
-              AND `chapter_type`=#{questionBO.chapterType}</if>
           <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
               AND `relevance_id`=#{questionBO.relevanceId}</if>
       </where>
@@ -40,8 +38,6 @@
                 question_type =#{questionBO.questionType}</if>
             <if test="questionBO.testType!=null and questionBO.testType!=''">
                 AND `test_type`=#{questionBO.testType}</if>
-            <if test="questionBO.chapterType!=null and questionBO.chapterType!=''">
-                AND `chapter_type`=#{questionBO.chapterType}</if>
             <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
                 AND `relevance_id`=#{questionBO.relevanceId}</if>
         </where>
@@ -61,27 +57,48 @@
                 question_type =#{questionType},</if>
             <if test="testType!=null and testType!=''">
                 `test_type`=#{testType},</if>
-            <if test="chapterType!=null and chapterType!=''">
-                `chapter_type`=#{chapterType},</if>
             `update_user_id` =#{updateUserId},
            `update_time` = now()
         </set>
         WHERE   id=#{id}
     </update>
 
-    <delete id="delQuestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO">
+    <delete id="delQuestion">
         DELETE FROM `lt_question`
-        WHERE id = #{id}
+        WHERE id IN
+        <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
     <!--通过id查询所有信息-->
     <select id="getQuestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO"
             resultType="com.wisewin.backend.entity.bo.QuestionBO">
         select * from lt_question
-        where 1=1
-        <if test="id!=null and id!=''">
-            and id=#{id}
-        </if>
+        where
+
+            id=#{id}
+
     </select>
+    <!--通过课程id查找语言id-->
+    <select id="getCourseId"
+            resultType="com.wisewin.backend.entity.bo.ChapterIdBO">
+      SELECT la.id languageId,co.id courseId
+      FROM lt_language la
+      LEFT JOIN lt_course co ON la.id = co.language_id
+      WHERE co.id = #{id}
+    </select>
+    <!--通过课时id查找课程id级别id语言id-->
+    <select id="getChapterId"
+            resultType="com.wisewin.backend.entity.bo.ChapterIdBO">
+        SELECT la.id languageId,co.id courseId,le.id levelId,ch.id chapterId
+        FROM lt_language la
+        LEFT JOIN lt_course co ON la.id = co.language_id
+        LEFT JOIN lt_level le ON co.id = le.course_id
+        LEFT JOIN lt_chapter ch ON le.id = ch.level_id
+        WHERE ch.id = #{id}
+    </select>
+
+
 
 </mapper>

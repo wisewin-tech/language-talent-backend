@@ -3,7 +3,9 @@ package com.wisewin.backend.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
+import com.wisewin.backend.entity.bo.common.constants.QuestionConstants;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.QuestionService;
@@ -97,15 +99,33 @@ public class QuestionController extends BaseCotroller{
     }
 
     @RequestMapping("/delQuestion")
-    public void delQuestion(Integer id,HttpServletResponse response){
-        if (id==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
-            super.safeJsonPrint(response, result);
-            return ;
+    public void delQuestion(String idArrJSON,HttpServletResponse response){
+        //用户传参验证
+        if (StringUtils.isEmpty(idArrJSON)){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
         }
-        Integer i = questionService.delQuestion(id);
+
+        Integer[] idArr=null;
+        //把用户的参数中有id的转为json数组
+        try {
+            idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
+
+        }catch (Exception e){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+
+
+        if (idArr.length==0){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+        }
+
+        Integer i = questionService.delQuestion(idArr);
         if (i>0){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除题目成功！"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除题目成功！共删除"+i+"条数据"));
             super.safeJsonPrint(response, result);
         }else {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002", "删除题目失败！")) ;
@@ -113,13 +133,33 @@ public class QuestionController extends BaseCotroller{
         }
     }
 
-//测试
-//    public static void main(String[] args) {
-//        String strArr="[\"a\",\"b\",\"c\",\"d\"]";
-//
-//        List<String> lists = JSON.parseArray(strArr, String.class);
-//        JSONArray array = JSON.parseArray(strArr);
-//        System.out.println(lists);
-//        System.out.println(array);
-//    }
-}
+    @RequestMapping("/getQuestionById")
+    public void getQuestionById(Integer id,HttpServletRequest request,HttpServletResponse response) {
+        if (id == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        QuestionBO questionBO = questionService.getQuestion(id);
+        ChapterIdBO idBO = new ChapterIdBO();
+        System.out.println(QuestionConstants.LANGUAGETEST.getValue());
+        if (questionBO != null) {
+            if (QuestionConstants.LANGUAGETEST.getValue().equals(questionBO.getTestType())) {
+                idBO.setLanguageId(questionBO.getRelevanceId());
+            } else if (QuestionConstants.COURSECERTIFICATE.getValue().equals(questionBO.getTestType())) {
+                idBO = questionService.getCourseId(questionBO.getRelevanceId());
+            } else {
+                idBO = questionService.getChapterId(questionBO.getRelevanceId());
+            }
+        }
+            Map map = new HashMap();
+            map.put("question", questionBO);
+            map.put("idBO", idBO);
+
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
+            super.safeJsonPrint(response, result);
+        }
+    }
+
+
+

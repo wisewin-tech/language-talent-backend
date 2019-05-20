@@ -13,6 +13,7 @@ public interface GiftDAO {
      * @return
      */
     List<GiftBO> selectAll(Map<String, Object> map);
+    Integer selectCount(Map<String, Object> map);
 
     /**
      * 添加
@@ -30,7 +31,8 @@ public interface GiftDAO {
      * 批量删除
      * @param idArr
      */
-    Integer deleteGift(@Param("idArr") Integer[] idArr);
+    Integer frostGift(@Param("idArr") Integer[] idArr);
+    Integer unfreezeGift(@Param("idArr") Integer[] idArr);
 
 
 

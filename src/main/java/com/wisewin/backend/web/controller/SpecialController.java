@@ -2,10 +2,8 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.SpecialBO;
-import com.wisewin.backend.entity.bo.SpecialClassBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
-import com.wisewin.backend.service.SpecialClassService;
 import com.wisewin.backend.service.SpecialService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -15,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +57,8 @@ public class SpecialController extends BaseCotroller {
      * 修改一条或者多条专题分类状态
      * */
     @RequestMapping("delSpecialById")
-    public void delSpecialById(HttpServletRequest request, HttpServletResponse response,String idArrJSON,String status){
-        if(idArrJSON==null||idArrJSON.equals("")){
+    public void delSpecialById(HttpServletRequest request, HttpServletResponse response,String idArr,String status){
+        if(idArr==null||idArr.equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
@@ -71,8 +73,8 @@ public class SpecialController extends BaseCotroller {
         Integer id = loginAdmin.getId();
 
 
-        Integer[] idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
-        boolean b=specialService.delSpecialById(idArr,status,id);
+        String[] ids=idArr.split(",");
+        boolean b=specialService.delSpecialById(ids,status,id);
         if(b){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
@@ -111,11 +113,12 @@ public class SpecialController extends BaseCotroller {
         }
     }
 
+
     /**
      * 增加一条专题
      * */
     @RequestMapping("addSpecial")
-    public void addSpecial(HttpServletRequest request, HttpServletResponse response,SpecialBO specialBO){
+    public void addSpecial(HttpServletRequest request, HttpServletResponse response,SpecialBO specialBO) throws IOException {
         if(specialBO==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
@@ -138,5 +141,7 @@ public class SpecialController extends BaseCotroller {
             super.safeJsonPrint(response , result);
         }
     }
+
+
 
 }

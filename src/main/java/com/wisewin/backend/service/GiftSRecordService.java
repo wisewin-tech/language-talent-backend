@@ -4,6 +4,7 @@ import com.wisewin.backend.dao.GiftDAO;
 import com.wisewin.backend.dao.GiftRecordDAO;
 import com.wisewin.backend.entity.bo.GiftBO;
 import com.wisewin.backend.entity.bo.GiftRecordBO;
+import com.wisewin.backend.entity.bo.GiftRecordResultBO;
 import com.wisewin.backend.entity.param.GiftParam;
 import com.wisewin.backend.util.IDBuilder;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,7 @@ public class GiftSRecordService {
      * 查询所有礼品卡信息
      * @return
      */
-    public List<GiftRecordBO> selectAll(Map<String,Object> map) {
+    public List<GiftRecordResultBO> selectAll(Map<String,Object> map) {
        return giftRecordDAO.selectAll(map);
     }
-
-
-
 }

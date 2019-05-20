@@ -229,6 +229,7 @@ public class BaseCotroller {
     public AdminBO getLoginAdmin (HttpServletRequest request ) {
        AdminBO adminBO= new AdminBO();
         adminBO.setId(1);
+        adminBO.setPhoneNumber("123456");
         adminBO.setName("Admin");
         return adminBO;
         //return (AdminBO) this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;

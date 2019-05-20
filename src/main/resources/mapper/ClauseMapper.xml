@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.ClauseDAO">
+
+    <insert id="addClause" parameterType="com.wisewin.backend.entity.bo.ClauseBO">
+        insert into lt_clause values(null,#{classify},#{content},#{updateId},now())
+    </insert>
+
+    <update id="updClause" parameterType="com.wisewin.backend.entity.bo.ClauseBO">
+        update lt_clause
+        set
+        <if test="classify!=null and classify!=''">
+            classify=#{classify},
+        </if>
+        <if test="content!=null and content!=''">
+            content=#{content},
+        </if>
+        update_id=#{updateId},
+        update_time=now()
+        where id=#{id}
+    </update>
+
+    <select id="selectClauseBOs"  resultType="com.wisewin.backend.entity.bo.ClauseBO">
+        select * from lt_clause
+    </select>
+
+    <select id="selectClauseBOById" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.ClauseBO">
+        select * from lt_clause where id=#{id}
+    </select>
+
+</mapper>

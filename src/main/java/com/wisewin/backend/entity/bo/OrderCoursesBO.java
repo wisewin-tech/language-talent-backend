@@ -10,11 +10,20 @@ public class OrderCoursesBO extends BaseModel {
     private Integer orderId; //订单id
     private Integer coursesId; //课程id
     private String coursesName; //课程名称
+    private Date courseValidityPeriod;//有效期
     private String standby; //备用
     private Integer createId; //创建人id
     private Integer updateId; //修改人id
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
+
+    public Date getCourseValidityPeriod() {
+        return courseValidityPeriod;
+    }
+
+    public void setCourseValidityPeriod(Date courseValidityPeriod) {
+        this.courseValidityPeriod = courseValidityPeriod;
+    }
 
     @Override
     public String toString() {

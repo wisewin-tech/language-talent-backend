@@ -44,12 +44,12 @@ public class NoticeService {
      * 修改购买须知
      */
     public  void  updateNotice(String notice){
-        int row = this.queryCount();
+      /*  int row = this.queryCount();
         if(row>0){
             noticeDAO.updateNotice(notice);
         }else{
            this.addNotice(notice);
-        }
+        }*/
         languageService.updateNotice(notice);
         courseService.updateNotice(notice);
     }
