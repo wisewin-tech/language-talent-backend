@@ -70,7 +70,7 @@ public interface DiscoverDAO {
     void  insertCurriculum(DiscoverBO discoverBO);
 
     /**
-     * 修改 线下活动类型 activity
+     *  添加 线下活动类型 activity
      */
     void  insertActivity(DiscoverBO discoverBO);
 }

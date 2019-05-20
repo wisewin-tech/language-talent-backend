@@ -2,6 +2,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.DiscoverDAO;
 import com.wisewin.backend.entity.bo.DiscoverBO;
+import com.wisewin.backend.pop.SystemConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +70,9 @@ public class DiscoverService {
         discoverBO.setLikenum(0);
         discoverBO.setShow("yes");
         discoverDAO.insertJournalism(discoverBO);
+        String url= SystemConfig.getString("domain_name")+"/Discover/queryfindDiscover?id="+discoverBO.getId();
+        discoverBO.setSkip(url);
+        discoverDAO.updateActivity(discoverBO);
     }
 
     /**
@@ -82,7 +86,7 @@ public class DiscoverService {
     }
 
     /**
-     * 修改 线下活动类型 activity
+     * 添加 线下活动类型 activity
      */
     public void  insertActivity(DiscoverBO discoverBO){
         discoverBO.setBrowse(0);
@@ -91,6 +95,9 @@ public class DiscoverService {
         discoverBO.setShow("yes");
         discoverBO.setStick("no");
         discoverDAO.insertActivity(discoverBO);
+        String url= SystemConfig.getString("domain_name")+"/Discover/queryfindDiscover?id="+discoverBO.getId();
+        discoverBO.setSkip(url);
+        discoverDAO.updateActivity(discoverBO);
     }
 
 }
