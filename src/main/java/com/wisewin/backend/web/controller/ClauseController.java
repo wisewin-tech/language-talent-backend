@@ -36,7 +36,7 @@ public class ClauseController extends BaseCotroller {
      * */
     @RequestMapping("/addClause")
     public void addClause(HttpServletRequest request, HttpServletResponse response,ClauseBO clauseBO){
-        if(clauseBO==null){
+        if(clauseBO==null||clauseBO.getContent()==null||clauseBO.getClassify()==null){
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;

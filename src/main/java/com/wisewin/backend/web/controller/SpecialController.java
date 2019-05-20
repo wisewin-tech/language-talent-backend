@@ -119,7 +119,7 @@ public class SpecialController extends BaseCotroller {
      * */
     @RequestMapping("addSpecial")
     public void addSpecial(HttpServletRequest request, HttpServletResponse response,SpecialBO specialBO) throws IOException {
-        if(specialBO==null){
+        if(specialBO==null||specialBO.getTitle()==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
