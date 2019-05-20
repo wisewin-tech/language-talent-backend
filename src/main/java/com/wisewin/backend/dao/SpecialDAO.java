@@ -35,5 +35,9 @@ public interface SpecialDAO {
      * */
     Integer selectSpecialBOCount(@Param("status") String status,@Param("classId")Integer classId);
 
+    /**
+     * 查看单个专题
+     * */
+    SpecialBO selectSpecialBOById(@Param("id") Integer id);
 
 }

@@ -56,5 +56,11 @@ public class SpecialService {
         return specialDAO.selectSpecialBOCount(status,classId);
     }
 
+    /**
+     * 查看单个专题
+     * */
+    public SpecialBO selectSpecialBOById(Integer id){
+        return specialDAO.selectSpecialBOById(id);
+    }
 
 }

@@ -7,7 +7,8 @@
 
     <!-- 根据状态 分类id 分页查看 的专题 -->
     <select id="selectSpecialBO" resultType="com.wisewin.backend.entity.bo.SpecialBO">
-        select * from lt_special
+        select *
+        from lt_special
         <where>
             <if test="status!=null and status !=''">and status=#{status}</if>
             <if test="classId!=null and classId !=''">and class_id=#{classId}</if>
@@ -58,5 +59,12 @@
         </foreach>
 
     </update>
+
+    <!-- 管理员点击的某个专题 -->
+    <select id="selectSpecialBOById" resultType="com.wisewin.backend.entity.bo.SpecialBO">
+        select *
+        from lt_special
+        where id=#{id}
+    </select>
 
 </mapper>

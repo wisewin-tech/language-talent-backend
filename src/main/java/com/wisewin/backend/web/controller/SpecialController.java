@@ -142,6 +142,20 @@ public class SpecialController extends BaseCotroller {
         }
     }
 
+    /**
+     * 查看单个专题
+     * */
+    @RequestMapping("selectSpecialBOById")
+    public void selectSpecialBOById(HttpServletRequest request, HttpServletResponse response,Integer id){
+        if(id==null||id.equals("")){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        SpecialBO specialBO=specialService.selectSpecialBOById(id);
+        String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(specialBO));
+        super.safeJsonPrint(response,json);
+    }
 
 
 }
