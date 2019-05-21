@@ -70,4 +70,15 @@ public class UpFileController extends BaseCotroller {
     }
 
 
+
+    @RequestMapping("/test")
+    public void test(MultipartFile file,HttpServletResponse response) throws Exception {
+        OSSClientUtil ossClientUtil=new OSSClientUtil();
+        String s = ossClientUtil.uploadImg2Oss(file,false);
+        System.out.println(s);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success
+                (null));
+        super.safeJsonPrint(response,json);
+    }
+
 }
