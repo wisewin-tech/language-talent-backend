@@ -38,6 +38,10 @@ public class GiftBO extends BaseModel{
                 '}';
     }
 
+
+
+
+
     public String getBatchNumber() {
         return batchNumber;
     }

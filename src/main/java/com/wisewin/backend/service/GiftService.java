@@ -28,9 +28,15 @@ public class GiftService {
     /**
      * 查询礼品卡数量
      * @return
+     * String batchNumber; //批次号
+     * String title; //标题名字
+     * String cardnumber; //卡号
+     * Integer value; //兑换值
+     * String status; //状态(已用和未使用)英文来表示
      */
-    public Integer selectCount(Map<String,Object> map) {
-        return giftDAO.selectCount(map);
+    public int selectCount(String batchNumber,String title,String cardnumber,Integer value,String status) {
+
+        return  giftDAO.selectCount(batchNumber,title,cardnumber,value,status);
     }
 
     /**
