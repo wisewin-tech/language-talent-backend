@@ -215,6 +215,9 @@ public class OSSClientUtil {
         if (filenameExtension.equalsIgnoreCase("docx") || filenameExtension.equalsIgnoreCase("doc")) {
             return "application/msword";
         }
+        if (filenameExtension.equalsIgnoreCase("pdf")) {
+            return "application/pdf";
+        }
         if (filenameExtension.equalsIgnoreCase("xml")) {
             return "text/xml";
         }

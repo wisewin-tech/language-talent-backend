@@ -17,6 +17,7 @@ public class CourseDTO {
     private String courseIntro; //课程简介
     private String courseLightspot; //课程亮点
     private String purchaseNotes; //购买须知
+    private String handouts;//讲义
     private Integer popularSort; //热门排序
     private String hotOrNot; //是否为热门
     private Integer createUserId; //创建人id
@@ -126,6 +127,14 @@ public class CourseDTO {
 
     public void setPurchaseNotes(String purchaseNotes) {
         this.purchaseNotes = purchaseNotes;
+    }
+
+    public String getHandouts() {
+        return handouts;
+    }
+
+    public void setHandouts(String handouts) {
+        this.handouts = handouts;
     }
 
     public Integer getPopularSort() {

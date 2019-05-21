@@ -21,6 +21,7 @@ public class CourseBO extends BaseModel{
     private Integer studyNumber; //学习人数
     private String courseIntro; //课程简介
     private String courseLightspot; //课程亮点
+    private String handouts;//讲义
     private String purchaseNotes; //购买须知
     private Double popularSort; //热门排序
     private String hotOrNot; //是否为热门
@@ -151,6 +152,14 @@ public class CourseBO extends BaseModel{
 
     public void setCourseLightspot(String courseLightspot) {
         this.courseLightspot = courseLightspot;
+    }
+
+    public String getHandouts() {
+        return handouts;
+    }
+
+    public void setHandouts(String handouts) {
+        this.handouts = handouts;
     }
 
     public String getPurchaseNotes() {

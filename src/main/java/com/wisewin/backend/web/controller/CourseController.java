@@ -8,10 +8,12 @@ import com.wisewin.backend.entity.param.CourseParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.CourseService;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.OSSClientUtil;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -92,6 +94,27 @@ public class CourseController extends BaseCotroller {
        return;
    }
 
+    /**
+     *上传讲义
+     * @param response
+     * @param request
+     */
+
+    @RequestMapping("/upFile")
+    public void upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile file)
+            throws Exception {
+        //图片非空判断
+        if (file==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response,json);
+        }
+        OSSClientUtil ossClientUtil=new OSSClientUtil();
+        //上传
+        String name=ossClientUtil.uploadImg2Oss(file,true);
+        //name:图片路径+图片名(图片名为生成的随机数)
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(name));
+        super.safeJsonPrint(response,json);
+    }
 
     /**
      *  修改课程
