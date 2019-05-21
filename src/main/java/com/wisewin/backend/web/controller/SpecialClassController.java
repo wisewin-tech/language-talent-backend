@@ -127,7 +127,7 @@ public class SpecialClassController extends BaseCotroller {
      * */
     @RequestMapping("addSpecialClass")
     public void addSpecialClass(HttpServletRequest request, HttpServletResponse response,SpecialClassBO specialClassBO){
-        if(specialClassBO==null){
+        if(specialClassBO==null||specialClassBO.getTitle()==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;

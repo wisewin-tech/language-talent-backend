@@ -13,6 +13,7 @@ public class SpecialBO extends BaseModel {
     private Integer classId;//专题分类id
     private String title;//专题标题
     private String describe;//专题描述
+    private String content;//专题内容
     private Date releaseDate;//专题上传日期
     private Integer traffic;//专题访问量
     private String videoUrl;//专题视频地址
@@ -26,6 +27,14 @@ public class SpecialBO extends BaseModel {
     private Integer updateId; //修改人id
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getSkip() {
         return skip;

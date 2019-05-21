@@ -119,7 +119,7 @@ public class BannerController extends BaseCotroller {
      * */
     @RequestMapping("/addBanner")
     public void addBanner(HttpServletResponse response, HttpServletRequest request,BannerBO bannerBO){
-        if(bannerBO==null){
+        if(bannerBO==null||bannerBO.getTitle()==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;

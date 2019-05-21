@@ -13,7 +13,9 @@ public interface GiftDAO {
      * @return
      */
     List<GiftBO> selectAll(Map<String, Object> map);
-    Integer selectCount(Map<String, Object> map);
+
+    //总数
+    int selectCount(@Param("batchNumber") String batchNumber,@Param("title")String title,@Param("cardnumber")String cardnumber,@Param("value")Integer value,@Param("status")String status);
 
     /**
      * 添加

@@ -30,19 +30,34 @@
       limit #{pageOffset},#{pageSize}
     </sql>
         <!--条件查询卡品卡总条数-->
-    <select id="selectCount" resultType="java.lang.Integer"
-            parameterType="java.util.Map">
+    <select id="selectCount" resultType="int">
         select
-        count(id)
+          count(id)
         from
-        lt_gift
+          lt_gift
         <where>
+            <if test="batchNumber!=null and batchNumber!='' ">
+                AND batch_number LIKE CONCAT(CONCAT('%',#{batchNumber}),'%')
+            </if>
 
-            <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
-            <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
-            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber` LIKE '%${giftParam.cardnumber}%'</if>
-            <if test="giftParam.value!=null and  giftParam.value!='' "> AND `value`=#{giftParam.value}</if>
-            <if test="giftParam.status!=null and  giftParam.status!='' ">AND `status`=#{giftParam.status}</if>
+            <if test="title!=null and title!='' ">
+                AND title LIKE CONCAT(CONCAT('%',#{title}),'%')
+            </if>
+
+            <if test="cardnumber!=null and cardnumber!='' ">
+                AND cardnumber LIKE CONCAT(CONCAT('%',#{cardnumber}),'%')
+            </if>
+
+            <if test="value!=null and value!='' ">
+                AND  `value`=#{value}
+            </if>
+
+            <if test="status!=null and status!='' ">
+               AND  status=#{status}
+            </if>
+
+
+
         </where>
 
     </select>
