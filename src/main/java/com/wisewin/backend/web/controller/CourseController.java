@@ -99,7 +99,6 @@ public class CourseController extends BaseCotroller {
      * @param response
      * @param request
      */
-
     @RequestMapping("/upFile")
     public void upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile file)
             throws Exception {
