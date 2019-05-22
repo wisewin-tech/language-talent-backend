@@ -27,7 +27,7 @@ public class voucherController extends BaseCotroller {
      */
     @RequestMapping(value = "/getAddress" ,method = RequestMethod.POST)
     public void getAddress(HttpServletRequest  request, HttpServletResponse response,String title,String fileName){
-        if(!StringUtils.isEmpty(title) ||  !StringUtils.isEmpty(fileName)){
+        if(StringUtils.isEmpty(title) ||  StringUtils.isEmpty(fileName)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
@@ -46,7 +46,7 @@ public class voucherController extends BaseCotroller {
      */
     @RequestMapping(value = "/refreshAddress" ,method = RequestMethod.POST)
     public void refreshAddress(HttpServletRequest  request, HttpServletResponse response,String videoId ){
-        if(!StringUtils.isEmpty(videoId)) {
+        if(StringUtils.isEmpty(videoId)) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;
