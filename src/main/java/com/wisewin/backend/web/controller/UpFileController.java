@@ -36,7 +36,7 @@ public class UpFileController extends BaseCotroller {
 
     //上传图片
     @RequestMapping("/upFile")
-    public void upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile file)
+    public void upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile file,Boolean flag)
             throws Exception {
         //图片非空判断
         if (file==null){
@@ -45,11 +45,18 @@ public class UpFileController extends BaseCotroller {
         }
         OSSClientUtil ossClientUtil=new OSSClientUtil();
         //上传
-        String name=ossClientUtil.uploadImg2Oss(file,false);
+        String name="";
+        if(flag==null){
+            name=ossClientUtil.uploadImg2Oss(file,false);
+        }else{
+            name=ossClientUtil.uploadImg2Oss(file,true);
+        }
+
         //name:图片路径+图片名(图片名为生成的随机数)
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(name));
         super.safeJsonPrint(response,json);
     }
+
 
 
     //删除图片
