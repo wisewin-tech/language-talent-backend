@@ -12,7 +12,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * @author XiaoLuo
@@ -35,7 +34,7 @@ public class OSSClientUtil {
     //accessKeySecret
     private String accessKeySecret = SystemConfig.getString("accessKeySecret");
     // Bucket名称
-    private String bucketName ="duoyukacourse";//SystemConfig.getString("bucketName");
+    private String bucketName =SystemConfig.getString("bucketName");
     // urlName
     private String urlName =SystemConfig.getString("urlName");
     // 文件存储目录
