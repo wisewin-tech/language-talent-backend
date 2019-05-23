@@ -135,11 +135,12 @@ public class QuestionService {
                 questionBO.setScore(this.analysisAnswer(row.getCell(2))); //分值解析
                 String[]  answer=this.analysisContent(row.getCell(11),row.getCell(12)
                         ,row.getCell(13),row.getCell(14),row.getCell(15),row.getCell(16),row.getCell(17),
-                        row.getCell(18),row.getCell(4),row.getCell(3));
+                        row.getCell(18),row.getCell(19),row.getCell(20),row.getCell(21),row.getCell(22),
+                        row.getCell(23),row.getCell(24),row.getCell(25),row.getCell(4),row.getCell(3),questionBO.getTestType());
                 questionBO.setAnswer(answer[1]); //答案 和解析
                 questionBO.setOption(answer[0]);//选项
                 questionBO.setTopic(this.getTopic(row.getCell(6),row.getCell(7),row.getCell(8),row.getCell(9),row.getCell(10)));
-                questionBO.setRelevanceId(this.getCoordinate(row.getCell(5),questionBO.getTestType()));
+                questionBO.setRelevanceId(this.getCoordinate(row.getCell(5),questionBO.getQuestionType()));
                 questionBO.setCreateTime(new Date());
                 questionBO.setCreateUserId(userId);
 
@@ -214,7 +215,8 @@ public class QuestionService {
 
 
     //选项 & 答案 & 解析    解析
-    private String[] analysisContent(Cell option1,Cell option2,Cell option3,Cell option4,Cell option5,Cell option6,Cell option7,Cell option8,Cell answers,Cell analysiss)throws Exception{
+    private String[] analysisContent(Cell option1,Cell option2,Cell option3,Cell option4,Cell option5,Cell option6,Cell option7,Cell option8,Cell option9,Cell option10,
+                                     Cell option11,Cell option12,Cell option13,Cell option14,Cell option15,Cell answers,Cell analysiss,String type)throws Exception{
         //选项
         List<List<String>>  option=new ArrayList<>();
 
@@ -272,6 +274,13 @@ public class QuestionService {
                 }
             }
             des.add(ans);
+        }
+
+        if(type.equals("imageText") || type.equals("translate") || type.equals("write")||type.equals("hearingAndSentence")){
+            List<String> strings = option.get(0);
+            for(int i=0;i<strings.size();i++){
+                strings.set(i,strings.get(i).substring(2));
+            }
         }
 
         String str= JSONArray.fromObject(option).toString();
@@ -333,7 +342,6 @@ public class QuestionService {
     private int getCoordinate(Cell coorDinates,String analysisStage)throws Exception{
         String coorDinate = coorDinates.getStringCellValue().trim();
         String[] coors = coorDinate.split(">");
-
 
         if("languageTest".equals(analysisStage)){
             return (int)languageService.queryLanguageIdByName(coors[0]);
