@@ -104,6 +104,7 @@ public class QuestionController extends BaseCotroller{
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
 
         Integer[] idArr=null;
@@ -121,6 +122,7 @@ public class QuestionController extends BaseCotroller{
         if (idArr.length==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
 
         Integer i = questionService.delQuestion(idArr);

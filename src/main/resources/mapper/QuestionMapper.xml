@@ -5,7 +5,7 @@
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.QuestionDAO">
 
-    <insert id="addquestion" parameterType="java.util.List">
+    <insert id="addquestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO">
         INSERT INTO lt_question(topic,`option`,answer,score,relevance_id,
           question_type,test_type,create_user_id,create_time)
         VALUES
