@@ -15,6 +15,8 @@ import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -157,9 +159,70 @@ public class QuestionController extends BaseCotroller{
             map.put("idBO", idBO);
 
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
-            super.safeJsonPrint(response, result);
+
         }
+
+
+    /**
+     *  导入试题
+     */
+    @RequestMapping("/test")
+     public void importQuestions(HttpServletRequest  request,HttpServletResponse  response,MultipartFile file){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        if(loginAdmin==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        if(file==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        String name = file.getName().substring(file.getName().lastIndexOf("."));
+        if ( "xls".equals(name) ||"xlsx".equals(name) ) {
+            Integer row=questionService.importQuestions(file,loginAdmin.getId());
+            if(row==null){
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(questionService.queryTest(loginAdmin.getId())));
+                super.safeJsonPrint(response, result);
+            }else{
+                questionService.deleteTest(loginAdmin.getId());
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
+                super.safeJsonPrint(response, result);
+            }
+            return;
+        }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000005"));
+        super.safeJsonPrint(response, result);
+     }
+
+
+    /**
+     * 同步题库
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/synchronizeQuestions"  ,method = RequestMethod.POST)
+    public void synchronizeQuestions(HttpServletRequest request,HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        if(loginAdmin==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
+
+        questionService.synchronizeQuestions(loginAdmin.getId());
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+        super.safeJsonPrint(response, result);
+        return;
+
+
     }
 
 
 
+
+
+
+}

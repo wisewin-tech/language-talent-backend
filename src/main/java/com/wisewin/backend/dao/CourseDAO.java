@@ -3,6 +3,7 @@ package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.CourseBO;
 import com.wisewin.backend.entity.bo.LanguageChoiceBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -54,4 +55,12 @@ public interface CourseDAO {
     List<LanguageChoiceBO> queryCourseChoice(Integer languageId);
 
     void updateNotice(String notice);
+
+    /**
+     * 通过语言id和课程名字查询 课程id
+     * @param languageId
+     * @param name
+     * @return
+     */
+    Integer queryCourseIdByName(@Param("languageId") Integer languageId,@Param("name") String name);
 }

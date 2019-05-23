@@ -143,4 +143,9 @@
         </where>
     </select>
 
+
+    <!--   通过级别id 和 名字查询 课时id -->
+    <select id="queryChapterIdByName"  resultType="java.lang.Integer" >
+        SELECT id  FROM lt_chapter WHERE  level_id=#{leavelId}  AND  chapter_name=#{name}
+    </select>
 </mapper>

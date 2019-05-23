@@ -119,4 +119,8 @@ public class LanguageService {
     public void updateNotice(String notice){
         languageDAO.updateNotice(notice);
     }
+
+    public Integer queryLanguageIdByName(String name) {
+        return languageDAO.queryLanguageIdByName(name);
+    }
 }

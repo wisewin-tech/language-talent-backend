@@ -65,4 +65,11 @@ public interface LanguageDAO {
 
 
     void updateNotice(String notice);
+
+    /**
+     * 通过语言名字添加语言
+     * @param name
+     * @return
+     */
+    Integer queryLanguageIdByName(String name);
 }
