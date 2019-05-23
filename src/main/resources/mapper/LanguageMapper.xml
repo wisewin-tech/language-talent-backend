@@ -126,4 +126,8 @@
         UPDATE lt_language SET purchase_notes=#{notice}
     </update>
 
+    <!--通过语言名字查询语言-->
+    <select id="queryLanguageIdByName"  parameterType="java.lang.String" resultType="java.lang.Integer">
+          SELECT id FROM `lt_language`  WHERE   language_name=#{name}
+    </select>
 </mapper>

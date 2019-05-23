@@ -176,4 +176,9 @@
     <update id="updateNotice"  parameterType="java.lang.String"  >
        UPDATE lt_course SET purchase_notes=#{notice}
     </update>
+
+    <!--通过语言id和课程名字查询 课程id-->
+    <select id="queryCourseIdByName" resultType="java.lang.Integer" >
+          SELECT id   FROM `lt_course`   WHERE   language_id=#{languageId}  AND course_name=#{name}
+    </select>
 </mapper>

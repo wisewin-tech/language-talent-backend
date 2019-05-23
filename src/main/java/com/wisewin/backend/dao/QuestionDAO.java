@@ -52,4 +52,22 @@ public interface QuestionDAO {
      * @return
      */
     Integer delQuestion(@Param("idArr")Integer [] idArr);
+
+    /**
+     * 添加测试题库
+     * @param questionBO
+     * @return
+     */
+    Integer addquestionTest(QuestionBO questionBO);
+
+
+    /**
+     * 删除测试题库
+     */
+    void  deleteTest(Integer userId);
+
+    /**
+     * 查询测试题库
+     */
+    List<QuestionBO> queryTest(Integer userId);
 }

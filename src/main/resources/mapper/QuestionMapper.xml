@@ -13,6 +13,14 @@
             #{questionType},#{testType},#{createUserId},now())
     </insert>
 
+    <insert id="addquestionTest" parameterType="java.util.List">
+        INSERT INTO lt_question_test(topic,`option`,answer,score,relevance_id,
+        question_type,test_type,create_user_id,create_time)
+        VALUES
+        (#{topic},#{option},#{answer},#{score},#{relevanceId},
+        #{questionType},#{testType},#{createUserId},now())
+    </insert>
+
     <select id="selectQuestion" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.QuestionBO">
       SELECT  *  FROM  `lt_question`
       <where>
@@ -99,6 +107,13 @@
         WHERE ch.id = #{id}
     </select>
 
+    <!--删除测试题库-->
+    <select id="deleteTest"  parameterType="userId" >
+       DELETE  FROM  `lt_question_test` WHERE create_user_id =#{userId}
+    </select>
 
-
+    <!--查询测试题库-->
+    <select id="queryTest" parameterType="userId"  resultType="com.wisewin.backend.entity.bo.QuestionBO" >
+        SELECT  *  FROM  `lt_question`  WHERE   create_user_id =#{userId}
+    </select>
 </mapper>

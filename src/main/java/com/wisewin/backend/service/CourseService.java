@@ -125,4 +125,7 @@ public class CourseService {
     }
 
 
+    public Integer queryCourseIdByName(Integer languageId, String name) {
+        return  courseDAO.queryCourseIdByName(languageId,name);
+    }
 }

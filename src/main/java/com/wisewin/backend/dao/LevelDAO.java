@@ -2,6 +2,8 @@ package com.wisewin.backend.dao;
 
 
 import com.wisewin.backend.entity.bo.LevelBO;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -45,4 +47,13 @@ public interface LevelDAO {
      * @Param courseId 课程id
      */
     List<LevelBO> queryLeavelChoice(Integer courseId);
+
+    /**
+     * 通过课程id和级别名字查询级别id
+     * @param courseId
+     * @param name
+     * @return
+     */
+    Integer queryLeavelIdByName(@Param("courseId") Integer courseId,@Param("name") String name);
+
 }

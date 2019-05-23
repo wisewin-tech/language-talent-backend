@@ -36,7 +36,6 @@ public class TestController extends BaseCotroller {
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(str));
         super.safeJsonPrint(response, json);
-
         while (true){
             Thread.sleep(1000);
             System.out.println(str);
