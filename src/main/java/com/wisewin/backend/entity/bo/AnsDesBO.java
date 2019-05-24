@@ -2,16 +2,16 @@ package com.wisewin.backend.entity.bo;
 
 import com.wisewin.backend.common.base.BaseModel;
 
-public class AnsDesBO extends BaseModel{
+public class AnsDesBO<T> extends BaseModel{
 
-    private Integer ans;//答案
+    private T ans;//答案
     private String des;//解析
 
-    public Integer getAns() {
+    public T getAns() {
         return ans;
     }
 
-    public void setAns(Integer ans) {
+    public void setAns(T ans) {
         this.ans = ans;
     }
 

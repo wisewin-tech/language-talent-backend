@@ -58,7 +58,6 @@ public class voucherUtil {
     }
 
 
-
     private static RefreshUploadVideoResponse refreshUploadVideo(DefaultAcsClient  client,String videoId) throws Exception{
         RefreshUploadVideoRequest  request=new RefreshUploadVideoRequest();
         request.setVideoId(videoId);
