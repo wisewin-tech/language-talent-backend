@@ -136,7 +136,7 @@ public class AccountValidatorUtil {
 
 
     public static void main(String[]  agrs){
-        System.out.println( isMobile(null));
-
+       boolean i =  Pattern.matches(REGEX_MOBILE, "18631323023");
+System.out.println(i);
     }
 }

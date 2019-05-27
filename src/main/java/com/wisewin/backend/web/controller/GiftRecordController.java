@@ -1,6 +1,5 @@
 package com.wisewin.backend.web.controller;
 
-import com.wisewin.backend.entity.bo.GiftRecordBO;
 import com.wisewin.backend.entity.bo.GiftRecordResultBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.GiftRecordParam;

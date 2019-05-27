@@ -85,4 +85,14 @@ public class ChapterService {
     public List<ChapterBO> selectChapterById(ChapterBO chapterBO){
         return chapterDAO.selectChapterById(chapterBO);
     }
+
+    /**
+     * 通过级别id 和 名字查询 课时id
+     * @param leavelId
+     * @param name
+     * @return
+     */
+    public Integer queryChapterIdByName(Integer leavelId, String name) {
+        return chapterDAO.queryChapterIdByName(leavelId,name);
+    }
 }

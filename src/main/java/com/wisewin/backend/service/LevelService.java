@@ -86,4 +86,7 @@ public class LevelService {
         return leavelDAO.queryLeavelChoice(courseId);
     }
 
+    public Integer queryLeavelIdByName(Integer courseId, String name) {
+        return leavelDAO.queryLeavelIdByName(courseId,name);
+    }
 }

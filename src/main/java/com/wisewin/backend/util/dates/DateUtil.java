@@ -51,13 +51,15 @@ public class DateUtil {
      * yyyy-MM-dd
      */
     public  static String getStr(String date) {
+        if(date==null || "".equals(date)){
+            return null;
+        }
         Date thisDate=null;
         //设置要获取到什么样的时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             //获取Date类型的时间
             thisDate = sdf.parse(date);
-
         }catch (Exception e){
             e.printStackTrace();
             return  null;

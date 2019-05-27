@@ -1,7 +1,5 @@
 package com.wisewin.backend.web.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
@@ -12,14 +10,13 @@ import com.wisewin.backend.service.QuestionService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +101,7 @@ public class QuestionController extends BaseCotroller{
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
 
         Integer[] idArr=null;
@@ -121,6 +119,7 @@ public class QuestionController extends BaseCotroller{
         if (idArr.length==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
 
         Integer i = questionService.delQuestion(idArr);
@@ -142,7 +141,6 @@ public class QuestionController extends BaseCotroller{
         }
         QuestionBO questionBO = questionService.getQuestion(id);
         ChapterIdBO idBO = new ChapterIdBO();
-        System.out.println(QuestionConstants.LANGUAGETEST.getValue());
         if (questionBO != null) {
             if (QuestionConstants.LANGUAGETEST.getValue().equals(questionBO.getTestType())) {
                 idBO.setLanguageId(questionBO.getRelevanceId());
@@ -158,8 +156,45 @@ public class QuestionController extends BaseCotroller{
 
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
             super.safeJsonPrint(response, result);
+            return;
         }
-    }
 
 
+    /**
+     *  导入试题
+     */
+     @RequestMapping("/importQuestions")
+     public void importQuestions(HttpServletRequest  request,HttpServletResponse  response,MultipartFile file){
 
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        if(loginAdmin==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        if(file==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+            return;
+        }
+
+        String name = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        if (".xlsx".equals(name) ) {
+            Integer row=questionService.importQuestions(file,loginAdmin.getId());
+            if(row==null){
+                questionService.synchronizeQuestions(loginAdmin.getId());
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+                super.safeJsonPrint(response, result);
+            }else{
+                questionService.deleteTest(loginAdmin.getId());
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
+                super.safeJsonPrint(response, result);
+            }
+            return;
+        }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000005"));
+        super.safeJsonPrint(response, result);
+     }
+
+
+}

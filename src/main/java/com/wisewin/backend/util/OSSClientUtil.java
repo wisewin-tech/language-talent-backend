@@ -12,7 +12,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * @author XiaoLuo
@@ -214,6 +213,9 @@ public class OSSClientUtil {
         }
         if (filenameExtension.equalsIgnoreCase("docx") || filenameExtension.equalsIgnoreCase("doc")) {
             return "application/msword";
+        }
+        if (filenameExtension.equalsIgnoreCase("pdf")) {
+            return "application/pdf";
         }
         if (filenameExtension.equalsIgnoreCase("xml")) {
             return "text/xml";
