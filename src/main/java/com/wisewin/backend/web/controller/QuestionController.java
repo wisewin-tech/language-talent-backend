@@ -179,7 +179,7 @@ public class QuestionController extends BaseCotroller{
         }
 
         String name = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        if ( ".xls".equals(name) ||".xlsx".equals(name) ) {
+        if (".xlsx".equals(name) ) {
             Integer row=questionService.importQuestions(file,loginAdmin.getId());
             if(row==null){
                 questionService.synchronizeQuestions(loginAdmin.getId());

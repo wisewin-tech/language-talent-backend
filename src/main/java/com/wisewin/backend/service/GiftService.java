@@ -7,9 +7,19 @@ import com.wisewin.backend.entity.bo.KeyValuesBO;
 import com.wisewin.backend.entity.param.GiftParam;
 import com.wisewin.backend.util.IDBuilder;
 import com.wisewin.backend.util.RandomUtils;
+import com.wisewin.backend.util.SnowflakeIdWorker;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -43,25 +53,23 @@ public class GiftService {
      * 添加
      * @param giftParam
      */
-    public void addGift(GiftParam giftParam,Integer num,String phoneNumber){
-        if (num==0){
-            num=1;
-        }
-        //获得当前时间的时间戳
-        long time = new Date().getTime();
+
+    public void addGift(GiftParam giftParam,Integer num){
         List<GiftParam> list = new ArrayList<GiftParam>();
+        SimpleDateFormat  simpleDateFormat=new SimpleDateFormat("yyyyMMddHHmmss");
+        String format = simpleDateFormat.format(new Date());
+        Long wkId=Long.parseLong(RandomUtils.getRandomNumber(6));
+        Long wk=Long.parseLong(RandomUtils.getRandomNumber(6));
+        SnowflakeIdWorker  snowflakeIdWorker=new SnowflakeIdWorker(wkId%31,wk%31);
         for (int i = 0; i < num; i++) {
+            Long number = snowflakeIdWorker.nextId();
             GiftParam gif = new GiftParam();
-            //获得8位的随机数
-            String cardnumber=RandomUtils.getRandomNumber(8);
-            //获得10位的随机数
-            String exchangeyard=RandomUtils.getRandomChar(10);
-            //设置卡号为随机数.
-            gif.setCardnumber(cardnumber);
-            //设置兑换码为随机数
-            gif.setExchangeyard(exchangeyard);
+            //设置卡号
+            gif.setCardnumber(number.toString());
+            //设置兑换码
+            gif.setExchangeyard(Long.toHexString(number));
             //设置时间戳为批次号
-            gif.setBatchNumber(phoneNumber+String.valueOf(time));
+            gif.setBatchNumber(format);
             //设置title
             gif.setTitle(giftParam.getTitle());
             gif.setValue(giftParam.getValue());
@@ -71,9 +79,10 @@ public class GiftService {
             gif.setCause(giftParam.getCause());
             list.add(gif);
         }
-
         giftDAO.addGift(list);
     }
+
+
     /**
      * 修改
      * @param giftParam
@@ -98,4 +107,43 @@ public class GiftService {
 
     }
 
+    public void deriveGift(HttpServletResponse response,Long batch) throws Exception {
+        response.setContentType("application/binary;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode("礼品卡-"+batch+".xlsx", "UTF-8"));
+
+        String[] titles = { "卡号", "兑换码", "面值", "开始时间" ,"结束时间"};
+
+        // 第一步，创建一个workbook，对应一个Excel文件
+        Workbook wb = new XSSFWorkbook();
+
+        // 第二步，在webbook中添加一个sheet
+        Sheet  sheet = wb.createSheet("礼品卡");
+        // 第三步，在sheet中添加表头第0行
+        Row row = sheet.createRow(0);
+
+        // 第四步，创建单元格，并设置值表头
+        for(int i=0;i<titles.length;i++){
+            Cell cell1 = row.createCell(i);
+            cell1.setCellValue(titles[i]);
+        }
+
+
+        List<GiftBO>  list=giftDAO.queryGifByBatch(batch);
+
+        for(int i=0;i<list.size();i++){
+            Row ro = sheet.createRow(i + 1);
+            ro.createCell(0).setCellValue(list.get(i).getCardnumber());//卡号
+            ro.createCell(1).setCellValue(list.get(i).getExchangeyard());//兑换码
+            ro.createCell(2).setCellValue(list.get(i).getValue());//面值
+            ro.createCell(3).setCellValue(list.get(i).getStarttime());//开始时间
+            ro.createCell(4).setCellValue(list.get(i).getFinishtime());//开始时间
+        }
+
+        // 第七步，将文件输出到客户端浏览器
+        OutputStream ouputStream = response.getOutputStream();//new FileOutputStream(new File(path+"a.xls"));
+        wb.write(ouputStream);
+        ouputStream.flush();
+        ouputStream.close();
+
+    }
 }

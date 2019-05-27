@@ -117,4 +117,8 @@
         </foreach>
     </update>
 
+    <select id="queryGifByBatch"  parameterType="java.lang.Long"  resultType="com.wisewin.backend.entity.bo.GiftBO">
+       SELECT cardnumber,`value`,exchangeyard,starttime,finishtime ,batch_number  FROM `lt_gift`
+        WHERE batch_number=#{batch}  AND `status`='not'
+    </select>
 </mapper>

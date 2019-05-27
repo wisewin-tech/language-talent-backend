@@ -1,14 +1,14 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.GiftBO;
-import com.wisewin.backend.entity.bo.KeyValuesBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.GiftParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.GiftService;
-import com.wisewin.backend.service.KeyValService;
 import com.wisewin.backend.util.JsonUtils;
-import com.wisewin.backend.util.ParamNullUtil;
+import com.wisewin.backend.util.RandomUtils;
+import com.wisewin.backend.util.SnowflakeIdWorker;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ *  礼品卡
+ */
 
 @Controller
 @RequestMapping("/gift")
@@ -65,16 +69,31 @@ public class GiftController extends BaseCotroller {
     @RequestMapping("/addGift")
     public void addGift(GiftParam giftParam,Integer num,HttpServletResponse response, HttpServletRequest request) {
         //获取管理员账号
-        String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
-        if (num==null||num<0){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        if(loginAdmin==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+        if (num==null||num<=0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
+        if(num>10000){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000007"));
+            super.safeJsonPrint(response, json);
+            return;
+        }
+
         if (StringUtils.isEmpty(giftParam.getTitle())||giftParam.getValue()==null||
                 StringUtils.isEmpty(giftParam.getStarttime())||
                 StringUtils.isEmpty(giftParam.getFinishtime())){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            return;
         }
-        giftService.addGift(giftParam,num,phoneNumber);
+        giftService.addGift(giftParam,num);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
     }
@@ -100,8 +119,8 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/frostGift")
     public void frostGift(String idArrJSON,String status,HttpServletResponse response, HttpServletRequest request) {
+
         //获取管理员账号
-        String phoneNumber = super.getLoginAdmin(request).getPhoneNumber();
         String[] split = idArrJSON.split(",");
         Integer [] ints= new Integer [split.length];
         for (int i = 0; i < split.length; i++) {
@@ -112,11 +131,13 @@ public class GiftController extends BaseCotroller {
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
 
         if (ints.length==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            return;
         }
         Integer line=giftService.frostGift(ints,status);
         if(line>0){
@@ -125,6 +146,29 @@ public class GiftController extends BaseCotroller {
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("1111111")) ;
             super.safeJsonPrint(response , result);
+        }
+
+    }
+
+
+    /**
+     * 导出礼品卡
+     */
+    @RequestMapping("/deriveGift")
+    public void deriveGift(HttpServletRequest request ,HttpServletResponse response,Long batch){
+
+        if(batch==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+            super.safeJsonPrint(response , result);
+            return;
+        }
+
+        try {
+            giftService.deriveGift(response,batch);
+        } catch (Exception e) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000008")) ;
+            super.safeJsonPrint(response , result);
+            return;
         }
 
     }

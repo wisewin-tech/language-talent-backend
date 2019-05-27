@@ -37,5 +37,6 @@ public interface GiftDAO {
     Integer unfreezeGift(@Param("idArr") Integer[] idArr);
 
 
+    List<GiftBO> queryGifByBatch(Long batch);
 
 }
