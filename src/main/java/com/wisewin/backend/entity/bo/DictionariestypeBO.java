@@ -16,6 +16,11 @@ public class DictionariestypeBO extends BaseModel {
     private Date updateTime; //最后修改时间
     private String valueName; //类型内容
 
+
+    public DictionariestypeBO(String keyName) {
+        this.keyName = keyName;
+    }
+
     public DictionariestypeBO(String keyName, Double rank, Integer updateNameId, String valueName) {
         this.keyName = keyName;
         this.rank = rank;

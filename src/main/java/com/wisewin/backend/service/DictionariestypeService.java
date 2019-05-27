@@ -59,9 +59,9 @@ public class DictionariestypeService {
      * String valueName; //类型内容
      *
      */
-    public List<DictionariestypeBO> getqueryDictionariestype(Integer id, String keyName,Double rank,Integer updateNameId,Date updateTime,String valueName){
+    public List<DictionariestypeBO> getqueryDictionariestype(String keyName){
 
-        DictionariestypeBO dictionariestypeBO=new DictionariestypeBO(id,keyName,rank,updateNameId,updateTime,valueName);
+        DictionariestypeBO dictionariestypeBO=new DictionariestypeBO(keyName);
 
         return dictionariestypeDAO.queryDictionariestype(dictionariestypeBO);
     }

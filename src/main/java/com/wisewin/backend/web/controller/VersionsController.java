@@ -49,7 +49,7 @@ public class VersionsController  extends BaseCotroller{
         Integer id = loginAdmin.getId();
 
 
-        if (id==null && param.getModel().equals("") && param.getCompatibility().equals("")){
+        if (id==null || param.getModel().equals("") || param.getCompatibility().equals("")){
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
@@ -79,11 +79,13 @@ public class VersionsController  extends BaseCotroller{
     @RequestMapping("/queryVersions")
     public void queryVersions(HttpServletRequest request,HttpServletResponse response,VersionsParam param){
 
+        //分页
         QueryInfo queryInfo=getQueryInfo(param.getPageNo(),param.getPageSize());
         if (queryInfo!=null){
             param.setPageNo(queryInfo.getPageOffset());
             param.setPageSize(queryInfo.getPageSize());
         }
+        //根据版本号来查询
         List<VersionsParam> queryVersionsjson=versionsService.getqueryVersions(param);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(queryVersionsjson));
         super.safeJsonPrint(response,json);
@@ -119,8 +121,8 @@ public class VersionsController  extends BaseCotroller{
      */
      @RequestMapping(value = "/updateVersions",method  = RequestMethod.POST)
     public void updateVersions(HttpServletRequest request,HttpServletResponse response, VersionsParam param){
+         //获取当前用户id
          AdminBO loginAdmin = super.getLoginAdmin(request);
-
          if(loginAdmin==null){
              String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
              super.safeHtmlPrint(response,languagejson);
@@ -133,6 +135,7 @@ public class VersionsController  extends BaseCotroller{
             return;
         }
 
+        //修改版本内容
         boolean updateVersionsjson=versionsService.getupdateVersions(param.getId(),param.getVersionsnum(),param.getModel(),param.getContent(),
                 id,param.getCompatibility());
         if (updateVersionsjson){

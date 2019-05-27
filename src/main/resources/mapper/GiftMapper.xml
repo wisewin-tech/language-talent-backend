@@ -56,8 +56,6 @@
                AND  status=#{status}
             </if>
 
-
-
         </where>
 
     </select>
