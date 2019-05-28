@@ -7,6 +7,7 @@ import com.wisewin.backend.entity.param.ChapterParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.ChapterService;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,7 +73,7 @@ public class ChapterController extends BaseCotroller {
    @RequestMapping("/addChapter")
    public void addChapter(HttpServletRequest request,HttpServletResponse  response,ChapterBO chapterBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
-       if(chapterBO.getChapterName()==null||chapterBO.getLevelId()==null){
+       if(StringUtils.isEmpty(chapterBO.getChapterName())||chapterBO.getLevelId()==null){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
            super.safeJsonPrint(response, json);
            return;
