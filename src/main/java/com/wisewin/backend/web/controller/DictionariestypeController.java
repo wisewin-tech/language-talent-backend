@@ -98,10 +98,6 @@ public class DictionariestypeController extends BaseCotroller {
                 super.safeJsonPrint(response, json);
                 return;
 
-
-
-
-
     }
 
     /**
@@ -221,7 +217,6 @@ public class DictionariestypeController extends BaseCotroller {
             super.safeJsonPrint(response,json);
             return;
         }
-
 
         if (param.getKey().equals("") || param.getValue().equals("") || param.getOuter().equals("")
                  || id==null  || param.getRank()==null){

@@ -231,7 +231,7 @@ public interface AdminDAO {
      * @param id 用户id
      * @return
      */
-    boolean delAdminById(Integer id);
+    boolean delAdminById(@Param("Did") String[] Did);
 
     /**
      * 修改admin用户信息

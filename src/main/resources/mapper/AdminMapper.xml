@@ -344,8 +344,11 @@
     </update>
 
     <!--  根据用户id删除信息  -->
-    <delete id="delAdminById" parameterType="Integer">
-        DELETE  FROM  lt_admin WHERE id=#{id}
+    <delete id="delAdminById">
+        DELETE  FROM  lt_admin WHERE
+        <foreach  collection="Did" item="id" separator="OR">
+            id=#{id}
+        </foreach>
     </delete>
 
     <!--  根据角色id删除对应的权限  -->

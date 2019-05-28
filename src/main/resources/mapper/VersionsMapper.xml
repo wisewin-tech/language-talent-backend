@@ -10,15 +10,15 @@
 
         INSERT  INTO
             lt_versions(
-        versionsnum,model,
-        content,admin_id,
-        create_time,updateadmin_id,
-        update_time,compatibility
+            versionsnum,model,
+            content,admin_id,
+            create_time,updateadmin_id,
+            update_time,compatibility
         )VALUES (
-        #{versionsnum},#{model},
-        #{content},#{adminId},
-        now(),#{updateadminId},
-        now(),#{compatibility}
+            #{versionsnum},#{model},
+            #{content},#{adminId},
+            now(),#{updateadminId},
+            now(),#{compatibility}
         )
     </insert>
 
@@ -35,7 +35,7 @@
         lt_versions
         <where>
             <if test="model!=null and model!='' ">
-                model=#{model}
+               model=#{model}
             </if>
         </where>
         ORDER BY

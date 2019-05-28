@@ -367,8 +367,8 @@ public class AdminService {
      * @param id
      * @return
      */
-    public boolean delAdminById(Integer id){
-        return adminDAO.delAdminById(id);
+    public boolean delAdminById(String[] Did){
+        return adminDAO.delAdminById(Did);
     }
 
     /**

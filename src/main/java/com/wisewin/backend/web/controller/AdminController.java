@@ -668,16 +668,18 @@ public class AdminController extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        boolean status = ids.contains(",");
-        if(status){
-            String [] id = ids.split(",");
-            for (String idd:
-                 id) {
-                adminService.delAdminById(Integer.parseInt(idd));
-            }
-        }else{
-            adminService.delAdminById(Integer.parseInt(ids));
+
+                String[] id = ids.split(",");
+
+                 boolean  delAdminjoin=adminService.delAdminById(id);
+                if (delAdminjoin){
+                    String date=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+                    super.safeJsonPrint(response,date);
+                    return;
         }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+        super.safeJsonPrint(response , result);
+        return ;
     }
 
     //退出登录

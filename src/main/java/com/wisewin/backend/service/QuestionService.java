@@ -246,7 +246,7 @@ public class QuestionService {
         //解析
         List<String> analysis = this.getlistStrings(analysiss);
 
-        List<AnsDesBO> des = new ArrayList<>();
+        List<AnsDesBO> des = new ArrayList<AnsDesBO>();
         List<List<String>> lists = topiceChange(option);
 
 
@@ -310,7 +310,6 @@ public class QuestionService {
         String de = JSONArray.fromObject(des).toString();
         return new String[]{str, de};
     }
-
 
     private  List<List<String>> topiceChange(List<List<String>> list) {
         List<List<String>>  resultList=new ArrayList<List<String>>();
