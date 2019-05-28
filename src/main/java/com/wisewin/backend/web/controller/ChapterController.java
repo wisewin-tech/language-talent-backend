@@ -64,7 +64,7 @@ public class ChapterController extends BaseCotroller {
 
 
     /**
-     *  添加课程
+     *  添加课时
      * @param request
      * @param response
      * @param chapterBO
@@ -72,7 +72,7 @@ public class ChapterController extends BaseCotroller {
    @RequestMapping("/addChapter")
    public void addChapter(HttpServletRequest request,HttpServletResponse  response,ChapterBO chapterBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
-       if(chapterBO.getChapterName()==null){
+       if(chapterBO.getChapterName()==null||chapterBO.getLevelId()==null){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
            super.safeJsonPrint(response, json);
            return;
