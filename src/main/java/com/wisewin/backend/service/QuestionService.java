@@ -130,7 +130,7 @@ public class QuestionService {
      * @param file
      */
     public Integer importQuestions(MultipartFile file, Integer userId) {
-        int rows = 2;
+        int rows = 1;
         try {
             Workbook wb = new XSSFWorkbook(file.getInputStream());
             //开始解析

@@ -197,4 +197,13 @@ public class QuestionController extends BaseCotroller{
      }
 
 
+    @RequestMapping("/test")
+    public void test(HttpServletRequest  request,HttpServletResponse  response){
+
+        List<QuestionBO> questionBOS = questionService.queryTest(1);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(questionBOS));
+        super.safeJsonPrint(response, result);
+    }
+
+
 }

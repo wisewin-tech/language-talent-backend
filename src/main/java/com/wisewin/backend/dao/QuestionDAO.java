@@ -60,7 +60,6 @@ public interface QuestionDAO {
      */
     Integer addquestionTest(QuestionBO questionBO);
 
-
     /**
      * 删除测试题库
      */

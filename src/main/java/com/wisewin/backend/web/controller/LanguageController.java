@@ -7,6 +7,7 @@ import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.LanguageParam;
 import com.wisewin.backend.service.LanguageService;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +68,7 @@ public class LanguageController extends BaseCotroller {
     public void queryLanguageList(HttpServletRequest request, HttpServletResponse response, LanguageBO languageParam) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
 
-        if(languageParam.getLanguageName()==null || languageParam.getEnsignImageUrl()==null  || languageParam.getPrice()==null ){
+        if(StringUtils.isEmpty(languageParam.getLanguageName()) || languageParam.getEnsignImageUrl()==null  || languageParam.getPrice()==null ){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;

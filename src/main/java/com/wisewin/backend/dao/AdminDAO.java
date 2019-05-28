@@ -31,7 +31,7 @@ public interface AdminDAO {
      * @param roleid 角色id
      * @return
      */
-    Set<String> queryAdminUrl(Integer roleid);
+    List<String> queryAdminUrl(Integer roleid);
 
     /**
      * 注册管理员信息

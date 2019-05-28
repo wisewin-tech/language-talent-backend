@@ -314,16 +314,8 @@ public class AdminController extends BaseCotroller {
             super.safeJsonPrint(response , result);
             return ;
         }
-        MenuBO menuBO = new MenuBO();
-        menuBO.setMenuName(menuParam.getMenuName());
-        menuBO.setPid(menuParam.getPid());
-        menuBO.setStatus(menuParam.getStatus());
-        menuBO.setUrl(menuParam.getUrl());
-        menuBO.setIndex(menuParam.getIndex());
-        menuBO.setIcon(menuParam.getIcon());
-        menuBO.setCreateTime(new Date());
-        menuBO.setUpdateTime(new Date());
-        int line = adminService.addMenuByPid(menuBO);
+
+        int line = adminService.addMenuByPid(menuParam);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
             super.safeJsonPrint(response, result);

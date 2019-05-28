@@ -9,6 +9,7 @@ import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.CourseService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.OSSClientUtil;
+import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +77,7 @@ public class CourseController extends BaseCotroller {
    @RequestMapping(value = "/addCourse",method= RequestMethod.POST)
    public void addCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
-       if(courseBO.getCourseName()==null || courseBO.getLanguageId()==null){
+       if(StringUtils.isEmpty(courseBO.getCourseName()) || courseBO.getLanguageId()==null){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
            super.safeJsonPrint(response, json);
            return;

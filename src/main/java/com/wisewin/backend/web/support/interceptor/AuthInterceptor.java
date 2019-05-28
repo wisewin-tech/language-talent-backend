@@ -2,6 +2,9 @@ package com.wisewin.backend.web.support.interceptor;
 
 import com.google.common.collect.Sets;
 import com.wisewin.backend.common.constants.SysConstants;
+import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.dto.ResultDTOBuilder;
+import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -24,7 +27,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
       private BaseCotroller baseCotroller=new BaseCotroller() ;
 
     // 不需要过滤的URL
-    public static final Set<String> unCheckSet = Sets.newHashSet("/admin/adminLogin") ;
+    public static final Set<String> unCheckSet = Sets.newHashSet("/admin/adminLogin","/chapter/selectChapterById","/leavel/queryCourseChoice",
+            "/course/selectChapterById","/Language/queryLanguageChoice","/question/test") ;
 
  //   public static final Set<String> CheckListForAjax = Sets.newHashSet("/client/login" , "/apiCourse/toDetail" ) ;
 
@@ -49,16 +53,23 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if(unCheckSet.contains(uri)){
             return true;
         }
-  /*      AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
+        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
         if(loginAdmin==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
             baseCotroller.safeJsonPrint(response,result);
             return false;
         }
-      */
-        //TODO Xiaowen 等待接口路径完成判断是否有权限
 
-        return true;
+
+        if(loginAdmin.getUrl().contains(uri)){
+            return true;
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000009")) ;
+            baseCotroller.safeJsonPrint(response,result);
+            return false;
+        }
+
+
     }
 
     /**

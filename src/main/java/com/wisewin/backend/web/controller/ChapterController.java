@@ -146,7 +146,7 @@ public class ChapterController extends BaseCotroller {
         return;
     }
 
-    @RequestMapping("selectChapterById")
+    @RequestMapping("/selectChapterById")
     public void selectChapterById(ChapterBO chapterBO,HttpServletRequest request,HttpServletResponse response){
         if (chapterBO==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));

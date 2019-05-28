@@ -17,7 +17,7 @@
     button.addEventListener('click', event => {
         let fileObj = document.getElementById('file').files[0]
         if (fileObj) {
-            let url = '/question/test'
+            let url = '/question/importQuestions'
             let formData = new FormData()
             formData.append('file', fileObj)
             let xhr = new XMLHttpRequest()

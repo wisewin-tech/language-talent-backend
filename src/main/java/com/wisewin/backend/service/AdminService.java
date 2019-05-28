@@ -34,11 +34,21 @@ public class AdminService {
     public AdminBO queryAdminInfoByMobile(String mobile) {
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
         if(adminBO!=null){
-            Set<String> urls=adminDAO.queryAdminUrl(adminBO.getRoleId());
-            adminBO.setUrl(urls);
+            List<String> urls=adminDAO.queryAdminUrl(adminBO.getRoleId());
+            Set<String>  set=new HashSet<String>();
+            if(urls!=null){
+                for(String url:urls){
+                    String[] split = url.split(",");
+                    for(String str:split){
+                        set.add(str);
+                    }
+                }
+            }
+            adminBO.setUrl(set);
         }
         return adminBO;
     }
+
 
 
     /**
@@ -122,10 +132,19 @@ public class AdminService {
 
     /**
      * 根据父id向权限表中添加数据
-     * @param menuBO  添加的权限信息
+     * @param menuParam  添加的权限信息
      * @return 受影响的行数
      */
-    public int addMenuByPid(MenuBO menuBO){
+    public int addMenuByPid(MenuParam menuParam){
+        MenuBO menuBO = new MenuBO();
+        menuBO.setMenuName(menuParam.getMenuName());
+        menuBO.setPid(menuParam.getPid());
+        menuBO.setStatus(menuParam.getStatus());
+        menuBO.setUrl(menuParam.getUrl());
+        menuBO.setIndex(menuParam.getIndex());
+        menuBO.setIcon(menuParam.getIcon());
+        menuBO.setCreateTime(new Date());
+        menuBO.setUpdateTime(new Date());
         return adminDAO.addMenuByPid(menuBO);
     }
 

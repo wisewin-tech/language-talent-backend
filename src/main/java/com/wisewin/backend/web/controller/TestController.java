@@ -32,14 +32,10 @@ public class TestController extends BaseCotroller {
 
 
     @RequestMapping("/test")
-    public void test(HttpServletResponse response, HttpServletRequest  request,String str) throws InterruptedException {
-
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(str));
+    public void test(HttpServletResponse response, HttpServletRequest  request) throws InterruptedException {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(loginAdmin));
         super.safeJsonPrint(response, json);
-        while (true){
-            Thread.sleep(1000);
-            System.out.println(str);
-        }
 
     }
 
@@ -53,10 +49,8 @@ public class TestController extends BaseCotroller {
 
 
     public static void main(String[] args) throws ParseException {
-      String strArr="[\"a\",\"b\",\"c\",\"d\"]";
-
+        String strArr="[\"a\",\"b\",\"c\",\"d\"]";
         List<String> lists = JSON.parseArray(strArr, String.class);
-
         System.out.println(lists);
     }
 }
