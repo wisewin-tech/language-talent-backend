@@ -64,7 +64,7 @@ public class UserController extends BaseCotroller {
      * */
     @RequestMapping("/deleteUsersById")
     public void deleteUsersById(HttpServletRequest request,HttpServletResponse response,String idArrJSON,String status){
-        if(idArrJSON==null||status==null||status.equals("")||idArrJSON.equals("")){
+        if(idArrJSON==null||status==null||status.length()==0||idArrJSON.length()==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
