@@ -26,8 +26,7 @@ public class SpecialService {
         specialDAO.addSpecial(specialBO);
         String url= SystemConfig.getString("domain_name")+"/special.html?id="+specialBO.getId();
         specialBO.setSkip(url);
-        specialDAO.updateSpecialById(specialBO);
-        return true;
+        return specialDAO.updateSpecialById(specialBO)>0;
 
     }
 
