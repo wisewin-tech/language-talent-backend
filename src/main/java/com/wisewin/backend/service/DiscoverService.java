@@ -70,7 +70,7 @@ public class DiscoverService {
         discoverBO.setLikenum(0);
         discoverBO.setShow("yes");
         discoverDAO.insertJournalism(discoverBO);
-        String url= SystemConfig.getString("domain_name")+"/Discover/queryfindDiscover?id="+discoverBO.getId();
+        String url= SystemConfig.getString("domain_name")+"/discover.html?id="+discoverBO.getId();
         discoverBO.setSkip(url);
         discoverDAO.updateActivity(discoverBO);
     }

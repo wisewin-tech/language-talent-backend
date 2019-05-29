@@ -23,9 +23,12 @@ public class SpecialService {
      * 专题的增加
      * */
     public boolean addSpecial(SpecialBO specialBO){
-        String url= SystemConfig.getString("domain_name")+"/Special/selectSpecialBOById?specialId="+specialBO.getId();
+        specialDAO.addSpecial(specialBO);
+        String url= SystemConfig.getString("domain_name")+"/special.html?id="+specialBO.getId();
         specialBO.setSkip(url);
-        return specialDAO.addSpecial(specialBO)>0;
+        specialDAO.updateSpecialById(specialBO);
+        return true;
+
     }
 
     /**
