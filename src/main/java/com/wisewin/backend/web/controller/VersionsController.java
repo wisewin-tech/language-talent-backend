@@ -9,6 +9,7 @@ import com.wisewin.backend.entity.param.VersionsParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.VersionsService;
 import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,7 @@ public class VersionsController  extends BaseCotroller{
         Integer id = loginAdmin.getId();
 
 
-        if (id==null || param.getModel().equals("") || param.getCompatibility().equals("")){
+        if (id==null || StringUtils.isObjEmpty(param.getModel()) || StringUtils.isObjEmpty(param.getCompatibility())){
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;

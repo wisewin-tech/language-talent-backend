@@ -49,7 +49,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         Integer id = loginAdmin.getId();
-        if (param.getKeyName().equals("") || param.getRank()==null  || id==null){
+        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank())  || id==null){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
             return;
@@ -119,7 +119,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         Integer id = loginAdmin.getId();
-        if (param.getId() == null || param.getKeyName().equals(" ") || param.getRank() == null || id == null) {
+        if (StringUtils.isObjEmpty(param.getId()) || StringUtils.isObjEmpty(param.getKeyName()) ||  StringUtils.isObjEmpty(param.getRank()) || id == null) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
         }
@@ -218,8 +218,8 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
 
-        if (param.getKey().equals("") || param.getValue().equals("") || param.getOuter().equals("")
-                 || id==null  || param.getRank()==null){
+        if (StringUtils.isObjEmpty(param.getKey()) || StringUtils.isObjEmpty(param.getValue())|| StringUtils.isObjEmpty(param.getOuter())
+                 || id==null  || StringUtils.isObjEmpty(param.getRank())){
             String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response,json);
             return;
@@ -298,8 +298,8 @@ public class DictionariestypeController extends BaseCotroller {
               return;
           }
 
-          if (param.getId()==null || param.getKey().equals("") || param.getValue().equals("") || param.getOuter().equals("")
-                                                                    || id==null || param.getRank()==null){
+          if (StringUtils.isObjEmpty(param.getId()) || StringUtils.isObjEmpty(param.getKey()) || StringUtils.isObjEmpty(param.getValue()) || StringUtils.isObjEmpty(param.getOuter())
+                                                                    || id==null || StringUtils.isObjEmpty(param.getRank())){
               String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
               super.safeJsonPrint(response,json);
               return;

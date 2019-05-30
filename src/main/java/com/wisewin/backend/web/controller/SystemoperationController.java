@@ -37,7 +37,7 @@ public class SystemoperationController extends BaseCotroller {
     public void querySystemoperation(HttpServletRequest request, HttpServletResponse response,Integer id,Integer adminId,String content,String contenttype,
                                      String operationtype,String soReleasetime,Integer  page,Integer strip){
 
-        if (page==null && strip==null){
+        if (page==null || strip==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
