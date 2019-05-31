@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 
-    <property name="LOG_DIR" value="D:/Var" />
+    <property name="LOG_DIR" value="/www/server/apache-back/logs" />
     <!--&lt;!&ndash; ch.qos.logback.core.ConsoleAppender 控制台输出 &ndash;&gt;-->
     <!--<appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
         <!--<encoder>-->
@@ -13,7 +13,7 @@
     <appender name="file"    class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_DIR}/test-server-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <FileNamePattern>${LOG_DIR}/log-server-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
             <MaxHistory>30</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <MaxFileSize>100MB</MaxFileSize>

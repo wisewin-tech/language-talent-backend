@@ -181,15 +181,15 @@ public class QuestionController extends BaseCotroller{
         String name = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         if (".xlsx".equals(name) ) {
             Integer row=questionService.importQuestions(file,loginAdmin.getId());
-            if(row==null){
-                questionService.synchronizeQuestions(loginAdmin.getId());
-                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
-                super.safeJsonPrint(response, result);
-            }else{
-                questionService.deleteTest(loginAdmin.getId());
-                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
-                super.safeJsonPrint(response, result);
-            }
+//            if(row==null){
+//                questionService.synchronizeQuestions(loginAdmin.getId());
+//                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+//                super.safeJsonPrint(response, result);
+//            }else{
+//                questionService.deleteTest(loginAdmin.getId());
+//                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
+//                super.safeJsonPrint(response, result);
+//            }
             return;
         }
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000005"));

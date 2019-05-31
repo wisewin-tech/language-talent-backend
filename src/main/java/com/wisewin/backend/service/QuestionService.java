@@ -269,17 +269,17 @@ public class QuestionService {
             List<String> ops = lists.get(0);
             AnsDesBO<String> ans = new AnsDesBO<String>();
             ans.setDes(analysis.get(0));
-            String str="";
+            StringBuffer strBuff=new StringBuffer("");
             for(int i=0;i<answer.size();i++){  // 循环答案
                 for(int x=0;x<ops.size();x++){
                     String subStr = ops.get(x).substring(0,1);
                     if (subStr.equalsIgnoreCase(answer.get(i))) {
-                        str=str+","+x;
+                        strBuff.append(x).append(",");
                         break;
                     }
                 }
             }
-            ans.setAns(str);
+            ans.setAns(strBuff.toString());
             des.add(ans);
         }else{
             List<String> ops = lists.get(0);
@@ -304,6 +304,7 @@ public class QuestionService {
             for (int i = 0; i < strings.size(); i++) {
                 strings.set(i, strings.get(i).substring(2));
             }
+            lists.set(0,strings);
         }
 
         String str = JSONArray.fromObject(lists).toString();
