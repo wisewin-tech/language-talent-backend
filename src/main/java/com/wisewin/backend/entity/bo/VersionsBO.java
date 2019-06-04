@@ -1,41 +1,24 @@
 package com.wisewin.backend.entity.bo;
 
+
 import com.wisewin.backend.entity.bo.common.base.BaseModel;
 
 import java.util.Date;
 
-public class VersionsBO extends BaseModel{
-
+/**
+ * 版本表
+ */
+public class VersionsBO extends BaseModel {
     private Integer id; //版本id
-    private Integer versionsnum; //发版次数
-    private String model; //版本号
-    private String content; //内容
-    private Integer adminId; //后台管理员id
-    private Date createTime; //创建时间
-    private Integer updateadminId; //后台管理员修改id
-    private Date updateTime; //修改时间
-    private String compatibility; //兼容版本
-
-
-    public VersionsBO(){}
-
-    public VersionsBO(Integer id, Integer versionsnum, String model, String content, Integer updateadminId, String compatibility) {
-        this.id = id;
-        this.versionsnum = versionsnum;
-        this.model = model;
-        this.content = content;
-        this.updateadminId = updateadminId;
-        this.compatibility = compatibility;
-    }
-
-    public VersionsBO(Integer versionsnum, String model, String content, Integer adminId, Integer updateadminId, String compatibility) {
-        this.versionsnum = versionsnum;
-        this.model = model;
-        this.content = content;
-        this.adminId = adminId;
-        this.updateadminId = updateadminId;
-        this.compatibility = compatibility;
-    }
+    private String title; //更新标题
+    private String downurl; //下载地址
+    private String platform; //平台
+    private String subcontent; //更新内容
+    private Integer type; //1.不需要升级2.不强制升级.3强制升级
+    private Integer versioncode; //版本号（数字形式，越大版本越新）
+    private String versionname; //版本号
+    private Integer adminId; //管理员id
+    private Date createTime;//创建时间
 
     public Integer getId() {
         return id;
@@ -45,28 +28,60 @@ public class VersionsBO extends BaseModel{
         this.id = id;
     }
 
-    public Integer getVersionsnum() {
-        return versionsnum;
+    public String getTitle() {
+        return title;
     }
 
-    public void setVersionsnum(Integer versionsnum) {
-        this.versionsnum = versionsnum;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getModel() {
-        return model;
+    public String getDownurl() {
+        return downurl;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setDownurl(String downurl) {
+        this.downurl = downurl;
     }
 
-    public String getContent() {
-        return content;
+    public String getPlatform() {
+        return platform;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public String getSubcontent() {
+        return subcontent;
+    }
+
+    public void setSubcontent(String subcontent) {
+        this.subcontent = subcontent;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getVersioncode() {
+        return versioncode;
+    }
+
+    public void setVersioncode(Integer versioncode) {
+        this.versioncode = versioncode;
+    }
+
+    public String getVersionname() {
+        return versionname;
+    }
+
+    public void setVersionname(String versionname) {
+        this.versionname = versionname;
     }
 
     public Integer getAdminId() {
@@ -83,29 +98,5 @@ public class VersionsBO extends BaseModel{
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Integer getUpdateadminId() {
-        return updateadminId;
-    }
-
-    public void setUpdateadminId(Integer updateadminId) {
-        this.updateadminId = updateadminId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getCompatibility() {
-        return compatibility;
-    }
-
-    public void setCompatibility(String compatibility) {
-        this.compatibility = compatibility;
     }
 }

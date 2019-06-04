@@ -7,68 +7,25 @@
 
     <!--添加版本-->
     <insert id="addVersions" parameterType="com.wisewin.backend.entity.bo.VersionsBO">
-
-        INSERT  INTO
-            lt_versions(
-            versionsnum,model,
-            content,admin_id,
-            create_time,updateadmin_id,
-            update_time,compatibility
-        )VALUES (
-            #{versionsnum},#{model},
-            #{content},#{adminId},
-            now(),#{updateadminId},
-            now(),#{compatibility}
-        )
+        insert into lt_versions
+        (title,downurl,platform,`type`,subcontent,versioncode,versionname,create_time,admin_id)
+        values
+        (#{title},#{downurl},#{platform},#{type},#{subcontent},#{versioncode},#{versionname},now(),#{adminId})
     </insert>
 
     <!--查询-->
-    <select id="queryVersions" resultType="com.wisewin.backend.entity.param.VersionsParam">
-
-        SELECT
-          id,versionsnum,
-          model,content,
-          admin_id,create_time,
-          updateadmin_id,update_time,
-          compatibility
-        FROM
-        lt_versions
-        <where>
-            <if test="model!=null and model!='' ">
-               model=#{model}
-            </if>
-        </where>
+    <select id="queryVersions" resultType="com.wisewin.backend.entity.bo.VersionsBO">
+        SELECT * FROM lt_versions
         ORDER BY
-           create_time
+        create_time
         desc
-         <include refid="orderLimit" />
-    </select>
-    <sql id="orderLimit">
-        limit #{pageNo},#{pageSize}
-    </sql>
 
+    </select>
 
     <!--删除-->
-    <delete id="deleteVersions">
+    <delete id="deleteVersions" parameterType="java.lang.Integer">
         DELETE  FROM
-          lt_versions
-        <where>
-        <foreach collection="idArr" item="id" separator="OR">
-            id=#{id}
-        </foreach>
-        </where>
+          lt_versions where id=#{vid}
     </delete>
 
-
-    <!--修改内容-->
-    <update id="updateVersions" parameterType="com.wisewin.backend.entity.bo.VersionsBO">
-        UPDATE
-          lt_versions
-        SET
-          versionsnum=#{versionsnum},model=#{model},
-          content=#{content},updateadmin_id=#{updateadminId},
-          update_time=now(),compatibility=#{compatibility}
-        WHERE
-         id=#{id}
-    </update>
 </mapper>
