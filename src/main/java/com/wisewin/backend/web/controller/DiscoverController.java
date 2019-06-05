@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * Created by 王彬 on 2019/5/5.
  */
@@ -37,15 +38,16 @@ public class DiscoverController extends BaseCotroller {
 
     /**
      * 分页条件查询发现列表
+     *
      * @param request
      * @param response
-     * @param pageNo  当前页 默认1
+     * @param pageNo   当前页 默认1
      * @param pageSize 每页显示条数  默认10
-     * @param type 类型 条件  可选
-     * @param title 标题 条件 可选
+     * @param type     类型 条件  可选
+     * @param title    标题 条件 可选
      */
     @RequestMapping(value = "/discoverList", method = RequestMethod.POST)
-    public void discoverList(HttpServletRequest request, HttpServletResponse response, Integer pageNo, Integer pageSize,String type,String createTime,String title) {
+    public void discoverList(HttpServletRequest request, HttpServletResponse response, Integer pageNo, Integer pageSize, String type, String createTime, String title) {
 
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
@@ -55,7 +57,6 @@ public class DiscoverController extends BaseCotroller {
             //把pageOffset 页数,pageSize每页的条数放入map集合中
             condition.put("pageOffset", queryInfo.getPageOffset());
             condition.put("pageSize", queryInfo.getPageSize());
-
         }
         condition.put("type", type);
         condition.put("createTime", createTime);
@@ -66,10 +67,10 @@ public class DiscoverController extends BaseCotroller {
         countMap.put("createTime", createTime);
         countMap.put("title", title);
         countMap.put("yes", "yes");
-        Integer count =  discoverService.countDiscover(countMap);
+        Integer count = discoverService.countDiscover(countMap);
 
         List<DiscoverBO> list = discoverService.queryListDiscoverBO(condition);
-        DiscoverDTO  jsonString = new DiscoverDTO();
+        DiscoverDTO jsonString = new DiscoverDTO();
         jsonString.setList(list);
         jsonString.setCount(count);
 
@@ -82,40 +83,40 @@ public class DiscoverController extends BaseCotroller {
      * 批量删除
      */
     @RequestMapping("/updateDiscoverbyShows")
-    public void updateDiscoverbyShows(HttpServletRequest request,HttpServletResponse response,String discoverById){
-        if(StringUtils.isEmpty(discoverById)){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003" ));
-            super.safeJsonPrint(response , result);
+    public void updateDiscoverbyShows(HttpServletRequest request, HttpServletResponse response, String discoverById) {
+        if (StringUtils.isEmpty(discoverById)) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            super.safeJsonPrint(response, result);
         }
         //获取第一个字符
-        String first=discoverById.substring(0, 1);
+        String first = discoverById.substring(0, 1);
         //获取最后一个字符
-        String last=discoverById.substring(discoverById.length()-1, discoverById.length());
+        String last = discoverById.substring(discoverById.length() - 1, discoverById.length());
 
-        if(!first.equals("[")||!last.equals("]")){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" ));
-            super.safeJsonPrint(response , result);
+        if (!first.equals("[") || !last.equals("]")) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
             return;
         }
 
-        Integer[] idArr=JsonUtils.getIntegerArray4Json(discoverById);
-        if(idArr == null || idArr.length == 0){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
-            super.safeJsonPrint(response , result);
+        Integer[] idArr = JsonUtils.getIntegerArray4Json(discoverById);
+        if (idArr == null || idArr.length == 0) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
             return;
         }
         discoverService.updateDiscoverbyShows(idArr);
 
 
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
-        super.safeJsonPrint(response , result);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+        super.safeJsonPrint(response, result);
     }
 
     /**
      * 批量置顶
      */
     @RequestMapping("/updateDiscoverbySticks")
-    public void updateDiscoverbySticks(HttpServletRequest request,HttpServletResponse response,String discoverById,String stick) {
+    public void updateDiscoverbySticks(HttpServletRequest request, HttpServletResponse response, String discoverById, String stick) {
         if (StringUtils.isEmpty(discoverById)) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
@@ -130,7 +131,7 @@ public class DiscoverController extends BaseCotroller {
             super.safeJsonPrint(response, result);
             return;
         }
-        if(StringUtils.isEmpty(stick)){
+        if (StringUtils.isEmpty(stick)) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
@@ -144,16 +145,16 @@ public class DiscoverController extends BaseCotroller {
         }
 
         //置顶
-        if(stick.equals("yes")){
-            discoverService.updateDiscoverbySticks(idArr,stick);
+        if (stick.equals("yes")) {
+            discoverService.updateDiscoverbySticks(idArr, stick);
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("置顶成功"));
             super.safeJsonPrint(response, result);
             return;
         }
 
         //置顶
-        if(stick.equals("no")){
-            discoverService.updateDiscoverbySticks(idArr,stick);
+        if (stick.equals("no")) {
+            discoverService.updateDiscoverbySticks(idArr, stick);
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("取消置顶成功"));
             super.safeJsonPrint(response, result);
             return;
@@ -165,13 +166,13 @@ public class DiscoverController extends BaseCotroller {
      * 单表查询
      */
     @RequestMapping("/queryDiscover")
-    public void queryDiscover(HttpServletRequest request,HttpServletResponse response,String id){
-        if(StringUtils.isEmpty(id)){
+    public void queryDiscover(HttpServletRequest request, HttpServletResponse response, String id) {
+        if (StringUtils.isEmpty(id)) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-       DiscoverBO discoverBO = discoverService.queryDiscover(id);
+        DiscoverBO discoverBO = discoverService.queryDiscover(id);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(discoverBO));
         super.safeJsonPrint(response, json);
     }
@@ -181,62 +182,63 @@ public class DiscoverController extends BaseCotroller {
      * 修改
      */
     @RequestMapping("/updateDiscover")
-    public void queryDiscover(HttpServletRequest request,HttpServletResponse response,DiscoverBO discoverBO){
+    public void queryDiscover(HttpServletRequest request, HttpServletResponse response, DiscoverBO discoverBO) {
         AdminBO adminBO = super.getLoginAdmin(request);
-        if(adminBO == null){
+        if (adminBO == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
             super.safeJsonPrint(response, result);
             return;
         }
-        if(discoverBO.getId() == null){
+        if (discoverBO.getId() == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
-        if(StringUtils.isEmpty(discoverBO.getType())){
+        if (StringUtils.isEmpty(discoverBO.getType())) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
         }
         discoverBO.setDcUpdatename(adminBO.getName());
         discoverBO.setUpdateTime(new Date());
-        if(discoverBO.getType().equals("journalism")){
+        if (discoverBO.getType().equals("journalism")) {
             discoverService.updateJournalism(discoverBO);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
-            super.safeJsonPrint(response , result);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+            super.safeJsonPrint(response, result);
             return;
         }
-        if(discoverBO.getType().equals("curriculum")){
+        if (discoverBO.getType().equals("curriculum")) {
             discoverService.updateCurriculum(discoverBO);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
-            super.safeJsonPrint(response , result);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+            super.safeJsonPrint(response, result);
             return;
         }
-        if(discoverBO.getType().equals("activity")){
+        if (discoverBO.getType().equals("activity")) {
 
             discoverService.updateActivity(discoverBO);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
-            super.safeJsonPrint(response , result);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+            super.safeJsonPrint(response, result);
             return;
         }
     }
 
     /**
      * 发现添加
+     *
      * @param request
      * @param response
      * @param discoverBO
      */
     @RequestMapping("/insertDiscover")
-    public void insertDiscover(HttpServletRequest request,HttpServletResponse response,DiscoverBO discoverBO){
+    public void insertDiscover(HttpServletRequest request, HttpServletResponse response, DiscoverBO discoverBO) {
         AdminBO adminBO = super.getLoginAdmin(request);
-        if(adminBO == null){
+        if (adminBO == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
             super.safeJsonPrint(response, result);
             return;
         }
 
-        if(StringUtils.isEmpty(discoverBO.getType())){
+        if (StringUtils.isEmpty(discoverBO.getType())) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, result);
             return;
@@ -246,24 +248,24 @@ public class DiscoverController extends BaseCotroller {
         discoverBO.setDcName(adminBO.getName());
         discoverBO.setCreateTime(new Date());
         //新闻
-        if(discoverBO.getType().equals("journalism")){
+        if (discoverBO.getType().equals("journalism")) {
             discoverService.insertJournalism(discoverBO);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
-            super.safeJsonPrint(response , result);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
+            super.safeJsonPrint(response, result);
             return;
         }
         //视频
-        if(discoverBO.getType().equals("curriculum")){
+        if (discoverBO.getType().equals("curriculum")) {
             discoverService.insertCurriculum(discoverBO);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
-            super.safeJsonPrint(response , result);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
+            super.safeJsonPrint(response, result);
             return;
         }
         //线下活动
-        if(discoverBO.getType().equals("activity")){
+        if (discoverBO.getType().equals("activity")) {
             discoverService.insertActivity(discoverBO);
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
-            super.safeJsonPrint(response , result);
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
+            super.safeJsonPrint(response, result);
             return;
         }
     }

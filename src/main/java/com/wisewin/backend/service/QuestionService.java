@@ -315,7 +315,7 @@ public class QuestionService {
     private  List<List<String>> topiceChange(List<List<String>> list) {
         List<List<String>>  resultList=new ArrayList<List<String>>();
         for(int x=0;x<list.get(0).size();x++){
-            List<String>  clist=new ArrayList<>();
+            List<String>  clist=new ArrayList<String>();
             for(int i=0;i<list.size();i++){
                 clist.add(list.get(i).get(x));
             }

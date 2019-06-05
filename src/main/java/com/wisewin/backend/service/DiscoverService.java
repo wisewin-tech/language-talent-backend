@@ -89,6 +89,7 @@ public class DiscoverService {
      * 添加 线下活动类型 activity
      */
     public void  insertActivity(DiscoverBO discoverBO){
+        discoverBO.setSkip( SystemConfig.getString("domain_name")+"/Discover/queryDiscoveractivity?id="+discoverBO.getId());
         discoverBO.setBrowse(0);
         discoverBO.setLikenum(0);
         discoverBO.setParticipation(0);
