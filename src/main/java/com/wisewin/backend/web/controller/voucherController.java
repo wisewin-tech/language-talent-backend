@@ -32,16 +32,14 @@ public class voucherController extends BaseCotroller {
     @RequestMapping(value = "/getAddress" ,method = RequestMethod.POST)
     public void getAddress(HttpServletRequest  request, HttpServletResponse response,String title,String fileName){
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin,request,title);
-        logService.startController(loginAdmin,request,fileName);
+        logService.startController(loginAdmin,request,title,fileName);
         if(StringUtils.isEmpty(title) ||  StringUtils.isEmpty(fileName)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             logService.result(json);
             super.safeJsonPrint(response, json);
             return;
         }
-        logService.call("voucherUtil.getUploadAddress",title);
-        logService.call("voucherUtil.getUploadAddress",fileName);
+        logService.call("voucherUtil.getUploadAddress",title,fileName);
         Map<String, String> resultMap = voucherUtil.getUploadAddress(title, fileName);
         logService.result(resultMap);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
