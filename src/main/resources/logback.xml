@@ -10,16 +10,11 @@
         </encoder>
     </appender>
     <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
-    <appender name="file"    class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
+    <appender name="info"    class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_DIR}/log-server-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
-            <MaxHistory>30</MaxHistory>
+            <FileNamePattern>${LOG_DIR}/language-info-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>365</MaxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <MaxFileSize>100MB</MaxFileSize>
             </TimeBasedFileNamingAndTriggeringPolicy>
@@ -31,9 +26,8 @@
 
     <!--&lt;!&ndash; 错误日志的Appender&ndash;&gt;-->
     <!--<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-        <!--<file>${LOG_DIR}/errorLog/error.log</file>-->
         <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
-            <!--<fileNamePattern>${LOG_DIR}/errorLog/paidao-err-%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <!--<fileNamePattern>${LOG_DIR}/language-err-%d{yyyy-MM-dd}.log</fileNamePattern>-->
         <!--</rollingPolicy>-->
         <!--<encoder>-->
             <!--<pattern>%d{HH:mm:ss.SSS} %thread %X{invokeNo} %logger{40} %msg%n</pattern>-->
@@ -46,32 +40,34 @@
     <!--</appender>-->
 
     <!--&lt;!&ndash; 日志级别 &ndash;&gt;-->
-    <appender name="debugFile"    class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <Encoding>UTF-8</Encoding>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_DIR}/log-server-%d{yyyy-MM-dd}DEBUGLOG.%i.log</FileNamePattern>
-            <MaxHistory>30</MaxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <MaxFileSize>100MB</MaxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
-        </layout>
-    </appender>
+    <!--<appender name="debugFile"    class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>DEBUG</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+        <!--<Encoding>UTF-8</Encoding>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<FileNamePattern>${LOG_DIR}/language-debug-%d{yyyy-MM-dd}.%i.log</FileNamePattern>-->
+            <!--<MaxHistory>30</MaxHistory>-->
+            <!--<TimeBasedFileNamingAndTriggeringPolicy     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+                <!--<MaxFileSize>100MB</MaxFileSize>-->
+            <!--</TimeBasedFileNamingAndTriggeringPolicy>-->
+        <!--</rollingPolicy>-->
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+            <!--<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>-->
+        <!--</layout>-->
+    <!--</appender>-->
     <root>
          <!--定义了ERROR和INFO级别的日志，分别在FILE文件和控制台输出-->
         <level value="info" />
         <level value="debug" />
-        <appender-ref ref="file" />
+        <level value="error" />
+
+        <appender-ref ref="info" />
         <!--<appender-ref ref="errorAppender" />-->
         <!--<appender-ref ref="console" />-->
-        <appender-ref ref="debugFile"  />
+        <!--<appender-ref ref="debugFile"  />-->
         <appender-ref ref="console" />
     </root>
 
