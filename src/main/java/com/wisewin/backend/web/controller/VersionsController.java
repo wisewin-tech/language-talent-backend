@@ -36,14 +36,14 @@ public class VersionsController  extends BaseCotroller{
         logService.startController(loginAdmin,request,versionsBO);
         if(loginAdmin==null){
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
-            logService.end(languagejson);
+            logService.end("Versions/addVersions",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
         Integer id = loginAdmin.getId();
         if (id==null ||versionsBO==null){
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.end(languagejson);
+            logService.end("Versions/addVersions",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
@@ -51,11 +51,11 @@ public class VersionsController  extends BaseCotroller{
         logService.call("versionsService.getaddVersions",versionsBO);
         if (versionsService.getaddVersions(versionsBO)){
             String result=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
-            logService.result(request);
+            logService.end("Versions/addVersions",request);
             super.safeJsonPrint(response,result);
         }else{
             String result= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("1111111"));
-            logService.result(request);
+            logService.end("Versions/addVersions",request);
             super.safeHtmlPrint(response,result);
         }
 
@@ -74,7 +74,7 @@ public class VersionsController  extends BaseCotroller{
         List<VersionsBO> queryVersionsjson=versionsService.getqueryVersions();
         logService.result(queryVersionsjson);
         String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(queryVersionsjson));
-        logService.end(json);
+        logService.end("Versions/queryVersions",json);
         super.safeJsonPrint(response,json);
         return;
     }
@@ -88,7 +88,7 @@ public class VersionsController  extends BaseCotroller{
         logService.startController(loginAdmin,request,vid);
         if (vid==null||vid.equals("")){
             String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.end(languagejson);
+            logService.end("Versions/deleteVersions",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
@@ -97,12 +97,12 @@ public class VersionsController  extends BaseCotroller{
         logService.result(deleteVersionsjson);
         if (deleteVersionsjson){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
-            logService.end(languagejson);
+            logService.end("Versions/deleteVersions",languagejson);
             super.safeJsonPrint(response,languagejson);
             return;
         }
         String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("1111111"));
-        logService.end(languagejson);
+        logService.end("Versions/deleteVersions",languagejson);
         super.safeHtmlPrint(response,languagejson);
         return;
     }

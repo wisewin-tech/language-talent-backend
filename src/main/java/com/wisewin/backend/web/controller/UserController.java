@@ -38,7 +38,7 @@ public class UserController extends BaseCotroller {
         logService.startController(loginAdmin,request,param);
         if(param.getPageNo()==null||param.getPageSize()==null||param.getPageNo()==0||param.getPageSize()==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.end(languagejson);
+            logService.end("User/queryUsers",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
@@ -65,7 +65,7 @@ public class UserController extends BaseCotroller {
         resultMap.put("userBOList",userBOList);
         resultMap.put("count",userCount);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
-        logService.end(json);
+        logService.end("User/queryUsers",json);
         super.safeJsonPrint(response,json);
     }
 
@@ -79,7 +79,7 @@ public class UserController extends BaseCotroller {
         logService.startController(loginAdmin,request,idArrJSON,status);
         if(idArrJSON==null||status==null||status.length()==0||idArrJSON.length()==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.end(languagejson);
+            logService.end("User/deleteUsersById",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
@@ -89,11 +89,11 @@ public class UserController extends BaseCotroller {
         logService.result(line);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
-            logService.end(result);
+            logService.end("userService.deleteUsersById",result);
             super.safeJsonPrint(response , result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改失敗")) ;
-            logService.end(result);
+            logService.end("userService.deleteUsersById",result);
             super.safeJsonPrint(response , result);
         }
     }

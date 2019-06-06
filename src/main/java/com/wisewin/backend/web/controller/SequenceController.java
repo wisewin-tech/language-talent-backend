@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StsUtil;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -17,7 +19,8 @@ import java.util.Map;
 @RequestMapping("/sequence")
 public class SequenceController extends BaseCotroller {
 
-
+    @Resource
+    private LogService logService;
 
     /**
      *  获取和播放凭证
@@ -27,13 +30,17 @@ public class SequenceController extends BaseCotroller {
     @RequestMapping(value = "/get" , method = RequestMethod.POST)
     public void get(HttpServletRequest request,HttpServletResponse response) {
         AdminBO loginUser = super.getLoginAdmin(request);
+        logService.startController(loginUser,request,null);
         if(loginUser==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000021"));
+            logService.end("sequence/get",json);
             super.safeJsonPrint(response, json);
             return;
         }
+        logService.call("StsUtil.getStsMessage",loginUser.getId().toString());
         Map<String, String> stsMessage = StsUtil.getStsMessage(loginUser.getId().toString());
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(stsMessage));
+        logService.end("sequence/get",json);
         super.safeJsonPrint(response, json);
         return;
     }

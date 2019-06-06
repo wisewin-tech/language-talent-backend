@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.LanguageParam;
 import com.wisewin.backend.service.LanguageService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -28,6 +29,8 @@ public class LanguageController extends BaseCotroller {
 
     @Resource
     private LanguageService languageService;
+    @Resource
+    private LogService logService;
 
     /**
      * 查询所有语言
@@ -38,8 +41,13 @@ public class LanguageController extends BaseCotroller {
      */
     @RequestMapping("/queryLanguageList")
     public void queryLanguageList(HttpServletRequest request, HttpServletResponse response, LanguageParam languageParam) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,languageParam);
+        logService.call("languageService.queryLanguageList",languageParam.getLanguageName(), languageParam.getStatus(), languageParam.getHotOrNot(), languageParam.getPreference());
         List<LanguageBO> languageBOS = languageService.queryLanguageList(languageParam.getLanguageName(), languageParam.getStatus(), languageParam.getHotOrNot(), languageParam.getPreference());
+        logService.result(languageBOS);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(languageBOS));
+        logService.end("Language/queryLanguageList",json);
         super.safeJsonPrint(response, json);
     }
 
@@ -67,20 +75,24 @@ public class LanguageController extends BaseCotroller {
     @RequestMapping(value = "/addLanguage",method= RequestMethod.POST)
     public void queryLanguageList(HttpServletRequest request, HttpServletResponse response, LanguageBO languageParam) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
-
+        logService.startController(loginAdmin,request,languageParam);
         if(StringUtils.isEmpty(languageParam.getLanguageName()) || languageParam.getEnsignImageUrl()==null  || languageParam.getPrice()==null ){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("Language/addLanguage",json);
             super.safeJsonPrint(response, json);
             return;
         }
-
+        logService.call("languageService.addLanguage",languageParam,loginAdmin.getId());
         boolean flag = languageService.addLanguage(languageParam, loginAdmin.getId());
+        logService.result(flag);
         if(flag){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+            logService.end("Language/addLanguage",json);
             super.safeJsonPrint(response, json);
             return;
         }
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+        logService.end("Language/addLanguage",json);
         super.safeJsonPrint(response, json);
         return;
 
@@ -93,19 +105,24 @@ public class LanguageController extends BaseCotroller {
     @RequestMapping(value = "/updateLanguage" ,method= RequestMethod.POST)
     public void  updateLanguage(HttpServletRequest request,HttpServletResponse response,LanguageBO  languageParam){
         AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,languageParam);
         if(languageParam.getId()==null ){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("Language/updateLanguage",json);
             super.safeJsonPrint(response, json);
             return;
         }
-
+        logService.call("languageService.updateLanguage",languageParam,loginAdmin.getId());
         boolean flag = languageService.updateLanguage(languageParam, loginAdmin.getId());
+        logService.result(flag);
         if(flag){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+            logService.end("Language/updateLanguage",json);
             super.safeJsonPrint(response, json);
             return;
         }
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+        logService.end("Language/updateLanguage",json);
         super.safeJsonPrint(response, json);
         return;
 
@@ -120,18 +137,24 @@ public class LanguageController extends BaseCotroller {
     @RequestMapping(value = "/deleteLanguage",method= RequestMethod.POST)
     public void   deleteLanguage(HttpServletResponse response,HttpServletRequest  request,Integer id){
         AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,id);
         if(id==null ){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("Language/deleteLanguage",json);
             super.safeJsonPrint(response, json);
             return;
         }
+        logService.call("languageService.deleteLanguage",id, loginAdmin.getId());
         boolean flag = languageService.deleteLanguage(id, loginAdmin.getId());
+        logService.result(flag);
         if(flag){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+            logService.end("Language/deleteLanguage",json);
             super.safeJsonPrint(response, json);
             return;
         }
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+        logService.end("Language/deleteLanguage",json);
         super.safeJsonPrint(response, json);
         return;
     }
@@ -142,8 +165,13 @@ public class LanguageController extends BaseCotroller {
      */
     @RequestMapping(value = "/queryLanguageChoice",method= RequestMethod.POST)
     public void queryLanguageChoice(HttpServletRequest request,HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,null);
+        logService.call("languageService.queryLanguageChoice",null);
         List<LanguageChoiceBO> languageChoiceBOS = languageService.queryLanguageChoice();
+        logService.result(languageChoiceBOS);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(languageChoiceBOS));
+        logService.end("Language/queryLanguageChoice",json);
         super.safeJsonPrint(response, json);
         return;
     }

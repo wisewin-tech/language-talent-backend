@@ -1,9 +1,11 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.KeyValuesBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.KeyValService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -25,6 +27,8 @@ import java.util.Map;
 public class KeyValController extends BaseCotroller {
     @Resource
     KeyValService keyValService;
+    @Resource
+    private LogService logService;
 
     /**
      *
@@ -37,6 +41,8 @@ public class KeyValController extends BaseCotroller {
      */
     @RequestMapping("/selectAll")
     public void selectAll(Integer pageNo, Integer pageSize,String key,String val,HttpServletResponse response, HttpServletRequest request) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,pageNo,pageSize,key,val);
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
         //创建一个用于封装sql条件的map集合
@@ -50,8 +56,11 @@ public class KeyValController extends BaseCotroller {
         condition.put("key",key);
         condition.put("val",val);
         //把带有条件的查询结果集放入map中
+        logService.call("keyValService.selectAll",condition);
         List<KeyValuesBO> list=keyValService.selectAll(condition);
+        logService.result(list);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
+        logService.end("keyVal/selectAll",json);
         super.safeJsonPrint(response, json);
     }
     /**
@@ -64,17 +73,21 @@ public class KeyValController extends BaseCotroller {
      */
     @RequestMapping("/updateVal")
     public void updateVal(Integer id,String values,String comment,HttpServletResponse response, HttpServletRequest request) {
+        AdminBO adminBO = super.getLoginAdmin(request);
+        logService.startController(adminBO,request,id,values,comment);
         //获取管理员id
         Integer userId=super.getLoginAdmin(request).getId();
         //验证管理员是否登录
         if (userId==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+            logService.end("keyVal/updateVal",result);
             super.safeJsonPrint(response, result);
             return;
         }
         //参数非空验证
         if(id==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+            logService.end("keyVal/updateVal",result);
             super.safeJsonPrint(response, result);
             return;
         }
@@ -84,8 +97,10 @@ public class KeyValController extends BaseCotroller {
         map.put("userId",userId);
         map.put("val",values);
         map.put("comment",comment);
+        logService.call("keyValService.updateVal",map);
         keyValService.updateVal(map);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
+        logService.end("keyVal/updateVal",json);
         super.safeJsonPrint(response, json);
     }
 

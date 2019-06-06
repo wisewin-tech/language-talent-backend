@@ -7,6 +7,7 @@ import com.wisewin.backend.entity.bo.common.constants.QuestionConstants;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.QuestionService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -26,32 +27,56 @@ import java.util.Map;
 public class QuestionController extends BaseCotroller{
     @Resource
     private QuestionService questionService;
+    @Resource
+    private LogService logService;
 
+    /**
+     * 添加题库
+     * @param questionBO
+     * @param request
+     * @param response
+     */
     @RequestMapping("/addQuestion")
     public void  addQuestion(QuestionBO questionBO,HttpServletRequest request, HttpServletResponse response){
+        AdminBO adminBO = super.getLoginAdmin(request);
+        logService.startController(adminBO,request,questionBO);
         if (questionBO==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！"));
+            logService.end("question/addQuestion",json);
             super.safeJsonPrint(response, json);
             return;
         }
-        AdminBO adminBO = super.getLoginAdmin(request);
-        questionBO.setCreateUserId(adminBO.getId());
 
+        questionBO.setCreateUserId(adminBO.getId());
+        logService.call("questionService.addquestion",questionBO);
         Integer i = questionService.addquestion(questionBO);
+        logService.result(i);
         if (i>0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加题目到题库成功!"));
+            logService.end("question/addQuestion",json);
             super.safeJsonPrint(response, json);
         }else {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002", "添加题目到题库失败！"));
+            logService.end("question/addQuestion",json);
             super.safeJsonPrint(response, json);
         }
 
     }
 
+    /**
+     * 查询题库
+     * @param pageNo
+     * @param pageSize
+     * @param questionBO
+     * @param response
+     */
     @RequestMapping("/selectQuestion")
-    public void selectQuestion(Integer pageNo, Integer pageSize,QuestionBO questionBO,HttpServletResponse response){
+    public void selectQuestion(Integer pageNo, Integer pageSize,QuestionBO questionBO,HttpServletResponse response,HttpServletRequest request){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,questionBO,pageNo,pageSize);
         if (questionBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
+            logService.end("question/selectQuestion",result);
             super.safeJsonPrint(response, result);
             return ;
         }
@@ -62,44 +87,67 @@ public class QuestionController extends BaseCotroller{
             maps.put("pageSize", queryInfo.getPageSize());
         }
         maps.put("questionBO",questionBO);
-
+        logService.call("questionService.selectQuestion",maps);
         List<QuestionBO> questionBOList = questionService.selectQuestion(maps);
+        logService.result(questionBOList);
+        logService.call("questionService.selectbylimitCount",maps);
         Integer count = questionService.selectbylimitCount(maps);
+        logService.result(count);
         Map<String,Object>  resultMap=new HashMap<String, Object>();
         resultMap.put("data",questionBOList);
         resultMap.put("count",count);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
+        logService.end("question/selectQuestion",result);
         super.safeJsonPrint(response, result);
 
     }
 
+    /**
+     * 修改题库
+     * @param questionBO
+     * @param request
+     * @param response
+     */
     @RequestMapping("/updateQuestion")
     public void updateQuestion(QuestionBO questionBO,HttpServletRequest request ,HttpServletResponse response){
+        AdminBO adminBO = super.getLoginAdmin(request);
+        logService.startController(adminBO,request,questionBO);
         if (questionBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
+            logService.end("question/updateQuestion",result);
             super.safeJsonPrint(response, result);
             return ;
         }
 
-        AdminBO adminBO = super.getLoginAdmin(request);
         questionBO.setUpdateUserId(adminBO.getId());
 
-
+        logService.call("questionService.updateQuestion",questionBO);
         boolean i = questionService.updateQuestion(questionBO);
+        logService.result(i);
         if (i){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改题目成功！"));
+            logService.end("question/updateQuestion",result);
             super.safeJsonPrint(response, result);
         }else {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000012","修改题目失败！"));
+            logService.end("question/updateQuestion",result);
             super.safeJsonPrint(response, result);
         }
     }
 
+    /**
+     * 删除题库
+     * @param idArrJSON
+     * @param response
+     */
     @RequestMapping("/delQuestion")
-    public void delQuestion(String idArrJSON,HttpServletResponse response){
+    public void delQuestion(String idArrJSON,HttpServletResponse response,HttpServletRequest request){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,idArrJSON);
         //用户传参验证
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("question/delQuestion",json);
             super.safeJsonPrint(response, json);
             return;
         }
@@ -111,6 +159,7 @@ public class QuestionController extends BaseCotroller{
 
         }catch (Exception e){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("question/delQuestion",json);
             super.safeJsonPrint(response, json);
             return;
         }
@@ -118,36 +167,55 @@ public class QuestionController extends BaseCotroller{
 
         if (idArr.length==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("question/delQuestion",json);
             super.safeJsonPrint(response, json);
             return;
         }
-
+        logService.call("questionService.delQuestion",idArr);
         Integer i = questionService.delQuestion(idArr);
+        logService.result(i);
         if (i>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除题目成功！共删除"+i+"条数据"));
+            logService.end("question/delQuestion",result);
             super.safeJsonPrint(response, result);
         }else {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002", "删除题目失败！")) ;
+            logService.end("question/delQuestion",result);
             super.safeJsonPrint(response, result);
         }
     }
 
+    /**
+     * 通过id查询题库
+     * @param id
+     * @param request
+     * @param response
+     */
     @RequestMapping("/getQuestionById")
     public void getQuestionById(Integer id,HttpServletRequest request,HttpServletResponse response) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,id);
         if (id == null) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("question/getQuestionById",result);
             super.safeJsonPrint(response, result);
             return;
         }
+        logService.call("questionService.getQuestion",id);
         QuestionBO questionBO = questionService.getQuestion(id);
+        logService.result(questionBO);
         ChapterIdBO idBO = new ChapterIdBO();
         if (questionBO != null) {
             if (QuestionConstants.LANGUAGETEST.getValue().equals(questionBO.getTestType())) {
                 idBO.setLanguageId(questionBO.getRelevanceId());
             } else if (QuestionConstants.COURSECERTIFICATE.getValue().equals(questionBO.getTestType())) {
+                logService.call("questionService.getCourseId",questionBO.getRelevanceId());
                 idBO = questionService.getCourseId(questionBO.getRelevanceId());
+                logService.result(idBO);
             } else {
+                logService.call("questionService.getChapterId",questionBO.getRelevanceId());
                 idBO = questionService.getChapterId(questionBO.getRelevanceId());
+                logService.result(idBO);
             }
         }
             Map map = new HashMap();
@@ -155,6 +223,7 @@ public class QuestionController extends BaseCotroller{
             map.put("idBO", idBO);
 
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
+            logService.end("question/getQuestionById",result);
             super.safeJsonPrint(response, result);
             return;
         }
@@ -167,20 +236,25 @@ public class QuestionController extends BaseCotroller{
      public void importQuestions(HttpServletRequest  request,HttpServletResponse  response,MultipartFile file){
 
         AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,file);
         if(loginAdmin==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            logService.end("question/importQuestions",result);
             super.safeJsonPrint(response, result);
             return;
         }
         if(file==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("question/importQuestions",result);
             super.safeJsonPrint(response, result);
             return;
         }
 
         String name = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         if (".xlsx".equals(name) ) {
+            logService.call("questionService.importQuestions",file,loginAdmin.getId());
             Integer row=questionService.importQuestions(file,loginAdmin.getId());
+            logService.result(row);
 //            if(row==null){
 //                questionService.synchronizeQuestions(loginAdmin.getId());
 //                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
@@ -193,6 +267,7 @@ public class QuestionController extends BaseCotroller{
             return;
         }
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000005"));
+        logService.end("question/importQuestions",result);
         super.safeJsonPrint(response, result);
      }
 

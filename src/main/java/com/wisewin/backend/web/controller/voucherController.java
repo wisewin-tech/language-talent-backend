@@ -35,7 +35,7 @@ public class voucherController extends BaseCotroller {
         logService.startController(loginAdmin,request,title,fileName);
         if(StringUtils.isEmpty(title) ||  StringUtils.isEmpty(fileName)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.result(json);
+            logService.end("voucher/getAddress",json);
             super.safeJsonPrint(response, json);
             return;
         }
@@ -43,7 +43,7 @@ public class voucherController extends BaseCotroller {
         Map<String, String> resultMap = voucherUtil.getUploadAddress(title, fileName);
         logService.result(resultMap);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
-        logService.end(json);
+        logService.end("voucher/getAddress",json);
         super.safeJsonPrint(response, json);
     }
 
@@ -60,7 +60,7 @@ public class voucherController extends BaseCotroller {
         logService.startController(loginAdmin,request,videoId);
         if(StringUtils.isEmpty(videoId)) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.result(json);
+            logService.end("voucher/refreshAddress",json);
             super.safeJsonPrint(response, json);
             return;
         }
@@ -68,7 +68,7 @@ public class voucherController extends BaseCotroller {
         Map<String, String> resultMap = voucherUtil.refreshAddress(videoId);
         logService.result(resultMap);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
-        logService.end(json);
+        logService.end("voucher/refreshAddress",json);
         super.safeJsonPrint(response, json);
     }
 
