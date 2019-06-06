@@ -1,16 +1,21 @@
 <?xml version="1.0"?>
 <configuration>
-
-    <property name="LOG_DIR" value="/www/server/apache-back/logs" />
+<!--value="/www/server/apache-back/logs" -->
+    <property name="LOG_DIR" value="D:/Var" />
     <!--&lt;!&ndash; ch.qos.logback.core.ConsoleAppender 控制台输出 &ndash;&gt;-->
-    <!--<appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
-        <!--<encoder>-->
-            <!--<pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n-->
-            <!--</pattern>-->
-        <!--</encoder>-->
-    <!--</appender>-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
     <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
     <appender name="file"    class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <Encoding>UTF-8</Encoding>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${LOG_DIR}/log-server-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
@@ -41,19 +46,40 @@
     <!--</appender>-->
 
     <!--&lt;!&ndash; 日志级别 &ndash;&gt;-->
+    <appender name="debugFile"    class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <Encoding>UTF-8</Encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/log-server-%d{yyyy-MM-dd}DEBUGLOG.%i.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>100MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
     <root>
          <!--定义了ERROR和INFO级别的日志，分别在FILE文件和控制台输出-->
         <level value="info" />
+        <level value="debug" />
         <appender-ref ref="file" />
         <!--<appender-ref ref="errorAppender" />-->
         <!--<appender-ref ref="console" />-->
+        <appender-ref ref="debugFile"  />
+        <appender-ref ref="console" />
     </root>
 
-    <!--&lt;!&ndash;<logger name="com.urbanfit.beml="debug">&ndash;&gt;-->
-        <!--&lt;!&ndash;<appender-ref ref="file" />&ndash;&gt;-->
-        <!--&lt;!&ndash;&lt;!&ndash;<appender-ref ref="errorAppender" />&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<appender-ref ref="console" />&ndash;&gt;-->
-    <!--&lt;!&ndash;</logger>&ndash;&gt;-->
+    <!--<logger name="com.urbanfit.beml="debug">-->
+        <!--<appender-ref ref="file" />-->
+        <!--&lt;!&ndash;<appender-ref ref="errorAppender" />&ndash;&gt;-->
+        <!--<appender-ref ref="console" />-->
+    <!--</logger>-->
 
 
 </configuration>
