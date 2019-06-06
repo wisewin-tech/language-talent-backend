@@ -59,4 +59,16 @@ public class AboutUsBO extends BaseModel{
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "AboutUsBO{" +
+                "id=" + id +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", content='" + content + '\'' +
+                ", adminId=" + adminId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

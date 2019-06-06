@@ -32,7 +32,6 @@ import java.util.List;
  * @author Shibo Sun
  */
 public class BaseCotroller {
-    static final Logger log = LoggerFactory.getLogger(BaseCotroller.class);
 
     protected PageObject pager = null;
     private int default_page_size = 10;
@@ -49,7 +48,6 @@ public class BaseCotroller {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = null;
         try {
-            log.info(str);
             try {
                 out = response.getWriter();
             } catch (IOException e) {

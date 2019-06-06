@@ -28,7 +28,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     // 不需要过滤的URL
     public static final Set<String> unCheckSet = Sets.newHashSet("/admin/adminLogin","/chapter/selectChapterById","/leavel/queryCourseChoice",
-            "/course/selectChapterById","/Language/queryLanguageChoice","/question/test","/upFile/upFile") ;
+            "/course/selectChapterById","/Language/queryLanguageChoice","/question/test","/upFile/upFile","/voucher/getAddress",
+            "/voucher/refreshAddress") ;
 
  //   public static final Set<String> CheckListForAjax = Sets.newHashSet("/client/login" , "/apiCourse/toDetail" ) ;
 
@@ -49,26 +50,25 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-        return true;
-//        String uri = this.getInvokeMethod(request);
-//        if(unCheckSet.contains(uri)){
-//            return true;
-//        }
-//        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
-//        if(loginAdmin==null){
-//            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
-//            baseCotroller.safeJsonPrint(response,result);
-//            return false;
-//        }
-//
-//
-//        if(loginAdmin.getUrl().contains(uri)){
-//            return true;
-//        }else{
-//            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000009")) ;
-//            baseCotroller.safeJsonPrint(response,result);
-//            return false;
-//        }
+        String uri = this.getInvokeMethod(request);
+        if(unCheckSet.contains(uri)){
+            return true;
+        }
+        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
+        if(loginAdmin==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+            baseCotroller.safeJsonPrint(response,result);
+            return false;
+        }
+
+
+        if(loginAdmin.getUrl().contains(uri)){
+            return true;
+        }else{
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000009")) ;
+            baseCotroller.safeJsonPrint(response,result);
+            return false;
+        }
 
 
     }

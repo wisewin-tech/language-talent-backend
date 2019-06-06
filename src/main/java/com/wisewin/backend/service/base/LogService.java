@@ -20,7 +20,7 @@ public class LogService {
     /**
      * 开始执行Controller
      */
-    public <T> void startController(T user, HttpServletRequest request,String... args){
+    public <T,V> void startController(T user, HttpServletRequest request,Object... args){
         if(onOff()){
             StringBuffer  buffer=new StringBuffer("startExecuteController").append(SEPARATOR)
                     .append(request.getRemoteAddr()).append(SEPARATOR).append(user).append(SEPARATOR)
@@ -37,7 +37,7 @@ public class LogService {
      * @param funName 方法名称
      * @param args
      */
-    public void serviceStart(String funName,String... args){
+    public void serviceStart(String funName,Object... args){
         if(onOff()){
             StringBuffer  buffer=new StringBuffer("startExecuteService").append(SEPARATOR)
                     .append(funName).append(SEPARATOR).append(joint(args)).append(SEPARATOR)
@@ -51,7 +51,7 @@ public class LogService {
      * @param callName
      * @param args
      */
-    public void call(String callName,String... args){
+    public void call(String callName,Object... args){
         if(onOff()){
             StringBuffer  buffer=new StringBuffer("call").append(SEPARATOR)
                     .append(callName).append(SEPARATOR).append(joint(args)).append(SEPARATOR)
@@ -64,7 +64,7 @@ public class LogService {
      * 返回结果
      * @param args
      */
-    public void result(String... args){
+    public void result(Object... args){
         if(onOff()){
             StringBuffer  buffer=new StringBuffer("result").append(SEPARATOR).append(joint(args))
                     .append(SEPARATOR).append(Thread.currentThread().getName());
@@ -78,7 +78,7 @@ public class LogService {
      * @param funName 方法名称
      * @param args
      */
-    public void end(String funName ,String... args){
+    public void end(String funName ,Object... args){
         if(onOff()){
             StringBuffer  buffer=new StringBuffer("end").append(SEPARATOR).append(funName).
                     append(SEPARATOR).append(joint(args)).append(SEPARATOR).append(Thread.currentThread().getName());
@@ -90,7 +90,7 @@ public class LogService {
     /**
      * 自定义
      */
-    public void custom(String... args){
+    public void custom(Object... args){
         if(onOff()){
             StringBuffer  buffer=new StringBuffer().append(joint(args)).append(Thread.currentThread().getName());
             logger.info(buffer.toString());
@@ -113,7 +113,7 @@ public class LogService {
      * @param args
      * @return
      */
-    public String joint(String... args){
+    public String joint(Object... args){
         if(args!=null){
             StringBuffer buffer=new StringBuffer("");
             for(int i=0;i<args.length;i++){
