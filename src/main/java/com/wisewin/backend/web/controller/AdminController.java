@@ -12,6 +12,7 @@ import com.wisewin.backend.entity.param.MenuParam;
 import com.wisewin.backend.entity.param.RegisterParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.AdminService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
@@ -36,7 +37,8 @@ import java.util.*;
 public class AdminController extends BaseCotroller {
     @Resource
     private AdminService adminService ;
-
+    @Resource
+    private LogService logService;
 
     /**
      * 管理员登录
@@ -47,9 +49,11 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/adminLogin")
     public void Login(HttpServletRequest request, HttpServletResponse response,String mobile,String password){
+        logService.startController(null,request,mobile,password);
         /* 1. 验证参数是否完整 */
         if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
+            logService.end(result);
             super.safeJsonPrint(response, result);
             return ;
         }

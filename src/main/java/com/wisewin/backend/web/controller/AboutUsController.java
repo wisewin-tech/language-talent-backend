@@ -38,36 +38,35 @@ public class AboutUsController extends BaseCotroller {
         AboutUsBO aboutUs=aboutUsService.selectContent();
         logService.result(aboutUs.toString());
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(aboutUs));
-        logService.result(json);
+        logService.end(json);
         super.safeJsonPrint(response, json);
     }
 
     //更新信息,没有就添加,有,就修改,多了就报错
     @RequestMapping("/updateAboutUs")
     public void updateAboutUs(HttpServletRequest request,HttpServletResponse response,AboutUsBO aboutUsBO) {
-        AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin,request,aboutUsBO);
+        AdminBO adminBO = super.getLoginAdmin(request);
+        logService.startController(adminBO,request,aboutUsBO);
         //参数非空验证
         if(aboutUsBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
+            logService.end(result);
             super.safeJsonPrint(response, result);
             return;
         }
-        AdminBO adminBO = super.getLoginAdmin(request);
-        Integer adminId = adminBO.getId();
-        aboutUsBO.setAdminId(adminId);
+        aboutUsBO.setAdminId(adminBO.getId());
             //对表里数据判断,符合条件的添加和修改,不符合返回false
+        logService.call("aboutUsService.updateAbouUs",aboutUsBO);
         boolean t = aboutUsService.updateAbouUs(aboutUsBO);
+        logService.result(t);
         if(t){
-
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("信息修改成功"));
+            logService.end(json);
             super.safeJsonPrint(response, json);
-
         }else{
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功！"));
-           super.safeJsonPrint(response, json);
-
-
+            logService.end(json);
+            super.safeJsonPrint(response, json);
         }
 
     }

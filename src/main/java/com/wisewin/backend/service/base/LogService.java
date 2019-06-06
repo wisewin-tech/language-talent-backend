@@ -22,7 +22,7 @@ public class LogService {
      */
     public <T,V> void startController(T user, HttpServletRequest request,Object... args){
         if(onOff()){
-            StringBuffer  buffer=new StringBuffer("startExecuteController").append(SEPARATOR)
+            StringBuffer  buffer=new StringBuffer("====startExecuteController").append(SEPARATOR)
                     .append(request.getRemoteAddr()).append(SEPARATOR).append(user).append(SEPARATOR)
                     .append(request.getRequestURL()).append(SEPARATOR).append(joint(args))
                     .append(Thread.currentThread().getName());
@@ -39,7 +39,7 @@ public class LogService {
      */
     public void serviceStart(String funName,Object... args){
         if(onOff()){
-            StringBuffer  buffer=new StringBuffer("startExecuteService").append(SEPARATOR)
+            StringBuffer  buffer=new StringBuffer("====startExecuteService").append(SEPARATOR)
                     .append(funName).append(SEPARATOR).append(joint(args)).append(SEPARATOR)
                     .append(Thread.currentThread().getName());
             logger.info(buffer.toString());
@@ -53,7 +53,7 @@ public class LogService {
      */
     public void call(String callName,Object... args){
         if(onOff()){
-            StringBuffer  buffer=new StringBuffer("call").append(SEPARATOR)
+            StringBuffer  buffer=new StringBuffer("====call").append(SEPARATOR)
                     .append(callName).append(SEPARATOR).append(joint(args)).append(SEPARATOR)
                     .append(Thread.currentThread().getName());
             logger.info(buffer.toString());
@@ -66,7 +66,7 @@ public class LogService {
      */
     public void result(Object... args){
         if(onOff()){
-            StringBuffer  buffer=new StringBuffer("result").append(SEPARATOR).append(joint(args))
+            StringBuffer  buffer=new StringBuffer("====result").append(SEPARATOR).append(joint(args))
                     .append(SEPARATOR).append(Thread.currentThread().getName());
             logger.info(buffer.toString());
         }
@@ -80,7 +80,7 @@ public class LogService {
      */
     public void end(String funName ,Object... args){
         if(onOff()){
-            StringBuffer  buffer=new StringBuffer("end").append(SEPARATOR).append(funName).
+            StringBuffer  buffer=new StringBuffer("====end").append(SEPARATOR).append(funName).
                     append(SEPARATOR).append(joint(args)).append(SEPARATOR).append(Thread.currentThread().getName());
             logger.info(buffer.toString());
         }

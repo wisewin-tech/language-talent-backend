@@ -10,7 +10,7 @@
         </encoder>
     </appender>
     <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
-    <appender name="info"    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="infoLog"    class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${LOG_DIR}/language-info-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
@@ -61,10 +61,8 @@
     <root>
          <!--定义了ERROR和INFO级别的日志，分别在FILE文件和控制台输出-->
         <level value="info" />
-        <level value="debug" />
-        <level value="error" />
 
-        <appender-ref ref="info" />
+        <appender-ref ref="infoLog" />
         <!--<appender-ref ref="errorAppender" />-->
         <!--<appender-ref ref="console" />-->
         <!--<appender-ref ref="debugFile"  />-->
