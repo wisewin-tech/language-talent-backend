@@ -249,4 +249,37 @@ public class CourseBO extends BaseModel{
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "CourseBO{" +
+                "id=" + id +
+                ", courseName='" + courseName + '\'' +
+                ", languageId='" + languageId + '\'' +
+                ", languageName='" + languageName + '\'' +
+                ", foreignName='" + foreignName + '\'' +
+                ", status='" + status + '\'' +
+                ", price=" + price +
+                ", discountPrice=" + discountPrice +
+                ", discountStartTime=" + discountStartTime +
+                ", discountEndTime=" + discountEndTime +
+                ", courseValidityPeriod=" + courseValidityPeriod +
+                ", thumbnailImageUrl='" + thumbnailImageUrl + '\'' +
+                ", studyNumber=" + studyNumber +
+                ", courseIntro='" + courseIntro + '\'' +
+                ", courseLightspot='" + courseLightspot + '\'' +
+                ", handouts='" + handouts + '\'' +
+                ", purchaseNotes='" + purchaseNotes + '\'' +
+                ", popularSort=" + popularSort +
+                ", hotOrNot='" + hotOrNot + '\'' +
+                ", certificateOrNot='" + certificateOrNot + '\'' +
+                ", certificateTitle='" + certificateTitle + '\'' +
+                ", certificateIntro='" + certificateIntro + '\'' +
+                ", certificateImageUrl='" + certificateImageUrl + '\'' +
+                ", createUserId=" + createUserId +
+                ", createTime=" + createTime +
+                ", updateUserId=" + updateUserId +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

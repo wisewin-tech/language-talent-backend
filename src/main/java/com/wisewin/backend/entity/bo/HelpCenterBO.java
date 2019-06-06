@@ -77,4 +77,18 @@ public class HelpCenterBO extends BaseModel{
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "HelpCenterBO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", serialNumber=" + serialNumber +
+                ", createId=" + createId +
+                ", createTime=" + createTime +
+                ", updateId=" + updateId +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

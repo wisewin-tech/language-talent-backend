@@ -60,8 +60,6 @@
     <!--</appender>-->
     <root>
          <!--定义了ERROR和INFO级别的日志，分别在FILE文件和控制台输出-->
-        <level value="info" />
-
         <appender-ref ref="infoLog" />
         <!--<appender-ref ref="errorAppender" />-->
         <!--<appender-ref ref="console" />-->

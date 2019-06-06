@@ -50,4 +50,15 @@ public class ClauseBO extends BaseModel {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "ClauseBO{" +
+                "id=" + id +
+                ", classify='" + classify + '\'' +
+                ", content='" + content + '\'' +
+                ", updateId=" + updateId +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

@@ -145,4 +145,19 @@ public class DictionariesBO extends BaseModel {
     public Double getRank() {
         return rank;
     }
+
+    @Override
+    public String toString() {
+        return "DictionariesBO{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", value='" + value + '\'' +
+                ", dnId=" + dnId +
+                ", dnName='" + dnName + '\'' +
+                ", dnReleasetime=" + dnReleasetime +
+                ", updateUserId=" + updateUserId +
+                ", rank=" + rank +
+                ", outer='" + outer + '\'' +
+                '}';
+    }
 }

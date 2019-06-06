@@ -96,4 +96,20 @@ public class CouplebackParam  {
     public void setDisposeperson(String disposeperson) {
         this.disposeperson = disposeperson;
     }
+
+    @Override
+    public String toString() {
+        return "CouplebackParam{" +
+                "id=" + id +
+                ", userid=" + userid +
+                ", content='" + content + '\'' +
+                ", contactpattern='" + contactpattern + '\'' +
+                ", pattern='" + pattern + '\'' +
+                ", pictureurl='" + pictureurl + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", disposeresult='" + disposeresult + '\'' +
+                ", disposeperson='" + disposeperson + '\'' +
+                '}';
+    }
 }

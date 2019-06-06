@@ -134,6 +134,19 @@ public class AdminBO extends BaseModel {
 
     @Override
     public String toString() {
-        return "[id="+this.id+" ,name="+this.getName()+"]";
+        return "AdminBO{" +
+                "id=" + id +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
+                ", gender='" + gender + '\'' +
+                ", roleId=" + roleId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", email='" + email + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", url=" + url +
+                '}';
     }
 }

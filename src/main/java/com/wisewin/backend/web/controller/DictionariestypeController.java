@@ -8,6 +8,7 @@ import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.DictionariesParam;
 import com.wisewin.backend.entity.param.DictionariestypeParam;
 import com.wisewin.backend.service.DictionariestypeService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -30,49 +31,59 @@ public class DictionariestypeController extends BaseCotroller {
     //调用service层
     @Resource
     private DictionariestypeService dictionariestypeService;
+    @Resource
+    private LogService logService;
 
     /**
      * 添加字典类型表
      * String keyName; //类型名字
      * Double rank; //排序
      * Integer updateNameId; //最后修改人id
-     *
      */
     @RequestMapping("/addDictionariestype")
-    public void addDictionariestype(HttpServletRequest request, HttpServletResponse response, DictionariestypeParam param){
+    public void addDictionariestype(HttpServletRequest request, HttpServletResponse response, DictionariestypeParam param) {
         //创建获取管理员id
         AdminBO loginAdmin = super.getLoginAdmin(request);
-
-        if(loginAdmin==null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
-            super.safeHtmlPrint(response,languagejson);
+        logService.startController(loginAdmin, request, param);
+        if (loginAdmin == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response, languagejson);
+            logService.end("/Dictionariestype/addDictionariestype", languagejson);
             return;
         }
         Integer id = loginAdmin.getId();
-        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank())  || id==null){
-            String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response,json);
+        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank()) || id == null) {
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/addDictionariestype", json);
             return;
         }
         //判断是否有数据keyName
-        int dictionariestype=dictionariestypeService.getfindDictionariestypekeyName(param.getKeyName());
-        if (dictionariestype==0){
+        logService.call("dictionariestypeService.getfindDictionariestypekeyName", param.getKeyName());
+        int dictionariestype = dictionariestypeService.getfindDictionariestypekeyName(param.getKeyName());
+        logService.result(dictionariestype);
+        if (dictionariestype == 0) {
             //判断是否有数据ValueName
-            int findictionaries=dictionariestypeService.getfindDictionariestype(param.getValueName());
-            if (findictionaries==0){
+            logService.call("dictionariestypeService.getfindDictionariestype", param.getValueName());
+            int findictionaries = dictionariestypeService.getfindDictionariestype(param.getValueName());
+            logService.result(findictionaries);
+            if (findictionaries == 0) {
                 //添加字典类型
-                boolean dictionariestypejson=dictionariestypeService.getaddDictionariestype(param.getKeyName(),param.getRank(),id,param.getValueName());
-                if (dictionariestypejson){
-                    String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
-                    super.safeJsonPrint(response,languagejson);
+                logService.call("dictionariestypeService.getaddDictionariestype", param.getValueName(), param.getRank(), id, param.getValueName());
+                boolean dictionariestypejson = dictionariestypeService.getaddDictionariestype(param.getKeyName(), param.getRank(), id, param.getValueName());
+                if (dictionariestypejson) {
+                    String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
+                    super.safeJsonPrint(response, languagejson);
+                    logService.end("/Dictionariestype/addDictionariestype", languagejson);
                     return;
-              }
+                }
 
             }
 
         }
-        String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-        super.safeJsonPrint(response,json);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+        super.safeJsonPrint(response, json);
+        logService.end("/Dictionariestype/addDictionariestype", json);
         return;
 
 
@@ -85,82 +96,96 @@ public class DictionariestypeController extends BaseCotroller {
      * Integ    er keyId; //外键id
      * Double rank; //排序
      * Integer updateNameId; //最后修改人id
-         * Date updateTime; //最后修改时间
+     * Date updateTime; //最后修改时间
      */
 
     @RequestMapping("/queryDictionariestype")
-    public void queryDictionariestype(HttpServletRequest request,HttpServletResponse response,String keyName){
-
-            //显示字典类型表的内容
-            List<DictionariestypeBO> list = dictionariestypeService.getqueryDictionariestype( keyName);
-
-                String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
-                super.safeJsonPrint(response, json);
-                return;
+    public void queryDictionariestype(HttpServletRequest request, HttpServletResponse response, String keyName) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin, request, keyName);
+        //显示字典类型表的内容
+        logService.call("dictionariestypeService.getqueryDictionariestype()", keyName);
+        List<DictionariestypeBO> list = dictionariestypeService.getqueryDictionariestype(keyName);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
+        super.safeJsonPrint(response, json);
+        logService.end("Dictionariestype/queryDictionariestype", json);
+        return;
 
     }
 
     /**
      * 修改字典类型表
-     *  Integer id //字典类型id
+     * Integer id //字典类型id
      * String keyName; //类型名字
      * Double rank; //排序
      * Integer updateNameId; //最后修改人id
-     *
      */
     @RequestMapping("/updateDictionariestype")
-    public  void updateDictionariestype(HttpServletRequest request,HttpServletResponse response,DictionariestypeParam param) {
+    public void updateDictionariestype(HttpServletRequest request, HttpServletResponse response, DictionariestypeParam param) {
         //创建获取管理员id
         AdminBO loginAdmin = super.getLoginAdmin(request);
-
-        if(loginAdmin==null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
-            super.safeHtmlPrint(response,languagejson);
+        logService.startController(loginAdmin, request, param);
+        if (loginAdmin == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response, languagejson);
+            logService.end("/Dictionariestype/updateDictionariestype", languagejson);
             return;
         }
         Integer id = loginAdmin.getId();
-        if (StringUtils.isObjEmpty(param.getId()) || StringUtils.isObjEmpty(param.getKeyName()) ||  StringUtils.isObjEmpty(param.getRank()) || id == null) {
+        if (StringUtils.isObjEmpty(param.getId()) || StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank()) || id == null) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/updateDictionariestype", json);
+            return;
         }
 
         //如果查询出来的值和赋值一样就像下，否则退出
-            DictionariestypeBO dictionariestypeBO=dictionariestypeService.getfindDictionariestypeid(param.getId(),param.getKeyName(),param.getValueName());
-            if (dictionariestypeBO.getKeyName().equals(param.getKeyName())){
-                if (dictionariestypeBO.getValueName().equals(param.getValueName())){
-                    boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), id, param.getValueName());
-                    if (updateDictionariestypejson) {
-                        String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
-                        super.safeJsonPrint(response, languagejson);
-                        return;
-                    }
-                }
-            }
-            //判断数据库是否有同样的数据
-            if (!dictionariestypeBO.getValueName().equals(param.getKeyName())){
-                int dictionariestype=dictionariestypeService.getfindDictionariestypekeyName(param.getKeyName());
-                if (dictionariestype!=0){
-                    String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-                    super.safeJsonPrint(response, json);
+        logService.call("dictionariestypeService.getfindDictionariestypeid", param.getId(), param.getKeyName(), param.getValueName());
+        DictionariestypeBO dictionariestypeBO = dictionariestypeService.getfindDictionariestypeid(param.getId(), param.getKeyName(), param.getValueName());
+        if (dictionariestypeBO.getKeyName().equals(param.getKeyName())) {
+            logService.call("dictionariestypeBO.getValueName().equals(param.getValueName())", "");
+            if (dictionariestypeBO.getValueName().equals(param.getValueName())) {
+                logService.call("dictionariestypeService.getupdateDictionariestype", param.getId(), param.getKeyName(), param.getRank(), id, param.getValueName());
+                boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), id, param.getValueName());
+                if (updateDictionariestypejson) {
+                    String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+                    super.safeJsonPrint(response, languagejson);
+                    logService.end("/Dictionariestype/updateDictionariestype", languagejson);
                     return;
                 }
             }
-            if (!dictionariestypeBO.getKeyName().equals(param.getValueName())){
-                int findictionaries=dictionariestypeService.getfindDictionariestype(param.getValueName());
-                if (findictionaries!=0) {
-                    String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-                    super.safeJsonPrint(response, json);
-                    return;
-                }
-                }
-
-                //进行字典类型表内容修改
-            boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), param.getUpdateNameId(), param.getValueName());
-            if (updateDictionariestypejson) {
-                String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
-                super.safeJsonPrint(response, languagejson);
+        }
+        //判断数据库是否有同样的数据
+        if (!dictionariestypeBO.getValueName().equals(param.getKeyName())) {
+            logService.call("dictionariestypeService.getfindDictionariestypekeyName", param.getKeyName());
+            int dictionariestype = dictionariestypeService.getfindDictionariestypekeyName(param.getKeyName());
+            if (dictionariestype != 0) {
+                String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+                super.safeJsonPrint(response, json);
+                logService.end("/Dictionariestype/updateDictionariestype", json);
                 return;
             }
+        }
+
+        if (!dictionariestypeBO.getKeyName().equals(param.getValueName())) {
+            logService.call("dictionariestypeService.getfindDictionariestype", param.getValueName());
+            int findictionaries = dictionariestypeService.getfindDictionariestype(param.getValueName());
+            if (findictionaries != 0) {
+                String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+                super.safeJsonPrint(response, json);
+                logService.end("/Dictionariestype/updateDictionariestype", json);
+                return;
+            }
+        }
+        //进行字典类型表内容修改
+        logService.call("dictionariestypeService.getupdateDictionariestype", param.getId(), param.getKeyName(), param.getRank(), param.getUpdateNameId(), param.getValueName());
+        boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), param.getUpdateNameId(), param.getValueName());
+        if (updateDictionariestypejson) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+            super.safeJsonPrint(response, languagejson);
+            logService.end("/Dictionariestype/updateDictionariestype", languagejson);
+            return;
+        }
     }
 
     /**
@@ -168,185 +193,224 @@ public class DictionariestypeController extends BaseCotroller {
      * Integer id //字典类型id
      */
     @RequestMapping("/deleteDictionariestype")
-    public void deleteDictionariestype(HttpServletRequest request,HttpServletResponse response,String Dcyid){
-        if (Dcyid.equals("")){
-            String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response,json);
-        }
-        //转换为Integer数组类型类型
-        Integer[] Did=JsonUtils.getIntegerArray4Json(Dcyid);
-        //批量删除
-        boolean deleteDictionariestypejson=dictionariestypeService.getdeleteDictionariestype(Did);
+    public void deleteDictionariestype(HttpServletRequest request, HttpServletResponse response, String Dcyid) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin, request, Dcyid);
 
-        if (deleteDictionariestypejson){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
-            super.safeJsonPrint(response,languagejson);
+        if ("".equals(Dcyid)) {
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/deleteDictionariestype", json);
             return;
         }
-        String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-        super.safeHtmlPrint(response,languagejson);
+        //转换为Integer数组类型类型
+        Integer[] Did = JsonUtils.getIntegerArray4Json(Dcyid);
+        //批量删除
+        logService.call("dictionariestypeService.getdeleteDictionariestype()", Did);
+        boolean deleteDictionariestypejson = dictionariestypeService.getdeleteDictionariestype(Did);
+
+        if (deleteDictionariestypejson) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+            super.safeJsonPrint(response, languagejson);
+            logService.end("/Dictionariestype/deleteDictionariestype", languagejson);
+            return;
+        }
+        String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+        super.safeHtmlPrint(response, languagejson);
+        logService.end("/Dictionariestype/deleteDictionariestype", languagejson);
         return;
     }
 
     /////////////////////////字典内容表///////////////
 
     /**
-     *添加字典内容表
-     *  String key; //类型名字
-     *  String value; //内容
-     *  Integer outerId; //连接字典类型表
-     *  String dnName; //创建人
-     *  Integer updateUserId; //修改用户id
-     *  Double rank; //排序
+     * 添加字典内容表
+     * String key; //类型名字
+     * String value; //内容
+     * Integer outerId; //连接字典类型表
+     * String dnName; //创建人
+     * Integer updateUserId; //修改用户id
+     * Double rank; //排序
      */
     @RequestMapping("/addDictionaries")
-    public void addDictionaries(HttpServletRequest request,HttpServletResponse response,DictionariesParam param,String keyName ){
+    public void addDictionaries(HttpServletRequest request, HttpServletResponse response, DictionariesParam param, String keyName) {
         //创建获取管理员id
         AdminBO loginAdmin = super.getLoginAdmin(request);
-
-        if(loginAdmin==null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
-            super.safeHtmlPrint(response,languagejson);
+        logService.startController(loginAdmin, request, param, keyName);
+        if (loginAdmin == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response, languagejson);
+            logService.end("/Dictionariestype/addDictionaries", languagejson);
             return;
         }
         Integer id = loginAdmin.getId();
         //通过keyName来查找数据
-        List<DictionariestypeBO> list=dictionariestypeService.getqueryDictionarieslist(keyName);
-        if (list==null){
-            String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response,json);
+        logService.call("dictionariestypeService.getqueryDictionarieslist()", keyName);
+        List<DictionariestypeBO> list = dictionariestypeService.getqueryDictionarieslist(keyName);
+        logService.result(list);
+        if (list == null) {
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/addDictionaries", json);
             return;
         }
 
-        if (StringUtils.isObjEmpty(param.getKey()) || StringUtils.isObjEmpty(param.getValue())|| StringUtils.isObjEmpty(param.getOuter())
-                 || id==null  || StringUtils.isObjEmpty(param.getRank())){
-            String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeJsonPrint(response,json);
+        if (StringUtils.isObjEmpty(param.getKey()) || StringUtils.isObjEmpty(param.getValue()) || StringUtils.isObjEmpty(param.getOuter())
+                || id == null || StringUtils.isObjEmpty(param.getRank())) {
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/addDictionaries", json);
             return;
         }
 
         //通过Value进行取数据，如果有数据将不能添加
-        int dictionariesBO=dictionariestypeService.getfindloadDictionaries(param.getValue());
-        if (dictionariesBO>0){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-            super.safeHtmlPrint(response,languagejson);
+        logService.call("dictionariestypeService.getfindloadDictionaries()", keyName);
+        int dictionariesBO = dictionariestypeService.getfindloadDictionaries(keyName);
+        if (dictionariesBO > 0) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+            super.safeHtmlPrint(response, languagejson);
+            logService.end("/Dictionariestype/addDictionaries", languagejson);
             return;
         }
         //添加字典内容表的内容
-        boolean addDictionariesjson=dictionariestypeService.getaddDictionaries(param.getKey(),param.getValue(),param.getDnName(),
-               id,param.getRank(),param.getOuter());
-        if (addDictionariesjson){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
-            super.safeJsonPrint(response,languagejson);
-            return;
-        }
+        logService.call("dictionariestypeService.getaddDictionaries()", param.getKey(), param.getValue(), param.getDnName(),
+                id, param.getRank(), param.getOuter());
+        dictionariestypeService.getaddDictionaries(param.getKey(), param.getValue(), param.getDnName(),
+                id, param.getRank(), param.getOuter());
+
+        String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功"));
+        super.safeJsonPrint(response, languagejson);
+        logService.end("/Dictionariestype/addDictionaries", languagejson);
+        return;
     }
 
     /**
-     *显示字典内容
-     private Integer id; //字典id
-     private String key; //类型名字
-     private String value; //类型
-     private Integer outerId; //连接字典类型表
-     private String dnName; //创建人
-     private Date dnReleasetime; //发布时间
-     private Integer updateUserId; //修改用户id
-     private Double rank; //排序
+     * 显示字典内容
+     * private Integer id; //字典id
+     * private String key; //类型名字
+     * private String value; //类型
+     * private Integer outerId; //连接字典类型表
+     * private String dnName; //创建人
+     * private Date dnReleasetime; //发布时间
+     * private Integer updateUserId; //修改用户id
+     * private Double rank; //排序
      */
     @RequestMapping("/queryDictionaries")
-    public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, Integer id,String key,String value,String outer,String dnName,String dnReleasetime,Integer updateUserId,Double rank){
-
-        if ( !StringUtils.isEmpty(outer)){
-            List<DictionariesBO> list=dictionariestypeService.getqueryDictionaries(id,key,value,outer,dnName,com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime),updateUserId,rank);
-            String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
-            super.safeJsonPrint(response,json);
+    public void queryDictionaries(HttpServletRequest request, HttpServletResponse response, Integer id, String key, String value, String outer, String dnName, String dnReleasetime, Integer updateUserId, Double rank) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin, request, id, key, value, outer, dnName, dnReleasetime, updateUserId, rank);
+        if (!StringUtils.isEmpty(outer)) {
+            logService.call("dictionariestypeService.getqueryDictionaries()", id, key, value, outer, dnName, com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime), updateUserId, rank);
+            List<DictionariesBO> list = dictionariestypeService.getqueryDictionaries(id, key, value, outer, dnName, com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime), updateUserId, rank);
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/queryDictionaries", json);
             return;
         }
         //显示字典内容
-        List<DictionariesBO> list1=dictionariestypeService.getqueryloadDictionarieslist(id,key,value,outer,dnName,com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime),updateUserId,rank);
-        String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list1));
-        super.safeJsonPrint(response,json);
+        logService.call("dictionariestypeService.getqueryloadDictionarieslist", id, key, value, outer, dnName, com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime), updateUserId, rank);
+        List<DictionariesBO> list1 = dictionariestypeService.getqueryloadDictionarieslist(id, key, value, outer, dnName, com.wisewin.backend.util.dates.DateUtil.getDate(dnReleasetime), updateUserId, rank);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list1));
+        super.safeJsonPrint(response, json);
+        logService.end("/Dictionariestype/queryDictionaries", json);
         return;
 
     }
 
     /**
-     *修改字典内容
-     Integer id; //字典id
-     String key; //类型名字
-     String value; //类型
-     Integer dnId; //连接字典类型表
-     Integer updateUserId; //修改用户id
-     Double rank; //排序
+     * 修改字典内容
+     * Integer id; //字典id
+     * String key; //类型名字
+     * String value; //类型
+     * Integer dnId; //连接字典类型表
+     * Integer updateUserId; //修改用户id
+     * Double rank; //排序
      */
     @RequestMapping("/updateDictionaries")
-    public void updateDictionaries(HttpServletRequest request,HttpServletResponse response,DictionariesParam param,String keyName){
+    public void updateDictionaries(HttpServletRequest request, HttpServletResponse response, DictionariesParam param, String keyName) {
         //创建获取管理员id
         AdminBO loginAdmin = super.getLoginAdmin(request);
-
-        if(loginAdmin==null){
-            String languagejson= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
-            super.safeHtmlPrint(response,languagejson);
+        logService.startController(loginAdmin, request, param, keyName);
+        if (loginAdmin == null) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeHtmlPrint(response, languagejson);
+            logService.end("/Dictionariestype/updateDictionaries", languagejson);
             return;
         }
         Integer id = loginAdmin.getId();
         //查询keyName是否为空
-          List<DictionariestypeBO> list=dictionariestypeService.getqueryDictionarieslist(keyName);
-          if (list==null){
-              String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-              super.safeJsonPrint(response,json);
-              return;
-          }
+        logService.call("dictionariestypeService.getqueryDictionarieslist()", keyName);
+        List<DictionariestypeBO> list = dictionariestypeService.getqueryDictionarieslist(keyName);
+        if (list == null) {
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/updateDictionaries", json);
+            return;
+        }
 
-          if (StringUtils.isObjEmpty(param.getId()) || StringUtils.isObjEmpty(param.getKey()) || StringUtils.isObjEmpty(param.getValue()) || StringUtils.isObjEmpty(param.getOuter())
-                                                                    || id==null || StringUtils.isObjEmpty(param.getRank())){
-              String json= JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-              super.safeJsonPrint(response,json);
-              return;
-          }
 
-          //根据字典内容id查找修改的值是否一样
-          DictionariesBO dictionariesBO=dictionariestypeService.getfindDictionariesId(param.getId());
-          if (!dictionariesBO.getValue().equals(param.getValue())){
-              //查询数据库是否有相同数据
-              int dictionariesBO1=dictionariestypeService.getfindloadDictionaries(param.getValue());
-             if (dictionariesBO1!=0){
-                 String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-                 super.safeHtmlPrint(response,languagejson);
-                 return;
-             }
-          }
-          //修改
-        boolean updateDictionaries=dictionariestypeService.getupdateDictionaries(param.getId(),param.getKey(),param.getValue(),id,param.getRank(),param.getOuter());
-          if (updateDictionaries){
-              String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
-              super.safeJsonPrint(response,languagejson);
-              return;
-          }
+        if (StringUtils.isObjEmpty(param.getId()) || StringUtils.isObjEmpty(param.getKey()) || StringUtils.isObjEmpty(param.getValue()) || StringUtils.isObjEmpty(param.getOuter())
+                || id == null || StringUtils.isObjEmpty(param.getRank())) {
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, json);
+            logService.end("/Dictionariestype/updateDictionaries", json);
+            return;
+        }
+
+        //根据字典内容id查找修改的值是否一样
+        logService.call("dictionariestypeService.getfindDictionariesId()", param.getId());
+        DictionariesBO dictionariesBO = dictionariestypeService.getfindDictionariesId(param.getId());
+        logService.result(dictionariesBO);
+        if (!dictionariesBO.getValue().equals(param.getValue())) {
+            //查询数据库是否有相同数据
+            logService.call("dictionariestypeService.getfindloadDictionaries()", param.getValue());
+            int dictionariesBO1 = dictionariestypeService.getfindloadDictionaries(param.getValue());
+            if (dictionariesBO1 != 0) {
+                String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
+                super.safeHtmlPrint(response, languagejson);
+                logService.end("/Dictionariestype/updateDictionaries", languagejson);
+                return;
             }
-
-        /**
-         * 删除字典内容
-         * Integer id
-         */
-        @RequestMapping("/deleteDictionaries")
-        public void deleteDictionaries(HttpServletRequest request,HttpServletResponse response,String DcId){
-        if (DcId.equals("")){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
         }
-        //转换成数组类型
-        Integer[] cid=JsonUtils.getIntegerArray4Json(DcId);
-
-        boolean deleteDictionaries=dictionariestypeService.getdeleteDictionaries(cid);
-        if (deleteDictionaries){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
-            super.safeJsonPrint(response,languagejson);
-            return;
-        }
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeHtmlPrint(response,languagejson);
+        //修改
+        logService.call("dictionariestypeService.getupdateDictionaries()", param.getId());
+        boolean updateDictionaries = dictionariestypeService.getupdateDictionaries(param.getId(), param.getKey(), param.getValue(), id, param.getRank(), param.getOuter());
+        if (updateDictionaries) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+            super.safeJsonPrint(response, languagejson);
+            logService.end("/Dictionariestype/updateDictionaries", languagejson);
             return;
         }
     }
+
+    /**
+     * 删除字典内容
+     * Integer id
+     */
+    @RequestMapping("/deleteDictionaries")
+    public void deleteDictionaries(HttpServletRequest request, HttpServletResponse response, String DcId) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin, request,DcId);
+
+        if ("".equals(DcId)) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response, languagejson);
+            logService.end("/Dictionariestype/deleteDictionaries",languagejson);
+            return;
+        }
+
+        //转换成数组类型
+        Integer[] cid = JsonUtils.getIntegerArray4Json(DcId);
+        boolean deleteDictionaries = dictionariestypeService.getdeleteDictionaries(cid);
+        if (deleteDictionaries) {
+            String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+            super.safeJsonPrint(response, languagejson);
+            logService.end("/Dictionariestype/deleteDictionaries",languagejson);
+            return;
+        }
+        String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+        super.safeHtmlPrint(response, languagejson);
+        logService.end("/Dictionariestype/deleteDictionaries",languagejson);
+        return;
+    }
+}

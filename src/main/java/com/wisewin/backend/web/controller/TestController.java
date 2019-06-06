@@ -33,7 +33,8 @@ public class TestController extends BaseCotroller {
 
     @RequestMapping("/test")
     public void test(HttpServletResponse response, HttpServletRequest  request) throws InterruptedException {
-        AdminBO loginAdmin = super.getLoginAdmin(request);
+        AdminBO loginAdmin = null;//super.getLoginAdmin(request);
+        loginAdmin.getId();
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(loginAdmin));
         super.safeJsonPrint(response, json);
 

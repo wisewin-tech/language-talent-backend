@@ -76,4 +76,18 @@ public class RegisterParam extends BaseModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterParam{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", gender='" + gender + '\'' +
+                ", roleId=" + roleId +
+                ", status='" + status + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

@@ -49,4 +49,14 @@ public class GoalParam extends BaseModel {
     public Double getRank() {
         return rank;
     }
+
+    @Override
+    public String toString() {
+        return "GoalParam{" +
+                "id=" + id +
+                ", ppPurpose='" + ppPurpose + '\'' +
+                ", adminId=" + adminId +
+                ", rank=" + rank +
+                '}';
+    }
 }

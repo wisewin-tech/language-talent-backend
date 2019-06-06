@@ -238,4 +238,33 @@ public class DiscoverBO extends BaseModel {
     public void setVideoImg(String videoImg) {
         this.videoImg = videoImg;
     }
+
+    @Override
+    public String toString() {
+        return "DiscoverBO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", browse=" + browse +
+                ", dcName='" + dcName + '\'' +
+                ", createTime=" + createTime +
+                ", dcUpdatename='" + dcUpdatename + '\'' +
+                ", updateTime=" + updateTime +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", video='" + video + '\'' +
+                ", content='" + content + '\'' +
+                ", type='" + type + '\'' +
+                ", likenum=" + likenum +
+                ", participation=" + participation +
+                ", activitytime=" + activitytime +
+                ", activitysite='" + activitysite + '\'' +
+                ", phone='" + phone + '\'' +
+                ", ticket=" + ticket +
+                ", priority=" + priority +
+                ", stick='" + stick + '\'' +
+                ", show='" + show + '\'' +
+                ", skip='" + skip + '\'' +
+                ", way='" + way + '\'' +
+                ", videoImg='" + videoImg + '\'' +
+                '}';
+    }
 }

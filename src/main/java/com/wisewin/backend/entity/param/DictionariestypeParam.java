@@ -83,4 +83,16 @@ public class DictionariestypeParam extends BaseModel {
     public Integer getUpdateNameId() {
         return updateNameId;
     }
+
+    @Override
+    public String toString() {
+        return "DictionariestypeParam{" +
+                "id=" + id +
+                ", keyName='" + keyName + '\'' +
+                ", rank=" + rank +
+                ", updateNameId=" + updateNameId +
+                ", updateTime=" + updateTime +
+                ", valueName='" + valueName + '\'' +
+                '}';
+    }
 }

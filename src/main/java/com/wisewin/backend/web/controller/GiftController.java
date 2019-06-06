@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.GiftParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.GiftService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.RandomUtils;
 import com.wisewin.backend.util.SnowflakeIdWorker;
@@ -30,7 +31,8 @@ import java.util.*;
 public class GiftController extends BaseCotroller {
     @Resource
     GiftService giftService;
-
+    @Resource
+    private LogService logService;
     /**
      * 查询所有
      * @param giftParam
@@ -39,6 +41,8 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/selectAll")
     public void selectAll(Integer pageNo, Integer pageSize, GiftParam giftParam,HttpServletResponse response, HttpServletRequest request) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,pageNo,pageSize,giftParam);
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
         //创建一个用于封装sql条件的map集合
@@ -50,8 +54,9 @@ public class GiftController extends BaseCotroller {
         }
         //把参数条件 放入map中
         condition.put("giftParam",giftParam);
+        logService.call("giftService.selectAll",condition);
         List<GiftBO> giftBOS = giftService.selectAll(condition);
-
+        logService.call("giftService.selectCount",giftParam.getBatchNumber(),giftParam.getTitle(),giftParam.getCardnumber(),giftParam.getValue(),giftParam.getStatus());
         int count=giftService.selectCount(giftParam.getBatchNumber(),giftParam.getTitle(),giftParam.getCardnumber(),giftParam.getValue(),giftParam.getStatus());
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("giftBOS",giftBOS);
@@ -59,6 +64,7 @@ public class GiftController extends BaseCotroller {
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         super.safeJsonPrint(response, json);
+        logService.end("/gift/selectAll",json);
     }
 
     /**
@@ -70,19 +76,23 @@ public class GiftController extends BaseCotroller {
     public void addGift(GiftParam giftParam,Integer num,HttpServletResponse response, HttpServletRequest request) {
         //获取管理员账号
         AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,giftParam,num);
         if(loginAdmin==null){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002"));
             super.safeJsonPrint(response, json);
+            logService.end("/gift/addGift",json);
             return;
         }
         if (num==null||num<=0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            logService.end("/gift/addGift",json);
             return;
         }
         if(num>10000){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000007"));
             super.safeJsonPrint(response, json);
+            logService.end("/gift/addGift",json);
             return;
         }
 
@@ -91,11 +101,14 @@ public class GiftController extends BaseCotroller {
                 StringUtils.isEmpty(giftParam.getFinishtime())){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            logService.end("/gift/addGift",json);
             return;
         }
+        logService.call(" giftService.addGift()",giftParam,num);
         giftService.addGift(giftParam,num);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
+        logService.end("/gift/addGift",json);
     }
     /**
      * 修改
@@ -104,9 +117,13 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/updateGift")
     public void updateGift(GiftParam giftParam,HttpServletResponse response, HttpServletRequest request) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,giftParam,giftParam);
+        logService.call("giftService.updateGift",giftParam);
         giftService.updateGift(giftParam);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("0000000"));
         super.safeJsonPrint(response, json);
+        logService.end("giftService.updateGift",giftParam);
 
     }
 
@@ -119,7 +136,8 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/frostGift")
     public void frostGift(String idArrJSON,String status,HttpServletResponse response, HttpServletRequest request) {
-
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,idArrJSON,status);
         //获取管理员账号
         String[] split = idArrJSON.split(",");
         Integer [] ints= new Integer [split.length];
@@ -131,21 +149,26 @@ public class GiftController extends BaseCotroller {
         if (StringUtils.isEmpty(idArrJSON)){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            logService.end("/gift/frostGift",json);
             return;
         }
 
         if (ints.length==0){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
+            logService.end("/gift/frostGift",json);
             return;
         }
+        logService.call("giftService.frostGift",ints,status);
         Integer line=giftService.frostGift(ints,status);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("共删除"+line+"条信息")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/gift/frostGift",result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("1111111")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/gift/frostGift",result);
         }
 
     }
@@ -156,18 +179,23 @@ public class GiftController extends BaseCotroller {
      */
     @RequestMapping("/deriveGift")
     public void deriveGift(HttpServletRequest request ,HttpServletResponse response,Long batch){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,batch);
 
         if(batch==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/gift/deriveGift",result);
             return;
         }
 
         try {
+            logService.call("giftService.deriveGift",batch);
             giftService.deriveGift(response,batch);
         } catch (Exception e) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000008")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/gift/deriveGift",result);
             return;
         }
 

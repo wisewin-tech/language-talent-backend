@@ -6,6 +6,7 @@ import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.FeedbackParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.FeedbackService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
@@ -25,7 +26,8 @@ import java.util.Map;
 public class FeedbackController extends BaseCotroller {
     @Resource
     private FeedbackService feedbackService;
-
+    @Resource
+    private LogService logService;
     /**
      * 通过状态查询意见反馈
      * @param feedbackParam
@@ -34,10 +36,13 @@ public class FeedbackController extends BaseCotroller {
      */
     @RequestMapping("/selectFeedback")
     public void selectFeedback(Integer pageNo, Integer pageSize, FeedbackParam feedbackParam, HttpServletRequest request, HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,pageNo,pageSize,feedbackParam);
         //验证参数
         if (feedbackParam==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
             super.safeJsonPrint(response, result);
+            logService.end("/feedback/selectFeedback",result);
             return ;
         }
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
@@ -50,7 +55,7 @@ public class FeedbackController extends BaseCotroller {
 //        maps.put("status",feedbackParam.getStatus());
 //        maps.put("begin",feedbackParam.getBegin());
 //        maps.put("end",feedbackParam.getEnd());
-
+        logService.call("feedbackService.selectFeedback",maps);
         List<FeedbackBO> feedbackBOList = feedbackService.selectFeedback(maps);
         Integer count = feedbackService.selectbylimitCount(maps);
         Map<String,Object>  resultMap=new HashMap<String, Object>();
@@ -58,6 +63,7 @@ public class FeedbackController extends BaseCotroller {
         resultMap.put("count",count);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         super.safeJsonPrint(response, result);
+        logService.end("/feedback/selectFeedback",result);
     }
 
     /**
@@ -69,10 +75,13 @@ public class FeedbackController extends BaseCotroller {
      */
     @RequestMapping("/updateFeedback")
     public void updateFeedback(Integer id, FeedbackParam feedbackParam, HttpServletRequest request, HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,id,feedbackParam);
         //参数验证
         if (StringUtils.isEmpty(String.valueOf(id))||feedbackParam==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
             super.safeJsonPrint(response, result);
+            logService.end("feedback/updateFeedback",result);
             return ;
         }
         FeedbackBO feedbackBO = new FeedbackBO();
@@ -85,13 +94,16 @@ public class FeedbackController extends BaseCotroller {
             feedback.setAdminId(adminId);
             feedback.setUpdateTime(new Date());
         }
+        logService.call("feedbackService.updateFeedback",feedbackParam);
         boolean i = feedbackService.updateFeedback(feedbackParam);
         if (i) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改意见反馈状态成功！"));
             super.safeJsonPrint(response, result);
+            logService.end("feedback/updateFeedback",result);
         }else {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000012","修改意见反馈状态失败！"));
             super.safeJsonPrint(response, result);
+            logService.end("feedback/updateFeedback",result);
         }
 
     }

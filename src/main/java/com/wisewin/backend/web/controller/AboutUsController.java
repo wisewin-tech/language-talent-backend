@@ -38,7 +38,7 @@ public class AboutUsController extends BaseCotroller {
         AboutUsBO aboutUs=aboutUsService.selectContent();
         logService.result(aboutUs.toString());
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(aboutUs));
-        logService.end(json);
+        logService.end("/AboutUsController/selectAboutUs",json);
         super.safeJsonPrint(response, json);
     }
 
@@ -50,7 +50,7 @@ public class AboutUsController extends BaseCotroller {
         //参数非空验证
         if(aboutUsBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
-            logService.end(result);
+            logService.end("/AboutUsController/updateAboutUs",result);
             super.safeJsonPrint(response, result);
             return;
         }
@@ -61,11 +61,11 @@ public class AboutUsController extends BaseCotroller {
         logService.result(t);
         if(t){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("信息修改成功"));
-            logService.end(json);
+            logService.end("/AboutUsController/updateAboutUs",json);
             super.safeJsonPrint(response, json);
         }else{
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功！"));
-            logService.end(json);
+            logService.end("/AboutUsController/updateAboutUs",json);
             super.safeJsonPrint(response, json);
         }
 

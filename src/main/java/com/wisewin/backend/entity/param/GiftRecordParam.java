@@ -86,4 +86,19 @@ public class GiftRecordParam extends BaseModel {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "GiftRecordParam{" +
+                "id=" + id +
+                ", giftId=" + giftId +
+                ", userId=" + userId +
+                ", nickname='" + nickname + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", title='" + title + '\'' +
+                ", value=" + value +
+                ", grReleasetime=" + grReleasetime +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

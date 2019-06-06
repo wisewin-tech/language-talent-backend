@@ -12,6 +12,7 @@ import com.wisewin.backend.entity.dto.MenuDTO;
 import com.wisewin.backend.entity.dto.RoleDTO;
 import com.wisewin.backend.entity.param.MenuParam;
 import com.wisewin.backend.entity.param.RegisterParam;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.MD5Util;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,8 @@ import java.util.*;
 public class AdminService {
     @Resource
     private AdminDAO adminDAO;
-
+    @Resource
+    private LogService logService;
     /**
      * 根据手机号查找管理员信息
      * 管理员登录
@@ -32,9 +34,14 @@ public class AdminService {
      * @return
      */
     public AdminBO queryAdminInfoByMobile(String mobile) {
+        logService.serviceStart("AdminService.queryAdminInfoByMobile()",mobile);
+        logService.call("adminDAO.queryAdminInfoByMobile()",mobile);
         AdminBO adminBO = adminDAO.queryAdminInfoByMobile(mobile);
+        logService.result(adminBO);
         if(adminBO!=null){
+            logService.call("adminDAO.queryAdminUrl()",adminBO.getRoleId());
             List<String> urls=adminDAO.queryAdminUrl(adminBO.getRoleId());
+            logService.result(urls);
             Set<String>  set=new HashSet<String>();
             if(urls!=null){
                 for(String url:urls){
@@ -46,6 +53,7 @@ public class AdminService {
             }
             adminBO.setUrl(set);
         }
+        logService.end("AdminService.queryAdminInfoByMobile()",adminBO);
         return adminBO;
     }
 
@@ -200,6 +208,7 @@ public class AdminService {
      * @return 返回对应的权限
      */
     public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds){
+
         RoleBO roleBO = new RoleBO();
         roleBO.setRoleName(roleName);
         roleBO.setCreateTime(new Date());
