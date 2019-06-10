@@ -31,15 +31,22 @@
 
     <!--&lt;!&ndash; 错误日志的Appender&ndash;&gt;-->
     <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/language-err-%d{yyyy-MM-dd}.log</fileNamePattern>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %thread %X{invokeNo} %logger{40} %msg%n</pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
+        <Encoding>UTF-8</Encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/language-error-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>365</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>100MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
+        </layout>
     </appender>
 
     <!--&lt;!&ndash; 日志级别 &ndash;&gt;-->
