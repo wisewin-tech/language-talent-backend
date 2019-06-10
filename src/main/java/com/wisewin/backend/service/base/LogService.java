@@ -20,7 +20,14 @@ public class LogService {
     static {
         Object log = RedissonHandler.getInstance().get("log");
         if(log!=null){
-            onOff=(Boolean)log;
+            if(log instanceof String){
+                String flag=(String)log;
+                if(flag.equals("true")){
+                    onOff=true;
+                }
+            }else if(log instanceof Boolean) {
+                onOff = (Boolean) log;
+            }
         }
 
     }

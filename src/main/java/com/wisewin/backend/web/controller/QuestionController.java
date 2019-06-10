@@ -255,16 +255,15 @@ public class QuestionController extends BaseCotroller{
             logService.call("questionService.importQuestions",file,loginAdmin.getId());
             Integer row=questionService.importQuestions(file,loginAdmin.getId());
             logService.result(row);
-//            if(row==null){
-//                questionService.synchronizeQuestions(loginAdmin.getId());
-//                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
-//                super.safeJsonPrint(response, result);
-//            }else{
-//                questionService.deleteTest(loginAdmin.getId());
-//                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
-//                super.safeJsonPrint(response, result);
-//            }
-            return;
+            if(row==null){
+                questionService.synchronizeQuestions(loginAdmin.getId());
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
+                super.safeJsonPrint(response, result);
+            }else{
+                questionService.deleteTest(loginAdmin.getId());
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
+                super.safeJsonPrint(response, result);
+            }
         }
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000005"));
         logService.end("question/importQuestions",result);
