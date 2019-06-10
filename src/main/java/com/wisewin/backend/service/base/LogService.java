@@ -16,12 +16,19 @@ public class LogService {
 
     private static final Logger logger = LoggerFactory.getLogger(LogService.class);
     private static final String SEPARATOR="\t";
+    private static boolean onOff;
+    static {
+        Object log = RedissonHandler.getInstance().get("log");
+        if(log!=null){
+            onOff=(Boolean)log;
+        }
 
+    }
     /**
      * 开始执行Controller
      */
     public <T,V> void startController(T user, HttpServletRequest request,Object... args){
-        if(onOff()){
+        if(onOff){
             StringBuffer  buffer=new StringBuffer("====startExecuteController").append(SEPARATOR)
                     .append(request.getRemoteAddr()).append(SEPARATOR).append(user).append(SEPARATOR)
                     .append(request.getRequestURL()).append(SEPARATOR).append(joint(args))
@@ -38,7 +45,7 @@ public class LogService {
      * @param args
      */
     public void serviceStart(String funName,Object... args){
-        if(onOff()){
+        if(onOff){
             StringBuffer  buffer=new StringBuffer("====startExecuteService").append(SEPARATOR)
                     .append(funName).append(SEPARATOR).append(joint(args)).append(SEPARATOR)
                     .append(Thread.currentThread().getName());
@@ -52,7 +59,7 @@ public class LogService {
      * @param args
      */
     public void call(String callName,Object... args){
-        if(onOff()){
+        if(onOff){
             StringBuffer  buffer=new StringBuffer("====call").append(SEPARATOR)
                     .append(callName).append(SEPARATOR).append(joint(args)).append(SEPARATOR)
                     .append(Thread.currentThread().getName());
@@ -65,7 +72,7 @@ public class LogService {
      * @param args
      */
     public void result(Object... args){
-        if(onOff()){
+        if(onOff){
             StringBuffer  buffer=new StringBuffer("====result").append(SEPARATOR).append(joint(args))
                     .append(SEPARATOR).append(Thread.currentThread().getName());
             logger.info(buffer.toString());
@@ -79,7 +86,7 @@ public class LogService {
      * @param args
      */
     public void end(String funName ,Object... args){
-        if(onOff()){
+        if(onOff){
             StringBuffer  buffer=new StringBuffer("====end").append(SEPARATOR).append(funName).
                     append(SEPARATOR).append(joint(args)).append(SEPARATOR).append(Thread.currentThread().getName());
             logger.info(buffer.toString());
@@ -91,22 +98,13 @@ public class LogService {
      * 自定义
      */
     public void custom(Object... args){
-        if(onOff()){
+        if(onOff){
             StringBuffer  buffer=new StringBuffer().append(joint(args)).append(Thread.currentThread().getName());
             logger.info(buffer.toString());
         }
     }
 
-    /**
-     * 判断开关
-     * @return
-     */
-    private boolean  onOff(){
-        String flag =(String) RedissonHandler.getInstance().get("log");
-        if(flag!=null && flag.equals("true"))
-            return true;
-        return false;
-    }
+
 
     /**
      * 拼接参数

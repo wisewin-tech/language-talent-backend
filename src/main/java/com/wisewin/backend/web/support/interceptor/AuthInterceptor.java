@@ -4,8 +4,11 @@ import com.google.common.collect.Sets;
 import com.wisewin.backend.common.constants.SysConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -23,12 +26,12 @@ import java.util.Set;
 */
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
-
+    private static final Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
       private BaseCotroller baseCotroller=new BaseCotroller() ;
 
     // 不需要过滤的URL
     public static final Set<String> unCheckSet = Sets.newHashSet("/admin/adminLogin","/chapter/selectChapterById","/leavel/queryCourseChoice",
-            "/course/selectChapterById","/Language/queryLanguageChoice","/question/test","/upFile/upFile","/voucher/getAddress","test/test",
+            "/course/selectChapterById","/Language/queryLanguageChoice","/question/test","/upFile/upFile","/voucher/getAddress","/test/test",
             "/voucher/refreshAddress") ;
 
  //   public static final Set<String> CheckListForAjax = Sets.newHashSet("/client/login" , "/apiCourse/toDetail" ) ;
@@ -95,7 +98,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request,  HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-
+         if(ex!=null){
+            logger.error("Exception:",ex);
+         }
     }
 
     /**
