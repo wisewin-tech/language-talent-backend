@@ -226,6 +226,9 @@ public class OSSClientUtil {
         if(filenameExtension.equalsIgnoreCase("mp3")){
             return "video/mp3";
         }
+        if(filenameExtension.equalsIgnoreCase("apk")){
+            return "application/vnd.android.package-archive";
+        }
         return "image/jpeg";
     }
 
