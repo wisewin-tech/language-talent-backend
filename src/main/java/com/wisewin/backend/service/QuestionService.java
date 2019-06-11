@@ -234,7 +234,7 @@ public class QuestionService {
 
         for (Cell cell : optionss) {
             List<String> opt = this.getlistStrings(cell);
-            if (opt != null) {
+            if (opt != null && opt.size()>0) {
                 option.add(opt);
             }else {
                 break;
@@ -331,7 +331,7 @@ public class QuestionService {
         List<String> tops = new ArrayList<String>();
         for(Cell cell:topic){
             List<String> top = this.getlistStrings(cell);
-            if (top != null) {
+            if (top != null && top.size()>0) {
                 tops.add(top.get(0));
             }else{
                 break;
