@@ -26,8 +26,8 @@ public class VersionsService {
     /**
      * 查询版本
      */
-    public List<VersionsBO> getqueryVersions(){
-        return  versionsDAO.queryVersions();
+    public List<VersionsBO> getqueryVersions(Integer pageNo,Integer pageSize){
+        return  versionsDAO.queryVersions(pageNo,pageSize);
     }
 
     /**

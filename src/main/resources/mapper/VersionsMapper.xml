@@ -19,8 +19,11 @@
         ORDER BY
         create_time
         desc
-
+        <include refid="Limit" />
     </select>
+    <sql id="Limit">
+      limit #{pageNo},#{pageSize}
+    </sql>
 
     <!--删除-->
     <delete id="deleteVersions" parameterType="java.lang.Integer">
