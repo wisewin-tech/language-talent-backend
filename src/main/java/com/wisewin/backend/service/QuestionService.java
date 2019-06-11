@@ -154,7 +154,7 @@ public class QuestionService {
                 questionBO.setQuestionType(this.analysisType(row.getCell(0))); //题类型
                 questionBO.setTestType(this.analysisStage(row.getCell(1))); //阶段
                 questionBO.setScore(this.analysisAnswer(row.getCell(2))); //分值解析
-                String[] answer = this.analysisContent(row.getCell(4), row.getCell(3), questionBO.getQuestionType(), row.getCell(11), row.getCell(12)
+                String[] answer = this.analysisContent(questionBO.getTestType(),row.getCell(4), row.getCell(3), questionBO.getQuestionType(), row.getCell(11), row.getCell(12)
                         , row.getCell(13), row.getCell(14), row.getCell(15), row.getCell(16), row.getCell(17),
                         row.getCell(18), row.getCell(19), row.getCell(20), row.getCell(21), row.getCell(22),
                         row.getCell(23), row.getCell(24), row.getCell(25),row.getCell(26),row.getCell(27),row.getCell(28)
@@ -237,7 +237,7 @@ public class QuestionService {
 
 
     //选项 & 答案 & 解析    解析
-    private String[] analysisContent(Cell answers, Cell analysiss, String type, Cell... optionss) throws Exception {
+    private String[] analysisContent(String testType,Cell answers, Cell analysiss, String type, Cell... optionss) throws Exception {
         //选项
         List<List<String>> option = new ArrayList<List<String>>();
 
@@ -258,62 +258,69 @@ public class QuestionService {
         List<AnsDesBO> des = new ArrayList<AnsDesBO>();
         List<List<String>> lists = topiceChange(option);
 
+        //学前热身有可能没有答案和解析
+        if( (!testType.equals("warmUp") )|| (testType.equals("warmUp") && answer!=null && answer.size()>0 ) ) {
 
-        //阅读题处理
-        if(type.equals("read")){
-            for(int i=0,y=lists.size();i<y;i++){
-                AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
-                for(int x=0;x<lists.get(i).size();x++){
-                    String subStr = lists.get(i).get(x).substring(0,1);
-                    if (subStr.equalsIgnoreCase(answer.get(i))) {
-                        ans.setAns(x);
-                        ans.setDes(analysis.get(i));
-                        des.add(ans);
-                        break;
+            //阅读题处理
+            if (type.equals("read")) {
+                for (int i = 0, y = lists.size(); i < y; i++) {
+                    AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
+                    for (int x = 0; x < lists.get(i).size(); x++) {
+                        String subStr = lists.get(i).get(x).substring(0, 1);
+                        if (subStr.equalsIgnoreCase(answer.get(i))) {
+                            ans.setAns(x);
+                            if (analysis != null && analysis.size() > 0 && analysis.size() < i)
+                                ans.setDes(analysis.get(i));
+                            des.add(ans);
+                            break;
+                        }
                     }
                 }
-            }
-            // 拼写 听音完成句子
-        }else if(type.equals("write") || type.equals("hearingAndSentence")){
-            List<String> ops = lists.get(0);
-            AnsDesBO<String> ans = new AnsDesBO<String>();
-            ans.setDes(analysis.get(0));
-            StringBuffer strBuff=new StringBuffer("");
-            for(int i=0;i<answer.size();i++){  // 循环答案
-                for(int x=0;x<ops.size();x++){
-                    String subStr = ops.get(x).substring(0,1);
-                    if (subStr.equalsIgnoreCase(answer.get(i))) {
-                        strBuff.append(x).append(",");
-                        break;
+                // 拼写 听音完成句子
+            } else if (type.equals("write") || type.equals("hearingAndSentence")) {
+                List<String> ops = lists.get(0);
+                AnsDesBO<String> ans = new AnsDesBO<String>();
+                if (analysis != null && analysis.size() > 0)
+                    ans.setDes(analysis.get(0));
+                StringBuffer strBuff = new StringBuffer("");
+                for (int i = 0; i < answer.size(); i++) {  // 循环答案
+                    for (int x = 0; x < ops.size(); x++) {
+                        String subStr = ops.get(x).substring(0, 1);
+                        if (subStr.equalsIgnoreCase(answer.get(i))) {
+                            strBuff.append(x).append(",");
+                            break;
+                        }
                     }
                 }
-            }
-            ans.setAns(strBuff.toString());
-            des.add(ans);
-        }else{
-            List<String> ops = lists.get(0);
-            for(int i=0;i<answer.size();i++){  // 循环答案
-                AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
-                for(int x=0;x<ops.size();x++){
-                    String subStr = ops.get(x).substring(0,1);
-                    if (subStr.equalsIgnoreCase(answer.get(i))) {
-                        ans.setAns(x);
-                        ans.setDes(analysis.get(i));
-                        des.add(ans);
-                        break;
+                ans.setAns(strBuff.toString());
+                des.add(ans);
+            } else {
+                List<String> ops = lists.get(0);
+                for (int i = 0; i < answer.size(); i++) {  // 循环答案
+                    AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
+                    for (int x = 0; x < ops.size(); x++) {
+                        String subStr = ops.get(x).substring(0, 1);
+                        if (subStr.equalsIgnoreCase(answer.get(i))) {
+                            ans.setAns(x);
+                            if (analysis != null && analysis.size() > 0)
+                                ans.setDes(analysis.get(i));
+                            des.add(ans);
+                            break;
+                        }
                     }
                 }
             }
         }
 
-
-
-        if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence")) {
-            List<String> strings = option.get(0);
-            for (int i = 0; i < strings.size(); i++) {
-                strings.set(i, strings.get(i).substring(2));
+        //学热身可能没有答案和解析
+        if((!testType.equals("warmUp") )|| (testType.equals("warmUp") && answer!=null && answer.size()>0 ) ) {
+            if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence")) {
+                List<String> strings = option.get(0);
+                for (int i = 0; i < strings.size(); i++) {
+                    strings.set(i, strings.get(i).substring(2));
+                }
+                lists.set(0, strings);
             }
-            lists.set(0,strings);
         }
 
         String str = JSONArray.fromObject(lists).toString();
