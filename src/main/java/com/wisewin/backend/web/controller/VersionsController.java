@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/Versions")
@@ -77,7 +79,11 @@ public class VersionsController  extends BaseCotroller{
             logService.call("versionsService.getqueryVersions()",queryInfo.getPageOffset(),queryInfo.getPageSize());
             List<VersionsBO> queryVersionsjson=versionsService.getqueryVersions(queryInfo.getPageOffset(),queryInfo.getPageSize());
             logService.result(queryVersionsjson);
-            String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(queryVersionsjson));
+            Integer count=versionsService.selectVersionBOCount();
+            Map<String,Object> map=new HashMap<>();
+            map.put("queryVersionsjson",queryVersionsjson);
+            map.put("count",count);
+            String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
             logService.end("VersionsController/queryVersions",json);
             super.safeJsonPrint(response,json);
             return;

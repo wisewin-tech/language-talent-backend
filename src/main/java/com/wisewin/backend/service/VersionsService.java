@@ -31,6 +31,13 @@ public class VersionsService {
     }
 
     /**
+     * 查询分页数量
+     * */
+    public Integer selectVersionBOCount(){
+        return versionsDAO.selectVersionBOCount();
+    }
+
+    /**
      * 删除
      */
     public boolean getdeleteVersions(Integer vid){

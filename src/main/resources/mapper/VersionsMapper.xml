@@ -25,6 +25,10 @@
       limit #{pageNo},#{pageSize}
     </sql>
 
+    <!-- 根据状态 分类id 查看 专题 的数量-->
+    <select id="selectVersionBOCount" resultType="java.lang.Integer">
+        select count(*) from lt_versions
+    </select>
     <!--删除-->
     <delete id="deleteVersions" parameterType="java.lang.Integer">
         DELETE  FROM

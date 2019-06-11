@@ -22,6 +22,11 @@ public interface VersionsDAO {
     List<VersionsBO> queryVersions(@Param("pageNo")Integer pageNo, @Param("pageSize")Integer pageSize);
 
     /**
+     * 查询分页数量
+     * */
+    Integer selectVersionBOCount();
+
+    /**
      * 删除
      */
     Integer deleteVersions(Integer vid);
