@@ -2,6 +2,7 @@ package com.wisewin.backend.dao;
 
 
 import com.wisewin.backend.entity.bo.VersionsBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface VersionsDAO {
     /**
      * 查询版本
      */
-    List<VersionsBO> queryVersions();
+    List<VersionsBO> queryVersions(@Param("pageNo")Integer pageNo, @Param("pageSize")Integer pageSize);
 
     /**
      * 删除

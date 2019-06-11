@@ -4,6 +4,7 @@ package com.wisewin.backend.web.controller;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.VersionsBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
+import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.VersionsService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
@@ -66,18 +67,23 @@ public class VersionsController  extends BaseCotroller{
      * 通过版本查询
      */
     @RequestMapping("/queryVersions")
-    public void queryVersions(HttpServletRequest request,HttpServletResponse response){
+    public void queryVersions(HttpServletRequest request,HttpServletResponse response,Integer pageNo,Integer pageSize){
+
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin,request,null);
-        logService.call("versionsService.getqueryVersions()",null);
+        logService.startController(loginAdmin,request,pageNo,pageSize);
         //根据版本号来查询
-        List<VersionsBO> queryVersionsjson=versionsService.getqueryVersions();
-        logService.result(queryVersionsjson);
-        String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(queryVersionsjson));
-        logService.end("Versions/queryVersions",json);
-        super.safeJsonPrint(response,json);
-        return;
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        if(queryInfo != null){
+            logService.call("versionsService.getqueryVersions()",queryInfo.getPageOffset(),queryInfo.getPageSize());
+            List<VersionsBO> queryVersionsjson=versionsService.getqueryVersions(queryInfo.getPageOffset(),queryInfo.getPageSize());
+            logService.result(queryVersionsjson);
+            String json=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(queryVersionsjson));
+            logService.end("VersionsController/queryVersions",json);
+            super.safeJsonPrint(response,json);
+            return;
+        }
     }
+
 
     /**
      * 删除
