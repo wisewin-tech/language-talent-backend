@@ -132,7 +132,16 @@ public class QuestionService {
     public Integer importQuestions(MultipartFile file, Integer userId) {
         int rows = 1;
         try {
-            Workbook wb = new XSSFWorkbook(file.getInputStream());
+            Workbook wb;
+            try {
+                wb = new XSSFWorkbook(file.getInputStream());
+            }catch (Exception e){
+                try {
+                    wb = new HSSFWorkbook(file.getInputStream());
+                }catch (Exception e1){
+                    return -1;
+                }
+            }
             //开始解析
             Sheet sheet = wb.getSheetAt(0);     //读取sheet 0
             for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {

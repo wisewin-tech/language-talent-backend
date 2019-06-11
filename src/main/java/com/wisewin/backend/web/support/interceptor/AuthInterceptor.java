@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import com.wisewin.backend.common.constants.SysConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
-import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.slf4j.Logger;

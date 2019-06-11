@@ -259,7 +259,11 @@ public class QuestionController extends BaseCotroller{
                 questionService.synchronizeQuestions(loginAdmin.getId());
                 String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(""));
                 super.safeJsonPrint(response, result);
-            }else{
+            }else if(row==-1){
+                questionService.deleteTest(loginAdmin.getId());
+                String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000010"));
+                super.safeJsonPrint(response, result);
+            }else {
                 questionService.deleteTest(loginAdmin.getId());
                 String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000006","第"+row+"行数据出现问题"));
                 super.safeJsonPrint(response, result);
