@@ -187,7 +187,7 @@ public class QuestionService {
             return "translate";
         } else if ("拼写".equals(type)) {
             return "write";
-        } else if ("听力和图文匹配".equals(type)) {
+        } else if ("听力和文本匹配".equals(type)) {
             return "hearingAndTest";
         } else if ("听音完成句子".equals(type)) {
             return "hearingAndSentence";

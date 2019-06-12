@@ -8,10 +8,10 @@
 </head>
 
 <body>
-<h1>文件上传</h1>
-<form method="post" action="/upFile/upFile" enctype="multipart/form-data">
-    选择一个文件:
-    <input type="file" name="uploadFile" />
+<h1>文件上传111</h1>
+<form method="post" action="/question/importQuestions" enctype="multipart/form-data">
+
+    <input type="file" name="file" />
     <br/><br/>
     <input type="submit" value="上传" />
 </form>

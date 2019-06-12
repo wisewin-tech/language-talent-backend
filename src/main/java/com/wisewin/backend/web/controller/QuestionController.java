@@ -251,7 +251,7 @@ public class QuestionController extends BaseCotroller{
         }
 
         String name = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        if (".xlsx".equals(name) ) {
+        if (".xlsx".equals(name) || ".xls".equals(name) ) {
             logService.call("questionService.importQuestions",file,loginAdmin.getId());
             Integer row=questionService.importQuestions(file,loginAdmin.getId());
             logService.result(row);
