@@ -109,7 +109,7 @@
     <update id="unfreezeGift">
         UPDATE  lt_gift SET
         status='not'
-        where id in
+        where status!='use' and id in
         <foreach collection="idArr" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>

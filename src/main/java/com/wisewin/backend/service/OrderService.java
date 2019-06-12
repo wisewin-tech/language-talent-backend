@@ -62,8 +62,11 @@ public class OrderService {
      */
     public Map<String,Object> queryOrderByCond(OrderParam orderParam){
         Map<String,Object> map=new HashMap<String, Object>();
+        System.err.println("=====================yes1=================");
         List<OrderBO> orderBOList=orderDao.queryOrderByCond(orderParam);//全部总订单
+        System.err.println("=====================yes2=================");
         Integer count=orderDao.queryOrderByCondCount(orderParam);//总订单总数
+        System.err.println("=====================yes3=================");
         for (OrderBO order:orderBOList) {
             List<OrderCoursesBO> orderCoursesBOList=orderDao.queryOrderCoursesByOrderId(order.getId());
             order.setOrderCoursesBOList(orderCoursesBOList);
