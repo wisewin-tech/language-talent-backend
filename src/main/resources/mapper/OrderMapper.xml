@@ -53,6 +53,7 @@
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND creation_date &lt;=#{beforeTime}</if>
         </where>
+        order by create_time desc
         <include refid="orderLimit" />
     </select>
     <sql id="orderLimit">
