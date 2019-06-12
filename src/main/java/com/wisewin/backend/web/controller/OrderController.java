@@ -68,21 +68,16 @@ public class OrderController extends BaseCotroller {
      */
     @RequestMapping("queryOrderByCond")
     public void queryOrderByCond(HttpServletRequest request, HttpServletResponse response, OrderParam orderParam){
-        System.err.println("=====================1=================");
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        System.err.println("=====================2=================");
         logService.startController(loginAdmin,request,orderParam);
         QueryInfo queryInfo = getQueryInfo(orderParam.getPageNo(),orderParam.getPageSize());
-        System.err.println("=====================3=================");
         if(queryInfo != null){
             orderParam.setPageNo(queryInfo.getPageOffset());
             orderParam.setPageSize(queryInfo.getPageSize());
         }
         logService.call("orderService.queryOrderByCond",orderParam);
-        System.err.println("=====================4=================");
         Map<String,Object> map = orderService.queryOrderByCond(orderParam);//记录信息
         logService.result(map);
-        System.err.println("=====================result=================");
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
         logService.end("Order/queryOrderByCond");
