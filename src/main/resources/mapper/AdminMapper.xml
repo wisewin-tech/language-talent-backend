@@ -392,16 +392,16 @@
           and  ca.role_id=#{roleId}
         </if>
         <if test="name!=null and name!=''">
-           AND ca.name LIKE concat(concat('%',#{name}),'%')
+           AND ca.name  LIKE '%${name}%'
         </if>
         <if test="mobile!=null and mobile!=''">
-           AND ca.phone_number=#{mobile}
+           AND ca.phone_number   LIKE '%${mobile}%'
         </if>
         <if test="email!=null and email!=''">
             AND ca.email=#{email}
         </if>
         <if test="roleName!=null and roleName!=''">
-            AND cr.role_name=#{roleName}
+            AND cr.role_name  LIKE '%${roleName}%'
         </if>
         <include refid="limit" />
     </select>
@@ -437,16 +437,16 @@
             and  ca.role_id=#{roleId}
         </if>
         <if test="name!=null and name!=''">
-            AND ca.name LIKE concat(concat('%',#{name}),'%')
+            AND ca.name  LIKE '%${name}%'
         </if>
-        <if test="phoneNumber!=null and phoneNumber!=''">
-            AND ca.phone_number=#{phoneNumber}
+        <if test="mobile!=null and mobile!=''">
+            AND ca.phone_number   LIKE '%${mobile}%'
         </if>
         <if test="email!=null and email!=''">
             AND ca.email=#{email}
         </if>
         <if test="roleName!=null and roleName!=''">
-            AND cr.role_name=#{roleName}
+            AND cr.role_name  LIKE '%${roleName}%'
         </if>
     </select>
 

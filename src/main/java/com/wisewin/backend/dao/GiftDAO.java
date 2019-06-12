@@ -39,6 +39,10 @@ public interface GiftDAO {
 
     List<GiftBO> queryGifByBatch(Long batch);
 
+    /**
+     * 查询该批次号下未兑换的礼品卡数量
+     */
+    int countBatch(Long batch);
 
 
 }

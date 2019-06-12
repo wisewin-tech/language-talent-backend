@@ -2,14 +2,15 @@ package com.wisewin.backend.test;
 
 
 
+import com.wisewin.backend.util.RandomUtils;
+import com.wisewin.backend.util.SnowflakeIdWorker;
+import org.apache.commons.lang.RandomStringUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Shibo on 17/1/5.
@@ -132,6 +133,21 @@ public class Test {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        OutputStream os = new FileOutputStream(new File(""));
+        Long wkId=Long.parseLong(RandomUtils.getRandomNumber(6));
+        Long wk=Long.parseLong(RandomUtils.getRandomNumber(6));
+        SnowflakeIdWorker snowflakeIdWorker=new SnowflakeIdWorker(wkId%31,wk%31);
+
+        Set<String>  set=new HashSet<>();
+        for(int i=0;i<700000;i++) {
+            Long number = snowflakeIdWorker.nextId();
+            String random = RandomStringUtils.random(8, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz");
+            System.out.println(random);
+            set.add(random);
+        }
+
+
+        System.out.println(set.size());
+
+
     }
 }

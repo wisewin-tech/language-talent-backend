@@ -119,4 +119,9 @@
        SELECT cardnumber,`value`,exchangeyard,starttime,finishtime ,batch_number  FROM `lt_gift`
         WHERE batch_number=#{batch}  AND `status`='not'
     </select>
+
+    <select id="countBatch"  parameterType="java.lang.Long"  resultType="int" >
+       SELECT  count(id)  FROM `lt_gift`
+        WHERE batch_number=#{batch}  AND `status`='not'
+    </select>
 </mapper>

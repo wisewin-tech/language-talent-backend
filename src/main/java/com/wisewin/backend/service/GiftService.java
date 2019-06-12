@@ -8,6 +8,7 @@ import com.wisewin.backend.entity.param.GiftParam;
 import com.wisewin.backend.util.IDBuilder;
 import com.wisewin.backend.util.RandomUtils;
 import com.wisewin.backend.util.SnowflakeIdWorker;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -61,13 +62,15 @@ public class GiftService {
         Long wkId=Long.parseLong(RandomUtils.getRandomNumber(6));
         Long wk=Long.parseLong(RandomUtils.getRandomNumber(6));
         SnowflakeIdWorker  snowflakeIdWorker=new SnowflakeIdWorker(wkId%31,wk%31);
+
         for (int i = 0; i < num; i++) {
             Long number = snowflakeIdWorker.nextId();
             GiftParam gif = new GiftParam();
             //设置卡号
             gif.setCardnumber(number.toString());
             //设置兑换码
-            gif.setExchangeyard(Long.toHexString(number));
+            String random = RandomStringUtils.random(8, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz");
+            gif.setExchangeyard(random);
             //设置时间戳为批次号
             gif.setBatchNumber(format);
             //设置title
@@ -145,5 +148,13 @@ public class GiftService {
         ouputStream.flush();
         ouputStream.close();
 
+    }
+
+
+    /**
+     * 未兑换的礼品卡数量
+     */
+    public int countBatch(Long batch){
+        return giftDAO.countBatch(batch);
     }
 }

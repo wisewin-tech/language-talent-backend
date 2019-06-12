@@ -96,6 +96,13 @@ public class GiftController extends BaseCotroller {
             return;
         }
 
+        if(giftParam.getValue()<=0){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000011"));
+            super.safeJsonPrint(response, json);
+            logService.end("/gift/addGift",json);
+            return;
+        }
+
         if (StringUtils.isEmpty(giftParam.getTitle())||giftParam.getValue()==null||
                 StringUtils.isEmpty(giftParam.getStarttime())||
                 StringUtils.isEmpty(giftParam.getFinishtime())){
@@ -184,6 +191,13 @@ public class GiftController extends BaseCotroller {
 
         if(batch==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+            super.safeJsonPrint(response , result);
+            logService.end("/gift/deriveGift",result);
+            return;
+        }
+
+        if(giftService.countBatch(batch)<1){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000012")) ;
             super.safeJsonPrint(response , result);
             logService.end("/gift/deriveGift",result);
             return;

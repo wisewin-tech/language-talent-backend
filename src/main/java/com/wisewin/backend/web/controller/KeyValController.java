@@ -72,7 +72,7 @@ public class KeyValController extends BaseCotroller {
      * @param request
      */
     @RequestMapping("/updateVal")
-    public void updateVal(Integer id,String values,String comment,HttpServletResponse response, HttpServletRequest request) {
+    public void updateVal(Integer id,Integer values,String comment,HttpServletResponse response, HttpServletRequest request) {
         AdminBO adminBO = super.getLoginAdmin(request);
         logService.startController(adminBO,request,id,values,comment);
         //获取管理员id
