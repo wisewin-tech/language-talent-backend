@@ -66,13 +66,17 @@ public class DiscoverController extends BaseCotroller {
         //用于模糊查询
         DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         condition.put("type", type);
-        condition.put("createTime", format1.format(createTime));
+        if(createTime!=null&&!createTime.equals("")){
+            condition.put("createTime", format1.format(createTime));
+        }
         condition.put("title", title);
         condition.put("yes", "yes");
         Map<String, Object> countMap = new HashMap<String, Object>();
         countMap.put("type", type);
+        if(createTime!=null&&!createTime.equals("")){
+            countMap.put("createTime", format1.format(createTime));
+        }
 
-        countMap.put("createTime", format1.format(createTime));
         countMap.put("title", title);
         countMap.put("yes", "yes");
         Integer count = discoverService.countDiscover(countMap);
