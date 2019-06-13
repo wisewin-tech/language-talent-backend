@@ -73,4 +73,6 @@ public interface DiscoverDAO {
      *  添加 线下活动类型 activity
      */
     void  insertActivity(DiscoverBO discoverBO);
+
+    void  insetskip(@Param("id")Integer id,@Param("skip")String skip);
 }

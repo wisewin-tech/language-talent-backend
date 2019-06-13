@@ -42,7 +42,7 @@
                 </if>
                 and  `show` =  #{yes}
         </where>
-	ORDER  BY  stick  DESC ,create_time desc
+        ORDER  BY  stick  DESC ,update _time desc
         <include refid="limit" />
     </select>
 

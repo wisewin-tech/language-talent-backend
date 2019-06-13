@@ -9,6 +9,8 @@ import com.wisewin.backend.service.OrderService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  *
  * 订单
@@ -26,6 +29,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/Order")
 public class OrderController extends BaseCotroller {
+
+    static final Logger log = LoggerFactory.getLogger(OrderController.class);
 
     @Resource
     OrderService orderService;
@@ -68,6 +73,7 @@ public class OrderController extends BaseCotroller {
      */
     @RequestMapping("queryOrderByCond")
     public void queryOrderByCond(HttpServletRequest request, HttpServletResponse response, OrderParam orderParam){
+        log.info("start======================================进入queryOrderByCond");
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,orderParam);
         QueryInfo queryInfo = getQueryInfo(orderParam.getPageNo(),orderParam.getPageSize());
@@ -80,8 +86,10 @@ public class OrderController extends BaseCotroller {
         logService.result(map);
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
+        log.info("return:{}",json);
         logService.end("Order/queryOrderByCond");
         super.safeJsonPrint(response,json);
+        log.info("end======================================进入queryOrderByCond");
     }
 
     /**

@@ -71,34 +71,38 @@ public class DiscoverService {
         discoverBO.setShow("yes");
         discoverDAO.insertJournalism(discoverBO);
         String url= SystemConfig.getString("domain_name")+"/discover.html?id="+discoverBO.getId();
-        discoverBO.setSkip(url);
-        discoverDAO.updateActivity(discoverBO);
+        discoverDAO.insetskip(discoverBO.getId(),url);
+        //discoverDAO.updateActivity(discoverBO);
     }
 
     /**
-     * 修改 视频类型 curriculum
+     * 添加 视频类型 curriculum
      */
     public  void  insertCurriculum(DiscoverBO discoverBO){
         discoverBO.setBrowse(0);
         discoverBO.setLikenum(0);
         discoverBO.setShow("yes");
         discoverDAO.insertCurriculum(discoverBO);
+        String url= SystemConfig.getString("domain_name")+"/discover.html?id="+discoverBO.getId();
+        discoverDAO.insetskip(discoverBO.getId(),url);
     }
 
     /**
      * 添加 线下活动类型 activity
      */
     public void  insertActivity(DiscoverBO discoverBO){
-        discoverBO.setSkip( SystemConfig.getString("domain_name")+"/Discover/queryDiscoveractivity?id="+discoverBO.getId());
+
         discoverBO.setBrowse(0);
         discoverBO.setLikenum(0);
         discoverBO.setParticipation(0);
         discoverBO.setShow("yes");
         discoverBO.setStick("no");
+        //discoverBO.setSkip( SystemConfig.getString("domain_name")+"/activity.html?id="+discoverBO.getId());
+        //discoverBO.setSkip(url);
         discoverDAO.insertActivity(discoverBO);
-        String url= SystemConfig.getString("domain_name")+"/Discover/queryfindDiscover?id="+discoverBO.getId();
-        discoverBO.setSkip(url);
-        discoverDAO.updateActivity(discoverBO);
+        String url= SystemConfig.getString("domain_name")+"/activity.html?id="+discoverBO.getId();
+        discoverDAO.insetskip(discoverBO.getId(),url);
+       //discoverDAO.updateActivity(discoverBO);
     }
 
 }

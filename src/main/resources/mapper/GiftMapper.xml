@@ -17,7 +17,7 @@
 
             <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
             <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
-            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber!='' "> AND `cardnumber`=#{giftParam.cardnumber}</if>
+            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber !='' "> AND `cardnumber`like '%${giftParam.cardnumber}%'</if>
             <if test="giftParam.value!=null and  giftParam.value!='' "> AND `value`=#{giftParam.value}</if>
             <if test="giftParam.batchNumber!=null and  giftParam.batchNumber!='' ">AND `batch_number`=#{giftParam.batchNumber}</if>
             <if test="giftParam.status!=null and  giftParam.status!='' ">AND `status`=#{giftParam.status}</if>
