@@ -682,7 +682,7 @@ public class AdminController extends BaseCotroller {
             map.put("mobile",adminParam.getMobile());
         }
         if(!StringUtils.isEmpty(adminParam.getName())){
-            map.put("name", adminParam.getName());
+            map.put("userName", adminParam.getName());
         }
         if(!StringUtils.isEmpty(String.valueOf(adminParam.getId()))){
             map.put("id", adminParam.getId());

@@ -20,7 +20,7 @@
             <if test="userId!=null ">AND ltc.`user_id`=#{userId}</if>
             <if test="send!=null and send!='' "> AND ltc.`send`=#{send} </if>
             <if test="status!=null and status!=''"> AND ltc.`status`=#{status}</if>
-            <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`=#{mobile}</if>
+            <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`  LIKE  '%${mobile}%' </if>
             <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
         </where>
         <include refid="limit" />

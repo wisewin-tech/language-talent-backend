@@ -247,7 +247,7 @@ public interface AdminDAO {
      * @param map
      * @return
      */
-    List<AdminDTO> getAdmin(Map map);
+    List<AdminDTO> getAdmin(Map<String,Object> map);
 
     /**
      * 查询用户信息不使用分页
@@ -263,7 +263,7 @@ public interface AdminDAO {
      * @param map
      * @return 用户总数
      */
-    Integer getAdminCountByMap(Map map);
+    Integer getAdminCountByMap(Map<String,Object> map);
 
     /**
      * 根据角色名称查找对应的角色id
