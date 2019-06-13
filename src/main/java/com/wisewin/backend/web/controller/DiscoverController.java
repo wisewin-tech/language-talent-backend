@@ -63,18 +63,22 @@ public class DiscoverController extends BaseCotroller {
             condition.put("pageOffset", queryInfo.getPageOffset());
             condition.put("pageSize", queryInfo.getPageSize());
         }
+        System.err.println(createTime);
         //用于模糊查询
-        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        //DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.err.println(createTime);
         condition.put("type", type);
-        if(createTime!=null&&!createTime.equals("")){
-            condition.put("createTime", format1.format(createTime));
+        if(!StringUtils.isEmpty(createTime)){
+            condition.put("createTime", createTime);
         }
+
         condition.put("title", title);
         condition.put("yes", "yes");
         Map<String, Object> countMap = new HashMap<String, Object>();
         countMap.put("type", type);
-        if(createTime!=null&&!createTime.equals("")){
-            countMap.put("createTime", format1.format(createTime));
+
+        if(!StringUtils.isEmpty(createTime)){
+            countMap.put("createTime", createTime);
         }
 
         countMap.put("title", title);

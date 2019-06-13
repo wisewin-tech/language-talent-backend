@@ -42,7 +42,7 @@
                 </if>
                 and  `show` =  #{yes}
         </where>
-        ORDER  BY  stick  DESC ,update _time desc
+        ORDER  BY  stick  DESC ,update_time desc
         <include refid="limit" />
     </select>
 
@@ -266,6 +266,10 @@ insert into language_talent.lt_discover
 	#{skip},
         #{ticket}
 	);
-
     </insert>
+
+
+    <update id="insetskip">
+        update lt_discover skip = #{skip} where id = #{id}
+    </update>
 </mapper>

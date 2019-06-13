@@ -20,7 +20,7 @@ public class RedissonHandler {
 
     private final String port = "6379";
 
-    private final String ip ="r-2zec622a372f0b04.redis.rds.aliyuncs.com";// "r-2zec622a372f0b04.redis.rds.aliyuncs.com";//"wisewin-tech.com";
+    private final String ip ="localhost";// "r-2zec622a372f0b04.redis.rds.aliyuncs.com";//"wisewin-tech.com";
 
     private final String password = null;//"sunshibo1!";
 

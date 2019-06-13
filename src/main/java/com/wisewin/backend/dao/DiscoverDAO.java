@@ -13,7 +13,7 @@ public interface DiscoverDAO {
     /**
      * 发现列表
      */
-    List<DiscoverBO> queryListDiscoverBO( Map<String,Object> map);
+    List<DiscoverBO> queryListDiscoverBO(Map<String,Object> map);
 
     /**
      * 批量删除
