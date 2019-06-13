@@ -92,7 +92,7 @@ public class CourseController extends BaseCotroller {
 
        if(new BigDecimal("0").compareTo(courseBO.getPrice())==1){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000013"));
-           logService.end("Language/addLanguage",json);
+           logService.end("/course/addCourse",json);
            super.safeJsonPrint(response, json);
            return;
        }
