@@ -270,6 +270,6 @@ insert into language_talent.lt_discover
 
 
     <update id="insetskip">
-        update lt_discover skip = #{skip} where id = #{id}
+        update lt_discover  set skip = #{skip} where id = #{id}
     </update>
 </mapper>
