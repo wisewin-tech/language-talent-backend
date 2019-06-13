@@ -159,7 +159,7 @@ public class SpecialClassController extends BaseCotroller {
     public void addSpecialClass(HttpServletRequest request, HttpServletResponse response,SpecialClassBO specialClassBO){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,specialClassBO);
-        if(specialClassBO==null||specialClassBO.getTitle()==null){
+        if(specialClassBO==null||specialClassBO.getTitle()==null||specialClassBO.getTitle().equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             logService.end("SpecialClass/addSpecialClass",languagejson);
             super.safeHtmlPrint(response,languagejson);

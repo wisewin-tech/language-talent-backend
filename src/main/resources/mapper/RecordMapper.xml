@@ -17,6 +17,7 @@
             <if test="afterTime!=null and afterTime!=''"> AND create_time &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND create_time &lt;=#{beforeTime}</if>
         </where>
+        order by create_time desc
         <include refid="recordLimit" />
     </select>
 

@@ -487,7 +487,7 @@ public class AdminService {
      * @param map
      * @return
      */
-    public List<AdminDTO> getAdmin(Map map){
+    public List<AdminDTO> getAdmin(Map<String,Object> map){
         return adminDAO.getAdmin(map);
     }
 
@@ -496,7 +496,7 @@ public class AdminService {
      * @param map
      * @return
      */
-    public Integer getAdminCountByMap(Map map){
+    public Integer getAdminCountByMap(Map<String,Object> map){
         return adminDAO.getAdminCountByMap(map);
     }
 

@@ -67,9 +67,9 @@
 
         UPDATE language_talent.lt_discover
         SET
-
+        update_time = now()
         <if test="stick != null and stick != ''">
-            `stick` =  #{stick}
+            ,`stick` =  #{stick}
         </if>
 
         where id in

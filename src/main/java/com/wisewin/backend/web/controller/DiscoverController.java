@@ -64,7 +64,7 @@ public class DiscoverController extends BaseCotroller {
         Map<String, Object> condition = new HashMap<String, Object>();
         if (queryInfo != null) {
             //把pageOffset 页数,pageSize每页的条数放入map集合中
-            //condition.put("pageOffset", queryInfo.getPageOffset());
+            condition.put("pageOffset", queryInfo.getPageOffset());
             condition.put("pageSize", queryInfo.getPageSize());
         }
         //用于模糊查询
@@ -72,8 +72,9 @@ public class DiscoverController extends BaseCotroller {
         //System.err.println(createTime);
         condition.put("type", type);
         if(!StringUtils.isEmpty(createTime)){
+            System.out.println(createTime.replace("/", "-"));
             //condition.put("createTime", format1.format(createTime));
-            condition.put("createTime", createTime);
+            condition.put("createTime", createTime.replace("/", "-"));
         }
 
         condition.put("title", title);
@@ -82,8 +83,9 @@ public class DiscoverController extends BaseCotroller {
         countMap.put("type", type);
 
         if(!StringUtils.isEmpty(createTime)){
+            System.out.println(createTime.replace("/", "-"));
             //countMap.put("createTime", format1.format(createTime));
-            countMap.put("createTime", createTime);
+            countMap.put("createTime", createTime.replace("/", "-"));
         }
 
         countMap.put("title", title);

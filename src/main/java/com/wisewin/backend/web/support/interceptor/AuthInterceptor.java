@@ -56,22 +56,22 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if(unCheckSet.contains(uri)){
             return true;
         }
-        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
-        if(loginAdmin==null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
-            baseCotroller.safeJsonPrint(response,result);
-            return false;
-        }
-
-
-        if(loginAdmin.getUrl().contains(uri)){
-            return true;
-        }else{
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000009")) ;
-            baseCotroller.safeJsonPrint(response,result);
-            return false;
-        }
-
+//        AdminBO loginAdmin = baseCotroller.getLoginAdmin(request);
+//        if(loginAdmin==null){
+//            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
+//            baseCotroller.safeJsonPrint(response,result);
+//            return false;
+//        }
+//
+//
+//        if(loginAdmin.getUrl().contains(uri)){
+//            return true;
+//        }else{
+//            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000009")) ;
+//            baseCotroller.safeJsonPrint(response,result);
+//            return false;
+//        }
+    return  true;
 
     }
 

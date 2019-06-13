@@ -141,7 +141,7 @@ public class BannerController extends BaseCotroller {
     public void addBanner(HttpServletResponse response, HttpServletRequest request,BannerBO bannerBO){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,bannerBO);
-        if(bannerBO==null||bannerBO.getTitle()==null){
+        if(bannerBO==null||bannerBO.getTitle()==null||bannerBO.getTitle().equals("")||bannerBO.getPictureUrl()==null||bannerBO.getPictureUrl().equals("")||bannerBO.getSkipUrl()==null||bannerBO.getSkipUrl().equals("")){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             logService.end("/Banner/addBanner",languagejson);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -82,6 +83,13 @@ public class LanguageController extends BaseCotroller {
             super.safeJsonPrint(response, json);
             return;
         }
+        if(new BigDecimal("0").compareTo(languageParam.getPrice())==1){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000013"));
+            logService.end("Language/addLanguage",json);
+            super.safeJsonPrint(response, json);
+            return;
+        }
+
         logService.call("languageService.addLanguage",languageParam,loginAdmin.getId());
         boolean flag = languageService.addLanguage(languageParam, loginAdmin.getId());
         logService.result(flag);

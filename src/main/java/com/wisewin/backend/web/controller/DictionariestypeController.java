@@ -139,44 +139,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
 
-        //如果查询出来的值和赋值一样就像下，否则退出
-        logService.call("dictionariestypeService.getfindDictionariestypeid", param.getId(), param.getKeyName(), param.getValueName());
-        DictionariestypeBO dictionariestypeBO = dictionariestypeService.getfindDictionariestypeid(param.getId(), param.getKeyName(), param.getValueName());
-        if (dictionariestypeBO.getKeyName().equals(param.getKeyName())) {
-            logService.call("dictionariestypeBO.getValueName().equals(param.getValueName())", "");
-            if (dictionariestypeBO.getValueName().equals(param.getValueName())) {
-                logService.call("dictionariestypeService.getupdateDictionariestype", param.getId(), param.getKeyName(), param.getRank(), id, param.getValueName());
-                boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), id, param.getValueName());
-                if (updateDictionariestypejson) {
-                    String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
-                    super.safeJsonPrint(response, languagejson);
-                    logService.end("/Dictionariestype/updateDictionariestype", languagejson);
-                    return;
-                }
-            }
-        }
-        //判断数据库是否有同样的数据
-        if (!dictionariestypeBO.getValueName().equals(param.getKeyName())) {
-            logService.call("dictionariestypeService.getfindDictionariestypekeyName", param.getKeyName());
-            int dictionariestype = dictionariestypeService.getfindDictionariestypekeyName(param.getKeyName());
-            if (dictionariestype != 0) {
-                String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-                super.safeJsonPrint(response, json);
-                logService.end("/Dictionariestype/updateDictionariestype", json);
-                return;
-            }
-        }
 
-        if (!dictionariestypeBO.getKeyName().equals(param.getValueName())) {
-            logService.call("dictionariestypeService.getfindDictionariestype", param.getValueName());
-            int findictionaries = dictionariestypeService.getfindDictionariestype(param.getValueName());
-            if (findictionaries != 0) {
-                String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000003"));
-                super.safeJsonPrint(response, json);
-                logService.end("/Dictionariestype/updateDictionariestype", json);
-                return;
-            }
-        }
         //进行字典类型表内容修改
         logService.call("dictionariestypeService.getupdateDictionariestype", param.getId(), param.getKeyName(), param.getRank(), param.getUpdateNameId(), param.getValueName());
         boolean updateDictionariestypejson = dictionariestypeService.getupdateDictionariestype(param.getId(), param.getKeyName(), param.getRank(), param.getUpdateNameId(), param.getValueName());

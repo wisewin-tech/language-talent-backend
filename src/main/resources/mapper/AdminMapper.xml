@@ -391,8 +391,8 @@
         <if test="roleId!=null and roleId!=''">
           and  ca.role_id=#{roleId}
         </if>
-        <if test="name!=null and name!=''">
-           AND ca.name  LIKE '%${name}%'
+        <if test="userName!=null and userName!=''">
+           AND ca.name  LIKE '%${userName}%'
         </if>
         <if test="mobile!=null and mobile!=''">
            AND ca.phone_number   LIKE '%${mobile}%'
@@ -436,10 +436,10 @@
         <if test="roleId!=null and roleId!=''">
             and  ca.role_id=#{roleId}
         </if>
-        <if test="name!=null and name!=''">
-            AND ca.name  LIKE '%${name}%'
+        <if test="userName!=null and userName!=''">
+            AND ca.name  LIKE  '%${userName}%'
         </if>
-        <if test="mobile!=null and mobile!=''">
+            <if test="mobile!=null and mobile!=''">
             AND ca.phone_number   LIKE '%${mobile}%'
         </if>
         <if test="email!=null and email!=''">
