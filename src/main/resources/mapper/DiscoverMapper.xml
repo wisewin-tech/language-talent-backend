@@ -94,7 +94,7 @@
             SET
             title = #{title} ,  <!--标题-->
             dc_updatename = #{dcUpdatename} , <!--修改人后端录入-->
-            update_time = #{updateTime} , <!--修改时间后台录入-->
+            update_time = now() , <!--修改时间后台录入-->
             thumbnail = #{thumbnail} , <!--缩略图url-->
             content = #{content} , <!--内容-->
             description=#{description},
@@ -110,7 +110,7 @@
                     SET
                     title = #{title} , <!--标题-->
                     dc_updatename = #{dcUpdatename} , <!--修改人后台录入-->
-                    update_time = #{updateTime} , <!--修改时间后台录入-->
+                    update_time = now() , <!--修改时间后台录入-->
                     thumbnail = #{thumbnail} , <!--缩略图url-->
                     video = #{video} , <!--视频url-->
                     content =  #{content} , <!--内容-->
@@ -128,7 +128,7 @@
             SET
             title = #{title} , <!--标题-->
             dc_updatename = #{dcUpdatename} , <!--修改人后台录入-->
-            update_time = #{updateTime} , <!--修改时间后台录入-->
+            update_time = now() , <!--修改时间后台录入-->
             thumbnail = #{thumbnail} , <!--缩略图url-->
             content = #{content} , <!--内容-->
             `type` = #{type} ,  <!--类型-->
@@ -272,4 +272,9 @@ insert into language_talent.lt_discover
     <update id="insetskip">
         update lt_discover  set skip = #{skip} where id = #{id}
     </update>
+
+
+    <select id="queryDiscoverById" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.DiscoverBO">
+        select * from lt_discover where id = #{id}
+    </select>
 </mapper>

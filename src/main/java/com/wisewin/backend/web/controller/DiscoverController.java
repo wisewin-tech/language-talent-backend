@@ -52,23 +52,27 @@ public class DiscoverController extends BaseCotroller {
      */
     @RequestMapping(value = "/discoverList", method = RequestMethod.POST)
     public void discoverList(HttpServletRequest request, HttpServletResponse response, Integer pageNo, Integer pageSize, String type, String createTime, String title) {
+        log.info("start==============================================================com.wisewin.backend.web.controller.DiscoverController.discoverList======================================");
+        log.info("参数type:{}",type);
+        log.info("参数createTime:{}",createTime);
+        log.info("参数title:{}",title);
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin,request,pageNo,pageSize,type,createTime,title);
+        //logService.startController(loginAdmin,request,pageNo,pageSize,type,createTime,title);
         //封装limit条件,pageNo改为页数
         QueryInfo queryInfo = getQueryInfo(pageNo, pageSize);
         //创建一个用于封装sql条件的map集合
         Map<String, Object> condition = new HashMap<String, Object>();
         if (queryInfo != null) {
             //把pageOffset 页数,pageSize每页的条数放入map集合中
-            condition.put("pageOffset", queryInfo.getPageOffset());
+            //condition.put("pageOffset", queryInfo.getPageOffset());
             condition.put("pageSize", queryInfo.getPageSize());
         }
-        System.err.println(createTime);
         //用于模糊查询
         //DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.err.println(createTime);
+        //System.err.println(createTime);
         condition.put("type", type);
         if(!StringUtils.isEmpty(createTime)){
+            //condition.put("createTime", format1.format(createTime));
             condition.put("createTime", createTime);
         }
 
@@ -78,22 +82,25 @@ public class DiscoverController extends BaseCotroller {
         countMap.put("type", type);
 
         if(!StringUtils.isEmpty(createTime)){
+            //countMap.put("createTime", format1.format(createTime));
             countMap.put("createTime", createTime);
         }
 
         countMap.put("title", title);
         countMap.put("yes", "yes");
         Integer count = discoverService.countDiscover(countMap);
-        logService.call("discoverService.queryListDiscoverBO",condition);
+       // logService.call("discoverService.queryListDiscoverBO",condition);
         List<DiscoverBO> list = discoverService.queryListDiscoverBO(condition);
         DiscoverDTO jsonString = new DiscoverDTO();
         jsonString.setList(list);
         jsonString.setCount(count);
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonString));
-
         super.safeJsonPrint(response, json);
-        logService.end("/discover/discoverList",json);
+        log.info("return:{}",json);
+        log.info("end==============================================================com.wisewin.backend.web.controller.DiscoverController.discoverList======================================");
+        //logService.end("/discover/discoverList",json);
+        return;
     }
 
     /**
@@ -320,6 +327,27 @@ public class DiscoverController extends BaseCotroller {
             logService.end("/discover/insertDiscover",result);
             return;
         }
+    }
+
+
+
+    @RequestMapping("/queryDiscoverById")
+    public void queryDiscoverById(HttpServletRequest request, HttpServletResponse response,Integer id){
+        AdminBO adminBO = super.getLoginAdmin(request);
+        if (adminBO == null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004"));
+            super.safeJsonPrint(response, result);
+            logService.end("/discover/insertDiscover",result);
+            return;
+        }
+        if(id == null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeJsonPrint(response, result);
+        }
+        DiscoverBO discoverBO  = discoverService.queryDiscoverById(id);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(discoverBO));
+        super.safeJsonPrint(response, json);
+        return;
     }
 }
 
