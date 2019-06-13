@@ -9,6 +9,7 @@ import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -34,8 +35,8 @@ public class UpFileController extends BaseCotroller {
      * @param flag
      * @throws Exception
      */
-    @RequestMapping("/upFile")
-    public void upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile file,Boolean flag)
+    @RequestMapping(value = "/upFile" ,headers = "content-type=multipart/*" , method = RequestMethod.POST)
+    public void upFile( MultipartFile file,HttpServletRequest request, HttpServletResponse response,Boolean flag)
             throws Exception {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,file,flag);
