@@ -58,7 +58,7 @@ public class CertificateController extends BaseCotroller {
         condition.put("logistics",logistics);
         //查询用户证书
         List<CertificateResultBO> certificateResultBOS = certificateService.selectUser(condition);
-        int size = certificateResultBOS.size();
+        int size = certificateService.selectCertificateCount(condition);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("certificateResultBOS",certificateResultBOS);
         map.put("count",size);

@@ -13,6 +13,11 @@ public interface CertificateDAO {
      * 查询用户证书信息
      */
     List<CertificateResultBO> selectUser(Map<String,Object> map);
+
+    /**
+     * 查询用户证书数量
+     */
+    Integer selectCertificateCount(Map<String,Object> map);
     /**
      * 查询用户证书信息
      */

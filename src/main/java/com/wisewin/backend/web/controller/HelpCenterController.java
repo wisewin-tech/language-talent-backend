@@ -53,7 +53,7 @@ public class HelpCenterController extends BaseCotroller {
     public void insertHelpCenter(HelpCenterBO helpCenterBO, HttpServletResponse response, HttpServletRequest request) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,helpCenterBO);
-        if (helpCenterBO==null) {
+        if (helpCenterBO==null||StringUtils.isEmpty(helpCenterBO.getContent())) {
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！"));
             super.safeJsonPrint(response, result);
             logService.end("/helpCenter/insertHelpCenter",result);

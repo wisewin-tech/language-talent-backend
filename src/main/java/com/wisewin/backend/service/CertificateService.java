@@ -29,6 +29,13 @@ public class CertificateService {
 
         return certificateDAO.selectUser(map);
     }
+
+    /**
+     * 查询用户证书数量
+     */
+     public Integer selectCertificateCount(Map<String,Object> map){
+        return certificateDAO.selectCertificateCount(map);
+    }
     /**
      * 修改发送状态
      * @param id

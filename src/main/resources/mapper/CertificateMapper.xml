@@ -5,7 +5,7 @@
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.CertificateDAO">
 
-
+<!--证书发送列表-->
     <select id="selectUser" parameterType="java.util.Map"
             resultType="com.wisewin.backend.entity.bo.CertificateResultBO">
         SELECT
@@ -16,6 +16,25 @@
         lt_certificate AS ltc
     LEFT JOIN lt_user AS ltu ON ltc.user_id=ltu.id
     LEFT JOIN lt_course AS `course` ON ltc.course_id=course.id
+        <where>
+            <if test="userId!=null ">AND ltc.`user_id`=#{userId}</if>
+            <if test="send!=null and send!='' "> AND ltc.`send`=#{send} </if>
+            <if test="status!=null and status!=''"> AND ltc.`status`=#{status}</if>
+            <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`=#{mobile}</if>
+            <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
+        </where>
+        <include refid="limit" />
+    </select>
+
+
+    <!--证书发放列表数量-->
+    <select id="selectCertificateCount" parameterType="java.util.Map"
+            resultType="java.lang.Integer">
+        SELECT count(ltc.id)
+        FROM
+        lt_certificate AS ltc
+        LEFT JOIN lt_user AS ltu ON ltc.user_id=ltu.id
+        LEFT JOIN lt_course AS `course` ON ltc.course_id=course.id
         <where>
             <if test="userId!=null ">AND ltc.`user_id`=#{userId}</if>
             <if test="send!=null and send!='' "> AND ltc.`send`=#{send} </if>
