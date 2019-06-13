@@ -38,7 +38,7 @@ public class SequenceController extends BaseCotroller {
             return;
         }
         logService.call("StsUtil.getStsMessage",loginUser.getId().toString());
-        Map<String, String> stsMessage = StsUtil.getStsMessage(loginUser.getId().toString());
+        Map<String, String> stsMessage = StsUtil.getStsMessage(loginUser.getId().toString()+"AdminPaly");
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(stsMessage));
         logService.end("sequence/get",json);
         super.safeJsonPrint(response, json);
