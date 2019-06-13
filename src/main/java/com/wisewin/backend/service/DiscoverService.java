@@ -105,4 +105,14 @@ public class DiscoverService {
        //discoverDAO.updateActivity(discoverBO);
     }
 
+
+    /**
+     * 单表查
+     * @param id
+     * @return
+     */
+    public DiscoverBO queryDiscoverById(Integer id){
+        return discoverDAO.queryDiscoverById(id);
+    }
+
 }

@@ -75,4 +75,12 @@ public interface DiscoverDAO {
     void  insertActivity(DiscoverBO discoverBO);
 
     void  insetskip(@Param("id")Integer id,@Param("skip")String skip);
+
+    /**
+     * 单表查
+     * @param id
+     * @return
+     */
+    DiscoverBO queryDiscoverById(Integer id);
+
 }
