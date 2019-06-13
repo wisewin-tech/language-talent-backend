@@ -146,7 +146,7 @@ public class SpecialController extends BaseCotroller {
     public void addSpecial(HttpServletRequest request, HttpServletResponse response,SpecialBO specialBO) throws IOException {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,specialBO);
-        if(specialBO==null||specialBO.getTitle()==null){
+        if(specialBO==null||specialBO.getTitle()==null||specialBO.getContent()==null||specialBO.getDescribe()==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             logService.end("Special/addSpecial",languagejson);
             super.safeHtmlPrint(response,languagejson);

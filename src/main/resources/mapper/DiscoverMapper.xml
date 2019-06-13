@@ -30,7 +30,6 @@
     likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip,way,videoImg
 	FROM
 	language_talent.lt_discover
-
             <where>
                 <if test="type != '' and type != null">
                     `type`   LIKE  CONCAT('%',#{type},'%')
@@ -83,7 +82,7 @@
 
     <select id="queryDiscoverBO" resultType="com.wisewin.backend.entity.bo.DiscoverBO" parameterType="java.lang.String">
          SELECT id, title, browse, dc_name as dcName, create_time as createTime, dc_updatename as dcUpdatename,
-       update_time as updateTime, thumbnail, video, content, `type`,
+       update_time as updateTime, thumbnail, video, content, `type`,description,
         likenum, participation, activitytime, activitysite, phone, ticket, priority, stick, `show`, skip,way,videoImg
         FROM
         language_talent.lt_discover where id = #{id}
@@ -98,6 +97,7 @@
             update_time = #{updateTime} , <!--修改时间后台录入-->
             thumbnail = #{thumbnail} , <!--缩略图url-->
             content = #{content} , <!--内容-->
+            description=#{description},
             `type` = #{type} , <!--类型-->
             stick =  #{stick}, <!--修改置顶url-->
             way = #{way} <!--排序-->
@@ -114,6 +114,7 @@
                     thumbnail = #{thumbnail} , <!--缩略图url-->
                     video = #{video} , <!--视频url-->
                     content =  #{content} , <!--内容-->
+                    description=#{description},
                     `TYPE` = #{type} , <!--类型-->
                     stick =  #{stick}, <!--置顶-->
                     way = #{way} , <!--排序-->
@@ -158,8 +159,8 @@ INSERT INTO language_talent.lt_discover
     likenum, <!--喜欢人数后台录入-->
 	stick, <!--置顶-->
 	`SHOW`, <!--是否显示后台录入默认yes-->
-	way <!--展示方式-->
-
+	way, <!--展示方式-->
+        description
 	)
 	VALUES
 	(#{title},
@@ -174,7 +175,8 @@ INSERT INTO language_talent.lt_discover
     #{likenum},
 	#{stick},
 	#{show},
-	#{way}
+	#{way},
+    #{description}
 
 	);
     </insert>
@@ -197,7 +199,8 @@ INSERT INTO language_talent.lt_discover
             `SHOW`, <!--显示后台录入默认yes-->
             skip, <!--跳转url-->
             way, <!--排序-->
-            videoImg <!--存放视频封面url-->
+            videoImg, <!--存放视频封面url-->
+        description
             )
             VALUES
             (#{title},
@@ -215,7 +218,8 @@ INSERT INTO language_talent.lt_discover
             #{show},
             #{skip},
             #{way},
-            #{videoImg}
+            #{videoImg},
+        #{description}
             );
 
     </insert>

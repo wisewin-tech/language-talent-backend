@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +63,16 @@ public class DiscoverController extends BaseCotroller {
             condition.put("pageOffset", queryInfo.getPageOffset());
             condition.put("pageSize", queryInfo.getPageSize());
         }
+        //用于模糊查询
+        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         condition.put("type", type);
-        condition.put("createTime", createTime);
+        condition.put("createTime", format1.format(createTime));
         condition.put("title", title);
         condition.put("yes", "yes");
         Map<String, Object> countMap = new HashMap<String, Object>();
         countMap.put("type", type);
-        countMap.put("createTime", createTime);
+
+        countMap.put("createTime", format1.format(createTime));
         countMap.put("title", title);
         countMap.put("yes", "yes");
         Integer count = discoverService.countDiscover(countMap);

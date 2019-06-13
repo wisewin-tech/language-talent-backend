@@ -55,6 +55,17 @@ public class DiscoverBO extends BaseModel {
     //存放视频封面url
     private String  videoImg;
 
+    //描述
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Integer getId() {
         return id;
     }
