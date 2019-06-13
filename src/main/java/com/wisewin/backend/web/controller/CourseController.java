@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,12 +83,20 @@ public class CourseController extends BaseCotroller {
    public void addCourse(HttpServletRequest request,HttpServletResponse  response,CourseBO  courseBO){
        AdminBO loginAdmin = super.getLoginAdmin(request);
        logService.startController(loginAdmin,request,courseBO);
-       if(StringUtils.isEmpty(courseBO.getCourseName()) || courseBO.getLanguageId()==null){
+       if(StringUtils.isEmpty(courseBO.getCourseName()) || courseBO.getLanguageId()==null || courseBO.getPrice()==null){
            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
            super.safeJsonPrint(response, json);
            logService.end("/course/addCourse",json);
            return;
        }
+
+       if(new BigDecimal("0").compareTo(courseBO.getPrice())==1){
+           String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000013"));
+           logService.end("Language/addLanguage",json);
+           super.safeJsonPrint(response, json);
+           return;
+       }
+
         logService.call("courseService.addCourse()",courseBO);
        boolean falg = courseService.addCourse(courseBO,loginAdmin.getId());
 
