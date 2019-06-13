@@ -42,7 +42,6 @@
             <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`=#{mobile}</if>
             <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
         </where>
-        <include refid="limit" />
     </select>
     <sql id="limit">
         limit #{pageOffset},#{pageSize}
