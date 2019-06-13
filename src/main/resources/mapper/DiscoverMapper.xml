@@ -181,7 +181,7 @@ INSERT INTO language_talent.lt_discover
 	);
     </insert>
     <!--添加 视频类型 curriculum-->
-    <insert id="insertCurriculum" >
+    <insert id="insertCurriculum"  useGeneratedKeys="true"  keyProperty="id" >
 INSERT INTO language_talent.lt_discover
             (
             title, <!--标题-->
