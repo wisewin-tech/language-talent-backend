@@ -494,7 +494,7 @@ public class AdminController extends BaseCotroller {
         //判断该角色下是否用户
         String s = adminService.existsUser(roleIds);
         if(s!=null){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000014" , s)) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("该角色下存在用户" , s)) ;
             super.safeJsonPrint(response , result);
             return;
         }
