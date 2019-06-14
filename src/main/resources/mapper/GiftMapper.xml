@@ -48,7 +48,7 @@
                 AND cardnumber LIKE CONCAT(CONCAT('%',#{cardnumber}),'%')
             </if>
 
-            <if test="value!=null and value!='' ">
+            <if test="value!=null ">
                 AND  `value`=#{value}
             </if>
 
