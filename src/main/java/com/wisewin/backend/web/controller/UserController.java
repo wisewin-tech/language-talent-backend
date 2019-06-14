@@ -36,13 +36,6 @@ public class UserController extends BaseCotroller {
     public void queryUsers(HttpServletRequest request, HttpServletResponse response, UserParam param){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,param);
-        if(param.getPageNo()==null||param.getPageSize()==null||param.getPageNo()==0||param.getPageSize()==0){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            logService.end("User/queryUsers",languagejson);
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
-
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("name",param.getName());
         map.put("nickname",param.getNickname());
@@ -77,7 +70,7 @@ public class UserController extends BaseCotroller {
     public void deleteUsersById(HttpServletRequest request,HttpServletResponse response,String idArrJSON,String status){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,idArrJSON,status);
-        if(idArrJSON==null||status==null||status.length()==0||idArrJSON.length()==0){
+        if(idArrJSON==null||status==null||status.length()==0||idArrJSON.length()<=2){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             logService.end("User/deleteUsersById",languagejson);
             super.safeHtmlPrint(response,languagejson);

@@ -134,8 +134,7 @@ public class Test {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        Integer[] Did = JsonUtils.getIntegerArray4Json("[1]");
-        System.err.println(Did[0]);
-
+        String idarr="[]";
+        System.err.println(idarr.length());
     }
 }

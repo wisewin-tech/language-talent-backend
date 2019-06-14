@@ -120,7 +120,7 @@ public class AdminController extends BaseCotroller {
         int count = adminService.selectCountByMobile(param.getMobile());
         logService.result(count);
         if(count > 0 ){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "管理员账号重复")) ;
             logService.end("/admin/adminRegister",result);
             super.safeJsonPrint(response , result);
             return ;
