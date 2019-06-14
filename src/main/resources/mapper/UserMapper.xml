@@ -82,7 +82,6 @@
         status
         from
         lt_user
-        lt_user
         <where>
             <if test="name!=null and name!=''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>
             <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>

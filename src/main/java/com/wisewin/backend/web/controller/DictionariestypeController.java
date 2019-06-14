@@ -52,7 +52,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         Integer id = loginAdmin.getId();
-        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank()) || id == null) {
+        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank()) ||StringUtils.isObjEmpty(param.getValueName()) || id == null) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             logService.end("/Dictionariestype/addDictionariestype", json);

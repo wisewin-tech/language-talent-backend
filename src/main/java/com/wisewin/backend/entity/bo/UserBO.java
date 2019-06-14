@@ -18,6 +18,7 @@ public class UserBO  extends BaseModel{
     private String source; //个人/企业
     private Integer integral; //积分
     private Integer currency; //咖豆
+    private String occupation;//职业
     private String inviteCode; //邀请码
     private String byInvite; //被邀请码
     private String qqOpenid; //qq登录id
@@ -32,6 +33,14 @@ public class UserBO  extends BaseModel{
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private String status;//是否被拉黑
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
 
     public String getStatus() {
         return status;
