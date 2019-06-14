@@ -43,7 +43,7 @@ public class AdminService {
             List<String> urls=adminDAO.queryAdminUrl(adminBO.getRoleId());
             logService.result(urls);
             Set<String>  set=new HashSet<String>();
-            if(urls!=null){
+            if(urls!=null && urls.size()>0){
                 for(String url:urls){
                     String[] split = url.split(",");
                     for(String str:split){
@@ -392,7 +392,7 @@ public class AdminService {
 
     /**
      * 根据用户id删除用户信息
-     * @param id
+     * @param Did
      * @return
      */
     public boolean delAdminById(String[] Did){
