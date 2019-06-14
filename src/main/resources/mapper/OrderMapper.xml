@@ -49,7 +49,7 @@
         <where>
             lt_user.id=lt_order.user_id
             <if test="mobile!=null and mobile!=''"> AND mobile=#{mobile}</if>
-            <if test="orderNumber!=null and orderNumber!=''"> AND order_number=#{orderNumber}</if>
+            <if test="orderNumber!=null and orderNumber!=''"> AND order_number LIKE  CONCAT('%',#{orderNumber},'%')</if>
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND creation_date &lt;=#{beforeTime}</if>
         </where>
@@ -68,7 +68,7 @@
         <where>
             lt_user.id=lt_order.user_id
             <if test="mobile!=null and mobile!=''"> AND mobile=#{mobile}</if>
-            <if test="orderNumber!=null and orderNumber!=''"> AND order_number=#{orderNumber}</if>
+            <if test="orderNumber!=null and orderNumber!=''"> AND order_number LIKE  CONCAT('%',#{orderNumber},'%')</if>
             <if test="afterTime!=null and afterTime!=''"> AND creation_date &gt;=#{afterTime}</if>
             <if test="beforeTime!=null and beforeTime!=''"> AND creation_date &lt;=#{beforeTime}</if>
         </where>
