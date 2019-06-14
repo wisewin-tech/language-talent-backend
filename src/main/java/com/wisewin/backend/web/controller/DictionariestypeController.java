@@ -156,18 +156,18 @@ public class DictionariestypeController extends BaseCotroller {
      * Integer id //字典类型id
      */
     @RequestMapping("/deleteDictionariestype")
-    public void deleteDictionariestype(HttpServletRequest request, HttpServletResponse response, String Dcyid) {
+    public void deleteDictionariestype(HttpServletRequest request, HttpServletResponse response, String DcId) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin, request, Dcyid);
+        logService.startController(loginAdmin, request, DcId);
 
-        if ("".equals(Dcyid)) {
+        if (DcId==null||"".equals(DcId)) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             logService.end("/Dictionariestype/deleteDictionariestype", json);
             return;
         }
         //转换为Integer数组类型类型
-        Integer[] Did = JsonUtils.getIntegerArray4Json(Dcyid);
+        Integer[] Did = JsonUtils.getIntegerArray4Json(DcId);
         //批量删除
         logService.call("dictionariestypeService.getdeleteDictionariestype()", Did);
         boolean deleteDictionariestypejson = dictionariestypeService.getdeleteDictionariestype(Did);
