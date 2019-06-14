@@ -457,4 +457,7 @@
     </select>
 
 
+    <select id="queryRoles"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO" >
+          SELECT id,role_name as name  FROM `lt_role`
+    </select>
 </mapper>

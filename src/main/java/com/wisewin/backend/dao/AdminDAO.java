@@ -1,9 +1,6 @@
 package com.wisewin.backend.dao;
 
-import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.MenuBO;
-import com.wisewin.backend.entity.bo.RoleBO;
-import com.wisewin.backend.entity.bo.RoleMenuBO;
+import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
@@ -228,7 +225,7 @@ public interface AdminDAO {
     /**
      * 根据用户id删除用户信息
      *
-     * @param id 用户id
+     * @param Did 用户id
      * @return
      */
     boolean delAdminById(@Param("Did") String[] Did);
@@ -324,4 +321,7 @@ public interface AdminDAO {
 
 
     int existsUser(Integer roleId);
+
+    List<LanguageChoiceBO> queryRoles();
+
 }

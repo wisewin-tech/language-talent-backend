@@ -2,10 +2,7 @@ package com.wisewin.backend.service;
 
 
 import com.wisewin.backend.dao.AdminDAO;
-import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.MenuBO;
-import com.wisewin.backend.entity.bo.RoleBO;
-import com.wisewin.backend.entity.bo.RoleMenuBO;
+import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
@@ -598,5 +595,7 @@ public class AdminService {
     }
 
 
-
+    public List<LanguageChoiceBO> queryRoles() {
+        return adminDAO.queryRoles();
+    }
 }

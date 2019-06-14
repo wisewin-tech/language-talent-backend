@@ -3,6 +3,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.common.constants.LanguageTalentConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import com.wisewin.backend.entity.bo.MenuBO;
 import com.wisewin.backend.entity.bo.RoleBO;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
@@ -26,7 +27,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -813,5 +813,14 @@ public class AdminController extends BaseCotroller {
         logService.end("/admin/exitLogin",request);
         return ;
     }
+
+
+    @RequestMapping("/queryRoles")
+    public void queryRoles(HttpServletResponse response,HttpServletRequest  request){
+        List<LanguageChoiceBO>   list = adminService.queryRoles();
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list)) ;
+        super.safeJsonPrint(response , result);
+    }
+
 
 }
