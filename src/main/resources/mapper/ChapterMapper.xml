@@ -148,4 +148,9 @@
     <select id="queryChapterIdByName"  resultType="java.lang.Integer" >
         SELECT id  FROM lt_chapter WHERE  level_id=#{leavelId}  AND  chapter_name=#{name}
     </select>
+
+    <!--通过级别id 查询课时id和名字-->
+    <select id="getChapterByLevelId" resultType="com.wisewin.backend.entity.bo.ChapterIdNameBO">
+        SELECT id,chapter_name  FROM lt_chapter WHERE  level_id=#{leavelId}
+    </select>
 </mapper>

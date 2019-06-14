@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.common.constants.LanguageConstants;
 import com.wisewin.backend.dao.ChapterDAO;
 import com.wisewin.backend.entity.bo.ChapterBO;
+import com.wisewin.backend.entity.bo.ChapterIdNameBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,5 +95,14 @@ public class ChapterService {
      */
     public Integer queryChapterIdByName(Integer leavelId, String name) {
         return chapterDAO.queryChapterIdByName(leavelId,name);
+    }
+
+    /**
+     * 通过级别id 查询课时id和名字
+     * @param levelId
+     * @return
+     */
+    public List<ChapterIdNameBO> getChapterByLevelId(Integer levelId){
+        return chapterDAO.getChapterByLevelId(levelId);
     }
 }

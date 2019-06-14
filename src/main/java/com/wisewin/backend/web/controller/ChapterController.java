@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.ChapterBO;
+import com.wisewin.backend.entity.bo.ChapterIdNameBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.ChapterParam;
 import com.wisewin.backend.query.QueryInfo;
@@ -182,6 +183,31 @@ public class ChapterController extends BaseCotroller {
         logService.end("/chapter/selectChapterById",json);
         return;
 
+    }
+
+    /**
+     * 通过级别id 查询课时id和名字
+     * @param levelId
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getChapterByLevelId")
+    public void getChapterByLevelId(Integer levelId,HttpServletRequest request,HttpServletResponse response){
+        AdminBO  adminBO=super.getLoginAdmin(request);
+        logService.startController(adminBO,request,levelId);
+        //参数验证
+        if (levelId==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("/chapter/getChapterByLevelId",json);
+            super.safeJsonPrint(response, json);
+            return;
+        }
+        logService.call("chapterService.getChapterByLevelId",levelId);
+        List<ChapterIdNameBO> chapterIdNameBOList = chapterService.getChapterByLevelId(levelId);
+        logService.result(chapterIdNameBOList);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(chapterIdNameBOList));
+        logService.end("/chapter/getChapterByLevelId",json);
+        super.safeJsonPrint(response, json);
     }
 
 
