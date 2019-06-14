@@ -333,7 +333,7 @@ public class DiscoverController extends BaseCotroller {
 
 
 
-    @RequestMapping("/queryDiscoverById")
+    @RequestMapping("/queryDiscoveractivity")
     public void queryDiscoverById(HttpServletRequest request, HttpServletResponse response,Integer id){
         AdminBO adminBO = super.getLoginAdmin(request);
         if (adminBO == null) {
