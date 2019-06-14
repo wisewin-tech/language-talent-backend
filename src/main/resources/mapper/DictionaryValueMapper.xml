@@ -32,7 +32,7 @@
         </set>
         where id=#{id}
     </update>
-    <delete id="delDic" parameterType="java.lang.Integer">
+    <delete id="delDic">
         delete from lt_dictionary_value
         where
         <foreach collection="idArr" item="id"  separator="or">
