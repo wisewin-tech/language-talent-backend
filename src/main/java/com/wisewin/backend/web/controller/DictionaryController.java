@@ -88,13 +88,14 @@ public class DictionaryController extends BaseCotroller {
 
     //删除字典值
     @RequestMapping("/delDic")
-    public void delDic(Integer id,HttpServletResponse response, HttpServletRequest  request) throws InterruptedException {
-        if(id==null){
+    public void delDic(String DcId,HttpServletResponse response, HttpServletRequest  request) throws InterruptedException {
+        if(DcId==null||DcId.length()<=2){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
             return;
         }
-        boolean bool=dictionaryValueService.delDic(id)>0;
+        Integer[] idArr = JsonUtils.getIntegerArray4Json(DcId);
+        boolean bool=dictionaryValueService.delDic(idArr)>0;
         if(bool){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
             super.safeJsonPrint(response , result);

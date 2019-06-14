@@ -11,7 +11,7 @@ public interface DictionaryValueDAO {
     //增
     Integer addDic(DictionaryValueBO dictionaryBO);
     //删
-    Integer delDic(Integer id);
+    Integer delDic(Integer[] idArr);
 
     //改
     Integer updDic(DictionaryValueBO dictionaryBO);

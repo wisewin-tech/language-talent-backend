@@ -21,8 +21,8 @@ public class DictionaryValueService {
         return dictionaryValueDAO.addDic(dictionaryBO);
     }
     //删
-    public Integer delDic(Integer id){
-        return dictionaryValueDAO.delDic(id);
+    public Integer delDic(Integer[] idArr){
+        return dictionaryValueDAO.delDic(idArr);
     }
 
     //改
