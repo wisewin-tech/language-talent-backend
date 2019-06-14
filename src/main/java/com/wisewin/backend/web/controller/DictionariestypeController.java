@@ -355,7 +355,7 @@ public class DictionariestypeController extends BaseCotroller {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin, request,DcId);
 
-        if ("".equals(DcId)) {
+        if (DcId==null||DcId.length()<=2) {
             String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response, languagejson);
             logService.end("/Dictionariestype/deleteDictionaries",languagejson);
@@ -364,6 +364,9 @@ public class DictionariestypeController extends BaseCotroller {
 
         //转换成数组类型
         Integer[] cid = JsonUtils.getIntegerArray4Json(DcId);
+        for (int i=0;i<cid.length;i++){
+            System.err.println("=================="+cid[i]);
+        }
         boolean deleteDictionaries = dictionariestypeService.getdeleteDictionaries(cid);
         if (deleteDictionaries) {
             String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));

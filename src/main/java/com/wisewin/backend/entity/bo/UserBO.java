@@ -17,10 +17,9 @@ public class UserBO  extends BaseModel{
     private Date birthday; //生日
     private String source; //个人/企业
     private Integer integral; //积分
-    private Integer kadou; //咖豆
+    private Integer currency; //咖豆
     private String inviteCode; //邀请码
     private String byInvite; //被邀请码
-    private String job; //职业
     private String qqOpenid; //qq登录id
     private String wxOpenid; //微信登录id
     private Integer continuousSign; //连续签到天数
@@ -57,10 +56,8 @@ public class UserBO  extends BaseModel{
                 ", birthday=" + birthday +
                 ", source='" + source + '\'' +
                 ", integral=" + integral +
-                ", kadou=" + kadou +
                 ", inviteCode='" + inviteCode + '\'' +
                 ", byInvite='" + byInvite + '\'' +
-                ", job='" + job + '\'' +
                 ", qqOpenid='" + qqOpenid + '\'' +
                 ", wxOpenid='" + wxOpenid + '\'' +
                 ", continuousSign=" + continuousSign +
@@ -73,6 +70,14 @@ public class UserBO  extends BaseModel{
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
+    }
+
+    public Integer getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Integer currency) {
+        this.currency = currency;
     }
 
     public Integer getId() {
@@ -171,13 +176,6 @@ public class UserBO  extends BaseModel{
         this.integral = integral;
     }
 
-    public Integer getKadou() {
-        return kadou;
-    }
-
-    public void setKadou(Integer kadou) {
-        this.kadou = kadou;
-    }
 
     public String getInviteCode() {
         return inviteCode;
@@ -195,13 +193,6 @@ public class UserBO  extends BaseModel{
         this.byInvite = byInvite;
     }
 
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
-    }
 
     public String getQqOpenid() {
         return qqOpenid;

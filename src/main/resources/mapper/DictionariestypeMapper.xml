@@ -194,7 +194,7 @@
 
     <!--删除字典内容-->
     <delete id="deleteDictionaries">
-    DELETE  FROMdeleteDictionaries
+    DELETE  FROM
         lt_dictionaries
     WHERE
       <foreach collection="cid" item="id"  separator="or">
