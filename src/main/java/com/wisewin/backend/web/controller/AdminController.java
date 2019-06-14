@@ -107,8 +107,8 @@ public class AdminController extends BaseCotroller {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,param);
         // 判断是否为空
-        if(param == null || StringUtils.isEmpty(param.getPassword()) || StringUtils.isEmpty(param.getGender())
-                || StringUtils.isEmpty(param.getMobile()) || StringUtils.isEmpty(param.getName()) || StringUtils.isEmpty(String.valueOf(param.getRoleId()))){
+        if(param == null || StringUtils.isEmpty(param.getPassword())
+                || StringUtils.isEmpty(param.getMobile()) || StringUtils.isEmpty(param.getName()) || param.getRoleId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             logService.end("admin/adminRegister",result);
             super.safeJsonPrint(response , result);
