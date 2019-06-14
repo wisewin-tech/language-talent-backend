@@ -69,7 +69,7 @@ public class GiftService {
             //设置卡号
             gif.setCardnumber(number.toString());
             //设置兑换码
-            String random = RandomStringUtils.random(8, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz");
+            String random = RandomStringUtils.random(10, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz");
             gif.setExchangeyard(random);
             //设置时间戳为批次号
             gif.setBatchNumber(format);
