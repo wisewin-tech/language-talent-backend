@@ -137,7 +137,6 @@
             phone = #{phone} , <!--手机号-->
             ticket = #{ticket} , <!--在线购票-->
             skip = #{skip} <!--跳转url-->
-
             WHERE
             id = #{id} ;
         </update>

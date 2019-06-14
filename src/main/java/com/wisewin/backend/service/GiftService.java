@@ -34,6 +34,8 @@ public class GiftService {
      * @return
      */
     public List<GiftBO> selectAll(Map<String,Object> map) {
+        GiftParam giftParam = (GiftParam)map.get("giftParam");
+        System.err.println(giftParam.getValue());
         return giftDAO.selectAll(map);
     }
     /**

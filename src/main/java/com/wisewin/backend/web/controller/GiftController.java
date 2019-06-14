@@ -55,6 +55,7 @@ public class GiftController extends BaseCotroller {
         //把参数条件 放入map中
         condition.put("giftParam",giftParam);
         logService.call("giftService.selectAll",condition);
+        System.err.println(giftParam.toString());
         List<GiftBO> giftBOS = giftService.selectAll(condition);
         logService.call("giftService.selectCount",giftParam.getBatchNumber(),giftParam.getTitle(),giftParam.getCardnumber(),giftParam.getValue(),giftParam.getStatus());
         int count=giftService.selectCount(giftParam.getBatchNumber(),giftParam.getTitle(),giftParam.getCardnumber(),giftParam.getValue(),giftParam.getStatus());

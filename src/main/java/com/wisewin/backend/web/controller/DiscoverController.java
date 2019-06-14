@@ -248,6 +248,7 @@ public class DiscoverController extends BaseCotroller {
         discoverBO.setDcUpdatename(adminBO.getName());
         discoverBO.setUpdateTime(new Date());
 
+
         if (discoverBO.getType().equals("journalism")) {
             logService.call("discoverService.updateJournalism",discoverBO);
             discoverService.updateJournalism(discoverBO);
