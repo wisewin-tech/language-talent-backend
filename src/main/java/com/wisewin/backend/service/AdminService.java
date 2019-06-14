@@ -354,12 +354,12 @@ public class AdminService {
         if(status){
             String [] ids = roleIds.split(",");
             for (String id:ids ) {
-                return adminDAO.delRoleById(Integer.parseInt(id));
+               adminDAO.delRoleById(Integer.parseInt(id));
             }
         }else{
-            return adminDAO.delRoleById(Integer.parseInt(roleIds));
+               adminDAO.delRoleById(Integer.parseInt(roleIds));
         }
-        return false;
+        return true;
     }
 
     /**
@@ -585,6 +585,17 @@ public class AdminService {
         return adminDAO.getRoleMenuSuccess(roleId);
     }
 
+
+    public String existsUser(String roleIds) {
+        String[] split = roleIds.split(",");
+        for(int i=0;i<split.length;i++){
+            int count = adminDAO.existsUser(new Integer(split[i]));
+            if(count>0){
+                return split[i];
+            }
+        }
+        return  null;
+    }
 
 
 

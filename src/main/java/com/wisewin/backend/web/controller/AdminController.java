@@ -491,6 +491,15 @@ public class AdminController extends BaseCotroller {
             logService.end("/admin/delRoleByIds",result);
             return ;
         }
+        //判断该角色下是否用户
+        String s = adminService.existsUser(roleIds);
+        if(s!=null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000014" , s)) ;
+            super.safeJsonPrint(response , result);
+            return;
+        }
+
+
         boolean flag = adminService.delRoleById(roleIds);
         if(flag){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;

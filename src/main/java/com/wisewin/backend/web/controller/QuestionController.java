@@ -233,8 +233,7 @@ public class QuestionController extends BaseCotroller{
      *  导入试题
      */
      @RequestMapping("/importQuestions")
-     public void importQuestions(HttpServletRequest  request,HttpServletResponse  response,MultipartFile file){
-
+     public void importQuestions(MultipartFile file,HttpServletRequest  request,HttpServletResponse  response){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,file);
         if(loginAdmin==null){
@@ -274,14 +273,6 @@ public class QuestionController extends BaseCotroller{
         super.safeJsonPrint(response, result);
      }
 
-
-    @RequestMapping("/test")
-    public void test(HttpServletRequest  request,HttpServletResponse  response){
-
-        List<QuestionBO> questionBOS = questionService.queryTest(1);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(questionBOS));
-        super.safeJsonPrint(response, result);
-    }
 
 
 }

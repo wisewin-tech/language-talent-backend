@@ -195,7 +195,10 @@ public class QuestionService {
             return "imageText";
         } else if ("阅读".equals(type)) {
             return "read";
-        } else {
+        }else if("听音跟读".equals(type)){
+            return  "follow";
+        }
+        else {
             throw new RuntimeException();
         }
     }
@@ -329,6 +332,10 @@ public class QuestionService {
     }
 
     private  List<List<String>> topiceChange(List<List<String>> list) {
+        if(list==null || list.size()<1){
+            return  list;
+        }
+
         List<List<String>>  resultList=new ArrayList<List<String>>();
         for(int x=0;x<list.get(0).size();x++){
             List<String>  clist=new ArrayList<String>();

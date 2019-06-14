@@ -323,4 +323,5 @@ public interface AdminDAO {
     List<RoleBO> getRoleMenuSuccess(Integer roleId);
 
 
+    int existsUser(Integer roleId);
 }

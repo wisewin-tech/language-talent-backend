@@ -33,6 +33,18 @@ public class CourseBO extends BaseModel{
     private Date createTime; //创建时间
     private Integer updateUserId; //修改人id
     private Date updateTime; //修改时间
+    private Double sort;//课程排序
+
+
+
+
+    public Double getSort() {
+        return sort;
+    }
+
+    public void setSort(Double sort) {
+        this.sort = sort;
+    }
 
     public Integer getId() {
         return id;

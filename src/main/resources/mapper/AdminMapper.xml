@@ -450,4 +450,11 @@
         </if>
     </select>
 
+
+
+    <select id="existsUser"   parameterType="java.lang.Integer"  resultType="int">
+           SELECT count(id) FROM lt_admin  WHERE  role_id =#{roleId}
+    </select>
+
+
 </mapper>

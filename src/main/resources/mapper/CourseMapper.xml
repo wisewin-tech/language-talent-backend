@@ -31,7 +31,7 @@
             </if>
               AND  le.status='putaway'
           </where>
-        ORDER BY   te.popular_sort  DESC    <include refid="limit" />
+        ORDER BY   te.sort  DESC    <include refid="limit" />
     </select>
 
     <!--分页数量查询-->
@@ -63,12 +63,12 @@
                               `discount_price`, `discount_start_time`, `discount_end_time`, `course_validity_period`, `study_number`,
                               `thumbnail_image_url`, `course_intro`, `course_lightspot`,`handouts`, `purchase_notes`, `popular_sort`,
                               `hot_or_not`, `certificate_or_not`, `certificate_title`, `certificate_intro`, `certificate_image_url`,
-                               `create_user_id`, `create_time`, `update_user_id`, `update_time`)
+                               `create_user_id`, `create_time`, `update_user_id`, `update_time` ,sort)
                       VALUES (#{courseName},#{languageId},#{foreignName},#{status},#{price},
                                 #{discountPrice},#{discountStartTime},#{discountEndTime},#{courseValidityPeriod},#{studyNumber},
                                 #{thumbnailImageUrl},#{courseIntro},#{courseLightspot},#{handouts},#{purchaseNotes},#{popularSort},
                                 #{hotOrNot},#{certificateOrNot},#{certificateTitle},#{certificateIntro},#{certificateImageUrl},
-                                #{createUserId},#{createTime},#{updateUserId},#{updateTime});
+                                #{createUserId},#{createTime},#{updateUserId},#{updateTime},#{sort});
 
     </insert>
 
@@ -154,6 +154,9 @@
        <if test="updateTime!=null" >
            `update_time`=#{updateTime}
        </if>
+       <if test="sort!=null" >
+           sort=#{sort}
+       </if>
 
    </set>
        WHERE
@@ -169,7 +172,7 @@
     <!--选择课程-->
    <select id="queryCourseChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
         SELECT id,course_name as name  FROM `lt_course`   WHERE   status='putaway'   AND   language_id=#{languageId}
-         ORDER BY   popular_sort  DESC
+         ORDER BY   sort  DESC
     </select>
 
     <!--修改购买须知-->
