@@ -41,8 +41,11 @@
     <update id="updateSpecialById" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
         update lt_special
         set
+        <if test="skip!=null and skip!=''">
+            skip=#{skip},
+        </if>
         class_id=#{classId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},
-        video_length=#{videoLength},video_cover=#{videoCover},skip=#{skip},
+        video_length=#{videoLength},video_cover=#{videoCover},
         sorting=#{sorting},update_id=#{updateId},update_time=now(),content=#{content}
         where
         id=#{id}
