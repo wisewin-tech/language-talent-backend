@@ -47,16 +47,23 @@ public class SequenceController extends BaseCotroller {
 
 
     /**
-     *  获取OSS临时凭证
+      *  获取OSS临时凭证
       */
- /*
     @RequestMapping(value = "/getStsOss" , method = RequestMethod.POST)
     public void getOssSts(HttpServletRequest request,HttpServletResponse response) {
-        Map<String, String> stsMessage = StsUtil.getStsOss(request.getSession().getId());
+        AdminBO loginUser = super.getLoginAdmin(request);
+        logService.startController(loginUser,request,null);
+        if(loginUser==null){
+            String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000021"));
+            logService.end("sequence/getStsOss",json);
+            super.safeJsonPrint(response, json);
+            return;
+        }
+        Map<String, String> stsMessage = StsUtil.getStsOss(loginUser.getId()+"AdminOss");
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(stsMessage));
         super.safeJsonPrint(response, json);
         return;
-    }*/
+    }
 
 
 

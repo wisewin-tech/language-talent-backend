@@ -80,6 +80,7 @@ public class StsUtil {
     }
 
 
+
     /**
      * 获取临时OSS
      * @param roleSessionName
@@ -109,8 +110,8 @@ public class StsUtil {
             response = assumeRole(accessKeyId, accessKeySecret,"acs:ram::1102747709306525:role/oss", roleSessionName, policy, protocolType);
             resultMap.put("expiration",response.getCredentials().getExpiration());
             resultMap.put("tempAk",response.getCredentials().getAccessKeyId());
-            resultMap.put("tempSk:",response.getCredentials().getAccessKeySecret());
-            resultMap.put("token:", response.getCredentials().getSecurityToken());
+            resultMap.put("tempSk",response.getCredentials().getAccessKeySecret());
+            resultMap.put("token", response.getCredentials().getSecurityToken());
         } catch (ClientException e){
             resultMap.put("errorCode",e.getErrCode());
             resultMap.put("errorMessage", e.getErrMsg());
@@ -119,6 +120,12 @@ public class StsUtil {
     }
 
 
+    public static void main(String[]  args){
+        Map<String, String> test = getStsOss("test");
+        for(String str:test.keySet()){
+            System.out.println(str+":::"+test.get(str));
+        }
+    }
 
 
 
