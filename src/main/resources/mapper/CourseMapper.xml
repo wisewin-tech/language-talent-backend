@@ -152,7 +152,7 @@
            `update_user_id`=#{updateUserId},
        </if>
        <if test="updateTime!=null" >
-           `update_time`=#{updateTime}
+           `update_time`=#{updateTime} ,
        </if>
        <if test="sort!=null" >
            sort=#{sort}
@@ -160,6 +160,7 @@
 
    </set>
        WHERE
+
         id = #{id}
     </update>
 

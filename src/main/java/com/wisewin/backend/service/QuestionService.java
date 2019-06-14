@@ -162,7 +162,11 @@ public class QuestionService {
                 questionBO.setAnswer(answer[1]); //答案 和解析
                 questionBO.setOption(answer[0]);//选项
                 questionBO.setTopic(this.getTopic(row.getCell(6), row.getCell(7), row.getCell(8), row.getCell(9), row.getCell(10)));
-                questionBO.setRelevanceId(this.getCoordinate(row.getCell(5), questionBO.getTestType()));
+                try {
+                    questionBO.setRelevanceId(this.getCoordinate(row.getCell(5), questionBO.getTestType()));
+                }catch (Exception e){
+                    return -2+(rows* -1);
+                }
                 questionBO.setCreateTime(new Date());
                 questionBO.setCreateUserId(userId);
 
