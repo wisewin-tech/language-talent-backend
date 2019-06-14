@@ -321,8 +321,8 @@ public class QuestionService {
 
         //学热身可能没有答案和解析
         if((!testType.equals("warmUp") )|| (testType.equals("warmUp") && answer!=null && answer.size()>0 ) ) {
-            if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence")) {
-                List<String> strings = option.get(0);
+            if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence") || type.equals("judge")) {
+                List<String> strings = lists.get(0);
                 for (int i = 0; i < strings.size(); i++) {
                     strings.set(i, strings.get(i).substring(2));
                 }
