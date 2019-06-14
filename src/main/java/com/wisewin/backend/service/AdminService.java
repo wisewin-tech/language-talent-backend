@@ -278,59 +278,62 @@ public class AdminService {
      * @param roleId  角色名
      * @return 返回对应的权限
      */
-    public List<RoleDTO> selectRoleMenuById(Integer roleId,String menuIds){
+    public void selectRoleMenuById(Integer roleId,String menuIds){
         // 根据角色id删除对应的权限
         adminDAO.delRoleMenuByRoleId(roleId);
-        boolean status = menuIds.contains(",");
-        if(status){
-            String[] ids = menuIds.split(",");
-            for (String id:
-                    ids) {
-                RoleMenuBO roleMenuBO = new RoleMenuBO();
-                roleMenuBO.setRoleId(roleId);
-                roleMenuBO.setMenuId(Integer.parseInt(id));
-                // roleMenuBO.setCreateTime(new Date());
-                roleMenuBO.setUpdateTime(new Date());
-                // 添加权限
-                adminDAO.addRoleMenu(roleMenuBO);
-            }
-        }else{
+        String[] ids = menuIds.split(",");
+        for (String id:ids) {
             RoleMenuBO roleMenuBO = new RoleMenuBO();
             roleMenuBO.setRoleId(roleId);
-            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
-            // roleMenuBO.setCreateTime(new Date());
+            roleMenuBO.setMenuId(Integer.parseInt(id));
             roleMenuBO.setUpdateTime(new Date());
             // 添加权限
             adminDAO.addRoleMenu(roleMenuBO);
         }
-        // 查询角色所拥有的权限
-        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
-        List<RoleBO> menuList = adminDAO.selectRoleMenuById(roleId);
-        for (RoleBO ro:menuList) {
-            RoleDTO roleDTO = new RoleDTO();
-            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
-            List<String> menuName = new ArrayList<String>(); // 存放权限name
-            roleDTO.setId(ro.getId());// 角色id
-            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
-            roleDTO.setCreateTime(ro.getCreateTime());
-            roleDTO.setUpdateTime(ro.getUpdateTime());
-            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
-            for (int i=0;i<menus.size();i++ ) {
-                menuName.add(menus.get(i).getMenuName());
-            }
-            boolean flag = menuIds.contains(",");
-            if(flag) {
-                String[] ids = menuIds.split(",");
-                for (String id :
-                        ids) {
-                    menuId.add(Integer.parseInt(id));
-                }
-            }
-            roleDTO.setMenuIds(menuId);
-            roleDTO.setMenuNames(menuName);
-            roleDTOS.add(roleDTO);
-        }
-        return roleDTOS;
+
+
+//
+//        boolean status = menuIds.contains(",");
+//        if(status){
+//
+//
+//        }else{
+//            RoleMenuBO roleMenuBO = new RoleMenuBO();
+//            roleMenuBO.setRoleId(roleId);
+//            roleMenuBO.setMenuId(Integer.parseInt(menuIds));
+//            // roleMenuBO.setCreateTime(new Date());
+//            roleMenuBO.setUpdateTime(new Date());
+//            // 添加权限
+//            adminDAO.addRoleMenu(roleMenuBO);
+//        }
+//        // 查询角色所拥有的权限
+//        List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
+//        List<RoleBO> menuList = adminDAO.selectRoleMenuById(roleId);
+//        for (RoleBO ro:menuList) {
+//            RoleDTO roleDTO = new RoleDTO();
+//            List<Integer> menuId = new ArrayList<Integer>();// 存放权限id
+//            List<String> menuName = new ArrayList<String>(); // 存放权限name
+//            roleDTO.setId(ro.getId());// 角色id
+//            roleDTO.setRoleName(ro.getRoleName()); // 角色名称
+//            roleDTO.setCreateTime(ro.getCreateTime());
+//            roleDTO.setUpdateTime(ro.getUpdateTime());
+//            List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
+//            for (int i=0;i<menus.size();i++ ) {
+//                menuName.add(menus.get(i).getMenuName());
+//            }
+//            boolean flag = menuIds.contains(",");
+//            if(flag) {
+//                String[] ids = menuIds.split(",");
+//                for (String id :
+//                        ids) {
+//                    menuId.add(Integer.parseInt(id));
+//                }
+//            }
+//            roleDTO.setMenuIds(menuId);
+//            roleDTO.setMenuNames(menuName);
+//            roleDTOS.add(roleDTO);
+//        }
+
     }
 
     /**

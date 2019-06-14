@@ -311,8 +311,8 @@ public class AdminController extends BaseCotroller {
             adminService.updateRoleNameByRoleId(roleId,roleName,new Date());
         }
         logService.call("adminService.selectRoleMenuById()",roleId,menuIds);
-        List<RoleDTO> roleDTOS = adminService.selectRoleMenuById(roleId,menuIds);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
+        adminService.selectRoleMenuById(roleId,menuIds);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         logService.end("/admin/grantAuthority",result);
         super.safeJsonPrint(response, result);
     }
@@ -744,8 +744,8 @@ public class AdminController extends BaseCotroller {
             adminService.delRoleMenu(roleId,Integer.parseInt(menuIds));
         }
         // 查询角色所拥有的权限
-        List<RoleDTO> menuList = adminService.selectRoleMenuById(roleId,menuIds);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        adminService.selectRoleMenuById(roleId,menuIds);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         super.safeJsonPrint(response, result);
     }
 
