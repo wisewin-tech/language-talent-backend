@@ -555,8 +555,10 @@ public class AdminService {
             roleDTO.setUpdateTime(ro.getUpdateTime());
             List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
             for (int i=0;i<menus.size();i++ ) {
-                menuIds.add(menus.get(i).getId());
-                menuName.add(menus.get(i).getMenuName());
+                if(menus.get(i).getPid()!=0) {
+                    menuIds.add(menus.get(i).getId());
+                    menuName.add(menus.get(i).getMenuName());
+                }
             }
             roleDTO.setMenuIds(menuIds);
             roleDTO.setMenuNames(menuName);
