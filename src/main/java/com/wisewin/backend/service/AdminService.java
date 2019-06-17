@@ -585,6 +585,19 @@ public class AdminService {
      */
     public  List<MenuBO>  getRoleMenuSuccess(Integer roleId){
         List<MenuBO> menuBOS=adminDAO.getMenuByRoleId(roleId);
+        if(menuBOS!=null && menuBOS.size()>0) {
+            for (int i = 0; i < menuBOS.size(); i++) {
+                MenuBO menuBO = menuBOS.get(i);
+                for(int x=0;x<menuBOS.size();x++){
+                    if(menuBO.getPid().equals(menuBOS.get(x).getId())){
+                        menuBOS.get(x).getCh().add(menuBO);
+                        menuBOS.remove(i);
+                        --i;
+                        break;
+                    }
+                }
+            }
+        }
         return menuBOS;
     }
 

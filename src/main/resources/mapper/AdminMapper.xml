@@ -466,6 +466,4 @@
         SELECT me.* FROM lt_role_menu  rm  INNER JOIN  lt_menu me ON rm.menu_id=me.id  WHERE  rm.role_id=#{roleId}
     </select>
 
-
-
 </mapper>
