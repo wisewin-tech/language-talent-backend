@@ -557,8 +557,9 @@ public class AdminService {
             for (int i=0;i<menus.size();i++ ) {
                 if(menus.get(i).getPid()!=0) {
                     menuIds.add(menus.get(i).getId());
-                    menuName.add(menus.get(i).getMenuName());
                 }
+                    menuName.add(menus.get(i).getMenuName());
+
             }
             roleDTO.setMenuIds(menuIds);
             roleDTO.setMenuNames(menuName);
