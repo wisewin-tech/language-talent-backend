@@ -77,7 +77,7 @@ public class AdminController extends BaseCotroller {
         adminBO.setPassword("");
         //该用户的所有菜单
         logService.call("adminService.getRoleMenuSuccess()",adminBO.getRoleId());
-        List<RoleBO> roleMenuSuccess = adminService.getRoleMenuSuccess(adminBO.getRoleId());
+        List<MenuBO> roleMenuSuccess = adminService.getRoleMenuSuccess(adminBO.getRoleId());
         logService.result(roleMenuSuccess);
         // 登陆客户信息放入Redis缓存
         String uuid = UUID.randomUUID().toString();

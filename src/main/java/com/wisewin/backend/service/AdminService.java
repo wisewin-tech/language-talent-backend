@@ -583,13 +583,9 @@ public class AdminService {
      * @param roleId 角色id
      * @return 登陆用户对应的权限
      */
-    public List<RoleBO> getRoleMenuSuccess(Integer roleId){
-        List<RoleBO>  list=new ArrayList<RoleBO>();
-        RoleBO roleBO = adminDAO.getRoleById(roleId);
+    public  List<MenuBO>  getRoleMenuSuccess(Integer roleId){
         List<MenuBO> menuBOS=adminDAO.getMenuByRoleId(roleId);
-        roleBO.setMenuBOS(menuBOS);
-        list.add(roleBO);
-        return list;
+        return menuBOS;
     }
 
 
