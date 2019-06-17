@@ -324,4 +324,5 @@ public interface AdminDAO {
 
     List<LanguageChoiceBO> queryRoles();
 
+    List<MenuBO> getMenuByRoleId(Integer roleId);
 }

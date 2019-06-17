@@ -460,4 +460,12 @@
     <select id="queryRoles"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO" >
           SELECT id,role_name as name  FROM `lt_role`
     </select>
+
+
+    <select id="getMenuByRoleId"  resultType="com.wisewin.backend.entity.bo.MenuBO"  parameterType="java.lang.Integer">
+        SELECT me.* FROM lt_role_menu  rm  INNER JOIN  lt_menu me ON rm.menu_id=me.id  WHERE  rm.role_id=#{roleId}
+    </select>
+
+
+
 </mapper>
