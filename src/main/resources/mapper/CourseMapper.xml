@@ -155,7 +155,10 @@
            `update_time`=#{updateTime} ,
        </if>
        <if test="sort!=null" >
-           sort=#{sort}
+           sort=#{sort},
+       </if>
+       <if test="handouts!=null and handouts!='' " >
+           handouts=#{handouts}
        </if>
 
    </set>
