@@ -321,7 +321,7 @@ public class QuestionService {
 
         //学热身可能没有答案和解析
         if((!testType.equals("warmUp") )|| (testType.equals("warmUp") && answer!=null && answer.size()>0 ) ) {
-            if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence") || type.equals("judge")) {
+            if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence") || type.equals("judge") ) {
                 List<String> strings = lists.get(0);
                 for (int i = 0; i < strings.size(); i++) {
                     strings.set(i, strings.get(i).substring(2));
@@ -330,10 +330,44 @@ public class QuestionService {
             }
         }
 
+        //听力和文本匹配应把MP3 放在第一个位置
+        if(testType.equals("hearingAndTest")){
+           lists.set(0, this.getList(lists.get(0)));
+        }
+
         String str = JSONArray.fromObject(lists).toString();
         String de = JSONArray.fromObject(des).toString();
         return new String[]{str, de};
     }
+
+
+    /**
+     * 把音频放在第一个位置上
+     * @param list
+     * @return
+     */
+    public List<String>  getList(List<String>  list){
+
+        if(list==null ||list.size()<1){
+            return list;
+        }
+        List<String>  list1=new ArrayList<String>();
+        for(int i=0;i<list.size();i++){
+            String str = list.get(i);
+            if(str.indexOf(".mp3")!=-1){
+                String subStr = str.substring(str.lastIndexOf("."));
+                System.out.println(subStr);
+                if(subStr.equals(".mp3")){
+                    list1.add(list.get(i));
+                    list.remove(i);
+                    list1.addAll(list);
+                    break;
+                }
+            }
+        }
+        return list1;
+    }
+
 
     private  List<List<String>> topiceChange(List<List<String>> list) {
         if(list==null || list.size()<1){

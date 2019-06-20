@@ -99,10 +99,6 @@ public class ClauseController extends BaseCotroller {
 
         logService.call("clauseService.updClause()",clauseBO);
         if(clauseService.updClause(clauseBO)){
-            if("购买须知".equals(clauseBO.getClassify())){
-                logService.call(" noticeService.updateNotice()",clauseBO.getContent());
-                noticeService.updateNotice(clauseBO.getContent());
-            }
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功")) ;
             super.safeJsonPrint(response , result);
             logService.end("/Clause/updClause",result);
