@@ -1,18 +1,14 @@
 package com.wisewin.backend.web.controller;
 
-import com.wisewin.backend.dao.ClauseDAO;
 import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.BannerBO;
 import com.wisewin.backend.entity.bo.ClauseBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.service.ClauseService;
-import com.wisewin.backend.service.NoticeService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +25,7 @@ public class ClauseController extends BaseCotroller {
     @Resource
     ClauseService clauseService;
 
-    @Resource
-    NoticeService noticeService;
+
 
     @Resource
     private LogService  logService;

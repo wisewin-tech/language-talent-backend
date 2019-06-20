@@ -21,8 +21,7 @@ import java.util.Map;
 public class CourseService {
     @Resource
     private CourseDAO  courseDAO;
-    @Resource
-    private NoticeService  noticeService;
+
     @Resource
     private CertificateService  certificateService;
     @Resource
@@ -52,9 +51,7 @@ public class CourseService {
      * 添加课程
      */
     public boolean addCourse(CourseBO  courseBO,Integer userId){
-        if(courseBO.getPurchaseNotes()==null){
-            courseBO.setPurchaseNotes(noticeService.queryNotice());
-        }
+
         if(courseBO.getStatus()==null)
             courseBO.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
         courseBO.setCreateUserId(userId);
