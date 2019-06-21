@@ -97,15 +97,7 @@
        <if test="price!=null" >
            price=#{price},
        </if>
-       <if test="discountPrice!=null" >
-           discount_price=#{discountPrice},
-       </if>
-       <if test="discountStartTime!=null" >
-           discount_start_time=#{discountStartTime},
-       </if>
-       <if test="discountEndTime!=null" >
-           discount_end_time=#{discountEndTime},
-       </if>
+
        <if test="courseValidityPeriod!=null" >
            course_validity_period=#{courseValidityPeriod} ,
        </if>
@@ -158,9 +150,12 @@
            sort=#{sort},
        </if>
        <if test="handouts!=null and handouts!='' " >
-           handouts=#{handouts}
+           handouts=#{handouts} ,
        </if>
 
+           discount_start_time=#{discountStartTime},
+           discount_price=#{discountPrice},
+           discount_end_time=#{discountEndTime}
    </set>
        WHERE
 
