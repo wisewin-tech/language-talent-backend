@@ -79,15 +79,7 @@
             <if test="price!=null" >
                 `price`=#{price},
             </if>
-            <if test="discountPrice!=null" >
-                `discount_price`=#{discountPrice},
-            </if>
-            <if test="discountStartTime!=null" >
-                `discount_start_time`=#{discountStartTime},
-            </if>
-            <if test="discountEndTime!=null" >
-                `discount_end_time`=#{discountEndTime},
-            </if>
+
             <if test="hotOrNot!=null" >
                 `hot_or_not`=#{hotOrNot},
             </if>
@@ -103,6 +95,11 @@
             <if test="updateTime!=null" >
                 `update_time`=#{updateTime},
             </if>
+
+                `discount_price`=#{discountPrice},
+                `discount_start_time`=#{discountStartTime},
+                `discount_end_time`=#{discountEndTime}
+
         </set>
         WHERE
         id = #{id}
