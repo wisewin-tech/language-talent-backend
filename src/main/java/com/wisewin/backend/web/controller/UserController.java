@@ -41,6 +41,9 @@ public class UserController extends BaseCotroller {
         map.put("nickname",param.getNickname());
         map.put("email",param.getEmail());
         map.put("mobile",param.getMobile());
+        map.put("ageGroup",param.getAgeGroup());
+        map.put("learningGoal",param.getLearningGoal());
+
 
         QueryInfo queryInfo = getQueryInfo(param.getPageNo(),param.getPageSize());
         if(queryInfo != null){

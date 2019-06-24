@@ -79,7 +79,7 @@
         cumulative_sign as cumulativeSign,continuous_learning as continuousLearning,currency,
         create_time as createTime,name,mobile,sex,invite_code as inviteCode,currency,by_invite as byInvite,
         continuous_sign as continuousSign,last_sign as lastSign,cumulative_learning as cumulativeLearning,
-        status
+        status,learning_goal as learningGoal,age_group as ageGroup
         from
         lt_user
         <where>
@@ -87,6 +87,8 @@
             <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
             <if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
             <if test="mobile!=null and mobile!=''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
+            <if test="learningGoal!=null and learningGoal!=''"> AND learning_goal LIKE concat(concat('%',#{learningGoal}),'%')</if>
+            <if test="ageGroup!=null and ageGroup!=''"> AND age_group LIKE concat(concat('%',#{ageGroup}),'%')</if>
         </where>
         order by createTime desc
         <include refid="userLimit" />
@@ -107,6 +109,8 @@
             <if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>
             <if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>
             <if test="mobile!=null and mobile!=''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>
+            <if test="learningGoal!=null and learningGoal!=''"> AND learning_goal LIKE concat(concat('%',#{learningGoal}),'%')</if>
+            <if test="ageGroup!=null and ageGroup!=''"> AND age_group LIKE concat(concat('%',#{ageGroup}),'%')</if>
         </where>
     </select>
 
