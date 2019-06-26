@@ -4,7 +4,7 @@
   <groupId>com.wisewin</groupId>
   <artifactId>language-talent-backend</artifactId>
   <packaging>war</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0.0-DELIVERY</version>
   <name>language-talent-backend Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
