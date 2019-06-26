@@ -64,7 +64,22 @@ public class UserController extends BaseCotroller {
         logService.end("User/queryUsers",json);
         super.safeJsonPrint(response,json);
     }
-
+    /**
+     * 获取用户邀请记录
+     * */
+    @RequestMapping("/getInvitationRecord")
+    public void getInvitationRecord(HttpServletRequest request, HttpServletResponse response, Integer id){
+        if(id==null){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("User/deleteUsersById",languagejson);
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        List<UserBO> userBOList=userService.getInvitationRecord(id);//查询到用户信息
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userBOList));
+        logService.end("User/queryUsers",json);
+        super.safeJsonPrint(response,json);
+    }
     /**
      *
      *传入json格式用户id数组，转为数组把用户删除

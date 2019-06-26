@@ -9,9 +9,9 @@
     <select id="selectUser" parameterType="java.util.Map"
             resultType="com.wisewin.backend.entity.bo.CertificateResultBO">
         SELECT
-        ltc.id,ltc.user_id,ltu.nickname,ltc.course_id,ltc.`status`,ltc.`send`,logistics,
+        ltc.id,ltc.user_id,ltu.nickname,ltu.name,ltc.course_id,ltc.`status`,ltc.`send`,logistics,
       course.course_name,course.certificate_image_url AS image_url,
-        ltu.mobile
+        ltu.mobile,ltc.certificate_number
     FROM
         lt_certificate AS ltc
     LEFT JOIN lt_user AS ltu ON ltc.user_id=ltu.id

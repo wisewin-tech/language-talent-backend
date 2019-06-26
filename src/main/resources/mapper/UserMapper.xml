@@ -79,7 +79,7 @@
         cumulative_sign as cumulativeSign,continuous_learning as continuousLearning,currency,
         create_time as createTime,name,mobile,sex,invite_code as inviteCode,currency,by_invite as byInvite,
         continuous_sign as continuousSign,last_sign as lastSign,cumulative_learning as cumulativeLearning,
-        status,learning_goal as learningGoal,age_group as ageGroup
+        status,learning_goal as learningGoal,age_group as ageGroup,registeredChannels
         from
         lt_user
         <where>
@@ -123,4 +123,10 @@
             </foreach>
 
     </update>
+
+    <!--查询一个用户邀请过的人-->
+    <select id="getInvitationRecord" parameterType="java.lang.Integer" resultType="com.wisewin.backend.entity.bo.UserBO">
+        select id,nickname,mobile,create_time,registered_channels  from lt_user where by_invite=#{id}
+    </select>
+
 </mapper>

@@ -34,6 +34,15 @@ public class UserBO  extends BaseModel{
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private String status;//是否被拉黑
+    private String registeredChannels;//注册渠道
+
+    public String getRegisteredChannels() {
+        return registeredChannels;
+    }
+
+    public void setRegisteredChannels(String registeredChannels) {
+        this.registeredChannels = registeredChannels;
+    }
 
     public String getOccupation() {
         return occupation;

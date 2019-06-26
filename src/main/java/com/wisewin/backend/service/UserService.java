@@ -103,4 +103,10 @@ public class UserService {
         return userDAO.selectUsersCount(map);
     }
 
+    /**
+     * 查询用户邀请记录
+     */
+    public List<UserBO> getInvitationRecord(Integer id){
+        return userDAO.getInvitationRecord(id);
+    }
 }

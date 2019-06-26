@@ -83,4 +83,8 @@ public interface UserDAO {
      */
     Integer deleteUsersById(@Param("idArr") Integer[] idArr,@Param("status") String status);
 
+    /**
+     * 查询用户邀请记录
+     */
+    List<UserBO> getInvitationRecord(Integer id);
 }
