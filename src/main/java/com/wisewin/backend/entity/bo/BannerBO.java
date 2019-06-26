@@ -103,6 +103,25 @@ public class BannerBO extends BaseModel{
     }
 
     public void setUpdateTime(Date updateTime) {
+
+
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BannerBO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", type='" + type + '\'' +
+                ", skipUrl='" + skipUrl + '\'' +
+                ", sort=" + sort +
+                ", status='" + status + '\'' +
+                ", createUserId=" + createUserId +
+                ", createTime=" + createTime +
+                ", updateUserId=" + updateUserId +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

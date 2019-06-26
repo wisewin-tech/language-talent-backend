@@ -127,6 +127,26 @@ public class AdminBO extends BaseModel {
     }
 
     public void setRoleName(String roleName) {
+
+
         this.roleName = roleName;
+    }
+
+    @Override
+    public String toString() {
+        return "AdminBO{" +
+                "id=" + id +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
+                ", gender='" + gender + '\'' +
+                ", roleId=" + roleId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", email='" + email + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", url=" + url +
+                '}';
     }
 }

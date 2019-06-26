@@ -36,7 +36,7 @@
         ORDER  BY
           so_releasetime
         DESC
-
+        limit #{page},#{strip}
     </select>
 
 

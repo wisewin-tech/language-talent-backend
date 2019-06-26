@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.DictionaryDAO">
+
+    <select id="getDictionaryBOs" resultType="com.wisewin.backend.entity.bo.DictionaryBO">
+        select * from lt_dictionary
+    </select>
+
+</mapper>

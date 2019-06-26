@@ -202,4 +202,31 @@ public class ChapterBO extends BaseModel{
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "ChapterBO{" +
+                "id=" + id +
+                ", chapterName='" + chapterName + '\'' +
+                ", levelId=" + levelId +
+                ", content='" + content + '\'' +
+                ", status='" + status + '\'' +
+                ", videoPath='" + videoPath + '\'' +
+                ", duration='" + duration + '\'' +
+                ", chapterIntro='" + chapterIntro + '\'' +
+                ", manuscript='" + manuscript + '\'' +
+                ", freeOrNot='" + freeOrNot + '\'' +
+                ", serialNumber=" + serialNumber +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                ", createUserId=" + createUserId +
+                ", createTime=" + createTime +
+                ", updateUserId=" + updateUserId +
+                ", updateTime=" + updateTime +
+                ", languageId=" + languageId +
+                ", courseId=" + courseId +
+                ", courseName='" + courseName + '\'' +
+                ", languageName='" + languageName + '\'' +
+                ", levelName='" + levelName + '\'' +
+                '}';
+    }
 }

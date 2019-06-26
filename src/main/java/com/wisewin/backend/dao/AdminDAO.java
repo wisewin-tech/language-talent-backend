@@ -1,9 +1,6 @@
 package com.wisewin.backend.dao;
 
-import com.wisewin.backend.entity.bo.AdminBO;
-import com.wisewin.backend.entity.bo.MenuBO;
-import com.wisewin.backend.entity.bo.RoleBO;
-import com.wisewin.backend.entity.bo.RoleMenuBO;
+import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
@@ -31,7 +28,7 @@ public interface AdminDAO {
      * @param roleid 角色id
      * @return
      */
-    Set<String> queryAdminUrl(Integer roleid);
+    List<String> queryAdminUrl(Integer roleid);
 
     /**
      * 注册管理员信息
@@ -228,10 +225,10 @@ public interface AdminDAO {
     /**
      * 根据用户id删除用户信息
      *
-     * @param id 用户id
+     * @param Did 用户id
      * @return
      */
-    boolean delAdminById(Integer id);
+    boolean delAdminById(@Param("Did") String[] Did);
 
     /**
      * 修改admin用户信息
@@ -247,7 +244,7 @@ public interface AdminDAO {
      * @param map
      * @return
      */
-    List<AdminDTO> getAdmin(Map map);
+    List<AdminDTO> getAdmin(Map<String,Object> map);
 
     /**
      * 查询用户信息不使用分页
@@ -263,7 +260,7 @@ public interface AdminDAO {
      * @param map
      * @return 用户总数
      */
-    Integer getAdminCountByMap(Map map);
+    Integer getAdminCountByMap(Map<String,Object> map);
 
     /**
      * 根据角色名称查找对应的角色id
@@ -323,4 +320,9 @@ public interface AdminDAO {
     List<RoleBO> getRoleMenuSuccess(Integer roleId);
 
 
+    int existsUser(Integer roleId);
+
+    List<LanguageChoiceBO> queryRoles();
+
+    List<MenuBO> getMenuByRoleId(Integer roleId);
 }

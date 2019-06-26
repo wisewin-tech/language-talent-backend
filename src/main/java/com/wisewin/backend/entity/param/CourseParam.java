@@ -66,4 +66,17 @@ public class CourseParam {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
+
+    @Override
+    public String toString() {
+        return "CourseParam{" +
+                "courseName='" + courseName + '\'' +
+                ", status='" + status + '\'' +
+                ", hotOrNot='" + hotOrNot + '\'' +
+                ", certificateOrNot='" + certificateOrNot + '\'' +
+                ", pageNo=" + pageNo +
+                ", pageSize=" + pageSize +
+                ", languageId=" + languageId +
+                '}';
+    }
 }

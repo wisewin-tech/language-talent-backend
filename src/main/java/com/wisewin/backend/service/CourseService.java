@@ -1,5 +1,6 @@
 package com.wisewin.backend.service;
 
+import com.wisewin.backend.common.constants.CourseConstants;
 import com.wisewin.backend.common.constants.LanguageConstants;
 import com.wisewin.backend.dao.CourseDAO;
 import com.wisewin.backend.entity.bo.CourseBO;
@@ -20,9 +21,11 @@ import java.util.Map;
 public class CourseService {
     @Resource
     private CourseDAO  courseDAO;
-    @Resource
-    private NoticeService  noticeService;
 
+    @Resource
+    private CertificateService  certificateService;
+    @Resource
+    private OrderService orderService;
     /**
      *  查询课程列表
      *  courseName 课程名字
@@ -48,9 +51,7 @@ public class CourseService {
      * 添加课程
      */
     public boolean addCourse(CourseBO  courseBO,Integer userId){
-        if(courseBO.getPurchaseNotes()==null){
-            courseBO.setPurchaseNotes(noticeService.queryNotice());
-        }
+
         if(courseBO.getStatus()==null)
             courseBO.setStatus(LanguageConstants.STATUS_PUTAWAY.getValue());
         courseBO.setCreateUserId(userId);
@@ -63,6 +64,23 @@ public class CourseService {
      *  修改课程
      */
    public boolean updateCourse(CourseBO courseBO,Integer userId){
+       CourseBO course = courseDAO.queryCourseId(courseBO.getId());
+       if(course==null){
+           return false;
+       }
+       if(courseBO.getCertificateOrNot()!=null && course.getCertificateOrNot()!=null  &&
+               !courseBO.getCertificateOrNot().equals(course.getCertificateOrNot())){  //修改了是否可以考证
+           if(CourseConstants.MAY.getValue().equals(courseBO.getCertificateOrNot())){ //改为可以考证
+               certificateService.addCertificate(orderService.queryCoursesById(courseBO.getId()),courseBO.getId());
+           }else{
+               //不可以考证
+               if(certificateService.queryUserCount(courseBO.getId())){  //有人购买了可以考证不让修改
+                    return false;
+               }
+           }
+       }
+
+       certificateService.queryUserCount(courseBO.getId());
        courseBO.setUpdateUserId(userId);
        courseBO.setUpdateTime(new Date());
         return courseDAO.updateCourse(courseBO)>0;
@@ -101,5 +119,10 @@ public class CourseService {
      */
     public void updateNotice(String notice){
         courseDAO.updateNotice(notice);
+    }
+
+
+    public Integer queryCourseIdByName(Integer languageId, String name) {
+        return  courseDAO.queryCourseIdByName(languageId,name);
     }
 }

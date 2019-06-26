@@ -4,6 +4,7 @@ import com.wisewin.backend.dao.SpecialClassDAO;
 import com.wisewin.backend.dao.SpecialDAO;
 import com.wisewin.backend.entity.bo.SpecialBO;
 import com.wisewin.backend.entity.bo.SpecialClassBO;
+import com.wisewin.backend.pop.SystemConfig;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +23,18 @@ public class SpecialService {
      * 专题的增加
      * */
     public boolean addSpecial(SpecialBO specialBO){
-        return specialDAO.addSpecial(specialBO)>0;
+        specialDAO.addSpecial(specialBO);
+        String url= SystemConfig.getString("domain_name")+"/special.html?id="+specialBO.getId();
+        specialBO.setSkip(url);
+        return specialDAO.updateSpecialById(specialBO)>0;
+
     }
 
     /**
      * 专题的删除
      * */
-    public boolean delSpecialById(Integer[] idArr,String status){
-        return specialDAO.delSpecialById(idArr,status)>0;
+    public boolean delSpecialById(String[] idArr,String status,Integer updateId){
+        return specialDAO.delSpecialById(idArr,status,updateId)>0;
     }
 
     /**
@@ -53,5 +58,11 @@ public class SpecialService {
         return specialDAO.selectSpecialBOCount(status,classId);
     }
 
+    /**
+     * 查看单个专题
+     * */
+    public SpecialBO selectSpecialBOById(Integer id){
+        return specialDAO.selectSpecialBOById(id);
+    }
 
 }

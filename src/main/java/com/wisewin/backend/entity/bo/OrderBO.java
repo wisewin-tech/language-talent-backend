@@ -10,6 +10,9 @@ public class OrderBO extends BaseModel {
     private Integer id; //订单表
     private Integer userId; //用户id
     private String mobile;//用户手机号
+    private String name;//用户名
+    private String orderType;
+    private String status;
     private Integer languageId; //语言id
     private Integer coursesId; //课程id
     private String languageName; //语言名称
@@ -25,6 +28,7 @@ public class OrderBO extends BaseModel {
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private List<OrderCoursesBO> orderCoursesBOList;//订单中的多个课程
+
     public String getMobile() {
         return mobile;
     }
@@ -33,7 +37,13 @@ public class OrderBO extends BaseModel {
         this.mobile = mobile;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Date getCourseValidityPeriod() {
         return courseValidityPeriod;
@@ -51,25 +61,20 @@ public class OrderBO extends BaseModel {
         this.orderCoursesBOList = orderCoursesBOList;
     }
 
-    @Override
-    public String toString() {
-        return "OrderDTO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", languageId=" + languageId +
-                ", coursesId=" + coursesId +
-                ", languageName='" + languageName + '\'' +
-                ", coursesName='" + coursesName + '\'' +
-                ", price=" + price +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", productName='" + productName + '\'' +
-                ", creationDate=" + creationDate +
-                ", standby='" + standby + '\'' +
-                ", createId=" + createId +
-                ", updateId=" + updateId +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getId() {
@@ -190,5 +195,32 @@ public class OrderBO extends BaseModel {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderBO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", mobile='" + mobile + '\'' +
+                ", name='" + name + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", status='" + status + '\'' +
+                ", languageId=" + languageId +
+                ", coursesId=" + coursesId +
+                ", languageName='" + languageName + '\'' +
+                ", coursesName='" + coursesName + '\'' +
+                ", price=" + price +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", productName='" + productName + '\'' +
+                ", creationDate=" + creationDate +
+                ", courseValidityPeriod=" + courseValidityPeriod +
+                ", standby='" + standby + '\'' +
+                ", createId=" + createId +
+                ", updateId=" + updateId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", orderCoursesBOList=" + orderCoursesBOList +
+                '}';
     }
 }

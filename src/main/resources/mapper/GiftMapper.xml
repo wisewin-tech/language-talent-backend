@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.GiftDAO">
+    <!--通过条件分页查询键值信息-->
+    <select id="selectAll" resultType="com.wisewin.backend.entity.bo.GiftBO"
+            parameterType="java.util.Map">
+        select
+        `id`,`title`,`value`,`cardnumber`,`scope`,
+        `exchangeyard`,  `starttime`,`finishtime`,
+        `cause`,`create_time`,`status`,batch_number
+        from
+        lt_gift
+        <where>
+
+            <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
+            <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
+            <if test="giftParam.cardnumber!=null and  giftParam.cardnumber !='' "> AND `cardnumber`like '%${giftParam.cardnumber}%'</if>
+            <if test="giftParam.value!=null "> AND `value`= #{giftParam.value}</if>
+            <if test="giftParam.batchNumber!=null and  giftParam.batchNumber!='' ">AND `batch_number`=#{giftParam.batchNumber}</if>
+            <if test="giftParam.status!=null and  giftParam.status!='' ">AND `status`=#{giftParam.status}</if>
+        </where>
+        order by create_time desc
+        <include refid="limit"/>
+
+    </select>
+    <sql id="limit">
+      limit #{pageOffset},#{pageSize}
+    </sql>
+        <!--条件查询卡品卡总条数-->
+    <select id="selectCount" resultType="int">
+        select
+          count(id)
+        from
+          lt_gift
+        <where>
+            <if test="batchNumber!=null and batchNumber!='' ">
+                AND batch_number LIKE CONCAT(CONCAT('%',#{batchNumber}),'%')
+            </if>
+
+            <if test="title!=null and title!='' ">
+                AND title LIKE CONCAT(CONCAT('%',#{title}),'%')
+            </if>
+
+            <if test="cardnumber!=null and cardnumber!='' ">
+                AND cardnumber LIKE CONCAT(CONCAT('%',#{cardnumber}),'%')
+            </if>
+
+            <if test="value!=null ">
+                AND  `value`=#{value}
+            </if>
+
+            <if test="status!=null and status!='' ">
+               AND  status=#{status}
+            </if>
+
+        </where>
+
+    </select>
+    <!--添加礼品卡-->
+    <insert id="addGift" parameterType="com.wisewin.backend.entity.param.GiftParam">
+
+        INSERT  INTO lt_gift
+        ( `title`,`value`,`cardnumber`,`batch_number`,`exchangeyard`, `remark`, `starttime`,`finishtime`,
+         `cause`,`create_time`)
+        VALUES
+        <foreach collection ="list" item="giftParam" separator =",">
+            (
+            #{giftParam.title}, #{giftParam.value},
+            #{giftParam.cardnumber}, #{giftParam.batchNumber}, #{giftParam.exchangeyard},
+            #{giftParam.remark},#{giftParam.starttime}, #{giftParam.finishtime}, #{giftParam.cause},now()
+            )
+        </foreach >
+
+    </insert>
+    <!--修改礼品卡信息-->
+    <update id="updateGift"  useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.wisewin.backend.entity.param.GiftParam">
+
+        UPDATE  lt_gift
+        <set>
+            <if test="title!=null">`title`=#{title},</if>
+            <if test="value!=null">`value`=#{value},</if>
+            <if test="cardnumber!=null">`cardnumber`=#{cardnumber},</if>
+            <if test="scope!=null">`scope`=#{scope},</if>
+            <if test="exchangeyard!=null">`exchangeyard`=#{exchangeyard},</if>
+            <if test="starttime!=null">`starttime`=#{starttime},</if>
+            <if test="finishtime!=null">`finishtime`=#{finishtime},</if>
+            update_time=now()
+        </set>
+        WHERE
+        id=#{id}
+
+    </update>
+
+    <!--批量冻结礼品卡-->
+    <update id="frostGift">
+       UPDATE  lt_gift SET
+        status='frost'
+        where status='not' AND id in
+        <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </update>
+    <!--批量解冻礼品卡-->
+    <update id="unfreezeGift">
+        UPDATE  lt_gift SET
+        status='not'
+        where status!='use' and id in
+        <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="queryGifByBatch"  parameterType="java.lang.Long"  resultType="com.wisewin.backend.entity.bo.GiftBO">
+       SELECT cardnumber,`value`,exchangeyard,starttime,finishtime ,batch_number  FROM `lt_gift`
+        WHERE batch_number=#{batch}  AND `status`='not'
+    </select>
+
+    <select id="countBatch"  parameterType="java.lang.Long"  resultType="int" >
+       SELECT  count(id)  FROM `lt_gift`
+        WHERE batch_number=#{batch}  AND `status`='not'
+    </select>
+</mapper>

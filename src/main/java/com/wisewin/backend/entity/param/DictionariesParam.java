@@ -89,4 +89,18 @@ public class DictionariesParam {
     public Double getRank() {
         return rank;
     }
+
+    @Override
+    public String toString() {
+        return "DictionariesParam{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", value='" + value + '\'' +
+                ", outer='" + outer + '\'' +
+                ", dnName='" + dnName + '\'' +
+                ", updateUserId=" + updateUserId +
+                ", dnReleasetime=" + dnReleasetime +
+                ", rank=" + rank +
+                '}';
+    }
 }

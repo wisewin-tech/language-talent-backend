@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 版本 -->
+<mapper namespace="com.wisewin.backend.dao.VersionsDAO">
+
+    <!--添加版本-->
+    <insert id="addVersions" parameterType="com.wisewin.backend.entity.bo.VersionsBO">
+        insert into lt_versions
+        (title,downurl,platform,`type`,subcontent,versioncode,versionname,create_time,admin_id)
+        values
+        (#{title},#{downurl},#{platform},#{type},#{subcontent},#{versioncode},#{versionname},now(),#{adminId})
+    </insert>
+
+    <!--查询-->
+    <select id="queryVersions" resultType="com.wisewin.backend.entity.bo.VersionsBO">
+        SELECT * FROM lt_versions
+        ORDER BY
+        create_time
+        desc
+        <include refid="Limit" />
+    </select>
+    <sql id="Limit">
+      limit #{pageNo},#{pageSize}
+    </sql>
+
+    <!-- 根据状态 分类id 查看 专题 的数量-->
+    <select id="selectVersionBOCount" resultType="java.lang.Integer">
+        select count(*) from lt_versions
+    </select>
+    <!--删除-->
+    <delete id="deleteVersions" parameterType="java.lang.Integer">
+        DELETE  FROM
+          lt_versions where id=#{vid}
+    </delete>
+
+</mapper>

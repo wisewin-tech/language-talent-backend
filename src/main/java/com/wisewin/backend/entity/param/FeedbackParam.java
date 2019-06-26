@@ -74,4 +74,18 @@ public class FeedbackParam {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
+
+    @Override
+    public String toString() {
+        return "FeedbackParam{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", begin=" + begin +
+                ", end=" + end +
+                ", adminid=" + adminid +
+                ", updatetime=" + updatetime +
+                ", pageNo=" + pageNo +
+                ", pageSize=" + pageSize +
+                '}';
+    }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.KeyValDAO">
+    <!--通过条件分页查询键值信息-->
+    <select id="selectAll" resultType="com.wisewin.backend.entity.bo.KeyValuesBO"
+            parameterType="java.util.Map">
+        select
+        `id` ,`key`,`values`,comment,create_time
+        from
+        lt_key_val
+        <where>
+            1=1
+            <if test="key!=null"> AND `key` LIKE'%${key}%'</if>
+            <if test="val!=null"> AND `values` LIKE '%${val}%'</if>
+        </where>
+        order by create_time desc
+        <include refid="limit" />
+
+    </select>
+    <sql id="limit">
+      limit #{pageOffset},#{pageSize}
+    </sql>
+    <insert id="addKeyVal"  useGeneratedKeys="true" keyProperty="id"
+            parameterType="java.util.Map">
+
+        INSERT  INTO
+        lt_key_val (
+        `key`, `values`,`create_time`
+        ) VALUES (
+        #{key},#{val},
+        now()
+        )
+    </insert>
+    <update id="deleteKey">
+        DELETE FROM lt_key_val
+        <where>
+            id=#{id}
+
+        </where>
+    </update>
+    <update id="updateVal" parameterType="java.util.Map">
+        UPDATE lt_key_val
+        <set>
+            <if test="val!=null  and  val!='' "> `values`=#{val},</if>
+            <if test="comment!=null and  comment!='' ">  `comment` =#{comment},</if>
+            update_id=#{userId},
+            update_time=now()
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+
+
+
+</mapper>

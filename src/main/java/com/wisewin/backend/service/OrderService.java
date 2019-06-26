@@ -30,6 +30,13 @@ public class OrderService {
     UserDAO userDAO;
 
     /**
+     * 根据课程id 查出购买这个课程的用户id
+     */
+    public List<Integer> queryCoursesById(Integer coursesId){
+        return orderDao.queryCoursesById(coursesId);
+    }
+
+    /**
      * 根据用户查订单，订单中包括多个课程
      * */
     public List<OrderBO> queryOrderById(Integer id,Integer pageNo,Integer pageSize){
@@ -50,32 +57,23 @@ public class OrderService {
 
 
     /**
-     * 按时间段 手机号 订单号 分页查询所有订单
+     * !!!!!!按时间段 手机号 订单号 分页查询所有订单
      * 所有订单总数
      */
     public Map<String,Object> queryOrderByCond(OrderParam orderParam){
         Map<String,Object> map=new HashMap<String, Object>();
-        List<OrderBO> orderBOList=orderDao.queryOrderByCond(orderParam);//没有手机号条件 分页查出的
-        Integer count=orderDao.queryOrderByCondCount(orderParam);//没有分页的用户id 也就是总数
-//        if(orderParam.getMobile()!=null&&orderParam.getMobile()!=""){
-//            //筛选手机号
-//            Integer id = userDAO.selectByPhone(orderParam.getMobile()).getId();//用户id
-//            for (int i=0;i<orderBOList.size();i++){
-//                if(!orderBOList.get(i).getUserId().equals(id)){//如果用户id不等于查出来的订单的id 就代表没有那个手机号的订单 则删除
-//                    orderBOList.remove(i);
-//                }
-//            }
-//            //筛选手机号计算总数
-//            for (int i=0;i<idList.size();i++){
-//                if(!idList.get(i).equals(id)){//如果用户id不等于查出来的订单的id 就代表没有那个手机号的订单 则删除
-//                    idList.remove(i);
-//                }
-//            }
-//        }
+        List<OrderBO> orderBOList=orderDao.queryOrderByCond(orderParam);//全部总订单
+        Integer count=orderDao.queryOrderByCondCount(orderParam);//总订单总数
+        for (OrderBO order:orderBOList) {
+            System.err.println(order.getLanguageName());
+            List<OrderCoursesBO> orderCoursesBOList=orderDao.queryOrderCoursesByOrderId(order.getId());
+            order.setOrderCoursesBOList(orderCoursesBOList);
+        }
         map.put("count",count);
         map.put("orderBOList",orderBOList);
         return map;
     }
+
 
 
 }

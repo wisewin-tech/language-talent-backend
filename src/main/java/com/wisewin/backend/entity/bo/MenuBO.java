@@ -114,4 +114,12 @@ public class MenuBO {
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
     }
+
+    public MenuBO(Integer id, Integer pid,String menuName) {
+        this.id = id;
+        this.pid = pid;
+        this.menuName=menuName;
+    }
+    public MenuBO() {
+    }
 }

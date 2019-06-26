@@ -14,8 +14,8 @@
 
     <!--通过角色id 查询用户拥有的接口-->
     <select id="queryAdminUrl" parameterType="java.lang.Integer"  resultType="java.lang.String" >
-        SELECT menur.url FROM `lt_role` role  LEFT JOIN lt_role_menu  rm ON  rm.role_id = role.id
-                                                LEFT JOIN  lt_menu  menur ON menur.id=rm.menu_id
+        SELECT menur.url FROM `lt_role` role  INNER JOIN lt_role_menu  rm ON  rm.role_id = role.id
+                                                INNER JOIN  lt_menu  menur ON menur.id=rm.menu_id
                          WHERE  role.id=#{roleId}
     </select>
 
@@ -344,8 +344,11 @@
     </update>
 
     <!--  根据用户id删除信息  -->
-    <delete id="delAdminById" parameterType="Integer">
-        DELETE  FROM  lt_admin WHERE id=#{id}
+    <delete id="delAdminById">
+        DELETE  FROM  lt_admin WHERE
+        <foreach  collection="Did" item="id" separator="OR">
+            id=#{id}
+        </foreach>
     </delete>
 
     <!--  根据角色id删除对应的权限  -->
@@ -388,17 +391,17 @@
         <if test="roleId!=null and roleId!=''">
           and  ca.role_id=#{roleId}
         </if>
-        <if test="name!=null and name!=''">
-           AND ca.name LIKE concat(concat('%',#{name}),'%')
+        <if test="userName!=null and userName!=''">
+           AND ca.name  LIKE '%${userName}%'
         </if>
         <if test="mobile!=null and mobile!=''">
-           AND ca.phone_number=#{mobile}
+           AND ca.phone_number   LIKE '%${mobile}%'
         </if>
         <if test="email!=null and email!=''">
             AND ca.email=#{email}
         </if>
         <if test="roleName!=null and roleName!=''">
-            AND cr.role_name=#{roleName}
+            AND cr.role_name  LIKE '%${roleName}%'
         </if>
         <include refid="limit" />
     </select>
@@ -433,18 +436,34 @@
         <if test="roleId!=null and roleId!=''">
             and  ca.role_id=#{roleId}
         </if>
-        <if test="name!=null and name!=''">
-            AND ca.name LIKE concat(concat('%',#{name}),'%')
+        <if test="userName!=null and userName!=''">
+            AND ca.name  LIKE  '%${userName}%'
         </if>
-        <if test="phoneNumber!=null and phoneNumber!=''">
-            AND ca.phone_number=#{phoneNumber}
+            <if test="mobile!=null and mobile!=''">
+            AND ca.phone_number   LIKE '%${mobile}%'
         </if>
         <if test="email!=null and email!=''">
             AND ca.email=#{email}
         </if>
         <if test="roleName!=null and roleName!=''">
-            AND cr.role_name=#{roleName}
+            AND cr.role_name  LIKE '%${roleName}%'
         </if>
+    </select>
+
+
+
+    <select id="existsUser"   parameterType="java.lang.Integer"  resultType="int">
+           SELECT count(id) FROM lt_admin  WHERE  role_id =#{roleId}
+    </select>
+
+
+    <select id="queryRoles"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO" >
+          SELECT id,role_name as name  FROM `lt_role`
+    </select>
+
+
+    <select id="getMenuByRoleId"  resultType="com.wisewin.backend.entity.bo.MenuBO"  parameterType="java.lang.Integer">
+        SELECT me.* FROM lt_role_menu  rm  INNER JOIN  lt_menu me ON rm.menu_id=me.id  WHERE  rm.role_id=#{roleId}
     </select>
 
 </mapper>

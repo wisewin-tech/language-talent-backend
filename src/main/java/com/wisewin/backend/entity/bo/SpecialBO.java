@@ -13,12 +13,84 @@ public class SpecialBO extends BaseModel {
     private Integer classId;//专题分类id
     private String title;//专题标题
     private String describe;//专题描述
+    private String content;//专题内容
     private Date releaseDate;//专题上传日期
     private Integer traffic;//专题访问量
     private String videoUrl;//专题视频地址
+    private String videoLength;//视频时长
+    private String videoCover;//视频封面图片
+    private String skip;//跳转url
     private Integer likeNumber;//喜欢人数
     private String status;//是否展示（yes展示，no不展示）
     private Double sorting;//排序（数值越大 越靠前）
+    private Integer createId; //创建人id
+    private Integer updateId; //修改人id
+    private Date createTime; //创建时间
+    private Date updateTime; //修改时间
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSkip() {
+        return skip;
+    }
+
+    public void setSkip(String skip) {
+        this.skip = skip;
+    }
+
+    public String getVideoLength() {
+        return videoLength;
+    }
+
+    public void setVideoLength(String videoLength) {
+        this.videoLength = videoLength;
+    }
+
+    public String getVideoCover() {
+        return videoCover;
+    }
+
+    public void setVideoCover(String videoCover) {
+        this.videoCover = videoCover;
+    }
+
+    public Integer getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(Integer createId) {
+        this.createId = createId;
+    }
+
+    public Integer getUpdateId() {
+        return updateId;
+    }
+
+    public void setUpdateId(Integer updateId) {
+        this.updateId = updateId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Integer getLikeNumber() {
         return likeNumber;

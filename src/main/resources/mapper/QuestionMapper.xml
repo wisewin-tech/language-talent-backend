@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.QuestionDAO">
+
+    <insert id="addquestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO">
+        INSERT INTO lt_question(topic,`option`,answer,score,relevance_id,
+          question_type,test_type,create_user_id,create_time)
+        VALUES
+            (#{topic},#{option},#{answer},#{score},#{relevanceId},
+            #{questionType},#{testType},#{createUserId},now())
+    </insert>
+
+    <insert id="addquestionTest" parameterType="com.wisewin.backend.entity.bo.QuestionBO">
+        INSERT INTO lt_question_test(topic,`option`,answer,score,relevance_id,
+        question_type,test_type,create_user_id,create_time)
+        VALUES
+        (#{topic},#{option},#{answer},#{score},#{relevanceId},
+        #{questionType},#{testType},#{createUserId},now())
+    </insert>
+
+    <select id="selectQuestion" parameterType="java.util.Map" resultType="com.wisewin.backend.entity.bo.QuestionBO">
+      SELECT  *  FROM  `lt_question`
+      <where>
+        <if test="questionBO.questionType!=null and questionBO.questionType!=''">
+            question_type =#{questionBO.questionType}</if>
+        <if test="questionBO.testType!=null and questionBO.testType!=''">
+            AND `test_type`=#{questionBO.testType}</if>
+          <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
+              AND `relevance_id`=#{questionBO.relevanceId}</if>
+      </where>
+        <include refid="limit" />
+    </select>
+    <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
+
+
+    <!--查询所有条数-->
+    <select id="selectbylimitCount"   parameterType="java.util.Map"   resultType="java.lang.Integer">
+        SELECT  count(1)  FROM  lt_question
+        <where>
+            <if test="questionBO.questionType!=null and questionBO.questionType!=''">
+                question_type =#{questionBO.questionType}</if>
+            <if test="questionBO.testType!=null and questionBO.testType!=''">
+                AND `test_type`=#{questionBO.testType}</if>
+            <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
+                AND `relevance_id`=#{questionBO.relevanceId}</if>
+        </where>
+
+    </select>
+
+    <!--修改题目-->
+    <update id="updateQuestion"  parameterType="com.wisewin.backend.entity.bo.QuestionBO" >
+        UPDATE `lt_question`
+        <set>
+            <if test="topic!=null and topic!=''" > `topic` =#{topic},</if>
+            <if test="option!=null and option!=''" > `option` =#{option},</if>
+            <if test="answer!=null and answer!=''" > `answer` =#{answer},</if>
+            <if test="score!=null and score!=''" > `score` =#{score},</if>
+            <if test="relevanceId!=null and relevanceId!=''" > `relevance_id` =#{relevanceId},</if>
+            <if test="questionType!=null and questionType!=''">
+                question_type =#{questionType},</if>
+            <if test="testType!=null and testType!=''">
+                `test_type`=#{testType},</if>
+            `update_user_id` =#{updateUserId},
+           `update_time` = now()
+        </set>
+        WHERE   id=#{id}
+    </update>
+
+    <delete id="delQuestion">
+        DELETE FROM `lt_question`
+        WHERE id IN
+        <foreach collection="idArr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--通过id查询所有信息-->
+    <select id="getQuestion" parameterType="com.wisewin.backend.entity.bo.QuestionBO"
+            resultType="com.wisewin.backend.entity.bo.QuestionBO">
+        select * from lt_question
+        where
+
+            id=#{id}
+
+    </select>
+    <!--通过课程id查找语言id-->
+    <select id="getCourseId"
+            resultType="com.wisewin.backend.entity.bo.ChapterIdBO">
+      SELECT la.id languageId,co.id courseId
+      FROM lt_language la
+      LEFT JOIN lt_course co ON la.id = co.language_id
+      WHERE co.id = #{id}
+    </select>
+    <!--通过课时id查找课程id级别id语言id-->
+    <select id="getChapterId"
+            resultType="com.wisewin.backend.entity.bo.ChapterIdBO">
+        SELECT la.id languageId,co.id courseId,le.id levelId,ch.id chapterId
+        FROM lt_language la
+        LEFT JOIN lt_course co ON la.id = co.language_id
+        LEFT JOIN lt_level le ON co.id = le.course_id
+        LEFT JOIN lt_chapter ch ON le.id = ch.level_id
+        WHERE ch.id = #{id}
+    </select>
+
+    <!-- 删除测试题库-->
+    <delete id="deleteTest" parameterType="java.lang.Integer"  >
+           DELETE  FROM lt_question_test  WHERE  create_user_id=#{userId}
+    </delete>
+
+     <!--查询测试题库-->
+    <select id="queryTest" resultType="com.wisewin.backend.entity.bo.QuestionBO" parameterType="java.lang.Integer" >
+      SELECT  *  FROM lt_question_test  WHERE  create_user_id=#{userId}
+    </select>
+
+</mapper>

@@ -5,7 +5,7 @@
 <!-- 首页Banner -->
 <mapper namespace="com.wisewin.backend.dao.BannerDAO">
 
-    <!--查询首页信息  status no代表没下架 yes代表以下架 sort值越大越靠前-->
+    <!--查询首页信息-->
     <select id="queryBannerAllOrById" resultType="com.wisewin.backend.entity.bo.BannerBO">
         select
         id,title,picture_url as pictureUrl,type,
@@ -14,8 +14,7 @@
         from
         lt_banner
         <where>
-            status="no"
-            <if test="id!=null">and id=#{id}</if>
+            <if test="status!=null and status!=''">and status=#{status}</if>
         </where>
 
         order by sort desc
@@ -44,9 +43,15 @@
         where id =#{id}
     </update>
 
-    <!--删除首页信息 数据删除了，如果要下架就修改状态相当于逻辑删除-->
-    <delete id="deleteBanner">
-        delete from lt_banner where id=#{id}
+    <!--上下架-->
+    <update id="deleteBanner">
+        update lt_banner set status=#{status},update_time=now(),update_user_id=#{id}
+        where id =#{bannerId}
+    </update>
+
+    <!--物理删除banner-->
+    <delete id="removeBanner">
+        delete from lt_banner where id=#{bannerId}
     </delete>
 
 </mapper>

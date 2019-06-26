@@ -67,4 +67,17 @@ public class MenuParam extends BaseModel {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "MenuParam{" +
+                "id=" + id +
+                ", menuName='" + menuName + '\'' +
+                ", status='" + status + '\'' +
+                ", pid=" + pid +
+                ", url='" + url + '\'' +
+                ", index='" + index + '\'' +
+                ", icon='" + icon + '\'' +
+                '}';
+    }
 }

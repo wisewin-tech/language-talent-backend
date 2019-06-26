@@ -29,8 +29,9 @@
             <if test="languageId!=null" >
               AND   language_id=#{languageId}
             </if>
+              AND  le.status='putaway'
           </where>
-        ORDER BY   te.popular_sort  DESC    <include refid="limit" />
+        ORDER BY   te.sort  DESC    <include refid="limit" />
     </select>
 
     <!--分页数量查询-->
@@ -60,14 +61,14 @@
     <insert id="addCourse"  parameterType="com.wisewin.backend.entity.bo.CourseBO" >
      INSERT INTO `lt_course` ( `course_name`, `language_id`, `foreign_name`, `status`, `price`,
                               `discount_price`, `discount_start_time`, `discount_end_time`, `course_validity_period`, `study_number`,
-                              `thumbnail_image_url`, `course_intro`, `course_lightspot`, `purchase_notes`, `popular_sort`,
+                              `thumbnail_image_url`, `course_intro`, `course_lightspot`,`handouts`, `purchase_notes`, `popular_sort`,
                               `hot_or_not`, `certificate_or_not`, `certificate_title`, `certificate_intro`, `certificate_image_url`,
-                               `create_user_id`, `create_time`, `update_user_id`, `update_time`)
+                               `create_user_id`, `create_time`, `update_user_id`, `update_time` ,sort)
                       VALUES (#{courseName},#{languageId},#{foreignName},#{status},#{price},
                                 #{discountPrice},#{discountStartTime},#{discountEndTime},#{courseValidityPeriod},#{studyNumber},
-                                #{thumbnailImageUrl},#{courseIntro},#{courseLightspot},#{purchaseNotes},#{popularSort},
+                                #{thumbnailImageUrl},#{courseIntro},#{courseLightspot},#{handouts},#{purchaseNotes},#{popularSort},
                                 #{hotOrNot},#{certificateOrNot},#{certificateTitle},#{certificateIntro},#{certificateImageUrl},
-                                #{createUserId},#{createTime},#{updateUserId},#{updateTime});
+                                #{createUserId},#{createTime},#{updateUserId},#{updateTime},#{sort});
 
     </insert>
 
@@ -96,15 +97,7 @@
        <if test="price!=null" >
            price=#{price},
        </if>
-       <if test="discountPrice!=null" >
-           discount_price=#{discountPrice},
-       </if>
-       <if test="discountStartTime!=null" >
-           discount_start_time=#{discountStartTime},
-       </if>
-       <if test="discountEndTime!=null" >
-           discount_end_time=#{discountEndTime},
-       </if>
+
        <if test="courseValidityPeriod!=null" >
            course_validity_period=#{courseValidityPeriod} ,
        </if>
@@ -151,11 +144,21 @@
            `update_user_id`=#{updateUserId},
        </if>
        <if test="updateTime!=null" >
-           `update_time`=#{updateTime}
+           `update_time`=#{updateTime} ,
+       </if>
+       <if test="sort!=null" >
+           sort=#{sort},
+       </if>
+       <if test="handouts!=null and handouts!='' " >
+           handouts=#{handouts} ,
        </if>
 
+           discount_start_time=#{discountStartTime},
+           discount_price=#{discountPrice},
+           discount_end_time=#{discountEndTime}
    </set>
        WHERE
+
         id = #{id}
     </update>
 
@@ -168,11 +171,16 @@
     <!--选择课程-->
    <select id="queryCourseChoice"  resultType="com.wisewin.backend.entity.bo.LanguageChoiceBO"  parameterType="java.lang.Integer">
         SELECT id,course_name as name  FROM `lt_course`   WHERE   status='putaway'   AND   language_id=#{languageId}
-         ORDER BY   popular_sort  ASC
+         ORDER BY   sort  DESC
     </select>
 
     <!--修改购买须知-->
     <update id="updateNotice"  parameterType="java.lang.String"  >
        UPDATE lt_course SET purchase_notes=#{notice}
     </update>
+
+    <!--通过语言id和课程名字查询 课程id-->
+    <select id="queryCourseIdByName" resultType="java.lang.Integer" >
+          SELECT id   FROM `lt_course`   WHERE   language_id=#{languageId}  AND course_name=#{name}
+    </select>
 </mapper>

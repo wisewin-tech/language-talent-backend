@@ -1,10 +1,12 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.UserService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,8 @@ import java.util.Map;
 public class UserController extends BaseCotroller {
     @Resource
     UserService userService;
+    @Resource
+    private LogService logService;
 
     /**
      *
@@ -30,12 +34,8 @@ public class UserController extends BaseCotroller {
      * */
     @RequestMapping("/queryUsers")
     public void queryUsers(HttpServletRequest request, HttpServletResponse response, UserParam param){
-        if(param.getPageNo()==null||param.getPageSize()==null||param.getPageNo()==0||param.getPageSize()==0){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
-
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,param);
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("name",param.getName());
         map.put("nickname",param.getNickname());
@@ -47,14 +47,18 @@ public class UserController extends BaseCotroller {
             map.put("pageSize",queryInfo.getPageSize());
             map.put("pageIndex",queryInfo.getPageOffset());
         }
-
+        logService.call("userService.selectUsers",map);
         List<UserBO> userBOList=userService.selectUsers(map);//查询到用户信息
+        logService.result(userBOList);
+        logService.call("userService.selectUsersCount",map);
         Integer userCount=userService.selectUsersCount(map);//用户数量
+        logService.result(userCount);
+
         Map<String,Object> resultMap=new HashMap<String, Object>();
         resultMap.put("userBOList",userBOList);
         resultMap.put("count",userCount);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
-
+        logService.end("User/queryUsers",json);
         super.safeJsonPrint(response,json);
     }
 
@@ -64,18 +68,25 @@ public class UserController extends BaseCotroller {
      * */
     @RequestMapping("/deleteUsersById")
     public void deleteUsersById(HttpServletRequest request,HttpServletResponse response,String idArrJSON,String status){
-        if(idArrJSON==null||status==null||status.equals("")||idArrJSON.equals("")){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,idArrJSON,status);
+        if(idArrJSON==null||status==null||status.length()==0||idArrJSON.length()<=2){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("User/deleteUsersById",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
         Integer[] idArr=JsonUtils.getIntegerArray4Json(idArrJSON);
+        logService.call("userService.deleteUsersById",idArr,status);
         Integer line=userService.deleteUsersById(idArr,status);
+        logService.result(line);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
+            logService.end("userService.deleteUsersById",result);
             super.safeJsonPrint(response , result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改失敗")) ;
+            logService.end("userService.deleteUsersById",result);
             super.safeJsonPrint(response , result);
         }
     }

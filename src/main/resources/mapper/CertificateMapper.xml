@@ -5,35 +5,68 @@
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.CertificateDAO">
 
-
+<!--证书发送列表-->
     <select id="selectUser" parameterType="java.util.Map"
             resultType="com.wisewin.backend.entity.bo.CertificateResultBO">
         SELECT
-        ltc.id,ltc.user_id,ltu.nickname,ltc.course_id,ltc.`status`,ltc.`send`,
-      course.course_name,course.certificate_image_url
+        ltc.id,ltc.user_id,ltu.nickname,ltc.course_id,ltc.`status`,ltc.`send`,logistics,
+      course.course_name,course.certificate_image_url AS image_url,
+        ltu.mobile
     FROM
         lt_certificate AS ltc
     LEFT JOIN lt_user AS ltu ON ltc.user_id=ltu.id
     LEFT JOIN lt_course AS `course` ON ltc.course_id=course.id
         <where>
-            <if test="send!=null">ltc.`send`=#{send},</if>
-            <if test="status!=null">ltc.`status`=#{status},</if>
-            <if test="userId!=null">ltc.`user_id`=#{userId},</if>
+            <if test="userId!=null ">AND ltc.`user_id`=#{userId}</if>
+            <if test="send!=null and send!='' "> AND ltc.`send`=#{send} </if>
+            <if test="status!=null and status!=''"> AND ltc.`status`=#{status}</if>
+            <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`  LIKE  '%${mobile}%' </if>
+            <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
         </where>
         <include refid="limit" />
     </select>
+
     <sql id="limit">
         limit #{pageOffset},#{pageSize}
     </sql>
+    <!--证书发放列表数量-->
+    <select id="selectCertificateCount" parameterType="java.util.Map"
+            resultType="java.lang.Integer">
+        SELECT count(ltc.id)
+        FROM
+        lt_certificate AS ltc
+        LEFT JOIN lt_user AS ltu ON ltc.user_id=ltu.id
+        LEFT JOIN lt_course AS `course` ON ltc.course_id=course.id
+        <where>
+            <if test="userId!=null ">AND ltc.`user_id`=#{userId}</if>
+            <if test="send!=null and send!='' "> AND ltc.`send`=#{send} </if>
+            <if test="status!=null and status!=''"> AND ltc.`status`=#{status}</if>
+            <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`  LIKE  '%${mobile}%' </if>
+            <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
+        </where>
+    </select>
 
     <update id="updateSend" parameterType="java.util.Map">
-        UPDATE lt_certificate
-        <set>
-            <if test="send!=null">send=#{send}</if>
-        </set>
-        where
---         userId=#{userId} and course_id=#{courseId}
-        id=#{id}
+        UPDATE lt_certificate SET
+
+            update_user_id=#{userId},update_time=now()
+            <if test="send!=null and send!=''">,send=#{send}</if>
+            <if test="logistics!=null and logistics!=''">,logistics=#{logistics}</if>
+
+        where id=#{id}
     </update>
+
+    <!--查询课程数量-->
+    <select id="queryUserCount"  parameterType="java.lang.Integer"  resultType="int">
+        SELECT  count(id)  FROM   lt_certificate  WHERE  course_id=#{ceId}
+    </select>
+
+    <!--添加证书-->
+    <insert id="addCertificate"  parameterType="com.wisewin.backend.entity.bo.CertificateResultBO"  >
+      INSERT INTO `lt_certificate` ( `user_id`, `course_id`, `send`, `status`, `create_user_id`, `create_time`,
+       `update_user_id`, `update_time`)
+        VALUES (#{userId},#{courseId},#{status},#{send},#{createUserId},#{createTime},#{updateUserId},#{updateTime});
+
+    </insert>
 
 </mapper>

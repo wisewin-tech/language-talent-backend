@@ -19,7 +19,7 @@ public interface SpecialDAO {
     /**
      * 批量修改专题状态
      * */
-    Integer delSpecialById(@Param("idArr") Integer[] idArr, @Param("status") String status);
+    Integer delSpecialById(@Param("idArr") String[] idArr, @Param("status") String status,@Param("updateId")Integer updateId);
     /**
      * 修改一条专题的信息
      * */
@@ -35,5 +35,9 @@ public interface SpecialDAO {
      * */
     Integer selectSpecialBOCount(@Param("status") String status,@Param("classId")Integer classId);
 
+    /**
+     * 查看单个专题
+     * */
+    SpecialBO selectSpecialBOById(@Param("id") Integer id);
 
 }

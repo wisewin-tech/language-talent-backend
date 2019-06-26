@@ -23,6 +23,8 @@
             <if test="languageId!=null" >
                 AND  le.id=#{languageId}
             </if>
+                 AND   le.status='putaway'
+                 AND   ce.status='putaway'
           </where>
         ORDER BY  serial_number DESC  <include refid="limit" />
     </select>
@@ -109,4 +111,9 @@
         ORDER BY   serial_number  DESC
     </select>
 
+    <!-- 通过课程id和级别名字查询级别id -->
+    <select id="queryLeavelIdByName"  resultType="java.lang.Integer">
+        SELECT id   FROM  `lt_level`   WHERE   course_id=#{courseId}  AND  level_name=#{name}
+
+    </select>
 </mapper>

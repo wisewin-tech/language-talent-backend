@@ -7,7 +7,8 @@
 
     <!-- 根据状态 分类id 分页查看 的专题 -->
     <select id="selectSpecialBO" resultType="com.wisewin.backend.entity.bo.SpecialBO">
-        select * from lt_special
+        select *
+        from lt_special
         <where>
             <if test="status!=null and status !=''">and status=#{status}</if>
             <if test="classId!=null and classId !=''">and class_id=#{classId}</if>
@@ -29,17 +30,23 @@
     </select>
 
     <!-- 添加专题 -->
-    <insert id="addSpecial" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
+    <insert id="addSpecial" parameterType="com.wisewin.backend.entity.bo.SpecialBO" useGeneratedKeys="true"  keyProperty="id">
             insert into lt_special
-     (class_id,title,`describe`,release_date,video_url,status,sorting)
-     values (#{classId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting})
+             (class_id,title,`describe`,release_date,video_url,status,sorting,create_id,create_time,video_length,video_cover,skip,content)
+             values
+             (#{classId},#{title},#{describe},now(),#{videoUrl},#{status},#{sorting},#{createId},now(),#{videoLength},#{videoCover},#{skip},#{content})
     </insert>
 
     <!-- 修改专题-->
     <update id="updateSpecialById" parameterType="com.wisewin.backend.entity.bo.SpecialBO">
         update lt_special
         set
-        class_id=#{classId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},sorting=#{sorting}
+        <if test="skip!=null and skip!=''">
+            skip=#{skip},
+        </if>
+        class_id=#{classId},title=#{title},`describe`=#{describe},video_url=#{videoUrl},`status`=#{status},
+        video_length=#{videoLength},video_cover=#{videoCover},
+        sorting=#{sorting},update_id=#{updateId},update_time=now(),content=#{content}
         where
         id=#{id}
     </update>
@@ -47,7 +54,7 @@
     <!-- 修改一条或者多条专题的状态 -->
     <update id="delSpecialById">
         update  lt_special
-        set status=#{status}
+        set status=#{status},update_id=#{updateId},update_time=now()
         where
         id in
         <foreach collection="idArr" item="id" separator="," open="(" close=")">
@@ -55,5 +62,12 @@
         </foreach>
 
     </update>
+
+    <!-- 管理员点击的某个专题 -->
+    <select id="selectSpecialBOById" resultType="com.wisewin.backend.entity.bo.SpecialBO">
+        select *
+        from lt_special
+        where id=#{id}
+    </select>
 
 </mapper>

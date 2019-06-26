@@ -77,33 +77,26 @@ public class OSSClientUtil {
         }
     }
 
-    public String uploadImgvideo(MultipartFile file) throws Exception {
 
-        String originalFilename = file.getOriginalFilename();
-        try {
-            InputStream inputStream = file.getInputStream();
-            this.uploadFile2OSS(inputStream, originalFilename);
-            return urlName+filedir+originalFilename;
-        } catch (Exception e) {
-            throw new Exception("视频上传失败");
+    /**
+     *
+     * @param file
+     * @param flag  是否不重命名
+     * @return
+     * @throws Exception
+     */
+    public String uploadImg2Oss(MultipartFile file,boolean flag) throws Exception {
+        String filename = file.getOriginalFilename();
+        if(!flag){
+            String substring = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+            Random random = new Random();
+            filename= random.nextInt(10000) + System.currentTimeMillis() + substring;
         }
 
-    }
-
-
-    public String uploadImg2Oss(MultipartFile file) throws Exception {
-
-        String originalFilename = file.getOriginalFilename();
-        //System.out.println("originalFilename:"+originalFilename);
-        String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
-        //System.out.println("substring:"+substring);
-        Random random = new Random();
-        String name = random.nextInt(10000) + System.currentTimeMillis() + substring;
-        //System.out.println("name:"+name);
         try {
             InputStream inputStream = file.getInputStream();
-            this.uploadFile2OSS(inputStream, name);
-            return urlName+filedir+name;
+            this.uploadFile2OSS(inputStream, filename);
+            return urlName+filedir+filename;
         } catch (Exception e) {
             throw new Exception("图片上传失败");
         }
@@ -221,11 +214,20 @@ public class OSSClientUtil {
         if (filenameExtension.equalsIgnoreCase("docx") || filenameExtension.equalsIgnoreCase("doc")) {
             return "application/msword";
         }
+        if (filenameExtension.equalsIgnoreCase("pdf")) {
+            return "application/pdf";
+        }
         if (filenameExtension.equalsIgnoreCase("xml")) {
             return "text/xml";
         }
         if(filenameExtension.equalsIgnoreCase("mp4")){
             return "video/mp4";
+        }
+        if(filenameExtension.equalsIgnoreCase("mp3")){
+            return "video/mp3";
+        }
+        if(filenameExtension.equalsIgnoreCase("apk")){
+            return "application/vnd.android.package-archive";
         }
         return "image/jpeg";
     }

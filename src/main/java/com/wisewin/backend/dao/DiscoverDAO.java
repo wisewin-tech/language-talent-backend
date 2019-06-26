@@ -13,7 +13,7 @@ public interface DiscoverDAO {
     /**
      * 发现列表
      */
-    List<DiscoverBO> queryListDiscoverBO( Map<String,Object> map);
+    List<DiscoverBO> queryListDiscoverBO(Map<String,Object> map);
 
     /**
      * 批量删除
@@ -22,17 +22,12 @@ public interface DiscoverDAO {
      */
     void  updateDiscoverbyShows(Integer[] idArr);
 
-
     /**
      * 批量置顶
      * @param idArr
      */
     void updateDiscoverbySticks(@Param("idArr")Integer[] idArr, @Param("stick")String stick);
 
-    /**
-     * 修改
-     */
-    void updateDiscover(DiscoverBO discoverBO);
 
     /**
      * 修改单表查询
@@ -45,8 +40,47 @@ public interface DiscoverDAO {
      */
     Integer countDiscover(Map<String,Object> map);
 
+
+
+
     /**
-     * 添加
+     * 修改 新闻类型 Journalism
      */
-    void insertDiscover(DiscoverBO discoverBO);
+    void  updateJournalism(DiscoverBO discoverBO);
+
+    /**
+     * 修改 视频类型 curriculum
+     */
+    void  updateCurriculum(DiscoverBO discoverBO);
+
+    /**
+     * 修改 线下活动类型 activity
+     */
+    void  updateActivity(DiscoverBO discoverBO);
+
+
+    /**
+     * 添加 新闻类型 Journalism
+     */
+    void insertJournalism(DiscoverBO discoverBO);
+
+    /**
+     * 修改 视频类型 curriculum
+     */
+    void  insertCurriculum(DiscoverBO discoverBO);
+
+    /**
+     *  添加 线下活动类型 activity
+     */
+    void  insertActivity(DiscoverBO discoverBO);
+
+    void  insetskip(@Param("id")Integer id,@Param("skip")String skip);
+
+    /**
+     * 单表查
+     * @param id
+     * @return
+     */
+    DiscoverBO queryDiscoverById(Integer id);
+
 }

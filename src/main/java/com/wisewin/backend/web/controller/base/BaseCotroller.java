@@ -8,12 +8,14 @@ import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.query.PageObject;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.util.redisUtils.RedissonHandler;
+import com.wisewin.backend.web.controller.TestController;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -30,8 +32,6 @@ import java.util.List;
  * @author Shibo Sun
  */
 public class BaseCotroller {
-    protected transient final Logger log = Logger.getLogger(getClass());
-
 
     protected PageObject pager = null;
     private int default_page_size = 10;
@@ -54,6 +54,7 @@ public class BaseCotroller {
                 e.printStackTrace();
             }
             out.write(str);
+
         } finally {
             if (out != null)
                 out.close();
@@ -129,6 +130,7 @@ public class BaseCotroller {
         }
         return 0;
     }
+
 
     class ThreadUtil implements Runnable {
         // 设置读取的字符编码
@@ -226,11 +228,7 @@ public class BaseCotroller {
 
     /**获取登录管理员*/
     public AdminBO getLoginAdmin (HttpServletRequest request ) {
-       AdminBO adminBO= new AdminBO();
-        adminBO.setId(1);
-        adminBO.setName("Admin");
-        return adminBO;
-        //return (AdminBO) this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
+        return (AdminBO) this.getSession(request, SysConstants.CURRENT_LOGIN_USER) ;
     }
 
     /** putLoginAdmin*/

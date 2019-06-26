@@ -15,6 +15,7 @@ public class CustomPropertyConfigurer extends PropertyPlaceholderConfigurer{
     protected void processProperties( ConfigurableListableBeanFactory beanFactoryToProcess,
                                       Properties props) throws BeansException {
 
+
         for (Object tmp :  props.keySet()) {
             // 判断如果是diamond值得话需要在重新加载一遍
             if (props.get(tmp.toString()).equals(Env.DIAMOND_DEFAULT_VALUE))

@@ -1,12 +1,16 @@
 package com.wisewin.backend.web.controller;
 
+import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.OrderBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.OrderParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.OrderService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  *
  * 订单
@@ -25,30 +30,41 @@ import java.util.Map;
 @RequestMapping("/Order")
 public class OrderController extends BaseCotroller {
 
+    static final Logger log = LoggerFactory.getLogger(OrderController.class);
+
     @Resource
     OrderService orderService;
+    @Resource
+    private LogService logService;
     /**
      * 根据用户的id查看他的订单，也就是语言订单
      * 语言订单里包括这个订单的多个课程
      */
     @RequestMapping("queryOrderById")
     public void queryOrderById(HttpServletRequest request, HttpServletResponse response,Integer id,Integer pageNo,Integer pageSize){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,id,pageNo,pageSize);
         if(id==null||id==0){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("Order/queryOrderById",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
         Map<String,Object> map=new HashMap<String, Object>();
         if(queryInfo != null){
+            logService.call("orderService.queryOrderById",id,queryInfo.getPageOffset(),queryInfo.getPageSize());
             List<OrderBO> orderBOS = orderService.queryOrderById(id,queryInfo.getPageOffset(),queryInfo.getPageSize());
+            logService.result(orderBOS);
+            logService.call("orderService.queryOrderByIdCount",id);
             Integer count=orderService.queryOrderByIdCount(id);
+            logService.result(count);
             map.put("orderBOS",orderBOS);
             map.put("count",count);
         }
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
-
+        logService.end("Order/queryOrderById",json);
         super.safeJsonPrint(response,json);
     }
 
@@ -57,21 +73,26 @@ public class OrderController extends BaseCotroller {
      */
     @RequestMapping("queryOrderByCond")
     public void queryOrderByCond(HttpServletRequest request, HttpServletResponse response, OrderParam orderParam){
-        if(orderParam.getPageNo()==null||orderParam.getPageSize()==null||orderParam.getPageNo()==0||orderParam.getPageSize()==0){
-            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
-            super.safeHtmlPrint(response,languagejson);
-            return;
-        }
+        log.info("start======================================进入queryOrderByCond");
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,orderParam);
         QueryInfo queryInfo = getQueryInfo(orderParam.getPageNo(),orderParam.getPageSize());
         if(queryInfo != null){
             orderParam.setPageNo(queryInfo.getPageOffset());
             orderParam.setPageSize(queryInfo.getPageSize());
         }
-
+        logService.call("orderService.queryOrderByCond",orderParam);
         Map<String,Object> map = orderService.queryOrderByCond(orderParam);//记录信息
+        logService.result(map);
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
+        log.info("return:{}",json);
+        logService.end("Order/queryOrderByCond");
         super.safeJsonPrint(response,json);
+        log.info("end======================================进入queryOrderByCond");
     }
 
+    /**
+     * 根据课程id 查出购买这个课程的userId
+     */
 }

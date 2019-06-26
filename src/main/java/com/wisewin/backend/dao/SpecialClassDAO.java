@@ -17,7 +17,7 @@ public interface SpecialClassDAO {
     /**
      * 专题分类的删除
      * */
-    Integer delSpecialClassById(@Param("idArr") Integer[] idArr,@Param("status")String status);
+    Integer delSpecialClassById(@Param("idArr") String[] idArr,@Param("status")String status,@Param("updateId")Integer updateId);
     /**
      * 专题分类的修改
      * */
@@ -32,5 +32,10 @@ public interface SpecialClassDAO {
      * 查询 专题展示或者不展示的共有多少条
      * */
     Integer selectSpecialClassBOCount(@Param("status")String status);
+
+    /**
+     * 查询 状态正常的专题名称和id
+     * */
+    List<SpecialClassBO> selectNameAndId();
 
 }

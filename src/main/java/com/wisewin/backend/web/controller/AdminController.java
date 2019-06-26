@@ -3,6 +3,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.common.constants.LanguageTalentConstants;
 import com.wisewin.backend.entity.bo.AdminBO;
+import com.wisewin.backend.entity.bo.LanguageChoiceBO;
 import com.wisewin.backend.entity.bo.MenuBO;
 import com.wisewin.backend.entity.bo.RoleBO;
 import com.wisewin.backend.entity.bo.common.constants.SysConstants;
@@ -12,6 +13,7 @@ import com.wisewin.backend.entity.param.MenuParam;
 import com.wisewin.backend.entity.param.RegisterParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.AdminService;
+import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.MD5Util;
 import com.wisewin.backend.util.StringUtils;
@@ -25,7 +27,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -36,7 +37,8 @@ import java.util.*;
 public class AdminController extends BaseCotroller {
     @Resource
     private AdminService adminService ;
-
+    @Resource
+    private LogService logService;
 
     /**
      * 管理员登录
@@ -47,16 +49,20 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/adminLogin")
     public void Login(HttpServletRequest request, HttpServletResponse response,String mobile,String password){
+        logService.startController(null,request,mobile,password);
         /* 1. 验证参数是否完整 */
         if(StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001", "参数异常！")) ;
+            logService.end("admin/adminLogin",result);
             super.safeJsonPrint(response, result);
             return ;
         }
         //手机号和密码登录
+        logService.call("adminService.queryAdminInfoByMobile()",mobile);
         AdminBO adminBO = adminService.queryAdminInfoByMobile(mobile);
         if(adminBO == null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000004" , "用户不存在！")) ;
+            logService.end(result);
             super.safeJsonPrint(response, result);
             return ;
         }
@@ -64,12 +70,15 @@ public class AdminController extends BaseCotroller {
         // 判断密码是否正确
         if(!MD5Util.digest(password).equals(adminBO.getPassword())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "密码输入不正确！")) ;
+            logService.end("admin/adminLogin/",result);
             super.safeJsonPrint(response, result);
             return ;
         }
         adminBO.setPassword("");
         //该用户的所有菜单
-        List<RoleBO> roleMenuSuccess = adminService.getRoleMenuSuccess(adminBO.getRoleId());
+        logService.call("adminService.getRoleMenuSuccess()",adminBO.getRoleId());
+        List<MenuBO> roleMenuSuccess = adminService.getRoleMenuSuccess(adminBO.getRoleId());
+        logService.result(roleMenuSuccess);
         // 登陆客户信息放入Redis缓存
         String uuid = UUID.randomUUID().toString();
         super.putLoginAdmin(uuid,adminBO);
@@ -80,6 +89,7 @@ public class AdminController extends BaseCotroller {
         resultMap.put("admin",adminBO);
 
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap)) ;
+        logService.end("/admin/adminLogin",result);
         super.safeJsonPrint(response, result);
         return;
     }
@@ -94,26 +104,35 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/adminRegister")
     public void register(HttpServletRequest request,HttpServletResponse response,RegisterParam param){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,param);
         // 判断是否为空
-        if(param == null || StringUtils.isEmpty(param.getPassword()) || StringUtils.isEmpty(param.getGender())
-                || StringUtils.isEmpty(param.getMobile()) || StringUtils.isEmpty(param.getName()) || StringUtils.isEmpty(String.valueOf(param.getRoleId()))){
+        if(param == null || StringUtils.isEmpty(param.getPassword())
+                || StringUtils.isEmpty(param.getMobile()) || StringUtils.isEmpty(param.getName()) || param.getRoleId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            logService.end("admin/adminRegister",result);
             super.safeJsonPrint(response , result);
             return ;
         }
 
         // 判断手机号是否注册过
+        logService.call("adminService.selectCountByMobile()",param.getMobile());
         int count = adminService.selectCountByMobile(param.getMobile());
+        logService.result(count);
         if(count > 0 ){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "手机号码已注册")) ;
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "管理员账号重复")) ;
+            logService.end("/admin/adminRegister",result);
             super.safeJsonPrint(response , result);
             return ;
         }
 
         // 判断用户名是否注册过
+        logService.call("adminService.selectCountByName()",param.getName());
         int name = adminService.selectCountByName(param.getName());
+        logService.result(name);
         if(name > 0 ){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "用户名已存在")) ;
+            logService.end("/admin/adminRegister",result);
             super.safeJsonPrint(response , result);
             return ;
         }
@@ -126,8 +145,10 @@ public class AdminController extends BaseCotroller {
         admin.setCreateTime(new Date());
         admin.setRoleId(param.getRoleId());
         admin.setEmail(param.getEmail());
+        logService.call("adminService.adminRegister()",admin);
         adminService.adminRegister(admin);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+        logService.end("/admin/adminRegister",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -139,25 +160,34 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/addRole")
     public void addRole(HttpServletRequest request,HttpServletResponse response,String roleName){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,roleName);
         // 非空判断
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/addRole",result);
             return ;
         }
         // 判断角色名称是否存在
+        logService.call("adminService.selectCountByRoleName()",roleName);
         Integer count = adminService.selectCountByRoleName(roleName);
+
         if(count>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/addRole",result);
             return ;
         }
         RoleBO roleBO = new RoleBO();
         roleBO.setRoleName(roleName);
         roleBO.setCreateTime(new Date());
         roleBO.setUpdateTime(new Date());
+        logService.call("adminService.addRole()",roleBO);
         adminService.addRole(roleBO);
+
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleBO.getId())) ;
+        logService.end("/admin/addRole",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -170,16 +200,21 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/addRoleGrantAuthority")
     public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,roleName,menuIds,pageNo,pageNo,pageSize);
         // 非空判断
         if(StringUtils.isEmpty(roleName) || StringUtils.isEmpty(menuIds)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常"+"roleName:"+roleName +"menuIds:"+menuIds)) ;
+            logService.end(result);
             super.safeJsonPrint(response , result);
             return ;
         }
         // 判断角色名称是否存在
+        logService.call("adminService.selectCountByRoleName()",roleName);
         Integer nameCount = adminService.selectCountByRoleName(roleName);
         if(nameCount>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
+            logService.end("/admin/addRole",result);
             super.safeJsonPrint(response , result);
             return ;
         }
@@ -191,8 +226,10 @@ public class AdminController extends BaseCotroller {
         }
         map.put("roleName", roleName);
         // 查询角色所拥有的权限
+        logService.call("adminService.selectRoleToMenu()",map,roleName,menuIds);
         List<RoleDTO> roleDTOS = adminService.selectRoleToMenu(map,roleName,menuIds);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
+        logService.end("/admin/addRole",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -204,8 +241,11 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/getRoleMenu")
     public void getRoleMenu(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds, Integer pageNo, Integer pageSize){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,roleName,menuIds,menuIds,pageNo,pageSize);
         if(StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+            logService.end("/admin/getRoleMenu",result);
             super.safeJsonPrint(response , result);
             return ;
         }
@@ -227,6 +267,7 @@ public class AdminController extends BaseCotroller {
         jsonObject.put("data", menuList);
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(jsonObject));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(json)) ;
+        logService.end("/admin/getRoleMenu",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -240,15 +281,19 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/grantAuthority")
     public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,roleId,menuIds,roleName);
         // 非空判断
         if(StringUtils.isEmpty(String.valueOf(roleId)) || StringUtils.isEmpty(String.valueOf(menuIds))|| StringUtils.isEmpty(roleName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常 roleId:"+roleId+"menuIds:"+menuIds+"roleName:"+roleName)) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/grantAuthority",result);
             return ;
         }
         // 更新角色名
         if(!StringUtils.isEmpty(roleName)){
             // 查询角色传的和数据库查的是否一样，一样设置未空
+            logService.call("adminService.getRoleById()",roleId);
             RoleBO roleBO = adminService.getRoleById(roleId);
             if(roleBO.getRoleName().equals(roleName)){
                 roleName="";
@@ -258,13 +303,17 @@ public class AdminController extends BaseCotroller {
                 if(nameCount>0){
                     String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002" , "该角色已存在")) ;
                     super.safeJsonPrint(response , result);
+                    logService.end("/admin/grantAuthority",result);
                     return ;
                 }
             }
+            logService.call("adminService.updateRoleNameByRoleId()",roleId);
             adminService.updateRoleNameByRoleId(roleId,roleName,new Date());
         }
-        List<RoleDTO> roleDTOS = adminService.selectRoleMenuById(roleId,menuIds);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
+        logService.call("adminService.selectRoleMenuById()",roleId,menuIds);
+        adminService.selectRoleMenuById(roleId,menuIds);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+        logService.end("/admin/grantAuthority",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -274,8 +323,12 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/getRoleList")
     public void RoleList(HttpServletRequest request,HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request);
+        logService.call("adminService.getRoleList()");
         List<RoleBO> roleList = adminService.getRoleList();
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleList)) ;
+        logService.end("/admin/getRoleList",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -285,9 +338,13 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/getMenuList")
     public void MenuList(HttpServletRequest request,HttpServletResponse response){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request);
+        logService.call("adminService.getMenuList()");
         List<MenuBO> menuList = adminService.getMenuList();
         // JsonUtils.getJONSArray4JavaList(roleList);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        logService.end("/admin/getMenuList",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -299,10 +356,13 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/addMenu")
     public void addMenuByPid(HttpServletRequest request,HttpServletResponse response,MenuParam menuParam){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,menuParam);
         // 判断是否为空
         if(menuParam == null || StringUtils.isEmpty(menuParam.getMenuName()) || StringUtils.isEmpty(menuParam.getUrl())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/addMenu",result);
             return ;
         }
         if( StringUtils.isEmpty(String.valueOf(menuParam.getPid()))){
@@ -312,23 +372,18 @@ public class AdminController extends BaseCotroller {
         if(flag){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "菜单已存在")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/addMenu",result);
             return ;
         }
-        MenuBO menuBO = new MenuBO();
-        menuBO.setMenuName(menuParam.getMenuName());
-        menuBO.setPid(menuParam.getPid());
-        menuBO.setStatus(menuParam.getStatus());
-        menuBO.setUrl(menuParam.getUrl());
-        menuBO.setIndex(menuParam.getIndex());
-        menuBO.setIcon(menuParam.getIcon());
-        menuBO.setCreateTime(new Date());
-        menuBO.setUpdateTime(new Date());
-        int line = adminService.addMenuByPid(menuBO);
+        logService.call("adminService.addMenuByPid()");
+        int line = adminService.addMenuByPid(menuParam);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("添加成功")) ;
+            logService.end("/admin/addMenu",result);
             super.safeJsonPrint(response, result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("添加失败")) ;
+            logService.end("/admin/addMenu",result);
             super.safeJsonPrint(response, result);
         }
 
@@ -342,19 +397,25 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/delMenu")
     public void delMenu(HttpServletRequest request,HttpServletResponse response,Integer id){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,id);
         if(StringUtils.isEmpty(String.valueOf(id))){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/delMenu",result);
             return ;
         }
+        logService.call("adminService.delMenuById()",id);
         boolean flag = adminService.delMenuById(id);
         if(flag){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/delMenu",result);
             return ;
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "删除失败")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/delMenu",result);
             return ;
         }
     }
@@ -367,19 +428,25 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/editMenu")
     public void editMenu(HttpServletRequest request,HttpServletResponse response,MenuParam menuParam){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,menuParam);
         if(menuParam==null || menuParam.getId()==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/editMenu",result);
             return ;
         }
+        logService.call("adminService.updateMenuById()",menuParam);
         int line = adminService.updateMenuById(menuParam);
         if(line>0){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/editMenu",result);
             return ;
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改失敗")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/editMenu",result);
             return ;
         }
     }
@@ -392,13 +459,18 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/getDimRoleMenu")
     public void getDimRoleMenu(HttpServletRequest request,HttpServletResponse response,String dimName){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,dimName);
         if(StringUtils.isEmpty(dimName)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/getDimRoleMenu",result);
             return ;
         }
+        logService.call("adminService.getDimRoleMenu",dimName);
         List<MenuDTO> menuList = adminService.getDimRoleMenu(dimName);
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        logService.end("/admin/getDimRoleMenu",result);
         super.safeJsonPrint(response, result);
     }
 
@@ -410,19 +482,33 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/delRoleByIds")
     public void delRoleByIds(HttpServletRequest request,HttpServletResponse response,String roleIds){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,roleIds);
         // 非空判断
         if(StringUtils.isEmpty(String.valueOf(roleIds))){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/delRoleByIds",result);
             return ;
         }
+        //判断该角色下是否用户
+        String s = adminService.existsUser(roleIds);
+        if(s!=null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("该角色下存在用户" , s)) ;
+            super.safeJsonPrint(response , result);
+            return;
+        }
+
+
         boolean flag = adminService.delRoleById(roleIds);
         if(flag){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功")) ;
             super.safeJsonPrint(response, result);
+            logService.end("/admin/delRoleByIds",result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("删除有误")) ;
             super.safeJsonPrint(response, result);
+            logService.end("/admin/delRoleByIds",result);
         }
 
     }
@@ -549,29 +635,38 @@ public class AdminController extends BaseCotroller {
     @RequestMapping("/changePassword")
     public void changePassword(HttpServletRequest request,HttpServletResponse response,RegisterParam param){
         // 非空判断
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,param);
         if(StringUtils.isEmpty(String.valueOf(param.getId()))|| StringUtils.isEmpty(param.getPassword())){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/changePassword",result);
             return ;
         }
         AdminBO adminBO = new AdminBO();
         adminBO.setId(param.getId());
+        logService.call("adminService.getAdminNoFenYe()",adminBO);
         List<AdminDTO> adminDTOS = adminService.getAdminNoFenYe(adminBO);
+        logService.result(adminBO);
         for (AdminDTO admin: adminDTOS ) {
             if(admin.getPassword().equals(MD5Util.digest(param.getPassword()))){
                 String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "新密码和旧密码不能相同")) ;
                 super.safeJsonPrint(response , result);
+                logService.end("/admin/changePassword",result);
                 return ;
             }
         }
         adminBO.setPassword(MD5Util.digest(param.getPassword()));
+        logService.call("adminService.updateAdminUser()",param);
         boolean flag = adminService.updateAdminUser(param);
         if(flag){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success( "修改成功")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/changePassword",result);
         }else{
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "修改失败")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/changePassword",result);
         }
 
     }
@@ -596,7 +691,7 @@ public class AdminController extends BaseCotroller {
             map.put("mobile",adminParam.getMobile());
         }
         if(!StringUtils.isEmpty(adminParam.getName())){
-            map.put("name", adminParam.getName());
+            map.put("userName", adminParam.getName());
         }
         if(!StringUtils.isEmpty(String.valueOf(adminParam.getId()))){
             map.put("id", adminParam.getId());
@@ -649,8 +744,8 @@ public class AdminController extends BaseCotroller {
             adminService.delRoleMenu(roleId,Integer.parseInt(menuIds));
         }
         // 查询角色所拥有的权限
-        List<RoleDTO> menuList = adminService.selectRoleMenuById(roleId,menuIds);
-        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(menuList)) ;
+        adminService.selectRoleMenuById(roleId,menuIds);
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         super.safeJsonPrint(response, result);
     }
 
@@ -662,27 +757,36 @@ public class AdminController extends BaseCotroller {
      */
     @RequestMapping("/delAdmin")
     public void delAdmin(HttpServletRequest request,HttpServletResponse response,String ids){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,ids);
         // 非空判断
         if(StringUtils.isEmpty(ids)){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
             super.safeJsonPrint(response , result);
+            logService.end("/admin/delAdmin",result);
             return ;
         }
-        boolean status = ids.contains(",");
-        if(status){
-            String [] id = ids.split(",");
-            for (String idd:
-                 id) {
-                adminService.delAdminById(Integer.parseInt(idd));
-            }
-        }else{
-            adminService.delAdminById(Integer.parseInt(ids));
+
+        String[] id = ids.split(",");
+        logService.call("adminService.delAdminById()",id);
+         boolean  delAdminjoin=adminService.delAdminById(id);
+        if (delAdminjoin){
+            String date=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+            super.safeJsonPrint(response,date);
+            logService.end("/admin/delAdmin",date);
+            return;
         }
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001" , "参数异常")) ;
+        super.safeJsonPrint(response , result);
+        logService.end("/admin/delAdmin",result);
+        return ;
     }
 
     //退出登录
     @RequestMapping("/exitLogin")
     public void exit(HttpServletResponse response,HttpServletRequest  request){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request);
         //退出登录
         String clientLoginID = super.getClientLoginID(request);
         if (StringUtils.isEmpty(clientLoginID)) {
@@ -706,7 +810,17 @@ public class AdminController extends BaseCotroller {
 
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("" )) ;
         super.safeJsonPrint(response , result);
+        logService.end("/admin/exitLogin",request);
         return ;
     }
+
+
+    @RequestMapping("/queryRoles")
+    public void queryRoles(HttpServletResponse response,HttpServletRequest  request){
+        List<LanguageChoiceBO>   list = adminService.queryRoles();
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(list)) ;
+        super.safeJsonPrint(response , result);
+    }
+
 
 }

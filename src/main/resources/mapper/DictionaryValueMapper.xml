@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.backend.dao.DictionaryValueDAO">
+
+    <insert id="addDic" parameterType="com.wisewin.backend.entity.bo.DictionaryValueBO">
+        insert into lt_dictionary_value value (null,#{kid},#{value},#{sort})
+    </insert>
+    <select id="getDIcs"  resultType="com.wisewin.backend.entity.bo.DictionaryValueBO">
+        select lt_dictionary_value.*,lt_dictionary.name from lt_dictionary_value,lt_dictionary
+        where lt_dictionary_value.kid=lt_dictionary.id
+            <if test="kid!=null ">
+                and kid=#{kid}
+            </if>
+
+        order by sort desc
+    </select>
+    <update id="updDic" parameterType="com.wisewin.backend.entity.bo.DictionaryValueBO">
+        update lt_dictionary_value
+        <set>
+            <if test="kid!=null and kid!=''">
+                kid=#{kid},
+            </if>
+            <if test="value!=null and value!=''">
+                `value`=#{value},
+            </if>
+            <if test="sort!=null and sort!=''">
+                sort=#{sort},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delDic">
+        delete from lt_dictionary_value
+        where
+        <foreach collection="idArr" item="id"  separator="or">
+            id=#{id}
+        </foreach>
+    </delete>
+
+</mapper>

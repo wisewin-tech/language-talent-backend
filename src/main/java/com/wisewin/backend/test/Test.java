@@ -1,10 +1,17 @@
 package com.wisewin.backend.test;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+
+import com.wisewin.backend.util.JsonUtils;
+import com.wisewin.backend.util.RandomUtils;
+import com.wisewin.backend.util.SnowflakeIdWorker;
+import org.apache.commons.lang.RandomStringUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.*;
 
 /**
  * Created by Shibo on 17/1/5.
@@ -12,7 +19,7 @@ import java.util.List;
 public class Test {
 
 
-    public static void main(String[] args) {
+    public static void main111(String[] args) {
 
         new Test().test();
 
@@ -120,5 +127,14 @@ public class Test {
         list.add("");
         list.add("");
         list.add("");
+    }
+
+    public void aaa (){
+
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        String idarr="[]";
+        System.err.println(idarr.length());
     }
 }

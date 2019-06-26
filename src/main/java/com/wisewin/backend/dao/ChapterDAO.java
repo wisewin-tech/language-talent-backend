@@ -2,6 +2,8 @@ package com.wisewin.backend.dao;
 
 
 import com.wisewin.backend.entity.bo.ChapterBO;
+import com.wisewin.backend.entity.bo.ChapterIdNameBO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -51,4 +53,18 @@ public interface ChapterDAO {
      */
     List<ChapterBO> selectChapterById(ChapterBO chapterBO);
 
+    /**
+     * 通过级别id 和 名字查询 课时id
+     * @param leavelId
+     * @param name
+     * @return
+     */
+    Integer queryChapterIdByName(@Param("leavelId") Integer leavelId,@Param("name") String name);
+
+    /**
+     * 通过级别id 查询课时id和名字
+     * @param levelId
+     * @return
+     */
+    List<ChapterIdNameBO> getChapterByLevelId(Integer levelId);
 }

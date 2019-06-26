@@ -21,6 +21,7 @@ public class CourseBO extends BaseModel{
     private Integer studyNumber; //学习人数
     private String courseIntro; //课程简介
     private String courseLightspot; //课程亮点
+    private String handouts;//讲义
     private String purchaseNotes; //购买须知
     private Double popularSort; //热门排序
     private String hotOrNot; //是否为热门
@@ -32,6 +33,18 @@ public class CourseBO extends BaseModel{
     private Date createTime; //创建时间
     private Integer updateUserId; //修改人id
     private Date updateTime; //修改时间
+    private Double sort;//课程排序
+
+
+
+
+    public Double getSort() {
+        return sort;
+    }
+
+    public void setSort(Double sort) {
+        this.sort = sort;
+    }
 
     public Integer getId() {
         return id;
@@ -153,6 +166,14 @@ public class CourseBO extends BaseModel{
         this.courseLightspot = courseLightspot;
     }
 
+    public String getHandouts() {
+        return handouts;
+    }
+
+    public void setHandouts(String handouts) {
+        this.handouts = handouts;
+    }
+
     public String getPurchaseNotes() {
         return purchaseNotes;
     }
@@ -239,5 +260,38 @@ public class CourseBO extends BaseModel{
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseBO{" +
+                "id=" + id +
+                ", courseName='" + courseName + '\'' +
+                ", languageId='" + languageId + '\'' +
+                ", languageName='" + languageName + '\'' +
+                ", foreignName='" + foreignName + '\'' +
+                ", status='" + status + '\'' +
+                ", price=" + price +
+                ", discountPrice=" + discountPrice +
+                ", discountStartTime=" + discountStartTime +
+                ", discountEndTime=" + discountEndTime +
+                ", courseValidityPeriod=" + courseValidityPeriod +
+                ", thumbnailImageUrl='" + thumbnailImageUrl + '\'' +
+                ", studyNumber=" + studyNumber +
+                ", courseIntro='" + courseIntro + '\'' +
+                ", courseLightspot='" + courseLightspot + '\'' +
+                ", handouts='" + handouts + '\'' +
+                ", purchaseNotes='" + purchaseNotes + '\'' +
+                ", popularSort=" + popularSort +
+                ", hotOrNot='" + hotOrNot + '\'' +
+                ", certificateOrNot='" + certificateOrNot + '\'' +
+                ", certificateTitle='" + certificateTitle + '\'' +
+                ", certificateIntro='" + certificateIntro + '\'' +
+                ", certificateImageUrl='" + certificateImageUrl + '\'' +
+                ", createUserId=" + createUserId +
+                ", createTime=" + createTime +
+                ", updateUserId=" + updateUserId +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

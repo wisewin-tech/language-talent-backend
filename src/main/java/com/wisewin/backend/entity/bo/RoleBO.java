@@ -63,4 +63,16 @@ public class RoleBO {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "RoleBO{" +
+                "id=" + id +
+                ", roleName='" + roleName + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", menuBOS=" + menuBOS +
+                ", menuBO=" + menuBO +
+                '}';
+    }
 }

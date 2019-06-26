@@ -73,4 +73,18 @@ public class ChapterParam {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
+
+    @Override
+    public String toString() {
+        return "ChapterParam{" +
+                "chapterName='" + chapterName + '\'' +
+                ", status='" + status + '\'' +
+                ", freeOrNot='" + freeOrNot + '\'' +
+                ", pageNo=" + pageNo +
+                ", pageSize=" + pageSize +
+                ", levelId=" + levelId +
+                ", languageId=" + languageId +
+                ", courseId=" + courseId +
+                '}';
+    }
 }

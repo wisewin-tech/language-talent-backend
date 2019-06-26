@@ -13,7 +13,6 @@
         </where>
         order by sorting desc
         <include refid="Limit" />
-
     </select>
     <sql id="Limit">
       limit #{pageNo},#{pageSize}
@@ -26,17 +25,20 @@
         </where>
     </select>
 
+    <select id="selectNameAndId" resultType="com.wisewin.backend.entity.bo.SpecialClassBO">
+        select title,id from lt_special_class where status='putaway' order by sorting desc
+    </select>
 
     <!-- 添加专题分类-->
     <insert id="addSpecialClass" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
-        insert into lt_special_class values (null,#{title},#{describe},#{coverUrl},#{status},#{sorting})
+        insert into lt_special_class values (null,#{title},#{describe},#{coverUrl},#{status},#{sorting},#{createId},now(),null ,null )
     </insert>
 
     <!-- 修改专题分类-->
     <update id="updateSpecialClassById" parameterType="com.wisewin.backend.entity.bo.SpecialClassBO">
         update lt_special_class
         set
-        title=#{title},`describe`=#{describe},cover_url=#{coverUrl},`status`=#{status},sorting=#{sorting}
+        title=#{title},`describe`=#{describe},cover_url=#{coverUrl},`status`=#{status},sorting=#{sorting},update_id=#{updateId},update_time=now()
         where
         id=#{id}
     </update>
@@ -44,7 +46,7 @@
     <!-- 修改一条或者多条专题分类的状态 -->
     <update id="delSpecialClassById">
         update  lt_special_class
-        set status=#{status}
+        set status=#{status},update_id=#{updateId},update_time=now()
         where
         id in
         <foreach collection="idArr" item="id" separator="," open="(" close=")">
