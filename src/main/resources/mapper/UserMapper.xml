@@ -79,7 +79,7 @@
         cumulative_sign as cumulativeSign,continuous_learning as continuousLearning,currency,
         create_time as createTime,name,mobile,sex,invite_code as inviteCode,currency,by_invite as byInvite,
         continuous_sign as continuousSign,last_sign as lastSign,cumulative_learning as cumulativeLearning,
-        status,learning_goal as learningGoal,age_group as ageGroup,registeredChannels
+        status,learning_goal as learningGoal,age_group as ageGroup,registered_channels
         from
         lt_user
         <where>
