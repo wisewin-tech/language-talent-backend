@@ -121,7 +121,7 @@ public class OrderController extends BaseCotroller {
      * @param languageId
      */
     @RequestMapping("/inupRoleLanguage")
-    public void updeRoleLanguage(HttpServletRequest request, HttpServletResponse response, Integer roleId, int[] languageId){
+    public void updeRoleLanguage(HttpServletRequest request, HttpServletResponse response, Integer roleId, Integer[] languageId){
         if(roleId == null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response,languagejson);
