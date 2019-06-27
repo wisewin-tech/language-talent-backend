@@ -14,7 +14,6 @@
         from
         lt_gift
         <where>
-
             <if test="giftParam.title!=null and  giftParam.title!='' "> AND `title` LIKE  '%${giftParam.title}%' </if>
             <if test="giftParam.scope!=null and  giftParam.scope!='' "> AND `scope` LIKE '%${giftParam.scope}%'</if>
             <if test="giftParam.cardnumber!=null and  giftParam.cardnumber !='' "> AND `cardnumber`like '%${giftParam.cardnumber}%'</if>

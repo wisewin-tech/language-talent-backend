@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.OrderBO;
+import com.wisewin.backend.entity.dto.LgDTO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.entity.param.OrderParam;
 import com.wisewin.backend.query.QueryInfo;
@@ -81,8 +82,9 @@ public class OrderController extends BaseCotroller {
             orderParam.setPageNo(queryInfo.getPageOffset());
             orderParam.setPageSize(queryInfo.getPageSize());
         }
+
         logService.call("orderService.queryOrderByCond",orderParam);
-        Map<String,Object> map = orderService.queryOrderByCond(orderParam);//记录信息
+        Map<String,Object> map = orderService.queryOrderByCond(orderParam,loginAdmin.getRoleId());//记录信息
         logService.result(map);
 
         String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(map));
@@ -95,4 +97,63 @@ public class OrderController extends BaseCotroller {
     /**
      * 根据课程id 查出购买这个课程的userId
      */
+
+
+    /**
+     * 查询语言name id
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/roleLanguage")
+     public void roleLanguage(HttpServletRequest request, HttpServletResponse response){
+       List<LgDTO> ls = orderService.queryLg();
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(ls));
+        super.safeJsonPrint(response,json);
+        return ;
+     }
+
+
+    /**
+     * 添加修改角色语言
+     * @param request
+     * @param response
+     * @param roleId
+     * @param languageId
+     */
+    @RequestMapping("/inupRoleLanguage")
+    public void updeRoleLanguage(HttpServletRequest request, HttpServletResponse response, Integer roleId, int[] languageId){
+        if(roleId == null){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        if(languageId.length <= 0){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        orderService.insertRoleLanguage(roleId, languageId);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功"));
+        super.safeJsonPrint(response,json);
+        return ;
+    }
+
+    /**
+     * 删除
+     * @param request
+     * @param response
+     * @param roleId
+     */
+    @RequestMapping("/deRoleLanguage")
+    public void upRoleLanguage(HttpServletRequest request, HttpServletResponse response, Integer roleId){
+        if(roleId == null){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        orderService.deleteRoleLanguage(roleId);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
+        super.safeJsonPrint(response,json);
+        return ;
+    }
 }

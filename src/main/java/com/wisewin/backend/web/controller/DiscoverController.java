@@ -35,11 +35,11 @@ public class DiscoverController extends BaseCotroller {
 
     static final Logger log = LoggerFactory.getLogger(DiscoverController.class);
 
-
     @Resource
     private DiscoverService discoverService;
     @Resource
     private LogService logService;
+
     /**
      * 分页条件查询发现列表
      *

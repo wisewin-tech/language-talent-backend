@@ -1,5 +1,6 @@
 package com.wisewin.backend.dao;
 
+import com.wisewin.backend.entity.bo.LanguageBO;
 import com.wisewin.backend.entity.bo.OrderBO;
 import com.wisewin.backend.entity.bo.OrderCoursesBO;
 import com.wisewin.backend.entity.param.OrderParam;
@@ -37,10 +38,42 @@ public interface OrderDao {
     /**
      * 按时间段 手机号 订单号 分页查询所有订单
      */
-    public List<OrderBO> queryOrderByCond(OrderParam orderParam);
+    public List<OrderBO> queryOrderByCond(@Param("orderParam") OrderParam orderParam,@Param("list") List<Integer> list);
 
     /**
      * 按时间段 手机号 订单号 查询所有订单的用户id
      */
-    public Integer queryOrderByCondCount(OrderParam orderParam);
+    public Integer queryOrderByCondCount(@Param("orderParam")OrderParam orderParam,@Param("list") List<Integer> list);
+
+    /**
+     * 查询管理员管理的语言id
+     * @param adminId
+     * @return
+     */
+    List<Integer> queryAdminLanguage(Integer adminId);
+
+    /**
+     * 查询语言下面的课程id
+     */
+    List<Integer> queryLc(@Param("list") List<Integer> list);
+
+    /**
+     * 查询语言下的所有语言name id
+     * @return
+     */
+    List<LanguageBO> queryLangBO();
+
+
+    /**
+     * 删除角色语言id
+     * @param roleId
+     */
+    void deleteRoleLanguage(Integer roleId);
+
+    /**
+     * 添加角色语言id
+     * @param roleId
+     * @param languageId
+     */
+    void insertRoleLanguage(@Param("roleId")Integer roleId,@Param("languageId")int[] languageId);
 }

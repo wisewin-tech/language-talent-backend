@@ -2,9 +2,12 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.dao.OrderDao;
 import com.wisewin.backend.dao.UserDAO;
+import com.wisewin.backend.entity.bo.LanguageBO;
 import com.wisewin.backend.entity.bo.OrderBO;
 import com.wisewin.backend.entity.bo.OrderCoursesBO;
+import com.wisewin.backend.entity.dto.LgDTO;
 import com.wisewin.backend.entity.param.OrderParam;
+import org.apache.ibatis.annotations.Lang;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,8 @@ public class OrderService {
 
     @Resource
     UserDAO userDAO;
+
+
 
     /**
      * 根据课程id 查出购买这个课程的用户id
@@ -60,10 +65,24 @@ public class OrderService {
      * !!!!!!按时间段 手机号 订单号 分页查询所有订单
      * 所有订单总数
      */
-    public Map<String,Object> queryOrderByCond(OrderParam orderParam){
+    public Map<String,Object> queryOrderByCond(OrderParam orderParam,Integer adminId){
         Map<String,Object> map=new HashMap<String, Object>();
-        List<OrderBO> orderBOList=orderDao.queryOrderByCond(orderParam);//全部总订单
-        Integer count=orderDao.queryOrderByCondCount(orderParam);//总订单总数
+        //查询管理员管理的语言id
+        List<Integer> lst =  orderDao.queryAdminLanguage(adminId);
+        if(lst.size() > 0 && lst != null){
+            List<Integer> lt = orderDao.queryLc(lst);
+            lst.addAll(lt);
+            System.err.println(lst);
+        }
+
+        if(lst.size() <= 0 || lst == null){
+            map.put("count",0);
+            map.put("orderBOList","");
+            return map;
+        }
+
+        List<OrderBO> orderBOList = orderDao.queryOrderByCond(orderParam,lst);//全部总订单
+        Integer count=orderDao.queryOrderByCondCount(orderParam,lst);//总订单总数
         for (OrderBO order:orderBOList) {
             System.err.println(order.getLanguageName());
             List<OrderCoursesBO> orderCoursesBOList=orderDao.queryOrderCoursesByOrderId(order.getId());
@@ -74,6 +93,28 @@ public class OrderService {
         return map;
     }
 
+    public List<LgDTO> queryLg() {
+        List<LanguageBO> lst = orderDao.queryLangBO();
+        List<LgDTO> lt = new ArrayList<>();
+        if (lst.size() > 0 && lst != null) {
+            for (int i = 0; i < lst.size(); i++) {
+                LgDTO lgDTO = new LgDTO();
+                lgDTO.setId(lst.get(i).getId());
+                lgDTO.setLanguageName(lst.get(i).getLanguageName());
+                lt.add(lgDTO);
+            }
+        }
+        return lt;
+    }
 
+    public void insertRoleLanguage(Integer roleId, int[] languageId){
+        orderDao.deleteRoleLanguage(roleId);
+        orderDao.insertRoleLanguage(roleId,languageId);
+        return;
+    }
 
+    public void deleteRoleLanguage(Integer roleId){
+        orderDao.deleteRoleLanguage(roleId);
+        return;
+    }
 }
