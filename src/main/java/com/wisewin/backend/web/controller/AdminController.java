@@ -202,7 +202,7 @@ public class AdminController extends BaseCotroller {
      * @param menuIds  权限ids
      */
     @RequestMapping("/addRoleGrantAuthority")
-    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize, int[] languageId){
+    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize, String languageId){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,roleName,menuIds,pageNo,pageNo,pageSize);
         // 非空判断
@@ -228,9 +228,11 @@ public class AdminController extends BaseCotroller {
             map.put("pageSize", queryInfo.getPageSize());
         }
         map.put("roleName", roleName);
+
+        ;
         // 查询角色所拥有的权限
         logService.call("adminService.selectRoleToMenu()",map,roleName,menuIds);
-        List<RoleDTO> roleDTOS = adminService.selectRoleToMenu(map,roleName,menuIds,languageId);
+        List<RoleDTO> roleDTOS = adminService.selectRoleToMenu(map,roleName,menuIds,JsonUtils.getIntegerArray4Json(languageId));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
         logService.end("/admin/addRole",result);
         super.safeJsonPrint(response, result);
@@ -283,7 +285,7 @@ public class AdminController extends BaseCotroller {
      * @param menuIds  权限id
      */
     @RequestMapping("/grantAuthority")
-    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName,int[] languageId){
+    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName,String languageId){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,roleId,menuIds,roleName);
         // 非空判断
@@ -315,7 +317,7 @@ public class AdminController extends BaseCotroller {
         }
         logService.call("adminService.selectRoleMenuById()",roleId,menuIds);
         adminService.selectRoleMenuById(roleId,menuIds);
-        orderService.insertRoleLanguage(roleId,languageId);
+        orderService.insertRoleLanguage(roleId,JsonUtils.getIntegerArray4Json(languageId));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         logService.end("/admin/grantAuthority",result);
         super.safeJsonPrint(response, result);

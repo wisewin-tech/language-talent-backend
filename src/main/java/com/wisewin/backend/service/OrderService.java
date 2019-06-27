@@ -107,7 +107,7 @@ public class OrderService {
         return lt;
     }
 
-    public void insertRoleLanguage(Integer roleId, int[] languageId){
+    public void insertRoleLanguage(Integer roleId, Integer[] languageId){
      if(languageId.length > 0 && languageId != null){
          orderDao.deleteRoleLanguage(roleId);
          orderDao.insertRoleLanguage(roleId,languageId);

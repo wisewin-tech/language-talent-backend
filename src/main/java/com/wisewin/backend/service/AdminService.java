@@ -206,7 +206,7 @@ public class AdminService {
      * @param map
      * @return 返回对应的权限
      */
-    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds, int[] languageId){
+    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds, Integer[] languageId){
 
         RoleBO roleBO = new RoleBO();
         roleBO.setRoleName(roleName);

@@ -75,5 +75,5 @@ public interface OrderDao {
      * @param roleId
      * @param languageId
      */
-    void insertRoleLanguage(@Param("roleId")Integer roleId,@Param("languageId")int[] languageId);
+    void insertRoleLanguage(@Param("roleId")Integer roleId,@Param("languageId")Integer[] languageId);
 }
