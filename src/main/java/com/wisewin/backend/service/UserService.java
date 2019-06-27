@@ -4,6 +4,7 @@ package com.wisewin.backend.service;
 
 import com.wisewin.backend.common.constants.UserConstants;
 import com.wisewin.backend.dao.UserDAO;
+import com.wisewin.backend.entity.bo.InvitationRecordBO;
 import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.param.UserParam;
 import com.wisewin.backend.util.MD5Util;
@@ -106,7 +107,26 @@ public class UserService {
     /**
      * 查询用户邀请记录
      */
-    public List<UserBO> getInvitationRecord(Integer id){
-        return userDAO.getInvitationRecord(id);
+    public List<UserBO> getInvitationRecord(Integer id,Integer pageNo,Integer pageSize){
+        return userDAO.getInvitationRecord(id,pageNo,pageSize);
+    }
+    /**
+     * 查询用户邀请记录数
+     */
+    public Integer getInvitationRecordCount(Integer id){
+        return userDAO.getInvitationRecordCount(id);
+    }
+    /**
+     * 查询所有用户邀请记录group by byr.mobile
+     */
+    public List<InvitationRecordBO> getAllInvitationRecord(Map<String,Object> map){
+        return userDAO.getAllInvitationRecord(map);
+    }
+
+    /**
+     * 查询用户邀请记录数
+     */
+    public Integer getAllInvitationRecordCount(Map<String,Object> map){
+        return userDAO.getAllInvitationRecordCount(map).size();
     }
 }

@@ -68,18 +68,52 @@ public class UserController extends BaseCotroller {
      * 获取用户邀请记录
      * */
     @RequestMapping("/getInvitationRecord")
-    public void getInvitationRecord(HttpServletRequest request, HttpServletResponse response, Integer id){
+    public void getInvitationRecord(HttpServletRequest request, HttpServletResponse response, Integer id,Integer pageNo,Integer pageSize){
         if(id==null){
             String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             logService.end("User/deleteUsersById",languagejson);
             super.safeHtmlPrint(response,languagejson);
             return;
         }
-        List<UserBO> userBOList=userService.getInvitationRecord(id);//查询到用户信息
-        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(userBOList));
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        if(queryInfo != null){
+            pageNo=queryInfo.getPageOffset();
+            pageSize=queryInfo.getPageSize();
+        }
+        Map<String,Object> resultMap=new HashMap<>();
+        List<UserBO> userBOList=userService.getInvitationRecord(id,pageNo,pageSize);//查询到用户信息
+        Integer count=userService.getInvitationRecordCount(id);
+        resultMap.put("userBOList",userBOList);
+        resultMap.put("count",count);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
         logService.end("User/queryUsers",json);
         super.safeJsonPrint(response,json);
     }
+
+    /**
+     * 获取所有用户邀请记录
+     * */
+    @RequestMapping("/getAllInvitationRecord")
+    public void getAllInvitationRecord(HttpServletRequest request, HttpServletResponse response,Integer pageSize,Integer pageNo,String nickname,String mobile,String time){
+        Map<String,Object> map=new HashMap<String,Object>();
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        if(queryInfo != null){
+            map.put("pageSize",queryInfo.getPageSize());
+            map.put("pageNo",queryInfo.getPageOffset());
+        }
+        map.put("nickname",nickname);
+        map.put("mobile",mobile);
+        map.put("time",time);
+
+        Map<String,Object> resultMap=new HashMap<String,Object>();
+        resultMap.put("list",userService.getAllInvitationRecord(map));
+        resultMap.put("count",userService.getAllInvitationRecordCount(map));
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
+        super.safeJsonPrint(response,json);
+    }
+
+
+
     /**
      *
      *传入json格式用户id数组，转为数组把用户删除
@@ -112,3 +146,4 @@ public class UserController extends BaseCotroller {
 
 
 }
+
