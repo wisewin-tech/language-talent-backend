@@ -108,8 +108,12 @@ public class OrderService {
     }
 
     public void insertRoleLanguage(Integer roleId, int[] languageId){
+     if(languageId.length > 0 && languageId != null){
+         orderDao.deleteRoleLanguage(roleId);
+         orderDao.insertRoleLanguage(roleId,languageId);
+         return;
+     }
         orderDao.deleteRoleLanguage(roleId);
-        orderDao.insertRoleLanguage(roleId,languageId);
         return;
     }
 

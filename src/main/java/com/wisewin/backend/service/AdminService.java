@@ -24,6 +24,8 @@ public class AdminService {
     private AdminDAO adminDAO;
     @Resource
     private LogService logService;
+    @Resource
+    private OrderService orderService;
     /**
      * 根据手机号查找管理员信息
      * 管理员登录
@@ -204,7 +206,7 @@ public class AdminService {
      * @param map
      * @return 返回对应的权限
      */
-    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds){
+    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds, int[] languageId){
 
         RoleBO roleBO = new RoleBO();
         roleBO.setRoleName(roleName);
@@ -212,6 +214,12 @@ public class AdminService {
         roleBO.setUpdateTime(new Date());
         // 添加角色
         adminDAO.addRole(roleBO);
+        if(languageId != null){
+            orderService.insertRoleLanguage(roleBO.getId(),languageId);
+        }
+
+
+
         boolean status = menuIds.contains(",");
         if(status){
             String[] ids = menuIds.split(",");
