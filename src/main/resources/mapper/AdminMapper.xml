@@ -34,12 +34,17 @@
             <result column="url" property="url"/>
             <result column="index" property="index"/>
             <result column="pid" property="pid"/>
-            <collection property="ch"   column="menu_id" select="getCh"  />
+            <collection property="ch"   column="menu_id" select="getCh"/>
         </collection>
 
+        <collection property="lgDTO" column="role_id" select="queryLg" ofType="com.wisewin.backend.entity.dto.LgDTO"/>
 
     </resultMap>
 
+    <select id="queryLg" resultType="com.wisewin.backend.entity.dto.LgDTO">
+         SELECT lt_role_language.language_id as id,lt_language.language_name as languageName FROM lt_role_language,lt_language
+        WHERE lt_role_language.language_id = lt_language.id AND lt_role_language.role_id = #{id}
+    </select>
 
     <resultMap type="com.wisewin.backend.entity.bo.MenuBO" id="menuResult">
         <id column="id" property="id"/>

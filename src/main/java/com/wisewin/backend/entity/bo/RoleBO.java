@@ -1,5 +1,7 @@
 package com.wisewin.backend.entity.bo;
 
+import com.wisewin.backend.entity.dto.LgDTO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,9 @@ public class RoleBO {
     private List<MenuBO> menuBOS;
 
     private MenuBO menuBO;
+
+    private List<LgDTO> lgDTO;
+
 
     public MenuBO getMenuBO() {
         return menuBO;
@@ -64,6 +69,14 @@ public class RoleBO {
         this.updateTime = updateTime;
     }
 
+    public List<LgDTO> getLgDTO() {
+        return lgDTO;
+    }
+
+    public void setLgDTO(List<LgDTO> lgDTO) {
+        this.lgDTO = lgDTO;
+    }
+
     @Override
     public String toString() {
         return "RoleBO{" +
@@ -73,6 +86,7 @@ public class RoleBO {
                 ", updateTime=" + updateTime +
                 ", menuBOS=" + menuBOS +
                 ", menuBO=" + menuBO +
+                ", lgDTO=" + lgDTO +
                 '}';
     }
 }

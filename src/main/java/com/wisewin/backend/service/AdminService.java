@@ -551,6 +551,7 @@ public class AdminService {
      */
     public List<RoleDTO> getRole(String roleName){
         List<RoleBO> ros = adminDAO.getRole(roleName);
+        System.err.println(ros);
         List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
 
         for (RoleBO ro:ros) {
@@ -561,6 +562,7 @@ public class AdminService {
             roleDTO.setRoleName(ro.getRoleName()); // 角色名称
             roleDTO.setCreateTime(ro.getCreateTime());
             roleDTO.setUpdateTime(ro.getUpdateTime());
+            roleDTO.setLgDTO(ro.getLgDTO());
             List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
             for (int i=0;i<menus.size();i++ ) {
                 if(menus.get(i).getPid()!=0) {
