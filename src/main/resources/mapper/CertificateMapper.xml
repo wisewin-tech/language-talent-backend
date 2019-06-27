@@ -22,6 +22,8 @@
             <if test="status!=null and status!=''"> AND ltc.`status`=#{status}</if>
             <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`  LIKE  '%${mobile}%' </if>
             <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
+            <if test="name!=null and name!=''"> AND ltu.`name` like '%${name}%'</if>
+            <if test="certificateNumber!=null and certificateNumber!=''"> AND ltc.certificate_number like '%${certificateNumber}%'</if>
         </where>
         <include refid="limit" />
     </select>
@@ -43,6 +45,8 @@
             <if test="status!=null and status!=''"> AND ltc.`status`=#{status}</if>
             <if test="mobile!=null and mobile!=''"> AND ltu.`mobile`  LIKE  '%${mobile}%' </if>
             <if test="logistics!=null and logistics!=''"> AND ltu.`logistics`=#{logistics}</if>
+            <if test="name!=null and name!=''"> AND ltu.`name` like '%${name}%'</if>
+            <if test="certificateNumber!=null and certificateNumber!=''"> AND ltc.certificate_number like '%${certificateNumber}%'</if>
         </where>
     </select>
 

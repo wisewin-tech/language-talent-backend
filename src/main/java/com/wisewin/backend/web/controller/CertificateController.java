@@ -37,7 +37,7 @@ public class CertificateController extends BaseCotroller {
     @RequestMapping("/selectUserCert")
     public void selectUserMedal(Integer pageNo, Integer pageSize,
                                 String send,String status,Integer userId,
-                                String mobile,String logistics,
+                                String mobile,String logistics,String name,String certificateNumber,
                                 HttpServletResponse response,HttpServletRequest request) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,pageNo,pageSize,send,status,userId,mobile,logistics);
@@ -56,6 +56,9 @@ public class CertificateController extends BaseCotroller {
         condition.put("status",status);
         condition.put("mobile",mobile);
         condition.put("logistics",logistics);
+        condition.put("certificateNumber",certificateNumber);
+        condition.put("name",name);
+
         //查询用户证书
         List<CertificateResultBO> certificateResultBOS = certificateService.selectUser(condition);
         int size = certificateService.selectCertificateCount(condition);
