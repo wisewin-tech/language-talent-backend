@@ -11,7 +11,7 @@
         yqr.nickname as yqrNickName,byr.nickname as byrNickName,
         yqr.mobile as yqrMobile,byr.mobile as byrMobile,
         byr.registered_channels as registeredChannels,byr.create_time as createTime,
-        rec.specific_amount as yqrMobile,byrrec.specific_amount as byrMobile
+        rec.specific_amount as yqrSpecificAmount,byrrec.specific_amount as byrSpecificAmount
         from lt_user as yqr,lt_user as byr,lt_record as rec,lt_record as byrrec
         <where>
             byr.by_invite=yqr.id  and rec.`describe` like  concat(concat('%','邀请'),'%') and rec.user_id=yqr.id and byrrec.user_id =byr.id
