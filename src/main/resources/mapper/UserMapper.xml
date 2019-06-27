@@ -4,6 +4,34 @@
 
 <!-- 【用户】 -->
 <mapper namespace="com.wisewin.backend.dao.UserDAO">
+    <!-- 查询用户邀请记录 -->
+    <!--<select id="selectUsers" resultType="com.wisewin.backend.entity.bo.UserBO" parameterType="java.util.Map">-->
+        <!--select-->
+        <!--yqr.id as yqrId,byr.id as byrId,-->
+        <!--yqr.nickname as yqrNickName,byr.nickname as byrNickName,-->
+        <!--yqr.mobile as yqrMobile,byr.mobile as byrMobile,-->
+        <!--byr.registered_channels as registeredChannels,byr.create_time as createTime,-->
+        <!--rec.specific_amount as yqrMobile,byrrec.specific_amount as byrMobile-->
+        <!--from lt_user as yqr,lt_user as byr,lt_record as rec,lt_record as byrrec-->
+        <!--<where>-->
+            <!--byr.by_invite=yqr.id  and rec.`describe` like '%邀请%' and rec.user_id=yqr.id and byrrec.user_id =byr.id-->
+            <!--<if test="name!=null and name!=''"> AND `name` LIKE concat(concat('%',#{name}),'%')</if>-->
+            <!--<if test="nickname!=null and nickname!=''"> AND nickname LIKE concat(concat('%',#{nickname}),'%')</if>-->
+            <!--<if test="email!=null and email!=''"> AND email LIKE concat(concat('%',#{email}),'%')</if>-->
+            <!--<if test="mobile!=null and mobile!=''"> AND mobile LIKE concat(concat('%',#{mobile}),'%')</if>-->
+            <!--<if test="learningGoal!=null and learningGoal!=''"> AND learning_goal LIKE concat(concat('%',#{learningGoal}),'%')</if>-->
+            <!--<if test="ageGroup!=null and ageGroup!=''"> AND age_group LIKE concat(concat('%',#{ageGroup}),'%')</if>-->
+        <!--</where>-->
+        <!--order by createTime desc-->
+        <!--group by-->
+        <!--byr.mobile-->
+        <!--<include refid="limit" />-->
+    <!--</select>-->
+    <!--<sql id="limit">-->
+      <!--limit #{pageNo},#{pageSize}-->
+    <!--</sql>-->
+
+
 
     <!--通过phone查看库里有没有这个账号-->
     <select id="selectByPhone" resultType="com.wisewin.backend.entity.bo.UserBO">

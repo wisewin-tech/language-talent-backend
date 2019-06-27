@@ -27,7 +27,16 @@ public class OrderBO extends BaseModel {
     private Integer updateId; //修改人id
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
+    private String purchaseChannels;//购买渠道
     private List<OrderCoursesBO> orderCoursesBOList;//订单中的多个课程
+
+    public String getPurchaseChannels() {
+        return purchaseChannels;
+    }
+
+    public void setPurchaseChannels(String purchaseChannels) {
+        this.purchaseChannels = purchaseChannels;
+    }
 
     public String getMobile() {
         return mobile;

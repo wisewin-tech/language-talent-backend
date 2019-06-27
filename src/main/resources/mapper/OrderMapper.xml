@@ -46,7 +46,7 @@
         price,order_number,lt_order.status,
         creation_date,product_name,
         lt_order.order_type as orderType,
-        lt_order.status
+        lt_order.status,purchase_channels
         from lt_order,lt_user
         <where>
             lt_user.id=lt_order.user_id
