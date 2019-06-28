@@ -26,6 +26,7 @@
             <if test="certificateNumber!=null and certificateNumber!=''"> AND ltc.certificate_number like '%${certificateNumber}%'</if>
         </where>
         <include refid="limit" />
+        order by create_time desc
     </select>
 
     <sql id="limit">
