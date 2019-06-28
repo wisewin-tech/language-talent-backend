@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -134,7 +135,7 @@ public class Test {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String idarr="[]";
-        System.err.println(idarr.length());
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String datetime=simpleDateFormat.format("2019-5-12");
     }
 }

@@ -22,7 +22,7 @@
                 AND (yqr.mobile LIKE concat(concat('%',#{mobile}),'%') or byr.mobile LIKE concat(concat('%',#{mobile}),'%'))
             </if>
             <if test="time!=null and time!=''">
-                AND byr.create_time LIKE concat(concat('%',#{time}),'%')
+                AND byr.create_time &gt; #{time} and byr.create_time &lt;#{beforeTime}
             </if>
         </where>
         group by byr.mobile

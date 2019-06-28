@@ -9,12 +9,16 @@ import com.wisewin.backend.service.UserService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,17 +98,26 @@ public class UserController extends BaseCotroller {
      * 获取所有用户邀请记录
      * */
     @RequestMapping("/getAllInvitationRecord")
-    public void getAllInvitationRecord(HttpServletRequest request, HttpServletResponse response,Integer pageSize,Integer pageNo,String nickname,String mobile,String time){
+    public void getAllInvitationRecord(HttpServletRequest request, HttpServletResponse response, Integer pageSize, Integer pageNo, String nickname, String mobile, String time) throws ParseException {
         Map<String,Object> map=new HashMap<String,Object>();
         QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
         if(queryInfo != null){
             map.put("pageSize",queryInfo.getPageSize());
             map.put("pageNo",queryInfo.getPageOffset());
         }
+        String beforeTime="";//在这个时间之前
+        if(time!=null&&!time.equals("")){
+            time=time.replace("/","-");
+            beforeTime=time+" 23:59:59";
+        }
+
+        System.err.println(time);
         map.put("nickname",nickname);
         map.put("mobile",mobile);
         map.put("time",time);
-
+        map.put("beforeTime",beforeTime);
+        System.err.println(time);
+        System.err.println(beforeTime);
         Map<String,Object> resultMap=new HashMap<String,Object>();
         resultMap.put("list",userService.getAllInvitationRecord(map));
         resultMap.put("count",userService.getAllInvitationRecordCount(map));
