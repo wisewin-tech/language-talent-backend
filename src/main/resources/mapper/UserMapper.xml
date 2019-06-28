@@ -11,10 +11,10 @@
         yqr.nickname as yqrNickName,byr.nickname as byrNickName,
         yqr.mobile as yqrMobile,byr.mobile as byrMobile,
         byr.registered_channels as registeredChannels,byr.create_time as createTime,
-        rec.specific_amount as yqrSpecificAmount,byrrec.specific_amount as byrSpecificAmount
-        from lt_user as yqr,lt_user as byr,lt_record as rec,lt_record as byrrec
+        ir.invite_current as yqrSpecificAmount,ir.by_current as byrSpecificAmount
+        from lt_user as yqr,lt_user as byr,lt_invite_record as ir
         <where>
-            byr.by_invite=yqr.id  and rec.`describe` like  concat(concat('%','邀请'),'%') and rec.user_id=yqr.id and byrrec.user_id =byr.id
+            ir.invite_user_id=yqr.id and ir.by_user_id=byr.id
             <if test="nickname!=null and nickname!=''">
                 AND (yqr.nickname LIKE concat(concat('%',#{nickname}),'%') or byr.nickname LIKE concat(concat('%',#{nickname}),'%'))
             </if>
@@ -25,22 +25,18 @@
                 AND byr.create_time LIKE concat(concat('%',#{time}),'%')
             </if>
         </where>
-        group by byr.mobile
         order by byr.create_time desc
         <include refid="invitationLimit" />
     </select>
-
     <sql id="invitationLimit">
       limit #{pageNo},#{pageSize}
     </sql>
-
     <!--查询所有邀请记录数-->
     <select id="getAllInvitationRecordCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select
-        byrrec.id
-        from lt_user as yqr,lt_user as byr,lt_record as rec,lt_record as byrrec
+        count(*)
         <where>
-            byr.by_invite=yqr.id  and rec.`describe` like  concat(concat('%','邀请'),'%') and rec.user_id=yqr.id and byrrec.user_id =byr.id
+            ir.invite_user_id=yqr.id and ir.by_user_id=byr.id
             <if test="nickname!=null and nickname!=''">
                 AND (yqr.nickname LIKE concat(concat('%',#{nickname}),'%') or byr.nickname LIKE concat(concat('%',#{nickname}),'%'))
             </if>
@@ -51,7 +47,6 @@
                 AND byr.create_time LIKE concat(concat('%',#{time}),'%')
             </if>
         </where>
-        group by byr.mobile
     </select>
 
     <!--查询一个用户邀请过的人-->

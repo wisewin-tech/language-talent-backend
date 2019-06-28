@@ -120,13 +120,16 @@ public class UserService {
      * 查询所有用户邀请记录group by byr.mobile
      */
     public List<InvitationRecordBO> getAllInvitationRecord(Map<String,Object> map){
-        return userDAO.getAllInvitationRecord(map);
+        //获取到邀请记录
+        List<InvitationRecordBO> result=userDAO.getAllInvitationRecord(map);
+        return result;
     }
 
-    /**
+    /**getAllInvitationRecord
      * 查询用户邀请记录数
      */
     public Integer getAllInvitationRecordCount(Map<String,Object> map){
+
         return userDAO.getAllInvitationRecordCount(map).size();
     }
 }
