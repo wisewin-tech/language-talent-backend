@@ -87,7 +87,6 @@ public class DiscoverController extends BaseCotroller {
             //countMap.put("createTime", format1.format(createTime));
             countMap.put("createTime", createTime.replace("/", "-"));
         }
-
         countMap.put("title", title);
         countMap.put("yes", "yes");
         Integer count = discoverService.countDiscover(countMap);

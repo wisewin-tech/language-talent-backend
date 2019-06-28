@@ -105,19 +105,12 @@ public class UserController extends BaseCotroller {
             map.put("pageSize",queryInfo.getPageSize());
             map.put("pageNo",queryInfo.getPageOffset());
         }
-        String beforeTime="";//在这个时间之前
         if(time!=null&&!time.equals("")){
             time=time.replace("/","-");
-            beforeTime=time+" 23:59:59";
         }
-
-        System.err.println(time);
         map.put("nickname",nickname);
         map.put("mobile",mobile);
         map.put("time",time);
-        map.put("beforeTime",beforeTime);
-        System.err.println(time);
-        System.err.println(beforeTime);
         Map<String,Object> resultMap=new HashMap<String,Object>();
         resultMap.put("list",userService.getAllInvitationRecord(map));
         resultMap.put("count",userService.getAllInvitationRecordCount(map));

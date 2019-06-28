@@ -22,14 +22,14 @@
                 AND (yqr.mobile LIKE concat(concat('%',#{mobile}),'%') or byr.mobile LIKE concat(concat('%',#{mobile}),'%'))
             </if>
             <if test="time!=null and time!=''">
-                AND byr.create_time &gt; #{time} and byr.create_time &lt;#{beforeTime}
+                AND byr.create_time LIKE concat(concat('%',#{time}),'%')
             </if>
         </where>
         group by byr.mobile
         order by byr.create_time desc
         <include refid="invitationLimit" />
-
     </select>
+
     <sql id="invitationLimit">
       limit #{pageNo},#{pageSize}
     </sql>
