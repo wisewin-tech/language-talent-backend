@@ -35,6 +35,7 @@
     <select id="getAllInvitationRecordCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select
         count(*)
+        from lt_user as yqr,lt_user as byr,lt_invite_record as ir
         <where>
             ir.invite_user_id=yqr.id and ir.by_user_id=byr.id
             <if test="nickname!=null and nickname!=''">
@@ -47,6 +48,7 @@
                 AND byr.create_time LIKE concat(concat('%',#{time}),'%')
             </if>
         </where>
+        order by byr.create_time desc
     </select>
 
     <!--查询一个用户邀请过的人-->
