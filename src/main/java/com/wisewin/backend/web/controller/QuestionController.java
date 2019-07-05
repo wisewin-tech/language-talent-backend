@@ -125,11 +125,11 @@ public class QuestionController extends BaseCotroller{
         boolean i = questionService.updateQuestion(questionBO);
         logService.result(i);
         if (i){
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改题目成功！"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("修改成功！"));
             logService.end("question/updateQuestion",result);
             super.safeJsonPrint(response, result);
         }else {
-            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000012","修改题目失败！"));
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000012","修改失败！"));
             logService.end("question/updateQuestion",result);
             super.safeJsonPrint(response, result);
         }
