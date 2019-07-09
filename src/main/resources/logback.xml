@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 <!--value="/www/server/apache-back/logs" -->
-    <property name="LOG_DIR" value="/www/server/apache-back/logs" />
+    <property name="LOG_DIR" value="/www/server/tomcat-backend/logs" />
     <!--&lt;!&ndash; ch.qos.logback.core.ConsoleAppender 控制台输出 &ndash;&gt;-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
