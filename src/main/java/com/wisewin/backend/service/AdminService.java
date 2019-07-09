@@ -24,6 +24,8 @@ public class AdminService {
     private AdminDAO adminDAO;
     @Resource
     private LogService logService;
+    @Resource
+    private OrderService orderService;
     /**
      * 根据手机号查找管理员信息
      * 管理员登录
@@ -204,7 +206,7 @@ public class AdminService {
      * @param map
      * @return 返回对应的权限
      */
-    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds){
+    public List<RoleDTO> selectRoleToMenu(Map<String,Object> map,String roleName,String menuIds, Integer[] languageId){
 
         RoleBO roleBO = new RoleBO();
         roleBO.setRoleName(roleName);
@@ -212,6 +214,12 @@ public class AdminService {
         roleBO.setUpdateTime(new Date());
         // 添加角色
         adminDAO.addRole(roleBO);
+        if(languageId != null){
+            orderService.insertRoleLanguage(roleBO.getId(),languageId);
+        }
+
+
+
         boolean status = menuIds.contains(",");
         if(status){
             String[] ids = menuIds.split(",");
@@ -543,6 +551,7 @@ public class AdminService {
      */
     public List<RoleDTO> getRole(String roleName){
         List<RoleBO> ros = adminDAO.getRole(roleName);
+        System.err.println(ros);
         List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>();
 
         for (RoleBO ro:ros) {
@@ -553,6 +562,7 @@ public class AdminService {
             roleDTO.setRoleName(ro.getRoleName()); // 角色名称
             roleDTO.setCreateTime(ro.getCreateTime());
             roleDTO.setUpdateTime(ro.getUpdateTime());
+            roleDTO.setLgDTO(ro.getLgDTO());
             List<MenuBO> menus = ro.getMenuBOS();// 角色对应的权限id
             for (int i=0;i<menus.size();i++ ) {
                 if(menus.get(i).getPid()!=0) {

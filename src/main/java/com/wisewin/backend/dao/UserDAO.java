@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 
+import com.wisewin.backend.entity.bo.InvitationRecordBO;
 import com.wisewin.backend.entity.bo.UserBO;
 import com.wisewin.backend.entity.param.UserParam;
 import org.apache.ibatis.annotations.Param;
@@ -83,4 +84,24 @@ public interface UserDAO {
      */
     Integer deleteUsersById(@Param("idArr") Integer[] idArr,@Param("status") String status);
 
+    /**
+     * 查询用户邀请记录
+     */
+    List<UserBO> getInvitationRecord(@Param("id") Integer id,@Param("pageNo") Integer pageNo,@Param("pageSize") Integer pageSize);
+
+    /**
+     * 查询用户邀请记录数
+     */
+    Integer getInvitationRecordCount(Integer id);
+
+    /**
+     * 查询所有用户邀请记录
+     */
+    List<InvitationRecordBO> getAllInvitationRecord(Map<String,Object> map);
+
+
+    /**
+     * 查询用户邀请记录数
+     */
+    List<Integer> getAllInvitationRecordCount(Map<String,Object> map);
 }

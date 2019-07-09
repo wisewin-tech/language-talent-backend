@@ -52,7 +52,7 @@ public class DictionariestypeController extends BaseCotroller {
             return;
         }
         Integer id = loginAdmin.getId();
-        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank()) ||StringUtils.isObjEmpty(param.getValueName()) || id == null) {
+        if (StringUtils.isObjEmpty(param.getKeyName()) || StringUtils.isObjEmpty(param.getRank()) || StringUtils.isObjEmpty(param.getValueName()) || id == null) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             logService.end("/Dictionariestype/addDictionariestype", json);
@@ -160,7 +160,7 @@ public class DictionariestypeController extends BaseCotroller {
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin, request, DcId);
 
-        if (DcId==null||"".equals(DcId)) {
+        if (DcId == null || "".equals(DcId)) {
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             logService.end("/Dictionariestype/deleteDictionariestype", json);
@@ -353,30 +353,30 @@ public class DictionariestypeController extends BaseCotroller {
     @RequestMapping("/deleteDictionaries")
     public void deleteDictionaries(HttpServletRequest request, HttpServletResponse response, String DcId) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin, request,DcId);
+        logService.startController(loginAdmin, request, DcId);
 
-        if (DcId==null||DcId.length()<=2) {
+        if (DcId == null || DcId.length() <= 2) {
             String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeHtmlPrint(response, languagejson);
-            logService.end("/Dictionariestype/deleteDictionaries",languagejson);
+            logService.end("/Dictionariestype/deleteDictionaries", languagejson);
             return;
         }
 
         //转换成数组类型
         Integer[] cid = JsonUtils.getIntegerArray4Json(DcId);
-        for (int i=0;i<cid.length;i++){
-            System.err.println("=================="+cid[i]);
+        for (int i = 0; i < cid.length; i++) {
+            System.err.println("==================" + cid[i]);
         }
         boolean deleteDictionaries = dictionariestypeService.getdeleteDictionaries(cid);
         if (deleteDictionaries) {
             String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("删除成功"));
             super.safeJsonPrint(response, languagejson);
-            logService.end("/Dictionariestype/deleteDictionaries",languagejson);
+            logService.end("/Dictionariestype/deleteDictionaries", languagejson);
             return;
         }
         String languagejson = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
         super.safeHtmlPrint(response, languagejson);
-        logService.end("/Dictionariestype/deleteDictionaries",languagejson);
+        logService.end("/Dictionariestype/deleteDictionaries", languagejson);
         return;
     }
 }

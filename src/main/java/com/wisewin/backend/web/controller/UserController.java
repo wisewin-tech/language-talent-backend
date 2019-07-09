@@ -9,12 +9,16 @@ import com.wisewin.backend.service.UserService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,9 @@ public class UserController extends BaseCotroller {
         map.put("nickname",param.getNickname());
         map.put("email",param.getEmail());
         map.put("mobile",param.getMobile());
+        map.put("ageGroup",param.getAgeGroup());
+        map.put("learningGoal",param.getLearningGoal());
+
 
         QueryInfo queryInfo = getQueryInfo(param.getPageNo(),param.getPageSize());
         if(queryInfo != null){
@@ -61,6 +68,57 @@ public class UserController extends BaseCotroller {
         logService.end("User/queryUsers",json);
         super.safeJsonPrint(response,json);
     }
+    /**
+     * 获取用户邀请记录
+     * */
+    @RequestMapping("/getInvitationRecord")
+    public void getInvitationRecord(HttpServletRequest request, HttpServletResponse response, Integer id,Integer pageNo,Integer pageSize){
+        if(id==null){
+            String languagejson=JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("User/deleteUsersById",languagejson);
+            super.safeHtmlPrint(response,languagejson);
+            return;
+        }
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        if(queryInfo != null){
+            pageNo=queryInfo.getPageOffset();
+            pageSize=queryInfo.getPageSize();
+        }
+        Map<String,Object> resultMap=new HashMap<>();
+        List<UserBO> userBOList=userService.getInvitationRecord(id,pageNo,pageSize);//查询到用户信息
+        Integer count=userService.getInvitationRecordCount(id);
+        resultMap.put("userBOList",userBOList);
+        resultMap.put("count",count);
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
+        logService.end("User/queryUsers",json);
+        super.safeJsonPrint(response,json);
+    }
+
+    /**
+     * 获取所有用户邀请记录
+     * */
+    @RequestMapping("/getAllInvitationRecord")
+    public void getAllInvitationRecord(HttpServletRequest request, HttpServletResponse response, Integer pageSize, Integer pageNo, String nickname, String mobile, String time) throws ParseException {
+        Map<String,Object> map=new HashMap<String,Object>();
+        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+        if(queryInfo != null){
+            map.put("pageSize",queryInfo.getPageSize());
+            map.put("pageNo",queryInfo.getPageOffset());
+        }
+        if(time!=null&&!time.equals("")){
+            time=time.replace("/","-");
+        }
+        map.put("nickname",nickname);
+        map.put("mobile",mobile);
+        map.put("time",time);
+        Map<String,Object> resultMap=new HashMap<String,Object>();
+        resultMap.put("list",userService.getAllInvitationRecord(map));
+        resultMap.put("count",userService.getAllInvitationRecordCount(map));
+        String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(resultMap));
+        super.safeJsonPrint(response,json);
+    }
+
+
 
     /**
      *
@@ -94,3 +152,4 @@ public class UserController extends BaseCotroller {
 
 
 }
+

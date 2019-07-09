@@ -12,6 +12,7 @@ public class UserBO  extends BaseModel{
     private String email; //邮箱
     private String mobile; //手机号
     private String ageGroup; //年龄段
+    private String learningGoal;//学习语言的目的
     private String headPortraitUrl; //头像路径
     private String sex; //性别
     private Date birthday; //生日
@@ -33,6 +34,15 @@ public class UserBO  extends BaseModel{
     private Date createTime; //创建时间
     private Date updateTime; //修改时间
     private String status;//是否被拉黑
+    private String registeredChannels;//注册渠道
+
+    public String getRegisteredChannels() {
+        return registeredChannels;
+    }
+
+    public void setRegisteredChannels(String registeredChannels) {
+        this.registeredChannels = registeredChannels;
+    }
 
     public String getOccupation() {
         return occupation;
@@ -60,6 +70,7 @@ public class UserBO  extends BaseModel{
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", ageGroup='" + ageGroup + '\'' +
+                ", learningGoal='" + learningGoal + '\'' +
                 ", headPortraitUrl='" + headPortraitUrl + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthday=" + birthday +
@@ -143,6 +154,14 @@ public class UserBO  extends BaseModel{
 
     public void setAgeGroup(String ageGroup) {
         this.ageGroup = ageGroup;
+    }
+
+    public String getLearningGoal() {
+        return learningGoal;
+    }
+
+    public void setLearningGoal(String learningGoal) {
+        this.learningGoal = learningGoal;
     }
 
     public String getHeadPortraitUrl() {

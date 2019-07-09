@@ -32,26 +32,17 @@ public class KeyValController extends BaseCotroller {
 
     /**
      *
-     * @param pageNo
-     * @param pageSize
      * @param key
      * @param val
      * @param response
      * @param request
      */
     @RequestMapping("/selectAll")
-    public void selectAll(Integer pageNo, Integer pageSize,String key,String val,HttpServletResponse response, HttpServletRequest request) {
+    public void selectAll(String key,String val,HttpServletResponse response, HttpServletRequest request) {
         AdminBO loginAdmin = super.getLoginAdmin(request);
-        logService.startController(loginAdmin,request,pageNo,pageSize,key,val);
-        //封装limit条件,pageNo改为页数
-        QueryInfo queryInfo = getQueryInfo(pageNo,pageSize);
+
         //创建一个用于封装sql条件的map集合
         Map<String, Object> condition = new HashMap<String, Object>();
-        if(queryInfo != null){
-            //把pageOffset 页数,pageSize每页的条数放入map集合中
-            condition.put("pageOffset", queryInfo.getPageOffset());
-            condition.put("pageSize", queryInfo.getPageSize());
-        }
         //把查询条件放入map中
         condition.put("key",key);
         condition.put("val",val);
@@ -74,11 +65,9 @@ public class KeyValController extends BaseCotroller {
     @RequestMapping("/updateVal")
     public void updateVal(Integer id,Integer values,String comment,HttpServletResponse response, HttpServletRequest request) {
         AdminBO adminBO = super.getLoginAdmin(request);
-        logService.startController(adminBO,request,id,values,comment);
-        //获取管理员id
-        Integer userId=super.getLoginAdmin(request).getId();
+
         //验证管理员是否登录
-        if (userId==null){
+        if (adminBO==null){
             String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000002")) ;
             logService.end("keyVal/updateVal",result);
             super.safeJsonPrint(response, result);
@@ -94,7 +83,7 @@ public class KeyValController extends BaseCotroller {
         Map<String,Object> map=new HashMap<String, Object>();
         //把要修改的内容userId,val,comment以及条件id放入map中
         map.put("id",id);
-        map.put("userId",userId);
+        map.put("userId",adminBO.getId());
         map.put("val",values);
         map.put("comment",comment);
         logService.call("keyValService.updateVal",map);

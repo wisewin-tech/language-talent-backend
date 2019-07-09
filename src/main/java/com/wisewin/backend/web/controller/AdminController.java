@@ -13,6 +13,7 @@ import com.wisewin.backend.entity.param.MenuParam;
 import com.wisewin.backend.entity.param.RegisterParam;
 import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.AdminService;
+import com.wisewin.backend.service.OrderService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.MD5Util;
@@ -39,6 +40,8 @@ public class AdminController extends BaseCotroller {
     private AdminService adminService ;
     @Resource
     private LogService logService;
+    @Resource
+    private OrderService orderService;
 
     /**
      * 管理员登录
@@ -199,7 +202,7 @@ public class AdminController extends BaseCotroller {
      * @param menuIds  权限ids
      */
     @RequestMapping("/addRoleGrantAuthority")
-    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize){
+    public void addRoleGrantAuthority(HttpServletRequest request,HttpServletResponse response,String roleName,String menuIds,Integer pageNo, Integer pageSize, String languageId){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,roleName,menuIds,pageNo,pageNo,pageSize);
         // 非空判断
@@ -225,9 +228,11 @@ public class AdminController extends BaseCotroller {
             map.put("pageSize", queryInfo.getPageSize());
         }
         map.put("roleName", roleName);
+
+        ;
         // 查询角色所拥有的权限
         logService.call("adminService.selectRoleToMenu()",map,roleName,menuIds);
-        List<RoleDTO> roleDTOS = adminService.selectRoleToMenu(map,roleName,menuIds);
+        List<RoleDTO> roleDTOS = adminService.selectRoleToMenu(map,roleName,menuIds,JsonUtils.getIntegerArray4Json(languageId));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(roleDTOS)) ;
         logService.end("/admin/addRole",result);
         super.safeJsonPrint(response, result);
@@ -261,7 +266,7 @@ public class AdminController extends BaseCotroller {
         Integer count = adminService.getCountRoleToMenu(map);
 
         // 查询角色所拥有的权限
-        List<RoleDTO> menuList = adminService.selectRoleToMenu(map,roleName,menuIds);
+        List<RoleDTO> menuList = adminService.selectRoleToMenu(map,roleName,menuIds,null);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("count", count);
         jsonObject.put("data", menuList);
@@ -280,7 +285,7 @@ public class AdminController extends BaseCotroller {
      * @param menuIds  权限id
      */
     @RequestMapping("/grantAuthority")
-    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName){
+    public void grantAuthority(HttpServletRequest request,HttpServletResponse response,Integer roleId,String menuIds,String roleName,String languageId){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,roleId,menuIds,roleName);
         // 非空判断
@@ -312,6 +317,7 @@ public class AdminController extends BaseCotroller {
         }
         logService.call("adminService.selectRoleMenuById()",roleId,menuIds);
         adminService.selectRoleMenuById(roleId,menuIds);
+        orderService.insertRoleLanguage(roleId,JsonUtils.getIntegerArray4Json(languageId));
         String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
         logService.end("/admin/grantAuthority",result);
         super.safeJsonPrint(response, result);

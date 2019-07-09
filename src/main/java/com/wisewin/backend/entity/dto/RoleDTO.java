@@ -18,6 +18,8 @@ public class RoleDTO extends BaseModel {
 
     private List<String> menuNames;// 角色对应的所有的权限名称
 
+    private List<LgDTO> lgDTO;
+
     public Integer getId() {
         return id;
     }
@@ -64,5 +66,13 @@ public class RoleDTO extends BaseModel {
 
     public void setMenuNames(List<String> menuNames) {
         this.menuNames = menuNames;
+    }
+
+    public List<LgDTO> getLgDTO() {
+        return lgDTO;
+    }
+
+    public void setLgDTO(List<LgDTO> lgDTO) {
+        this.lgDTO = lgDTO;
     }
 }

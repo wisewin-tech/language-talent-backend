@@ -14,6 +14,7 @@ public class UserParam {
     private String mobile; //手机号
     private Integer age; //年龄
     private String ageGroup; //年龄段
+    private String learningGoal;//学习语言的目的
     private String headPortraitUrl; //头像路径
     private String sex; //性别
     private String birthday; //生日
@@ -109,6 +110,14 @@ public class UserParam {
 
     public void setAgeGroup(String ageGroup) {
         this.ageGroup = ageGroup;
+    }
+
+    public String getLearningGoal() {
+        return learningGoal;
+    }
+
+    public void setLearningGoal(String learningGoal) {
+        this.learningGoal = learningGoal;
     }
 
     public String getHeadPortraitUrl() {

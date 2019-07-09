@@ -17,7 +17,6 @@
             <if test="val!=null"> AND `values` LIKE '%${val}%'</if>
         </where>
         order by create_time desc
-        <include refid="limit" />
 
     </select>
     <sql id="limit">

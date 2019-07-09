@@ -3,7 +3,9 @@ package com.wisewin.backend.dao;
 import com.wisewin.backend.entity.bo.*;
 import com.wisewin.backend.entity.dto.AdminDTO;
 import com.wisewin.backend.entity.dto.AdminRoleDTO;
+import com.wisewin.backend.entity.dto.LgDTO;
 import com.wisewin.backend.entity.dto.MenuDTO;
+import com.wisewin.backend.service.OrderService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -321,6 +323,9 @@ public interface AdminDAO {
 
 
     int existsUser(Integer roleId);
+
+    List<LgDTO> queryLg(@Param("id")int id);
+
 
     List<LanguageChoiceBO> queryRoles();
 
