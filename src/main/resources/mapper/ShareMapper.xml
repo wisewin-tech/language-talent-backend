@@ -10,6 +10,6 @@
     </select>
 
     <update id="updateShare" parameterType="com.wisewin.backend.entity.bo.ShareBO" >
-      UPDATE `lt_invite_figure` SET  `key`=#{key}, `value`=#{value}, `remark`=#{remark} WHERE id=#{id}
+      UPDATE `lt_share` SET  `key`=#{key}, `value`=#{value}, `remark`=#{remark} WHERE id=#{id}
     </update>
 </mapper>
