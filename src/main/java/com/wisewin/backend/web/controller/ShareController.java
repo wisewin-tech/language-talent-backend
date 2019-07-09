@@ -1,12 +1,12 @@
-package com.wisewin.backend.web.controller.base;
+package com.wisewin.backend.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.ShareBO;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
 import com.wisewin.backend.service.ShareService;
 import com.wisewin.backend.util.JsonUtils;
 import com.wisewin.backend.util.StringUtils;
+import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -54,7 +53,7 @@ public class ShareController extends BaseCotroller {
             return;
         }
 
-        if(shareBO.getId()==null|| StringUtils.isEmpty(shareBO.getKey())||StringUtils.isEmpty(shareBO.getRmark())||StringUtils.isEmpty(shareBO.getValue())){
+        if(shareBO.getId()==null|| StringUtils.isEmpty(shareBO.getKey())||StringUtils.isEmpty(shareBO.getRemark())||StringUtils.isEmpty(shareBO.getValue())){
             String json = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
             super.safeJsonPrint(response, json);
             return;

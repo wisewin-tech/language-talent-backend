@@ -4,7 +4,7 @@ public class ShareBO {
     private Integer id;
     private String key;
     private String value;
-    private String rmark;
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -30,21 +30,13 @@ public class ShareBO {
         this.value = value;
     }
 
-    public String getRmark() {
-        return rmark;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setRmark(String rmark) {
-        this.rmark = rmark;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        return "ShareBO{" +
-                "id=" + id +
-                ", key='" + key + '\'' +
-                ", value='" + value + '\'' +
-                ", rmark='" + rmark + '\'' +
-                '}';
-    }
+
 }
