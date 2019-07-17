@@ -273,7 +273,7 @@ public class QuestionService {
                 for (int i = 0, y = lists.size(); i < y; i++) {
                     AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
                     for (int x = 0; x < lists.get(i).size(); x++) {
-                        String subStr = lists.get(i).get(x).substring(0, 1);
+                        String subStr =this.getIdentifYing( lists.get(i).get(x));
                         if (subStr.equalsIgnoreCase(answer.get(i))) {
                             ans.setAns(x);
                             if (analysis != null && analysis.size() > 0 && analysis.size() < i)
@@ -292,7 +292,7 @@ public class QuestionService {
                 StringBuffer strBuff = new StringBuffer("");
                 for (int i = 0; i < answer.size(); i++) {  // 循环答案
                     for (int x = 0; x < ops.size(); x++) {
-                        String subStr = ops.get(x).substring(0, 1);
+                        String subStr = this.getIdentifYing( ops.get(x));
                         if (subStr.equalsIgnoreCase(answer.get(i))) {
                             strBuff.append(x).append(",");
                             break;
@@ -306,7 +306,7 @@ public class QuestionService {
                 for (int i = 0; i < answer.size(); i++) {  // 循环答案
                     AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
                     for (int x = 0; x < ops.size(); x++) {
-                        String subStr = ops.get(x).substring(0, 1);
+                        String subStr =  this.getIdentifYing(ops.get(x));
                         if (subStr.equalsIgnoreCase(answer.get(i))) {
                             ans.setAns(x);
                             if (analysis != null && analysis.size() > 0)
@@ -324,7 +324,7 @@ public class QuestionService {
             if (type.equals("imageText") || type.equals("translate") || type.equals("write") || type.equals("hearingAndSentence") || type.equals("judge")  || type.equals("hearingAndTest")) {
                 List<String> strings = lists.get(0);
                 for (int i = 0; i < strings.size(); i++) {
-                    strings.set(i, strings.get(i).substring(2));
+                    strings.set(i, this.setOption(strings.get(i)));
                 }
                 lists.set(0, strings);
             }
@@ -457,4 +457,28 @@ public class QuestionService {
         }
         this.deleteTest(userId);
     }
+
+    /**
+     * 阿拉伯语选项顺序反的
+     * @param content
+     * @return
+     */
+   public String getIdentifYing(String content){
+       String substring = content.substring(0, 1);
+       if(64<substring.hashCode() && substring.hashCode()<91){
+           return substring;
+       }
+       return content.substring(content.length()-1);
+   }
+
+
+   public String setOption(String option){
+       String substring = option.substring(0, 1);
+       if(64<substring.hashCode() && substring.hashCode()<91){
+           return option.substring(2);
+       }
+       return option.substring(0,option.length()-2);
+   }
+
+
 }

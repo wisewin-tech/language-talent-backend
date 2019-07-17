@@ -8,8 +8,6 @@ import com.wisewin.backend.query.QueryInfo;
 import com.wisewin.backend.service.GiftService;
 import com.wisewin.backend.service.base.LogService;
 import com.wisewin.backend.util.JsonUtils;
-import com.wisewin.backend.util.RandomUtils;
-import com.wisewin.backend.util.SnowflakeIdWorker;
 import com.wisewin.backend.util.StringUtils;
 import com.wisewin.backend.web.controller.base.BaseCotroller;
 import org.springframework.stereotype.Controller;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -217,5 +213,35 @@ public class GiftController extends BaseCotroller {
     }
 
 
+    /**
+     * 礼品卡批量修改时间
+     */
+    @RequestMapping("/updateDate")
+    public void updateDate(HttpServletRequest request ,HttpServletResponse response,String ids,Date startTime,Date endTime){
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,ids,startTime,endTime);
+
+        if(StringUtils.isEmpty(ids)||startTime==null ||endTime==null){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001")) ;
+            super.safeJsonPrint(response , result);
+            logService.end("/gift/deriveGift",result);
+            return;
+        }
+
+        if(giftService.userCount(ids)>0){
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000015")) ;
+            super.safeJsonPrint(response , result);
+            logService.end("/gift/updateDate",result);
+            return;
+        }
+
+        logService.call("giftService.updateDate",ids,startTime,endTime);
+        giftService.updateDate(ids,startTime,endTime,loginAdmin.getId());
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success("")) ;
+        super.safeJsonPrint(response , result);
+        return;
+
+
+    }
 
 }
