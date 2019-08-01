@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 邀请好友图片 -->
+<mapper namespace="com.wisewin.backend.dao.ShareDAO">
+    
+    <select id="queryShare" resultType="com.wisewin.backend.entity.bo.ShareBO" >
+        SELECT * FROM `lt_share` 
+    </select>
+
+    <update id="updateShare" parameterType="com.wisewin.backend.entity.bo.ShareBO" >
+      UPDATE `lt_share` SET  `key`=#{key}, `value`=#{value}, `remark`=#{remark} WHERE id=#{id}
+    </update>
+</mapper>

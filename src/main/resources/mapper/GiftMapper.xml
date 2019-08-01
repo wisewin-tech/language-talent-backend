@@ -123,4 +123,20 @@
        SELECT  count(id)  FROM `lt_gift`
         WHERE batch_number=#{batch}  AND `status`='not'
     </select>
+
+    <select id="useCount"  resultType="int" >
+        SELECT  COUNT(id) FROM  lt_gift  WHERE  status='use'  AND
+        id IN
+        <foreach collection="ids"  item="id"  open="("  separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <update id="updateDate"  parameterType="java.util.Map" >
+        UPDATE  lt_gift SET  starttime=#{startTime}  ,finishtime=#{endTime} ,user_id=#{userId} WHERE
+        id IN 
+        <foreach collection="ids"  item="id"  open="("  separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 </mapper>

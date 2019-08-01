@@ -159,4 +159,39 @@ public class GiftService {
     public int countBatch(Long batch){
         return giftDAO.countBatch(batch);
     }
+
+    /**
+     * 查询一已用数量
+     */
+    public int userCount(String ids){
+        String[] split = ids.split(",");
+        List<Integer>  list=new ArrayList<Integer>();
+        for(int i=0;i<split.length;i++){
+            list.add(Integer.parseInt(split[i]));
+        }
+        return  giftDAO.useCount(list);
+    }
+
+
+    /**
+     * 批量修改时间
+     * @param ids
+     * @param startTime
+     * @param endTime
+     * @param userId
+     */
+    public void updateDate(String ids, Date startTime, Date endTime,Integer userId) {
+        String[] split = ids.split(",");
+        List<Integer>  list=new ArrayList<Integer>();
+        for(int i=0;i<split.length;i++){
+            list.add(Integer.parseInt(split[i]));
+        }
+        Map<String,Object>  paramMap=new HashMap<String,Object>();
+        paramMap.put("ids",list);
+        paramMap.put("startTime",startTime);
+        paramMap.put("endTime",endTime);
+        paramMap.put("userId",userId);
+        giftDAO.updateDate(paramMap);
+
+    }
 }

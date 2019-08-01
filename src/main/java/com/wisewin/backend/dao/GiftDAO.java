@@ -44,5 +44,15 @@ public interface GiftDAO {
      */
     int countBatch(Long batch);
 
+    /**
+     * 查询是否有已使用
+     * @param ids
+     */
+    int useCount(@Param("ids")List<Integer> ids);
 
+    /**
+     * 批量修改时间
+     * @param map
+     */
+    void updateDate(Map<String, Object> map);
 }

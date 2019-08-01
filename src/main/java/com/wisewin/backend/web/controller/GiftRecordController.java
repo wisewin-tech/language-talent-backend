@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 礼品卡
+ */
 @Controller
 @RequestMapping("/giftRecord")
 public class GiftRecordController extends BaseCotroller {
