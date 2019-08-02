@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
 
@@ -50,8 +51,6 @@ public class TestController extends BaseCotroller {
 
 
     public static void main(String[] args) throws ParseException {
-        String strArr="[\"a\",\"b\",\"c\",\"d\"]";
-        List<String> lists = JSON.parseArray(strArr, String.class);
-        System.out.println(lists);
+
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 报表 -->
+<mapper namespace="com.wisewin.backend.dao.DataTableDAO" >
+
+    <!--查询登录这个人的所有语言-->
+    <select id="queryLanguage"  parameterType="java.lang.Integer"  resultType="com.wisewin.backend.entity.bo.DictionaryBO">
+        SELECT age.id,age.language_name AS name  FROM
+        `lt_role_language` role INNER JOIN  lt_language  age  ON role.language_id=age.id
+          WHERE  role.role_id=#{roleId}
+    </select>
+
+
+    <select id="queryData"  parameterType="java.util.Map"   resultType="java.math.BigDecimal"   >
+         SELECT SUM(der.price)  FROM  lt_language  age LEFT JOIN lt_course cour ON cour.language_id = age.id
+																	LEFT JOIN  lt_order_courses ses ON  ses.courses_id=cour.id
+																	LEFT JOIN lt_order  der ON  ses.order_id = der.id
+	     WHERE der.`status`='yes'  AND   der.creation_date BETWEEN #{startTime}    AND  #{endTime}
+        AND language_id =#{id}
+    </select>
+
+
+
+
+</mapper>

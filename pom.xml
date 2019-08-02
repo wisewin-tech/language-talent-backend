@@ -4,7 +4,7 @@
   <groupId>com.wisewin</groupId>
   <artifactId>language-talent-backend</artifactId>
   <packaging>war</packaging>
-  <version>2.0.0-EXPLOIT</version>
+  <version>2.1.0-EXPLOIT</version>
   <name>language-talent-backend Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
@@ -527,9 +527,9 @@
     <profile>
       <id>test</id>
       <properties>
-        <jdbc.url.ip>wisewin-tech.com:3306/language_talent</jdbc.url.ip>
+        <jdbc.url.ip>localhost:3306/language_talent</jdbc.url.ip>
         <jdbc.username>root</jdbc.username>
-        <jdbc.password>Sunshibo1</jdbc.password>
+        <jdbc.password>root</jdbc.password>
         <system.cfg.imageBaeUrl>http://39.107.224.185:8080/</system.cfg.imageBaeUrl>
         <system.cfg.uploadBaseUrl>/home/zlftFiles/image</system.cfg.uploadBaseUrl>
         <system.cfg.webProjectUrl>http://client.test.urbanfit.cn/</system.cfg.webProjectUrl>
