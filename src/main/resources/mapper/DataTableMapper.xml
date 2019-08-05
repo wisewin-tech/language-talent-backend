@@ -13,8 +13,8 @@
     </select>
 
 
-    <select id="queryData"  parameterType="java.util.Map"   resultType="java.math.BigDecimal"   >
-         SELECT SUM(der.price)  FROM  lt_language  age LEFT JOIN lt_course cour ON cour.language_id = age.id
+    <select id="queryData"  parameterType="java.util.Map"   resultType="com.wisewin.backend.entity.bo.MoneyBO"   >
+         SELECT  DISTINCT der.id, SUM(der.price) as money  FROM  lt_language  age LEFT JOIN lt_course cour ON cour.language_id = age.id
 																	LEFT JOIN  lt_order_courses ses ON  ses.courses_id=cour.id
 																	LEFT JOIN lt_order  der ON  ses.order_id = der.id
 	     WHERE der.`status`='yes'  AND   der.creation_date BETWEEN #{startTime}    AND  #{endTime}

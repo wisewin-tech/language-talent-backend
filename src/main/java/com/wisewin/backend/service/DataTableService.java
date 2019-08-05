@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.dao.DataTableDAO;
 import com.wisewin.backend.entity.bo.DateTime;
 import com.wisewin.backend.entity.bo.DictionaryBO;
+import com.wisewin.backend.entity.bo.MoneyBO;
 import com.wisewin.backend.entity.bo.StatisticsBO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,44 +37,44 @@ public class DataTableService {
                  //本月
                  paramMap.put("startTime", dateTime.getThisMonth().getStartTime());
                  paramMap.put("endTime", dateTime.getThisMonth().getEndTime());
-                 BigDecimal thisMonth = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setThisMonth(thisMonth);
+                 MoneyBO thisMonth = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setThisMonth(thisMonth.getMoney());
 
                  //thisYear 本年
                  paramMap.put("startTime", dateTime.getThisYear().getStartTime());
                  paramMap.put("endTime", dateTime.getThisYear().getEndTime());
-                 BigDecimal thisYear = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setThisYear(thisYear);
+                 MoneyBO  thisYear = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setThisYear(thisYear.getMoney());
 
                  //上月同期 lastMonthSyn
                  paramMap.put("startTime", dateTime.getLastMonthSyn().getStartTime());
                  paramMap.put("endTime", dateTime.getLastMonthSyn().getEndTime());
-                 BigDecimal lastMonthSyn = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setLastMonthSyn(lastMonthSyn);
+                 MoneyBO  lastMonthSyn = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setLastMonthSyn(lastMonthSyn.getMoney());
 
                  //lastMonth 上月
                  paramMap.put("startTime", dateTime.getLastMonth().getStartTime());
                  paramMap.put("endTime", dateTime.getLastMonth().getEndTime());
-                 BigDecimal lastMonth = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setLastMonth(lastMonth);
+                 MoneyBO  lastMonth = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setLastMonth(lastMonth.getMoney());
 
                  //lastYearThis 上年同期
                  paramMap.put("startTime", dateTime.getLastYearSyn().getStartTime());
                  paramMap.put("endTime", dateTime.getLastYearSyn().getEndTime());
-                 BigDecimal lastYearSyn = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setLastYearThis(lastYearSyn);
+                 MoneyBO  lastYearSyn = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setLastYearThis(lastYearSyn.getMoney());
 
                  //lastYearThisSum 上年同期累计
                  paramMap.put("startTime", dateTime.getLastYearSynTotal().getStartTime());
                  paramMap.put("endTime", dateTime.getLastYearSynTotal().getEndTime());
-                 BigDecimal lastYearSynTotal = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setLastYearThisSum(lastYearSynTotal);
+                 MoneyBO  lastYearSynTotal = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setLastYearThisSum(lastYearSynTotal.getMoney());
 
                  //lastYear 去年
                  paramMap.put("startTime", dateTime.getLastYear().getStartTime());
                  paramMap.put("endTime", dateTime.getLastYear().getEndTime());
-                 BigDecimal lastYear = dataTableDAO.queryData(paramMap);
-                 statisticsBO.setLastYear(lastYear);
+                 MoneyBO  lastYear = dataTableDAO.queryData(paramMap);
+                 statisticsBO.setLastYear(lastYear.getMoney());
 
                  //同比上月同期 本月销售额/上月同期
                  statisticsBO.setLastMonthSynBasis(this.calculate(statisticsBO.getThisMonth(),statisticsBO.getLastMonthSyn()));

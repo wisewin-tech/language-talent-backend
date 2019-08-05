@@ -2,6 +2,7 @@ package com.wisewin.backend.dao;
 
 
 import com.wisewin.backend.entity.bo.DictionaryBO;
+import com.wisewin.backend.entity.bo.MoneyBO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface DataTableDAO {
      * endTime   结束时间
      * id        语言id
      */
-    BigDecimal queryData(Map<String,Object> map);
+    MoneyBO queryData(Map<String,Object> map);
 
 
 
