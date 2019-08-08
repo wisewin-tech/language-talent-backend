@@ -4,6 +4,7 @@ import com.wisewin.backend.dao.QuestionDAO;
 import com.wisewin.backend.entity.bo.AnsDesBO;
 import com.wisewin.backend.entity.bo.ChapterIdBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
+import com.wisewin.backend.util.StringUtils;
 import net.sf.json.JSONArray;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -161,9 +162,9 @@ public class QuestionService {
                         ,row.getCell(29),row.getCell(30),row.getCell(31),row.getCell(32),row.getCell(33),row.getCell(34),row.getCell(35));
                 questionBO.setAnswer(answer[1]); //答案 和解析
                 questionBO.setOption(answer[0]);//选项
-                questionBO.setTopic(this.getTopic(row.getCell(6), row.getCell(7), row.getCell(8), row.getCell(9), row.getCell(10)));
+                questionBO.setTopic(this.getTopic(questionBO.getQuestionType(),row.getCell(6), row.getCell(7), row.getCell(8), row.getCell(9), row.getCell(10)));  //题目解析
                 try {
-                    questionBO.setRelevanceId(this.getCoordinate(row.getCell(5), questionBO.getTestType()));
+                    questionBO.setRelevanceId(this.getCoordinate(row.getCell(5), questionBO.getTestType())); //坐标解析
                 }catch (Exception e){
                     return -2+(rows* -1);
                 }
@@ -249,7 +250,7 @@ public class QuestionService {
         List<List<String>> option = new ArrayList<List<String>>();
 
         for (Cell cell : optionss) {
-            List<String> opt = this.getlistStrings(cell);
+            List<String> opt = this.getTextStr(cell);
             if (opt != null && opt.size()>0) {
                 option.add(opt);
             }else {
@@ -270,13 +271,13 @@ public class QuestionService {
 
             //阅读题处理
             if (type.equals("read")) {
-                for (int i = 0, y = lists.size(); i < y; i++) {
-                    AnsDesBO<Integer> ans = new AnsDesBO<Integer>();
-                    for (int x = 0; x < lists.get(i).size(); x++) {
-                        String subStr =this.getIdentifYing( lists.get(i).get(x));
-                        if (subStr.equalsIgnoreCase(answer.get(i))) {
-                            ans.setAns(x);
-                            if (analysis != null && analysis.size() > 0 && analysis.size() < i)
+                for (int i = 0; i < answer.size(); i++) { //循环答案
+                    AnsDesBO<Integer> ans = new AnsDesBO<Integer>(); //答案对象
+                    for (int x = 0; x < lists.get(i).size(); x++) { //遍历选项
+                        String subStr =this.getIdentifYing(lists.get(i).get(x)); //一个选项头 A B C
+                        if (subStr.equalsIgnoreCase(answer.get(i))) {  //是这个选项了
+                            ans.setAns(x); //选项下标
+                            if (analysis != null && analysis.size() > 0 &&  i<analysis.size() ) //如果有解析
                                 ans.setDes(analysis.get(i));
                             des.add(ans);
                             break;
@@ -330,10 +331,6 @@ public class QuestionService {
             }
         }
 
-//        //听力和文本匹配应把MP3 放在第一个位置
-//        if(testType.equals("hearingAndTest")){
-//           lists.set(0, this.getList(lists.get(0)));
-//        }`
 
         String str = JSONArray.fromObject(lists).toString();
         String de = JSONArray.fromObject(des).toString();
@@ -388,16 +385,21 @@ public class QuestionService {
 
 
     //题目解析
-    private String getTopic(Cell... topic) throws Exception {
+    private String getTopic(String testType,Cell... topic) throws Exception {
         List<String> tops = new ArrayList<String>();
         for(Cell cell:topic){
-            List<String> top = this.getlistStrings(cell);
+            List<String> top = this.getTextStr(cell);
             if (top != null && top.size()>0) {
                 tops.add(top.get(0));
             }else{
                 break;
             }
         }
+        //听力和文本匹配应把MP3 放在第一个位置
+        if(testType.equals("hearingAndTest")){
+            tops=this.getList(tops);
+        }
+
         return new JSONArray().fromObject(tops).toString();
     }
 
@@ -420,7 +422,7 @@ public class QuestionService {
         }
     }
 
-
+    //分值 答案解析
     private List<String> getlistStrings(Cell option) {
         if (option == null) {
             return null;
@@ -436,6 +438,29 @@ public class QuestionService {
                         list.add(score);
                     }
                 }
+            }
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    //阅读题解析
+    private List<String> getTextStr(Cell option){
+        if (option == null  ) {
+            return null;
+        }
+
+        try {
+            String stage = option.getStringCellValue().trim();
+            if(StringUtils.isEmpty(stage)){
+                return null;
+            }
+            List<String> list = new ArrayList<String>();
+
+            String[] split = stage.split("#");
+            for (String str : split) {
+                 list.add(str);
             }
             return list;
         } catch (Exception e) {
@@ -473,6 +498,7 @@ public class QuestionService {
 
 
    public String setOption(String option){
+
        String substring = option.substring(0, 1);
        if(64<substring.hashCode() && substring.hashCode()<91){
            return option.substring(2);

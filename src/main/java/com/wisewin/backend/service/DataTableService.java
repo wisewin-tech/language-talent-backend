@@ -90,7 +90,6 @@ public class DataTableService {
                  list.add(statisticsBO);
              }
         }
-
         return  list;
     }
 
