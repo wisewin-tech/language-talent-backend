@@ -28,8 +28,12 @@
             question_type =#{questionBO.questionType}</if>
         <if test="questionBO.testType!=null and questionBO.testType!=''">
             AND `test_type`=#{questionBO.testType}</if>
-          <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
-              AND `relevance_id`=#{questionBO.relevanceId}</if>
+          <if test="idArr!=null and idArr!=''">
+              AND `relevance_id` in
+              <foreach collection="idArr" item="ids" separator="," open="(" close=")">
+                  #{ids}
+          </foreach>
+          </if>
       </where>
         <include refid="limit" />
     </select>
@@ -46,8 +50,12 @@
                 question_type =#{questionBO.questionType}</if>
             <if test="questionBO.testType!=null and questionBO.testType!=''">
                 AND `test_type`=#{questionBO.testType}</if>
-            <if test="questionBO.relevanceId!=null and questionBO.relevanceId!=''">
-                AND `relevance_id`=#{questionBO.relevanceId}</if>
+            <if test="idArr!=null and idArr!=''">
+                AND `relevance_id` in
+                <foreach collection="idArr" item="ids" separator="," open="(" close=")">
+                    #{ids}
+                </foreach>
+            </if>
         </where>
 
     </select>
@@ -115,6 +123,21 @@
      <!--查询测试题库-->
     <select id="queryTest" resultType="com.wisewin.backend.entity.bo.QuestionBO" parameterType="java.lang.Integer" >
       SELECT  *  FROM lt_question_test  WHERE  create_user_id=#{userId}
+    </select>
+    
+
+    <select id="getIds" resultType="com.wisewin.backend.entity.bo.IdsBO">
+        SELECT la.id languageId,co.id courseId,le.id levelId,ch.id chapterId
+        FROM lt_language la
+        LEFT JOIN lt_course co ON la.id = co.language_id
+        LEFT JOIN lt_level le ON co.id = le.course_id
+        LEFT JOIN lt_chapter ch ON le.id = ch.level_id
+        <where>
+            <if test="languageId!=null" >la.id=#{languageId}</if>
+            <if test="courseId!=null" >co.id=#{courseId}</if>
+            <if test="levelId!=null" >le.id=#{levelId}</if>
+        </where>
+
     </select>
 
 </mapper>
