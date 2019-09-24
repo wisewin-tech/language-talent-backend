@@ -2,6 +2,7 @@ package com.wisewin.backend.web.controller;
 
 import com.wisewin.backend.entity.bo.AdminBO;
 import com.wisewin.backend.entity.bo.ChapterIdBO;
+import com.wisewin.backend.entity.bo.IdsBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
 import com.wisewin.backend.entity.bo.common.constants.QuestionConstants;
 import com.wisewin.backend.entity.dto.ResultDTOBuilder;
@@ -71,7 +72,7 @@ public class QuestionController extends BaseCotroller{
      * @param response
      */
     @RequestMapping("/selectQuestion")
-    public void selectQuestion(Integer pageNo, Integer pageSize,QuestionBO questionBO,HttpServletResponse response,HttpServletRequest request){
+    public void selectQuestion(Integer pageNo, Integer pageSize,String ids,QuestionBO questionBO,HttpServletResponse response,HttpServletRequest request){
         AdminBO loginAdmin = super.getLoginAdmin(request);
         logService.startController(loginAdmin,request,questionBO,pageNo,pageSize);
         if (questionBO==null){
@@ -86,6 +87,11 @@ public class QuestionController extends BaseCotroller{
             maps.put("pageOffset", queryInfo.getPageOffset());
             maps.put("pageSize", queryInfo.getPageSize());
         }
+        Integer[] idArr = JsonUtils.getIntegerArray4Json(ids);
+        if (idArr.length<1){
+            idArr=null;
+        }
+        maps.put("idArr",idArr);
         maps.put("questionBO",questionBO);
         logService.call("questionService.selectQuestion",maps);
         List<QuestionBO> questionBOList = questionService.selectQuestion(maps);
@@ -281,5 +287,25 @@ public class QuestionController extends BaseCotroller{
      }
 
 
+    @RequestMapping("/getIds")
+    public void getIds(Integer languageId,Integer courseId,  Integer levelId,HttpServletRequest request,HttpServletResponse response) {
+        AdminBO loginAdmin = super.getLoginAdmin(request);
+        logService.startController(loginAdmin,request,languageId,courseId,levelId);
+        if (languageId == null&&courseId==null&&levelId==null) {
+            String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.failure("0000001"));
+            logService.end("question/getIds",result);
+            super.safeJsonPrint(response, result);
+            return;
+        }
+        logService.call("questionService.getQuestion",languageId,courseId,levelId);
+        List<IdsBO> idsBOS = questionService.getIds(languageId, courseId, levelId);
+        logService.result(idsBOS);
+
+
+        String result = JsonUtils.getJsonString4JavaPOJO(ResultDTOBuilder.success(idsBOS));
+        logService.end("question/getQuestionById",result);
+        super.safeJsonPrint(response, result);
+        return;
+    }
 
 }

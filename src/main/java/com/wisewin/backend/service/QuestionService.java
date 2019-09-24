@@ -3,6 +3,7 @@ package com.wisewin.backend.service;
 import com.wisewin.backend.dao.QuestionDAO;
 import com.wisewin.backend.entity.bo.AnsDesBO;
 import com.wisewin.backend.entity.bo.ChapterIdBO;
+import com.wisewin.backend.entity.bo.IdsBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
 import com.wisewin.backend.util.StringUtils;
 import net.sf.json.JSONArray;
@@ -505,6 +506,10 @@ public class QuestionService {
        }
        return option.substring(0,option.length()-2);
    }
+
+    public List<IdsBO> getIds( Integer languageId,Integer courseId,  Integer levelId){
+       return questionDAO.getIds(languageId, courseId, levelId);
+    }
 
 
 }

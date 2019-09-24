@@ -1,6 +1,7 @@
 package com.wisewin.backend.dao;
 
 import com.wisewin.backend.entity.bo.ChapterIdBO;
+import com.wisewin.backend.entity.bo.IdsBO;
 import com.wisewin.backend.entity.bo.QuestionBO;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,14 +21,14 @@ public interface QuestionDAO {
      * @param map
      * @return
      */
-    List<QuestionBO> selectQuestion(Map<String,Object> map);
+    List<QuestionBO> selectQuestion(Map<String, Object> map);
 
     /**
      *查询总条数
      * @param map
      * @return
      */
-    Integer selectbylimitCount(Map<String,Object> map);
+    Integer selectbylimitCount(Map<String, Object> map);
 
     /**
      * 修改题目
@@ -51,7 +52,7 @@ public interface QuestionDAO {
      * @param idArr
      * @return
      */
-    Integer delQuestion(@Param("idArr")Integer [] idArr);
+    Integer delQuestion(@Param("idArr") Integer[] idArr);
 
     /**
      * 添加测试题库
@@ -69,4 +70,6 @@ public interface QuestionDAO {
      * 查询测试题库
      */
     List<QuestionBO> queryTest(Integer userId);
+
+    List<IdsBO> getIds(@Param("languageId") Integer languageId, @Param("courseId") Integer courseId, @Param("levelId") Integer levelId);
 }

@@ -32,7 +32,7 @@
 	language_talent.lt_discover
             <where>
                 <if test="type != '' and type != null">
-                    `type`   LIKE  CONCAT('%',#{type},'%')
+                    `type`   LIKE  CONCAT('queryListDiscoverBO%',#{type},'%')
                 </if>
                 <if test="create_time != '' and createTime != null">
                     AND create_time LIKE  CONCAT('%',#{createTime},'%')
@@ -266,7 +266,6 @@ insert into language_talent.lt_discover
         #{ticket}
 	);
     </insert>
-
 
     <update id="insetskip">
         update lt_discover  set skip = #{skip} where id = #{id}

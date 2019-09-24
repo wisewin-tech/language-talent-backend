@@ -509,33 +509,6 @@
   </build>
 
   <profiles>
-
-    <profile>
-      <id>aliyun_sit</id>
-      <properties>
-        <jdbc.url.ip>wisewin-tech.com:3306/hotel_management</jdbc.url.ip>
-        <jdbc.username>root</jdbc.username>
-        <jdbc.password>Sunshibo1</jdbc.password>
-
-        <system.cfg.imageBaeUrl>http://39.107.224.185:8080/</system.cfg.imageBaeUrl>
-        <system.cfg.uploadBaseUrl>/home/zlftFiles/image</system.cfg.uploadBaseUrl>
-        <system.cfg.webProjectUrl>http://client.test.urbanfit.cn/</system.cfg.webProjectUrl>
-        <system.cfg.wapProjectUrl>http://wap.test.urbanfit.cn/</system.cfg.wapProjectUrl>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>test</id>
-      <properties>
-        <jdbc.url.ip>localhost:3306/language_talent</jdbc.url.ip>
-        <jdbc.username>root</jdbc.username>
-        <jdbc.password>root</jdbc.password>
-        <system.cfg.imageBaeUrl>http://39.107.224.185:8080/</system.cfg.imageBaeUrl>
-        <system.cfg.uploadBaseUrl>/home/zlftFiles/image</system.cfg.uploadBaseUrl>
-        <system.cfg.webProjectUrl>http://client.test.urbanfit.cn/</system.cfg.webProjectUrl>
-        <system.cfg.wapProjectUrl>http://wap.test.urbanfit.cn/</system.cfg.wapProjectUrl>
-      </properties>
-    </profile>
     <profile>
       <id>dev</id>
       <properties>
@@ -549,8 +522,5 @@
         <system.cfg.wapProjectUrl>http://wap.test.urbanfit.cn/</system.cfg.wapProjectUrl>
       </properties>
     </profile>
-
   </profiles>
-
-
 </project>
