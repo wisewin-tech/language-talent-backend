@@ -69,7 +69,7 @@
             (
             #{giftParam.title}, #{giftParam.value},
             #{giftParam.cardnumber}, #{giftParam.batchNumber}, #{giftParam.exchangeyard},
-            #{giftParam.remark},#{giftParam.starttime}, #{giftParam.finishtime}, #{giftParam.cause},now()
+            #{giftParam.remark},'${giftParam.starttime} 00:00:00','${giftParam.finishtime} 23:59:59', #{giftParam.cause},now()
             )
         </foreach >
 
