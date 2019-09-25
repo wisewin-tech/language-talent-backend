@@ -87,6 +87,9 @@ public class QuestionController extends BaseCotroller{
             maps.put("pageOffset", queryInfo.getPageOffset());
             maps.put("pageSize", queryInfo.getPageSize());
         }
+        if (StringUtils.isEmpty(ids)){
+            ids="[]";
+        }
         Integer[] idArr = JsonUtils.getIntegerArray4Json(ids);
         if (idArr.length<1){
             idArr=null;
